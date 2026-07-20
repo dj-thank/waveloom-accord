@@ -853,6 +853,9 @@ test('headless rotates all heroes across seeds and reports action and healing st
   assert.equal(summary.seeds.length, 2);
   assert.ok(summary.actions.abilities > 0);
   assert.ok(summary.actions.ultimates > 0);
+  assert.ok(summary.ultimateEconomy.averageUses >= 2 && summary.ultimateEconomy.averageUses <= 4.5);
+  assert.ok(summary.ultimateEconomy.zeroUseRate <= 0.15);
+  assert.ok(summary.ultimateEconomy.maxUses <= 8);
   assert.ok(summary.healing.events > 0);
   assert.ok(summary.healing.amount > 0);
 });

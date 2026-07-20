@@ -1,4 +1,5 @@
 import { describeCombatCue, weaponSoundProfile } from './audio_cues.js';
+import { fetchVerifiedAsset } from './runtime_asset_integrity.js';
 
 const AUDIO_ENABLED_KEY = 'kagariai_audio_enabled';
 const AUDIO_VOLUME_KEY = 'kagariai_audio_volume';
@@ -8,8 +9,9 @@ function clamp(value, min, max) {
 }
 
 export class CombatAudio {
-  constructor(host = globalThis) {
+  constructor(host = globalThis, assets = {}) {
     this.host = host;
+    this.assets = assets;
     const storage = host?.localStorage;
     this.enabled = storage?.getItem(AUDIO_ENABLED_KEY) !== 'false';
     const storedVolume = storage?.getItem(AUDIO_VOLUME_KEY);
@@ -28,6 +30,10 @@ export class CombatAudio {
     this.normalVoiceLimit = 40;
     this.maxVoices = 48;
     this.droppedVoices = 0;
+    this.sampleBuffers = new Map();
+    this.samplePromises = new Map();
+    this.sampleFailures = new Set();
+    this.pendingHeroId = null;
   }
 
   async ensureStarted() {
@@ -47,6 +53,7 @@ export class CombatAudio {
       this.master.connect(compressor);
       compressor.connect(this.context.destination);
       this.noiseBuffer = this._makeNoiseBuffer();
+      if (this.pendingHeroId) this.preloadHero(this.pendingHeroId).catch(() => {});
     }
     if (this.context.state === 'suspended') await this.context.resume();
     return this.context.state === 'running';
@@ -93,10 +100,57 @@ export class CombatAudio {
     }
   }
 
+  async preloadHero(heroId) {
+    this.pendingHeroId = String(heroId || '');
+    const hero = typeof this.assets?.getHeroAsset === 'function'
+      ? this.assets.getHeroAsset(this.pendingHeroId)
+      : null;
+    if (!hero || !this.context) return [];
+    const descriptors = [
+      hero.weapon?.audio,
+      ...Object.values(hero.abilities || {}).map(action => action?.audio),
+    ];
+    const byUrl = new Map(descriptors
+      .filter(audio => typeof audio?.runtimeUrl === 'string' && audio.runtimeUrl.length > 0)
+      .map(audio => [audio.runtimeUrl, audio]));
+    return Promise.allSettled([...byUrl.values()].map(audio => this._loadSample(
+      audio.runtimeUrl,
+      audio.sha256,
+      audio.bytes,
+    )));
+  }
+
+  _loadSample(url, sha256, bytes) {
+    if (this.sampleBuffers.has(url)) return Promise.resolve(this.sampleBuffers.get(url));
+    if (this.sampleFailures.has(url)) return Promise.resolve(null);
+    if (this.samplePromises.has(url)) return this.samplePromises.get(url);
+    const promise = (async () => {
+      if (!this.context?.decodeAudioData) throw new Error('audio sample loading is unavailable');
+      const verified = await fetchVerifiedAsset({ runtimeUrl: url, sha256, bytes }, {
+        host: this.host,
+        expectedContentType: 'audio/mpeg',
+        maxBytes: 8 * 1024 * 1024,
+      });
+      const decoded = await new Promise((resolve, reject) => {
+        const returned = this.context.decodeAudioData(verified.bytes.slice(0), resolve, reject);
+        if (returned?.then) returned.then(resolve, reject);
+      });
+      this.sampleBuffers.set(url, decoded);
+      return decoded;
+    })().catch(() => {
+      this.sampleFailures.add(url);
+      return null;
+    }).finally(() => {
+      this.samplePromises.delete(url);
+    });
+    this.samplePromises.set(url, promise);
+    return promise;
+  }
+
   handleEvent(event, context = {}) {
     if (!this.enabled || !this.context || this.context.state !== 'running') return;
     if (event?.type === 'shot' && this._suppressConfirmedShot(event, context)) return;
-    const cue = describeCombatCue(event, context);
+    const cue = describeCombatCue(event, { ...context, assets: context.assets || this.assets });
     if (cue) this._play(cue);
   }
 
@@ -113,6 +167,16 @@ export class CombatAudio {
     this._play({
       kind: 'weapon', priority: 'high', spatial: false, position: null,
       gain: 0.74, pitch: 1, profile: weaponSoundProfile(weaponId),
+      ...(() => {
+        const audio = typeof this.assets?.getWeaponAsset === 'function'
+          ? this.assets.getWeaponAsset(String(weaponId || ''))?.audio
+          : null;
+        return audio?.runtimeUrl ? {
+          sampleUrl: audio.runtimeUrl,
+          sampleSha256: audio.sha256,
+          sampleBytes: audio.bytes,
+        } : {};
+      })(),
     });
   }
 
@@ -173,6 +237,11 @@ export class CombatAudio {
       predictedShotConfirms: this.predictedShotConfirms,
       recentAttacks: this.recentAttackIds.size,
       pendingPredictedShots: this.localPredictedShots.length,
+      samples: {
+        ready: this.sampleBuffers.size,
+        loading: this.samplePromises.size,
+        failed: this.sampleFailures.size,
+      },
     };
   }
 
@@ -207,8 +276,17 @@ export class CombatAudio {
 
   _play(cue) {
     const output = this._output(cue);
+    const sample = cue.sampleUrl ? this.sampleBuffers.get(cue.sampleUrl) : null;
+    if (sample) {
+      this._sample(sample, cue, output);
+      return;
+    }
+    if (cue.sampleUrl && !this.sampleFailures.has(cue.sampleUrl)) {
+      this._loadSample(cue.sampleUrl, cue.sampleSha256, cue.sampleBytes).catch(() => {});
+    }
     if (cue.kind === 'weapon') this._weapon(cue, output);
     else if (cue.kind === 'ultimate') this._chord([82, 123, 196, 294], 0.9, cue, output);
+    else if (cue.kind === 'ability') this._sweep(310, 520, 0.24, cue, output);
     else if (cue.kind === 'hit_confirm') this._chord(cue.pitch > 1.2 ? [880, 1320] : [660, 990], 0.08, cue, output);
     else if (cue.kind === 'damaged' || cue.kind === 'eliminated') this._thump(54, 0.32, cue, output);
     else if (cue.kind === 'healed' || cue.kind === 'pickup') this._chord([440, 660, 880], 0.26, cue, output);
@@ -219,6 +297,19 @@ export class CombatAudio {
     else if (cue.kind === 'distant_elimination') this._thump(78, 0.18, cue, output);
     else if (cue.kind === 'barrier_hit') this._sweep(150, 90, 0.12, cue, output);
     else if (cue.kind === 'break') this._noise(0.22, cue.gain, 1500, output, cue.priority);
+  }
+
+  _sample(buffer, cue, output) {
+    const now = this.context.currentTime;
+    const source = this.context.createBufferSource();
+    if (!this._trackVoice(source, cue.priority)) return;
+    const gain = this.context.createGain();
+    source.buffer = buffer;
+    if (source.playbackRate) source.playbackRate.value = clamp(cue.pitch || 1, 0.5, 2);
+    gain.gain.setValueAtTime(Math.max(0.0001, cue.gain), now);
+    source.connect(gain);
+    gain.connect(output);
+    source.start(now);
   }
 
   _weapon(cue, output) {

@@ -11,6 +11,7 @@ import {
 import { Collider } from '../shared/sim/collision.js';
 import { snapshotProjectile, spawnWeaponProjectile, tickProjectiles } from '../shared/sim/projectiles.js';
 import { buildMap } from '../shared/data/map_oshioi.js';
+import { gainFromPassive } from '../shared/sim/ult_economy.js';
 import { MODE, COMBAT } from './helpers.js';
 
 test('正典ロスターは3ロール各6人の18人で全員が固有武器・能力・必殺技を持つ', () => {
@@ -754,7 +755,7 @@ test('必殺技は100%未満では拒否し、予兆完了後に一度だけ発�
   world.queueInput(player.id, { ultimate: true });
   world.tick();
   assert.equal(world.drainEvents().some(event => event.type === 'ultimate_used'), false);
-  assert.equal(player.ultGauge, 0);
+  assert.equal(player.ultGauge, gainFromPassive(world.dt, COMBAT.ultimateEconomy));
 
   world.queueInput(player.id, { ultimate: false });
   world.tick();

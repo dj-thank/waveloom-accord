@@ -270,6 +270,16 @@ test('キャラクター選択と戦闘HUDの公開DOM・通信契約を備え�
   assert.match(main, /import\s*\{[^}]*HEROES[^}]*DEFAULT_HERO_ID[^}]*\}\s*from\s*['"]\/shared\/data\/heroes\.js['"]/);
   assert.match(main, /buildCombatGuidance/);
   assert.match(main, /CombatAudio/);
+  assert.match(main, /from\s*['"]\/shared\/data\/hero_assets\.js['"]/);
+  assert.match(main, /createVerifiedObjectUrl/);
+  assert.match(main, /assetIntegrity\s*=\s*'verified'/);
+  assert.match(main, /getHeroAsset/);
+  assert.match(main, /audio\.preloadHero\(hero\.id\)/);
+  assert.match(main, /renderer\.preloadHeroAssets\(hero\.id\)/);
+  assert.match(main, /heroOptionArt/);
+  assert.match(main, /detailHeroArt/);
+  assert.match(html, /\.heroOptionArt\s*\{/);
+  assert.match(html, /\.detailHeroArt\s*\{/);
   assert.match(main, /net\.connect\(name,\s*selectedHeroId\)/);
   assert.match(main, /net\.sendSelect\(selectedHeroId\)/);
   assert.match(main, /renderer\.setWorldEffects\(/);

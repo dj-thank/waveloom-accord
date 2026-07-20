@@ -6,7 +6,11 @@ import { HERO_BY_ID } from '../shared/data/heroes.js';
 import { pushBounded, ReusableEffectPool } from '../client/bounded_pool.js';
 import { PerformanceBudget, copyRendererInfo } from '../client/performance_budget.js';
 
-function loadRenderModule({ GLTFLoader = class {}, verifyAuthoredAssetIdentity = async () => ({}) } = {}) {
+function loadRenderModule({
+  GLTFLoader = class {}, verifyAuthoredAssetIdentity = async () => ({}),
+  getActionAsset = () => null, getHeroAsset = () => null,
+  createVerifiedObjectUrl = async () => { throw new Error('fixture not configured'); },
+} = {}) {
   const file = new URL('../client/render.js', import.meta.url);
   const source = readFileSync(file, 'utf8')
     .replace(/^import .*;\r?\n/gm, '')
@@ -20,6 +24,9 @@ function loadRenderModule({ GLTFLoader = class {}, verifyAuthoredAssetIdentity =
     'copyRendererInfo',
     'GLTFLoader',
     'verifyAuthoredAssetIdentity',
+    'getActionAsset',
+    'getHeroAsset',
+    'createVerifiedObjectUrl',
     `${source}\nreturn {\n` +
       `  SceneRenderer,\n` +
       `  heroSilhouettes: typeof HERO_SILHOUETTES === 'undefined' ? null : HERO_SILHOUETTES,\n` +
@@ -27,7 +34,7 @@ function loadRenderModule({ GLTFLoader = class {}, verifyAuthoredAssetIdentity =
       `};`,
   )(
     THREE, HERO_BY_ID, pushBounded, ReusableEffectPool, PerformanceBudget, copyRendererInfo,
-    GLTFLoader, verifyAuthoredAssetIdentity,
+    GLTFLoader, verifyAuthoredAssetIdentity, getActionAsset, getHeroAsset, createVerifiedObjectUrl,
   );
 }
 
@@ -49,6 +56,10 @@ function makeBareRenderer(SceneRenderer) {
   renderer._viewWeaponHeroId = null;
   renderer._viewWeapon = null;
   renderer._weaponRecoil = 0;
+  renderer.assetCatalog = { getActionAsset: () => null, getHeroAsset: () => null };
+  renderer._abilityTextureCache = new Map();
+  renderer._abilityTexturePromises = new Map();
+  renderer._abilityTextureFailures = new Set();
   return renderer;
 }
 
@@ -170,6 +181,65 @@ test('ability cues include cast telegraphs and stay in a disposable bounded pool
   renderer.update(10);
   assert.equal(renderer.abilityCues.length, 0);
   assert.equal(renderer.world.children.filter(child => child.userData.cueKind).length, 0);
+});
+
+test('ability cues consume and animate the action atlas selected by SSOT action ID', () => {
+  const action = {
+    id: 'toubyou',
+    visual: {
+      runtimeUrl: '/client/assets/generated/abilities/toubyou/toubyou.123456789abc.webp',
+      grid: { rows: 4, cols: 4 },
+    },
+  };
+  const { SceneRenderer } = loadRenderModule({ getActionAsset: id => id === action.id ? action : null });
+  const renderer = makeBareRenderer(SceneRenderer);
+  renderer.assetCatalog = { getActionAsset: id => id === action.id ? action : null, getHeroAsset: () => null };
+  const base = new THREE.Texture();
+  renderer._abilityTextureCache.set(action.visual.runtimeUrl, base);
+
+  renderer.spawnAbilityCue({
+    type: 'ability_used', player: 'caster', abilityId: action.id, pos: [2, 3, 0],
+  }, 0);
+
+  const cue = renderer.abilityCues.at(-1);
+  assert.equal(cue.group.userData.actionAssetId, action.id);
+  assert.ok(cue.group.children.some(child => child.isSprite));
+  assert.equal(cue.atlas.frameCount, 16);
+  const initialOffset = cue.atlas.texture.offset.clone();
+  renderer.update(0.2);
+  assert.notDeepEqual(cue.atlas.texture.offset.toArray(), initialOffset.toArray());
+});
+
+test('ability atlas bytes are integrity-verified before TextureLoader receives an object URL', async () => {
+  const visual = {
+    runtimeUrl: '/client/assets/generated/abilities/test/test.111111111111.webp',
+    sha256: '11'.repeat(32),
+    bytes: 32,
+    grid: { rows: 4, cols: 4 },
+  };
+  const verified = [];
+  let revoked = 0;
+  const { SceneRenderer } = loadRenderModule({
+    createVerifiedObjectUrl: async descriptor => {
+      verified.push(descriptor);
+      return { objectUrl: 'blob:verified-atlas', revoke: () => { revoked++; } };
+    },
+  });
+  const renderer = makeBareRenderer(SceneRenderer);
+  renderer._disposed = false;
+  renderer._assetTextureLoader = {
+    load(url, onLoad) {
+      assert.equal(url, 'blob:verified-atlas');
+      queueMicrotask(() => onLoad(new THREE.Texture()));
+    },
+  };
+
+  const texture = await renderer._preloadAbilityAtlas(visual);
+
+  assert.equal(verified.length, 1);
+  assert.equal(verified[0], visual);
+  assert.equal(revoked, 1);
+  assert.equal(renderer._abilityTextureCache.get(visual.runtimeUrl), texture);
 });
 
 test('the existing tracer pool remains capped at 200', () => {

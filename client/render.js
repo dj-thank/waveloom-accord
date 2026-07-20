@@ -12,6 +12,7 @@ import { PerformanceBudget, copyRendererInfo } from '/client/performance_budget.
 import { HERO_BY_ID } from '/shared/data/heroes.js';
 import { verifyAuthoredAssetIdentity } from '/shared/data/map_oshioi.js';
 import { weaponMuzzlePosition } from '/shared/sim/combat.js';
+import { createVerifiedObjectUrl } from '/client/runtime_asset_integrity.js';
 
 const TAG_COLORS = {
   ground: 0xa18a66,
@@ -112,6 +113,19 @@ function boundedRadius(value, fallback = 1) {
   return Math.max(0.15, Math.min(100, finiteNumber(value, fallback)));
 }
 
+function applyAtlasFrame(texture, grid, frame) {
+  if (!texture?.repeat?.set || !texture?.offset?.set) return;
+  const rows = Math.max(1, Math.floor(finiteNumber(grid?.rows, 1)));
+  const cols = Math.max(1, Math.floor(finiteNumber(grid?.cols, 1)));
+  const count = rows * cols;
+  const index = ((Math.floor(finiteNumber(frame, 0)) % count) + count) % count;
+  const row = Math.floor(index / cols);
+  const col = index % cols;
+  texture.repeat.set(1 / cols, 1 / rows);
+  texture.offset.set(col / cols, 1 - ((row + 1) / rows));
+  texture.needsUpdate = true;
+}
+
 function makeSurfaceTexture(hex, variation = 0.12, seed = 1, repeat = 8) {
   const size = 64;
   const color = new THREE.Color(hex);
@@ -199,8 +213,9 @@ function disposeObjectResources(root, additionalResources = []) {
 }
 
 export class SceneRenderer {
-  constructor(canvas, map) {
+  constructor(canvas, map, assetCatalog = {}) {
     this.map = map;
+    this.assetCatalog = assetCatalog;
     this._disposed = false;
     this.renderer = new THREE.WebGLRenderer({
       canvas, antialias: true, alpha: false, powerPreference: 'high-performance', stencil: false,
@@ -264,6 +279,10 @@ export class SceneRenderer {
     this.particles = [];
     this._particlePool = null;
     this._playerPositions = new Map();
+    this._abilityTextureCache = new Map();
+    this._abilityTexturePromises = new Map();
+    this._abilityTextureFailures = new Set();
+    this._assetTextureLoader = typeof THREE.TextureLoader === 'function' ? new THREE.TextureLoader() : null;
     this._effectTime = 0;
     this._viewWeaponHeroId = null;
     this._viewWeapon = null;
@@ -704,6 +723,7 @@ export class SceneRenderer {
 
   setLocalHero(heroId) {
     const hero = HERO_BY_ID[heroId] || HERO_BY_ID.asagi;
+    this.preloadHeroAssets(hero.id).catch(() => {});
     if (this._viewWeapon && this._viewWeaponHeroId === hero.id) return;
     if (this._viewWeapon) {
       this.camera.remove(this._viewWeapon);
@@ -759,6 +779,85 @@ export class SceneRenderer {
     this.camera.add(group);
     this._viewWeapon = group;
     this._viewWeaponHeroId = hero.id;
+  }
+
+  async preloadHeroAssets(heroId) {
+    const hero = typeof this.assetCatalog?.getHeroAsset === 'function'
+      ? this.assetCatalog.getHeroAsset(String(heroId || ''))
+      : null;
+    if (!hero) return [];
+    const visuals = Object.values(hero.abilities || {}).map(action => action?.visual).filter(Boolean);
+    return Promise.allSettled(visuals.map(visual => this._preloadAbilityAtlas(visual)));
+  }
+
+  _preloadAbilityAtlas(visual) {
+    const url = visual?.runtimeUrl;
+    if (typeof url !== 'string' || !url.startsWith('/client/assets/generated/')) return Promise.resolve(null);
+    if (this._abilityTextureCache.has(url)) return Promise.resolve(this._abilityTextureCache.get(url));
+    if (this._abilityTextureFailures.has(url) || !this._assetTextureLoader) return Promise.resolve(null);
+    if (this._abilityTexturePromises.has(url)) return this._abilityTexturePromises.get(url);
+    const promise = createVerifiedObjectUrl(visual, {
+      host: globalThis,
+      expectedContentType: 'image/webp',
+      maxBytes: 8 * 1024 * 1024,
+    }).then(verified => new Promise(resolve => {
+      this._assetTextureLoader.load(verified.objectUrl, texture => {
+        verified.revoke();
+        if (this._disposed) {
+          texture.dispose?.();
+          resolve(null);
+          return;
+        }
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping;
+        texture.generateMipmaps = true;
+        texture.needsUpdate = true;
+        this._abilityTextureCache.set(url, texture);
+        resolve(texture);
+      }, undefined, () => {
+        verified.revoke();
+        this._abilityTextureFailures.add(url);
+        resolve(null);
+      });
+    })).catch(() => {
+      this._abilityTextureFailures.add(url);
+      return null;
+    }).finally(() => this._abilityTexturePromises.delete(url));
+    this._abilityTexturePromises.set(url, promise);
+    return promise;
+  }
+
+  _attachActionAtlas(group, materials, event, target, type) {
+    const requestedId = event?.abilityId ?? event?.actionId;
+    const action = typeof this.assetCatalog?.getActionAsset === 'function'
+      ? this.assetCatalog.getActionAsset(String(requestedId || ''))
+      : null;
+    const visual = action?.visual;
+    if (!visual) return null;
+    this._preloadAbilityAtlas(visual).catch(() => {});
+    const base = this._abilityTextureCache.get(visual.runtimeUrl);
+    if (!base) return null;
+    const texture = base.clone();
+    const grid = visual.grid || { rows: 4, cols: 4 };
+    applyAtlasFrame(texture, grid, 0);
+    const material = new THREE.SpriteMaterial({
+      map: texture, color: 0xffffff, transparent: true, opacity: 0.9,
+      depthWrite: false, depthTest: true,
+    });
+    material.userData.baseOpacity = 0.9;
+    materials.push(material);
+    const sprite = new THREE.Sprite(material);
+    const ultimate = type.includes('ultimate');
+    sprite.position.set(target[0], target[1], target[2] + (ultimate ? 1.7 : 1.05));
+    sprite.scale.setScalar(ultimate ? 5.2 : 2.8);
+    sprite.renderOrder = 12;
+    group.add(sprite);
+    return {
+      actionId: action.id,
+      texture,
+      grid,
+      frameCount: Math.max(1, Math.floor(finiteNumber(grid.rows, 4)) * Math.floor(finiteNumber(grid.cols, 4))),
+    };
   }
 
   setWorldEffects(worldEffects = {}, myTeam) {
@@ -1078,12 +1177,16 @@ export class SceneRenderer {
       }
     }
 
+    const actionId = event.abilityId ?? event.actionId ?? null;
     group.userData = {
       cueKind, relation, sourceId, targetId,
       shape: `${cueKind}-${relation === 'enemy' ? 'angular-cross' : relation === 'ally' ? 'rounded-plus' : 'neutral-diamond'}`,
+      actionAssetId: actionId,
     };
+    const atlas = this._attachActionAtlas(group, materials, event, target, type);
+    if (!atlas) group.userData.actionAssetId = null;
     this.world.add(group);
-    const cue = { group, materials, life, maxLife: life, phase: this.abilityCues.length * 0.73 };
+    const cue = { group, materials, life, maxLife: life, phase: this.abilityCues.length * 0.73, atlas };
     pushBounded(this.abilityCues, cue, MAX_ABILITY_CUES, oldCue => this._disposeEffectVisual(oldCue));
     const particleCount = this._reducedMotion ? 0
       : cueKind === 'kill' ? 18 : cueKind === 'hit' ? 7 : type.includes('ultimate') ? 14 : 4;
@@ -1616,6 +1719,7 @@ export class SceneRenderer {
       this._particleGeometry,
       this.waterMaterial,
       ...(this._surfaceTextures || []),
+      ...(this._abilityTextureCache?.values?.() || []),
     ]) collectResourceValue(resource, registry);
     for (const teamMaterials of Object.values(this._teamMats || {})) {
       collectResourceValue(teamMaterials?.body, registry);
@@ -1639,6 +1743,9 @@ export class SceneRenderer {
     this.tracers = [];
     this.doorMeshes = [];
     this._surfaceTextures = [];
+    this._abilityTextureCache?.clear?.();
+    this._abilityTexturePromises?.clear?.();
+    this._abilityTextureFailures?.clear?.();
     this._viewWeapon = null;
     this._viewWeaponMuzzle = null;
     this.authoredMap = null;
@@ -1711,6 +1818,10 @@ export class SceneRenderer {
         : 0.62 + Math.sin(this._effectTime * 18 + cue.phase) * 0.38;
       for (const material of cue.materials) {
         material.opacity = (material.userData.baseOpacity ?? 1) * remaining * blink;
+      }
+      if (cue.atlas) {
+        const frame = Math.min(cue.atlas.frameCount - 1, Math.floor((1 - remaining) * cue.atlas.frameCount));
+        applyAtlasFrame(cue.atlas.texture, cue.atlas.grid, frame);
       }
       if (!this._reducedMotion && cue.group.userData.cueKind === 'kill') {
         cue.group.rotation.z += delta * 1.8;

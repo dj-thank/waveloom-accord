@@ -19,6 +19,7 @@ import {
 } from './abilities.js';
 import { spawnWeaponProjectile, tickProjectiles, snapshotProjectile } from './projectiles.js';
 import { selectSafeSpawn } from './spawn.js';
+import { addGauge, gainFromDamage, gainFromHealing, gainFromPassive, carryoverGauge } from './ult_economy.js';
 
 export const EMPTY_INPUT = Object.freeze({
   f: false, b: false, l: false, r: false, jump: false, crouch: false,
@@ -124,7 +125,7 @@ export class World {
       spawnProtectionEndsAt: 0,
       insideObjective: false,
       ultGauge: 0, // Phase 4で使用。ラウンド間50%減衰の枠のみ確保
-      stats: { kills: 0, deaths: 0, dmg: 0, healing: 0, objectiveSec: 0 },
+      stats: { kills: 0, deaths: 0, dmg: 0, healing: 0, objectiveSec: 0, ultimates: 0 },
       spawnIndex: (this.nextId + 3) % 5,
       lastResourcePos: [0, 0, 0],
       lastResourceSpendT: Number.NEGATIVE_INFINITY,
@@ -534,7 +535,7 @@ export class World {
     }
     if (source) {
       source.stats.dmg += healthDamage;
-      source.ultGauge = Math.min(100, source.ultGauge + healthDamage / 21);
+      source.ultGauge = addGauge(source.ultGauge, gainFromDamage(healthDamage, this.combat.ultimateEconomy), this.combat.ultimateEconomy);
     }
     if (target.resource?.id === 'forge') target.resource.value = Math.min(target.resource.max, target.resource.value + healthDamage * 0.2);
     if (target.resource?.id === 'momentum' && healthDamage + shieldAbsorb > 0) {
@@ -567,7 +568,7 @@ export class World {
     target.hp += healed;
     if (source) {
       source.stats.healing += healed;
-      source.ultGauge = Math.min(100, source.ultGauge + healed / 23);
+      source.ultGauge = addGauge(source.ultGauge, gainFromHealing(healed, this.combat.ultimateEconomy), this.combat.ultimateEconomy);
     }
     this.events.push({ type: 'heal', target: target.id, source: source?.id, amount: Math.round(healed * 10) / 10, abilityId });
     return healed;
@@ -915,6 +916,13 @@ export class World {
       }
       tickWeaponState(pl, this.weaponDefinitionFor(pl), this.t);
       tickAbilityState(this, pl, this.dt);
+      if (state === 'ACTIVE') {
+        pl.ultGauge = addGauge(
+          pl.ultGauge,
+          gainFromPassive(this.dt, this.combat.ultimateEconomy),
+          this.combat.ultimateEconomy,
+        );
+      }
       const speedMult = movementMultiplier(pl);
       const moveConfig = speedMult === 1 ? this.mv : { ...this.mv, baseSpeedMps: this.mv.baseSpeedMps * speedMult };
       if (!pl.abilities.heroState.transit) moveStep(pl.move, pl.input, this.dt, this.collider, moveConfig);
@@ -1018,7 +1026,7 @@ export class World {
         this.objective.resetRound();
         this.respawn.resetRound();
         for (const pl of this.players.values()) {
-          pl.ultGauge *= this.mode.ultCarryoverMult; // §4 持ち越し50%減衰（Phase 4で実効化）
+          pl.ultGauge = carryoverGauge(pl.ultGauge, { ...this.combat.ultimateEconomy, carryoverMult: this.mode.ultCarryoverMult });
           pl.setupUltGauge = pl.ultGauge;
           pl.abilities = makeAbilityState();
           this.spawnAtBase(pl);

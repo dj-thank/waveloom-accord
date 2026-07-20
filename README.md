@@ -1,4 +1,4 @@
-# 篝合（かがりあい）— Browser FPS Production Candidate rc.4
+# 篝合（かがりあい）— Browser FPS Production Candidate rc.5
 
 灯環世界ヴェルソラの5対5ヒーローFPS『篝合』を、ブラウザで遊べるサーバー権威型の Production Candidate として実装しています。
 

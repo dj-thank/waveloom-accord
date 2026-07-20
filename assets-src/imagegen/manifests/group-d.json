@@ -1,0 +1,178 @@
+{
+  "schemaVersion": "1.0.0",
+  "provider": "openai-built-in-imagegen",
+  "keyColor": "#00FF00",
+  "records": [
+    {
+      "heroId": "hokuchi",
+      "kind": "hero-concept",
+      "grid": "2x2",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game character concept atlas. Primary request: oil-and-flame demolition specialist, ember-orange armored coat, brass canisters, scattergun. Exact 2x2 atlas: top-left front full body, top-right three-quarter/back full body, bottom-left head and shoulders, bottom-right signature weapon/equipment. Consistent identity across cells, thick green gutters. Premium realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy. Perfectly flat #00FF00 background, no #00FF00 in subject, no text/logo/watermark.",
+      "source": "heroes/hokuchi/hokuchi-concept-green-v1.png",
+      "alpha": "heroes/hokuchi/hokuchi-concept-alpha-v1.png",
+      "validationNotes": "Recovered from the original labeled ImageGen batch and visually matched to the oil-and-flame concept before admission."
+    },
+    {
+      "heroId": "hokuchi",
+      "kind": "ability-vfx",
+      "slot": "secondary",
+      "actionId": "hibana",
+      "behavior": "ignite_target",
+      "grid": "4x4",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game VFX atlas. Premium realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP. Hero motif: oil-and-flame demolition specialist, ember-orange armored coat, brass canisters, scattergun. Canonical action hibana behavior ignite_target. Visualize single ignition spark projectile blooming into a compact orange flame mark. Character only when movement pose is essential; otherwise isolated VFX. Create an exact 4x4 atlas with equal cells and thick flat green gutters; each cell isolated, chronological frames left-to-right then top-to-bottom, no crossing gutters. Perfectly flat solid #00FF00 background, no shadows/gradients/texture in background, no #00FF00 in subject. Crisp production-readable VFX, no text, logo, watermark.",
+      "source": "heroes/hokuchi/hokuchi-hibana-green-v1.png",
+      "alpha": "heroes/hokuchi/hokuchi-hibana-alpha-v1.png",
+      "validationNotes": "Recovered from the original labeled ImageGen batch and visually matched to the ignition-spark sequence."
+    },
+    {
+      "heroId": "hokuchi",
+      "kind": "ability-vfx",
+      "slot": "ability1",
+      "actionId": "aburadama",
+      "behavior": "status_blast",
+      "grid": "4x4",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game VFX atlas. Premium realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP. Hero motif: oil-and-flame demolition specialist, ember-orange armored coat, brass canisters, scattergun. Canonical action aburadama behavior status_blast. Visualize oily black-gold splash blast with ember motes and a circular slick zone. Character only when movement pose is essential; otherwise isolated VFX. Create an exact 4x4 atlas with equal cells and thick flat green gutters; each cell isolated, chronological frames left-to-right then top-to-bottom, no crossing gutters. Perfectly flat solid #00FF00 background, no shadows/gradients/texture in background, no #00FF00 in subject. Crisp production-readable VFX, no text, logo, watermark.",
+      "source": "heroes/hokuchi/hokuchi-aburadama-green-v1.png",
+      "alpha": "heroes/hokuchi/hokuchi-aburadama-alpha-v1.png",
+      "validationNotes": "Recovered from the original labeled ImageGen batch and visually matched to the oil-splash zone sequence."
+    },
+    {
+      "heroId": "hokuchi",
+      "kind": "ability-vfx",
+      "slot": "ability2",
+      "actionId": "aburasuberi",
+      "behavior": "dash",
+      "grid": "4x4",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game VFX atlas. Premium realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP. Hero motif: oil-and-flame demolition specialist, ember-orange armored coat, brass canisters, scattergun. Canonical action aburasuberi behavior dash. Visualize fast low sliding dash leaving a thin oily flame trail. Character only when movement pose is essential; otherwise isolated VFX. Create an exact 4x4 atlas with equal cells and thick flat green gutters; each cell isolated, chronological frames left-to-right then top-to-bottom, no crossing gutters. Perfectly flat solid #00FF00 background, no shadows/gradients/texture in background, no #00FF00 in subject. Crisp production-readable VFX, no text, logo, watermark.",
+      "source": "heroes/hokuchi/hokuchi-aburasuberi-green-v1.png",
+      "alpha": "heroes/hokuchi/hokuchi-aburasuberi-alpha-v1.png",
+      "validationNotes": "Recovered from the original labeled ImageGen batch and visually matched to the low-slide sequence."
+    },
+    {
+      "heroId": "hokuchi",
+      "kind": "ability-vfx",
+      "slot": "ultimate",
+      "actionId": "oohimatsuri",
+      "behavior": "damage_aura",
+      "grid": "4x4",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game VFX atlas. Premium realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP. Hero motif: oil-and-flame demolition specialist, ember-orange armored coat, brass canisters, scattergun. Canonical action oohimatsuri behavior damage_aura. Visualize large rotating ring aura of intense fire and oil droplets. Character only when movement pose is essential; otherwise isolated VFX. Create an exact 4x4 atlas with equal cells and thick flat green gutters; each cell isolated, chronological frames left-to-right then top-to-bottom, no crossing gutters. Perfectly flat solid #00FF00 background, no shadows/gradients/texture in background, no #00FF00 in subject. Crisp production-readable VFX, no text, logo, watermark.",
+      "source": "heroes/hokuchi/hokuchi-oohimatsuri-green-v1.png",
+      "alpha": "heroes/hokuchi/hokuchi-oohimatsuri-alpha-v1.png",
+      "validationNotes": "Recovered from the original labeled ImageGen batch and visually matched to the rotating fire-and-oil aura."
+    },
+    {
+      "heroId": "botan",
+      "kind": "hero-concept",
+      "grid": "2x2",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game character concept atlas. Primary request: industrial flower artillery engineer, magenta-pink petals, copper cannon, mechanical chrysanthemum. Exact 2x2 atlas: top-left front full body, top-right three-quarter/back full body, bottom-left head and shoulders, bottom-right signature weapon/equipment. Consistent identity across cells, thick flat green gutters. Premium realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP. Perfectly flat solid #00FF00 chroma-key background, no shadows, gradients, or texture in background, no #00FF00 in subject. No text, logo, watermark.",
+      "source": "heroes/botan/botan-concept-green-v1.png",
+      "alpha": "heroes/botan/botan-concept-alpha-v1.png",
+      "validationNotes": "Generated in a labeled root batch and visually verified before admission."
+    },
+    {
+      "heroId": "botan",
+      "kind": "ability-vfx",
+      "slot": "secondary",
+      "actionId": "kaika",
+      "behavior": "airburst",
+      "grid": "4x4",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game VFX animation atlas. Hero motif: industrial flower artillery engineer, magenta-pink petals, copper cannon, mechanical chrysanthemum. Canonical action kaika behavior airburst. Visualize a midair flower-shell burst opening into a concentric petal shockwave. Create an exact 4x4 atlas with equal cells and thick flat green gutters; each cell isolated, chronological frames left-to-right then top-to-bottom, no crossing gutters. Perfectly flat solid #00FF00 chroma-key background, no shadows, gradients, or texture in background, no #00FF00 in subject. Crisp premium realistic 3D production-readable VFX for a competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP, no text, logo, watermark.",
+      "source": "heroes/botan/botan-kaika-green-v1.png",
+      "alpha": "heroes/botan/botan-kaika-alpha-v1.png",
+      "validationNotes": "Generated in a labeled root batch and visually verified as a flower-shell airburst sequence."
+    },
+    {
+      "heroId": "botan",
+      "kind": "ability-vfx",
+      "slot": "ability1",
+      "actionId": "shikakehana",
+      "behavior": "damage_zone",
+      "grid": "4x4",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game VFX animation atlas. Hero motif: industrial flower artillery engineer, magenta-pink petals, copper cannon, mechanical chrysanthemum. Canonical action shikakehana behavior damage_zone. Visualize a persistent glowing mechanical-flower hazard zone with pulsing petals, sparks, and a clearly readable dangerous circular footprint. Create an exact 4x4 atlas with equal cells and thick flat green gutters; each cell isolated, chronological frames left-to-right then top-to-bottom, no crossing gutters. Perfectly flat solid #00FF00 chroma-key background, no shadows, gradients, or texture in background, no #00FF00 in subject. Crisp premium realistic 3D production-readable VFX for a competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP, no text, logo, watermark.",
+      "source": "heroes/botan/botan-shikakehana-green-v1.png",
+      "alpha": "heroes/botan/botan-shikakehana-alpha-v1.png",
+      "validationNotes": "Generated in a labeled root batch and visually verified as a persistent flower hazard."
+    },
+    {
+      "heroId": "botan",
+      "kind": "ability-vfx",
+      "slot": "ability2",
+      "actionId": "hanabiashi",
+      "behavior": "backstep",
+      "grid": "4x4",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game VFX animation atlas. Hero motif: industrial flower artillery engineer, magenta-pink petals, copper cannon, mechanical chrysanthemum. Canonical action hanabiashi behavior backstep. Visualize a backward combat hop with a readable character silhouette, firework petals, copper sparks, and a sharp magenta launch burst. Create an exact 4x4 atlas with equal cells and thick flat green gutters; each cell isolated, chronological frames left-to-right then top-to-bottom, no crossing gutters. Perfectly flat solid #00FF00 chroma-key background, no shadows, gradients, or texture in background, no #00FF00 in subject. Crisp premium realistic 3D production-readable VFX for a competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP, no text, logo, watermark.",
+      "source": "heroes/botan/botan-hanabiashi-green-v1.png",
+      "alpha": "heroes/botan/botan-hanabiashi-alpha-v1.png",
+      "validationNotes": "Generated in a labeled root batch and visually verified as a backward-hop sequence."
+    },
+    {
+      "heroId": "botan",
+      "kind": "ability-vfx",
+      "slot": "ultimate",
+      "actionId": "senrinzaki",
+      "behavior": "barrage_zone",
+      "grid": "4x4",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game VFX animation atlas. Hero motif: industrial flower artillery engineer, magenta-pink petals, copper cannon, mechanical chrysanthemum. Canonical ultimate senrinzaki behavior barrage_zone. Visualize a dense rain of luminous flower-artillery impacts building into a large circular magenta-and-copper barrage, with a clearly readable warning footprint and spectacular climax. Create an exact 4x4 atlas with equal cells and thick flat green gutters; each cell isolated, chronological frames left-to-right then top-to-bottom, no crossing gutters. Perfectly flat solid #00FF00 chroma-key background, no shadows, gradients, or texture in background, no #00FF00 in subject. Crisp premium realistic 3D production-readable VFX for a competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP, no text, logo, watermark.",
+      "source": "heroes/botan/botan-senrinzaki-green-v1.png",
+      "alpha": "heroes/botan/botan-senrinzaki-alpha-v1.png",
+      "validationNotes": "Generated in a labeled root batch and visually verified from warning impacts through the ultimate climax."
+    },
+    {
+      "heroId": "ankou",
+      "kind": "hero-concept",
+      "grid": "2x2",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game character concept atlas. Primary request: deep-sea lure hunter, navy-blue tactical dive armor, bioluminescent cyan lure, compact torpedo launcher and pressure-vessel equipment. Exact 2x2 atlas: top-left front full body, top-right three-quarter/back full body, bottom-left head and shoulders, bottom-right signature weapon/equipment. Consistent identity across cells, thick flat green gutters. Premium realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP. Perfectly flat solid #00FF00 chroma-key background, no shadows, gradients, or texture in background, no #00FF00 in subject. No text, logo, watermark.",
+      "source": "heroes/ankou/ankou-concept-green-v1.png",
+      "alpha": "heroes/ankou/ankou-concept-alpha-v1.png",
+      "validationNotes": "Generated in a labeled root batch and visually verified before admission."
+    },
+    {
+      "heroId": "ankou",
+      "kind": "ability-vfx",
+      "slot": "secondary",
+      "actionId": "sasou",
+      "behavior": "target_reveal",
+      "grid": "4x4",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game VFX animation atlas. Hero motif: deep-sea lure hunter, navy-blue tactical dive armor, bioluminescent cyan lure, compact torpedo launcher. Canonical action sasou behavior target_reveal. Visualize a blue spectral lure beam acquiring one target, then concentric cyan sonar rings and a sharp reveal marker pulse. Create an exact 4x4 atlas with equal cells and thick flat green gutters; each cell isolated, chronological frames left-to-right then top-to-bottom, no crossing gutters. Perfectly flat solid #00FF00 chroma-key background, no shadows, gradients, or texture in background, no #00FF00 in subject. Crisp premium realistic 3D production-readable VFX for a competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP, no text, logo, watermark.",
+      "source": "heroes/ankou/ankou-sasou-green-v1.png",
+      "alpha": "heroes/ankou/ankou-sasou-alpha-v1.png",
+      "validationNotes": "Generated in a labeled root batch and visually verified as a reveal-beam and sonar sequence."
+    },
+    {
+      "heroId": "ankou",
+      "kind": "ability-vfx",
+      "slot": "ability1",
+      "actionId": "tsuridama",
+      "behavior": "seeking_blast",
+      "grid": "4x4",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game VFX animation atlas. Hero motif: deep-sea lure hunter, navy-blue tactical dive armor, bioluminescent cyan lure, compact torpedo launcher. Canonical action tsuridama behavior seeking_blast. Visualize a glowing cyan lure orb curving through the air with a readable homing trail into a focused deep-blue pressure blast. Create an exact 4x4 atlas with equal cells and thick flat green gutters; each cell isolated, chronological frames left-to-right then top-to-bottom, no crossing gutters. Perfectly flat solid #00FF00 chroma-key background, no shadows, gradients, or texture in background, no #00FF00 in subject. Crisp premium realistic 3D production-readable VFX for a competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP, no text, logo, watermark.",
+      "source": "heroes/ankou/ankou-tsuridama-green-v1.png",
+      "alpha": "heroes/ankou/ankou-tsuridama-alpha-v1.png",
+      "validationNotes": "Generated in a labeled root batch and visually verified as a curved homing orb and pressure blast."
+    },
+    {
+      "heroId": "ankou",
+      "kind": "ability-vfx",
+      "slot": "ability2",
+      "actionId": "mizuheri",
+      "behavior": "dash",
+      "grid": "4x4",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game VFX animation atlas. Hero motif: deep-sea lure hunter, navy-blue tactical dive armor, bioluminescent cyan lure, compact torpedo launcher. Canonical action mizuheri behavior dash. Visualize a fast water-jet combat dash with a readable character silhouette, bubbles, cavitation mist, and a navy-to-cyan arc trail. Create an exact 4x4 atlas with equal cells and thick flat green gutters; each cell isolated, chronological frames left-to-right then top-to-bottom, no crossing gutters. Perfectly flat solid #00FF00 chroma-key background, no shadows, gradients, or texture in background, no #00FF00 in subject. Crisp premium realistic 3D production-readable VFX for a competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP, no text, logo, watermark.",
+      "source": "heroes/ankou/ankou-mizuheri-green-v1.png",
+      "alpha": "heroes/ankou/ankou-mizuheri-alpha-v1.png",
+      "validationNotes": "Generated in a labeled root batch and visually verified as a water-jet dash sequence."
+    },
+    {
+      "heroId": "ankou",
+      "kind": "ability-vfx",
+      "slot": "ultimate",
+      "actionId": "shinkainogyoretsu",
+      "behavior": "homing_barrage",
+      "grid": "4x4",
+      "exactPrompt": "Use case: stylized-concept. Asset type: game VFX animation atlas. Hero motif: deep-sea lure hunter, navy-blue tactical dive armor, bioluminescent cyan lure, compact torpedo launcher. Canonical ultimate shinkainogyoretsu behavior homing_barrage. Visualize multiple bioluminescent miniature torpedoes assembling like a deep-sea fish school, spiraling outward, then converging into a spectacular navy-blue and cyan homing barrage climax. Create an exact 4x4 atlas with equal cells and thick flat green gutters; each cell isolated, chronological frames left-to-right then top-to-bottom, no crossing gutters. Perfectly flat solid #00FF00 chroma-key background, no shadows, gradients, or texture in background, no #00FF00 in subject. Crisp premium realistic 3D production-readable VFX for a competitive tactical hero shooter, Japanese industrial-fantasy, no recognizable IP, no text, logo, watermark.",
+      "source": "heroes/ankou/ankou-shinkainogyoretsu-green-v1.png",
+      "alpha": "heroes/ankou/ankou-shinkainogyoretsu-alpha-v1.png",
+      "validationNotes": "Generated in a labeled root batch and visually verified from fish-school assembly through the homing barrage climax."
+    }
+  ]
+}

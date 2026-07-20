@@ -13,6 +13,17 @@ function hostWith(values = {}) {
   };
 }
 
+const VERIFIED_DIGEST = '11'.repeat(32);
+
+function enableDeterministicIntegrity(host) {
+  host.crypto = {
+    subtle: {
+      digest: async () => new Uint8Array(32).fill(0x11).buffer,
+    },
+  };
+  return host;
+}
+
 test('音量未保存時は72%、保存済み0は消音として区別する', () => {
   assert.equal(new CombatAudio(hostWith()).volume, 0.72);
   assert.equal(new CombatAudio(hostWith({ kagariai_audio_volume: '0' })).volume, 0);
@@ -78,4 +89,60 @@ test('通常音声に上限を設け、緊急キュー用のvoice枠を予約す
 
   normal[0].onended();
   assert.equal(audio.diagnostics().voices.active, 47);
+});
+
+test('preloadHero decodes every SSOT sample once and reuses the buffer cache', async () => {
+  const fetched = [];
+  const host = enableDeterministicIntegrity(hostWith());
+  host.fetch = async url => {
+    fetched.push(url);
+    return { ok: true, headers: { get: () => 'audio/mpeg' }, arrayBuffer: async () => new ArrayBuffer(16) };
+  };
+  const assets = {
+    getHeroAsset: id => id === 'asagi' ? {
+      weapon: { audio: { runtimeUrl: `/client/assets/generated/audio/weapon.${VERIFIED_DIGEST.slice(0, 12)}.mp3`, sha256: VERIFIED_DIGEST, bytes: 16 } },
+      abilities: {
+        secondary: { audio: { runtimeUrl: `/client/assets/generated/audio/secondary.${VERIFIED_DIGEST.slice(0, 12)}.mp3`, sha256: VERIFIED_DIGEST, bytes: 16 } },
+        ability1: { audio: { runtimeUrl: `/client/assets/generated/audio/ability1.${VERIFIED_DIGEST.slice(0, 12)}.mp3`, sha256: VERIFIED_DIGEST, bytes: 16 } },
+        ability2: { audio: { runtimeUrl: `/client/assets/generated/audio/ability1.${VERIFIED_DIGEST.slice(0, 12)}.mp3`, sha256: VERIFIED_DIGEST, bytes: 16 } },
+        ultimate: { audio: { runtimeUrl: `/client/assets/generated/audio/ultimate.${VERIFIED_DIGEST.slice(0, 12)}.mp3`, sha256: VERIFIED_DIGEST, bytes: 16 } },
+      },
+    } : null,
+  };
+  const audio = new CombatAudio(host, assets);
+  let decoded = 0;
+  audio.context = { decodeAudioData: async () => ({ id: ++decoded }) };
+
+  await audio.preloadHero('asagi');
+  await audio.preloadHero('asagi');
+
+  assert.deepEqual(fetched.sort(), [
+    `/client/assets/generated/audio/ability1.${VERIFIED_DIGEST.slice(0, 12)}.mp3`,
+    `/client/assets/generated/audio/secondary.${VERIFIED_DIGEST.slice(0, 12)}.mp3`,
+    `/client/assets/generated/audio/ultimate.${VERIFIED_DIGEST.slice(0, 12)}.mp3`,
+    `/client/assets/generated/audio/weapon.${VERIFIED_DIGEST.slice(0, 12)}.mp3`,
+  ]);
+  assert.equal(decoded, 4);
+  assert.equal(audio.diagnostics().samples.ready, 4);
+  assert.equal(audio.diagnostics().samples.failed, 0);
+});
+
+test('tampered SSOT audio is rejected before decode and recorded as a failed sample', async () => {
+  const host = enableDeterministicIntegrity(hostWith());
+  host.fetch = async () => ({ ok: true, headers: { get: () => 'audio/mpeg' }, arrayBuffer: async () => new ArrayBuffer(16) });
+  const url = '/client/assets/generated/audio/tampered.222222222222.mp3';
+  const audio = new CombatAudio(host, {
+    getHeroAsset: () => ({
+      weapon: { audio: { runtimeUrl: url, sha256: '22'.repeat(32), bytes: 16 } },
+      abilities: {},
+    }),
+  });
+  let decoded = 0;
+  audio.context = { decodeAudioData: async () => { decoded++; } };
+
+  await audio.preloadHero('zairu');
+
+  assert.equal(decoded, 0);
+  assert.equal(audio.diagnostics().samples.ready, 0);
+  assert.equal(audio.diagnostics().samples.failed, 1);
 });

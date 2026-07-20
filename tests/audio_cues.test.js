@@ -52,3 +52,24 @@ test('障壁・設置物イベントは共通posまたはcenterから空間位�
   assert.equal(deployable.kind, 'barrier_hit');
   assert.deepEqual(deployable.position, [-2, 7, 0.8]);
 });
+
+test('weapon and action cues carry SSOT sample URLs while procedural profiles remain fallback-safe', () => {
+  const assets = {
+    getWeaponAsset: id => id === 'asagi_survey_rifle'
+      ? { audio: { runtimeUrl: '/client/assets/generated/audio/weapons/asagi.123456789abc.mp3' } }
+      : null,
+    getActionAsset: id => id === 'shirubeya'
+      ? { audio: { runtimeUrl: '/client/assets/generated/audio/abilities/shirubeya.abcdef123456.mp3' } }
+      : null,
+  };
+  const context = { myId: 'me', assets };
+
+  const shot = describeCombatCue({ type: 'shot', source: 'me', weaponId: 'asagi_survey_rifle' }, context);
+  assert.equal(shot.sampleUrl, '/client/assets/generated/audio/weapons/asagi.123456789abc.mp3');
+  const ability = describeCombatCue({ type: 'ability_used', player: 'me', abilityId: 'shirubeya' }, context);
+  assert.equal(ability.kind, 'ability');
+  assert.equal(ability.sampleUrl, '/client/assets/generated/audio/abilities/shirubeya.abcdef123456.mp3');
+  const ultimate = describeCombatCue({ type: 'ultimate_used', player: 'me', abilityId: 'shirubeya' }, context);
+  assert.equal(ultimate.sampleUrl, '/client/assets/generated/audio/abilities/shirubeya.abcdef123456.mp3');
+  assert.equal(describeCombatCue({ type: 'ability_used', player: 'me', abilityId: 'missing' }, context).sampleUrl, null);
+});

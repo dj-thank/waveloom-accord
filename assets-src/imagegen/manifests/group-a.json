@@ -1,0 +1,371 @@
+{
+  "schemaVersion": "rc5-imagegen-group-a-v1",
+  "records": [
+    {
+      "heroId": "zairu",
+      "kind": "hero-concept",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy zairu concept atlas; exact 2x2 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 2,
+        "cols": 2
+      },
+      "sourcePath": "assets-src/imagegen/heroes/zairu/concept/concept-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/zairu/concept/concept-alpha-v1.png",
+      "sourceSha256": "1755b1c650f4c9a0342842080ed9247a5d23d77c505583dc470949ef8890c6af",
+      "alphaSha256": "87bde95a6c0b656f95c26fda1533683efe507c0fd1ef5f4c3a9e22bfa168837f",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.6960972098217124,
+      "opaquePixelFraction": 0.2885967455975011,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "zairu",
+      "kind": "ability",
+      "actionId": "taguriyose",
+      "slot": "secondary",
+      "behavior": "anchor_recall",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy zairu taguriyose atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/zairu/taguriyose/taguriyose-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/zairu/taguriyose/taguriyose-alpha-v1.png",
+      "sourceSha256": "547dc844e4c25088cc00fef6512c302cbe5dd2baa7f6bded51c7b7b10c2bac8c",
+      "alphaSha256": "3b36ca35dd8558d5dd43fa86792c90c0fa9609e1d62e413b3ea8878c6181451f",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.8130530945313116,
+      "opaquePixelFraction": 0.1253761487959423,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "zairu",
+      "kind": "ability",
+      "actionId": "toubyou",
+      "slot": "ability1",
+      "behavior": "anchor_launch",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy zairu toubyou atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/zairu/toubyou/toubyou-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/zairu/toubyou/toubyou-alpha-v1.png",
+      "sourceSha256": "0c2506af4ed14aca42525e669721cfae00f451833ec95ca294972cc5ad26e85a",
+      "alphaSha256": "7904e8ae70d9d56e52ea13034bac847e691a1f1962492f5f189f157e9d606ce5",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.7452941655283635,
+      "opaquePixelFraction": 0.12636246626425424,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "zairu",
+      "kind": "ability",
+      "actionId": "makimodoshi",
+      "slot": "ability2",
+      "behavior": "rewind_marker",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy zairu makimodoshi atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/zairu/makimodoshi/makimodoshi-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/zairu/makimodoshi/makimodoshi-alpha-v1.png",
+      "sourceSha256": "90a189b62f06420901b8ee5f0a434b06dcebcf25ea91b0e3cb7c738067565408",
+      "alphaSha256": "6e4defd51e790e9942f07b0be35386cb47163ca6cc7c506a06d51fd11d21a214",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.8047358500644827,
+      "opaquePixelFraction": 0.1317500108107008,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "zairu",
+      "kind": "ability",
+      "actionId": "keiryukan",
+      "slot": "ultimate",
+      "behavior": "ring_barrier",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy zairu keiryukan atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/zairu/keiryukan/keiryukan-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/zairu/keiryukan/keiryukan-alpha-v1.png",
+      "sourceSha256": "ecd6e3bcebc44ca1c2b40de6e0a9e4bc76c3e1e2bea73b0115aceb0531edc4e0",
+      "alphaSha256": "8cdbcdc663c9efd2b75d367906c1b51967e9138e8f29443743bdb7fc0d9c09d3",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.6680014702553106,
+      "opaquePixelFraction": 0.2510238369593696,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "baraga",
+      "kind": "hero-concept",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy baraga concept atlas; exact 2x2 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 2,
+        "cols": 2
+      },
+      "sourcePath": "assets-src/imagegen/heroes/baraga/concept/concept-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/baraga/concept/concept-alpha-v1.png",
+      "sourceSha256": "f3a2b5fa13ea0acf1acbf3bca948d2e18e0cc48f4769b6b7349e0bb48082044b",
+      "alphaSha256": "07dc16a20ea3d9520c7b3b97a6ff2f34f557f64caedc7a871046f5347173307b",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.5714816256241589,
+      "opaquePixelFraction": 0.4185833403284927,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "baraga",
+      "kind": "ability",
+      "actionId": "rouke",
+      "slot": "secondary",
+      "behavior": "guard",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy baraga rouke atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/baraga/rouke/rouke-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/baraga/rouke/rouke-alpha-v1.png",
+      "sourceSha256": "50a88d3d191289eedff6e2254730d04e988f0abac9907263ede641ce1c54586a",
+      "alphaSha256": "a83961748c94d29ac0381f64ad4b4ce07e002da46051432c388268db1252be26",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.6273468759618344,
+      "opaquePixelFraction": 0.2953826860903164,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "baraga",
+      "kind": "ability",
+      "actionId": "chuzouheki",
+      "slot": "ability1",
+      "behavior": "barrier",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy baraga chuzouheki atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/baraga/chuzouheki/chuzouheki-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/baraga/chuzouheki/chuzouheki-alpha-v1.png",
+      "sourceSha256": "48acddd237ae6f1e71909933edb5aee6439718d64428bb2674c82b84f8b2d64b",
+      "alphaSha256": "10f3fab27fbfb7ca1a7ecee0b148891ccdbaa88efc26005b4a60bb171b9e7e52",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.5889968687123056,
+      "opaquePixelFraction": 0.364995332320943,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "baraga",
+      "kind": "ability",
+      "actionId": "youkaida",
+      "slot": "ability2",
+      "behavior": "cone_blast",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy baraga youkaida atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/baraga/youkaida/youkaida-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/baraga/youkaida/youkaida-alpha-v1.png",
+      "sourceSha256": "816d55a7564ad25eb0d1a5656a24be9bf09773b57d149e83d87e136d07959aef",
+      "alphaSha256": "43b7f6b292a8151e9e3d03077450a3eb9c2ee7ccd6f6d39b69648c2efb070be2",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.7725218694118215,
+      "opaquePixelFraction": 0.15990997865840476,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "baraga",
+      "kind": "ability",
+      "actionId": "daichukomi",
+      "slot": "ultimate",
+      "behavior": "fortress_buff",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy baraga daichukomi atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/baraga/daichukomi/daichukomi-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/baraga/daichukomi/daichukomi-alpha-v1.png",
+      "sourceSha256": "187c615102344296028140a0d05333d2d4b64f15e3822a15e6196adfd9a9c012",
+      "alphaSha256": "625130d981a1d4c08052e66856d4f059e316435f0e677c7e96a2505fdcb1e03a",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.5780615268779459,
+      "opaquePixelFraction": 0.39710438558335814,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "vesta",
+      "kind": "hero-concept",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy vesta concept atlas; exact 2x2 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 2,
+        "cols": 2
+      },
+      "sourcePath": "assets-src/imagegen/heroes/vesta/concept/concept-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/vesta/concept/concept-alpha-v1.png",
+      "sourceSha256": "c69e7c530561ceec3a12ea7c5e212a47dc9f56d21ec2f300fff2287de9f7ad92",
+      "alphaSha256": "83f1dcc64fe13a441cce0e731334cfef7b8bd9d973e70afd529e50809de64030",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.6831122862978819,
+      "opaquePixelFraction": 0.30665633926777214,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "vesta",
+      "kind": "ability",
+      "actionId": "henkoya",
+      "slot": "secondary",
+      "behavior": "projectile_field",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy vesta henkoya atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/vesta/henkoya/henkoya-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/vesta/henkoya/henkoya-alpha-v1.png",
+      "sourceSha256": "57d8d63b3f9a7e63e7df6503add3dbd4aaadf0c69a5aac6c2ecf30074452d295",
+      "alphaSha256": "c883e6b37511652fd1457ebb2d0f054c13701079dd6b2d536decc4f100fdc185",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.7269973723637788,
+      "opaquePixelFraction": 0.09734527343441975,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "vesta",
+      "kind": "ability",
+      "actionId": "kussetsusho",
+      "slot": "ability1",
+      "behavior": "dash",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy vesta kussetsusho atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/vesta/kussetsusho/kussetsusho-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/vesta/kussetsusho/kussetsusho-alpha-v1.png",
+      "sourceSha256": "8097337ba4ef25378841c09008d4526e2afff22dd66f169a1806bdb0a008cf62",
+      "alphaSha256": "6116c6e20e5b6a34659b3a64bbb66c58ffe3c667655c08e6cdc6bb454a949389",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.8466508448880647,
+      "opaquePixelFraction": 0.07363486285672133,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "vesta",
+      "kind": "ability",
+      "actionId": "ranhansha",
+      "slot": "ability2",
+      "behavior": "field_detonate",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy vesta ranhansha atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/vesta/ranhansha/ranhansha-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/vesta/ranhansha/ranhansha-alpha-v1.png",
+      "sourceSha256": "b3547ab5c7937ad765f98a34612a120e21fa4cb070cb75904e9fc61a1d105a43",
+      "alphaSha256": "dbbed0e28f51df1ad6f1e21f9ea698c957dede03307fdb5da9d42a36c2ecc4f8",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.7046484741649688,
+      "opaquePixelFraction": 0.1809164421856439,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    },
+    {
+      "heroId": "vesta",
+      "kind": "ability",
+      "actionId": "byakuyatai",
+      "slot": "ultimate",
+      "behavior": "projectile_field",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy vesta byakuyatai atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/vesta/byakuyatai/byakuyatai-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/vesta/byakuyatai/byakuyatai-alpha-v1.png",
+      "sourceSha256": "8b6cf6b94b5cec67f043a291a26e7c9b7c4790d3c68f46b3d9a143ebf185155c",
+      "alphaSha256": "894ccdc86e0ec56da16e405356b6047d01b5137cfb76ff31bb50b4ca13d5f6c0",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.5681646482452325,
+      "opaquePixelFraction": 0.31294816714106566,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed."
+    }
+  ]
+}

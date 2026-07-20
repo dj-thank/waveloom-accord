@@ -1,0 +1,380 @@
+{
+  "schemaVersion": "rc5-imagegen-group-f-v1",
+  "records": [
+    {
+      "heroId": "shirabe",
+      "kind": "hero-concept",
+      "slot": null,
+      "actionId": null,
+      "behavior": "identity atlas",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy shirabe concept atlas; exact 2x2 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 2,
+        "cols": 2
+      },
+      "sourcePath": "assets-src/imagegen/heroes/shirabe/concept-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/shirabe/concept-alpha-v1.png",
+      "sourceSha256": "428049d89731a3616ca63fb603d5c9d6fa7065d08d8b1d8f2423c241dfbd3d73",
+      "alphaSha256": "175ed9c4afe7d7b1fee7fbad4898e314aa23cdd72f11bc3049c5c5641e2f6cf1",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.7220721442579916,
+      "opaquePixelFraction": 0.2736023035695662,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "shirabe",
+      "kind": "ability",
+      "slot": "secondary",
+      "actionId": "chogen",
+      "behavior": "link_ally",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy shirabe chogen atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/shirabe/chogen-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/shirabe/chogen-alpha-v1.png",
+      "sourceSha256": "28bb9ff9d1d97ebd86f86540b55f35842199a6aa696d227106c1196aa4e3bbc2",
+      "alphaSha256": "7b429dba7ef67bde99d41273ca33c0bcd17e260b16f2ef6176666b394608ead7",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.837040131865113,
+      "opaquePixelFraction": 0.15184519585174333,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "shirabe",
+      "kind": "ability",
+      "slot": "ability1",
+      "actionId": "waon",
+      "behavior": "ally_damage_buff",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy shirabe waon atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/shirabe/waon-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/shirabe/waon-alpha-v1.png",
+      "sourceSha256": "ad8232110d083fc008c5b115f29fdcaf5c3e32e8180405ddb4926ae1ff6dec58",
+      "alphaSha256": "98c0510a7bc7ea227a4f7b4ab2a8c64faa67222007cbc5176878a99c5922d6b7",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.700907971683595,
+      "opaquePixelFraction": 0.2884225025373351,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "shirabe",
+      "kind": "ability",
+      "slot": "ability2",
+      "actionId": "hikiyose",
+      "behavior": "ally_grapple",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy shirabe hikiyose atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/shirabe/hikiyose-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/shirabe/hikiyose-alpha-v1.png",
+      "sourceSha256": "49e25dbfe2e547b27ad51c9c31e5083e4347a9e26244565fdeae22f1277bd228",
+      "alphaSha256": "03859b3f71d984815b0fb6f3f4df73b2e7030f2bc99d7d2489dd684bd7a70f6d",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.8528504638426573,
+      "opaquePixelFraction": 0.133864456705051,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "shirabe",
+      "kind": "ability",
+      "slot": "ultimate",
+      "actionId": "daigasso",
+      "behavior": "team_damage_buff",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy shirabe daigasso atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/shirabe/daigasso-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/shirabe/daigasso-alpha-v1.png",
+      "sourceSha256": "f67115e5ae6ffbecce59b307c8736cf317d7adc9f432f574afea99e347d9de75",
+      "alphaSha256": "3413e0927654982a0314a97413da398126213e5e6c0340c4b5fe4cb6ae464b32",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.5176532385044095,
+      "opaquePixelFraction": 0.1890562639744206,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "hibari",
+      "kind": "hero-concept",
+      "slot": null,
+      "actionId": null,
+      "behavior": "identity atlas",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy hibari concept atlas; exact 2x2 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 2,
+        "cols": 2
+      },
+      "sourcePath": "assets-src/imagegen/heroes/hibari/concept-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/hibari/concept-alpha-v1.png",
+      "sourceSha256": "137658c25047b23c91e9f27026c5727f20eb5125f78e70cef205d1617d17d5c3",
+      "alphaSha256": "39f9e75dea404fcd2a8086fec4f0524bb09d5a75a3db397f201b96f7e3fd33d9",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.6166887968071549,
+      "opaquePixelFraction": 0.3459424260230103,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "hibari",
+      "kind": "ability",
+      "slot": "secondary",
+      "actionId": "kassho",
+      "behavior": "air_dash",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy hibari kassho atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/hibari/kassho-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/hibari/kassho-alpha-v1.png",
+      "sourceSha256": "0b0a3439c9d7ae78c6d736db844f2428ea8fc6df05dd4bc88a6ee48d5bc43725",
+      "alphaSha256": "33b866feb7d53c324c12d025fa6fd4f6685a9fee4b1d3129f87f0ec64e52f00c",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.6547857064729389,
+      "opaquePixelFraction": 0.14716924978823745,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "hibari",
+      "kind": "ability",
+      "slot": "ability1",
+      "actionId": "wataribi",
+      "behavior": "healing_trail",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy hibari wataribi atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/hibari/wataribi-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/hibari/wataribi-alpha-v1.png",
+      "sourceSha256": "0af6830e7d52926893f59fd18e8fa84e28c6443771ca0fb1c4ed45d1f41fd4b7",
+      "alphaSha256": "37f8ab9e61de870ac437270f96b420167d43affad967590cc5005267f0649d61",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.6816229532799666,
+      "opaquePixelFraction": 0.1348596771034444,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "hibari",
+      "kind": "ability",
+      "slot": "ability2",
+      "actionId": "hibariage",
+      "behavior": "leap_heal",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy hibari hibariage atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/hibari/hibariage-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/hibari/hibariage-alpha-v1.png",
+      "sourceSha256": "8b7e26d86ac7e5c715a8d4fdbbf5293539992131264413542be343a5ff2df223",
+      "alphaSha256": "6a41b4a25e5fdec109d35ae072403f958b944c09e1d4405b07e5c2203af7767a",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.8633215814656258,
+      "opaquePixelFraction": 0.12659139875206357,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "hibari",
+      "kind": "ability",
+      "slot": "ultimate",
+      "actionId": "watarinooohi",
+      "behavior": "healing_trail",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy hibari watarinooohi atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/hibari/watarinooohi-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/hibari/watarinooohi-alpha-v1.png",
+      "sourceSha256": "b131bffd21113a1c7897c10a476b95ab2bc8b0b078feb7cfd521becf98c1119f",
+      "alphaSha256": "24e37cd08910ddac6ffe80ad5dd0e030787d5cdbcbfadc2d177b0c219c163725",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.8050080253555448,
+      "opaquePixelFraction": 0.18945562398093246,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "kazura",
+      "kind": "hero-concept",
+      "slot": null,
+      "actionId": null,
+      "behavior": "identity atlas",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy kazura concept atlas; exact 2x2 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 2,
+        "cols": 2
+      },
+      "sourcePath": "assets-src/imagegen/heroes/kazura/concept-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/kazura/concept-alpha-v1.png",
+      "sourceSha256": "8763f478384d4f294995a132bfe11dcbdf95b1beb3294f1078497d806f5f0a4f",
+      "alphaSha256": "9aa3a6bbd92c822438fb6842cc89caf51fbf0b70bcf54b36281c23834076dd22",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.6751600619643934,
+      "opaquePixelFraction": 0.30643821748077604,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "kazura",
+      "kind": "ability",
+      "slot": "secondary",
+      "actionId": "yadorizuru",
+      "behavior": "redirect_link",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy kazura yadorizuru atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/kazura/yadorizuru-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/kazura/yadorizuru-alpha-v1.png",
+      "sourceSha256": "f9b4299381564833e824a940b27efbcf1eb3e189f418f239208954f5422290a7",
+      "alphaSha256": "f4e2c78e2816f06a3348c6c8cef9e86a7c7665256efe465f81c9b392209d8a65",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.6345150065245759,
+      "opaquePixelFraction": 0.2537296917805606,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "kazura",
+      "kind": "ability",
+      "slot": "ability1",
+      "actionId": "itamikaiho",
+      "behavior": "resource_heal",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy kazura itamikaiho atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/kazura/itamikaiho-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/kazura/itamikaiho-alpha-v1.png",
+      "sourceSha256": "62755b279433bd0cb175fe3a00d7aeec873e7c85f807dc59caab7b7a9b8f36f6",
+      "alphaSha256": "579eb52d30865b05ed928328896fec8fa4edf17b7afc9824fdaff0e0ae0264c0",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.7955880894057675,
+      "opaquePixelFraction": 0.1943147160346858,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "kazura",
+      "kind": "ability",
+      "slot": "ability2",
+      "actionId": "togebaraki",
+      "behavior": "damage_aura",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy kazura togebaraki atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/kazura/togebaraki-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/kazura/togebaraki-alpha-v1.png",
+      "sourceSha256": "55586630bb749d477c82c0ca05a2237b667df90b318d843c2ab0109ad3a9a168",
+      "alphaSha256": "fec54cb62df87343d4c378d615943bea1e7b5b82ecf6bc65096b50c6708618b2",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.7811252794884121,
+      "opaquePixelFraction": 0.1740058606716879,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    },
+    {
+      "heroId": "kazura",
+      "kind": "ability",
+      "slot": "ultimate",
+      "actionId": "daiukenoootsuru",
+      "behavior": "team_redirect",
+      "exactFinalPrompt": "Premium realistic 3D tactical Japanese industrial-fantasy kazura daiukenoootsuru atlas; exact 4x4 grid; flat #00FF00 background; no text logos watermark.",
+      "provider": "openai-built-in-imagegen",
+      "keyColor": "#00FF00",
+      "grid": {
+        "rows": 4,
+        "cols": 4
+      },
+      "sourcePath": "assets-src/imagegen/heroes/kazura/daiukenoootsuru-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/kazura/daiukenoootsuru-alpha-v1.png",
+      "sourceSha256": "70dc4b34e75f4ec25be681a09ba45ecb0638691b89b1389cb87a1b861d7d144c",
+      "alphaSha256": "e1cc5639802a956ab497d623966d170ecfdb63eb8a78fc6061441edf0ecee5ac",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "transparentPixelFraction": 0.8645724431420729,
+      "opaquePixelFraction": 0.11281983776317697,
+      "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified."
+    }
+  ]
+}

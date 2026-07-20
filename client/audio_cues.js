@@ -43,6 +43,23 @@ function safePosition(value) {
   return pos.every(Number.isFinite) ? pos : null;
 }
 
+function runtimeSample(context, kind, id) {
+  if (!id) return null;
+  const resolver = kind === 'weapon'
+    ? context?.assets?.getWeaponAsset
+    : context?.assets?.getActionAsset;
+  const audio = typeof resolver === 'function' ? resolver(String(id))?.audio : null;
+  const url = audio?.runtimeUrl;
+  return typeof url === 'string' && url.startsWith('/client/assets/generated/audio/')
+    ? { runtimeUrl: url, sha256: audio.sha256, bytes: audio.bytes }
+    : null;
+}
+
+function withRuntimeSample(cue, sample) {
+  if (!sample) return { ...cue, sampleUrl: null, sampleSha256: null, sampleBytes: null };
+  return { ...cue, sampleUrl: sample.runtimeUrl, sampleSha256: sample.sha256, sampleBytes: sample.bytes };
+}
+
 export function weaponSoundProfile(weaponId) {
   return WEAPON_PROFILE_BY_ID.get(weaponId) || FAMILY_PROFILES.rifle;
 }
@@ -55,7 +72,7 @@ export function describeCombatCue(event, context = {}) {
   if (type === 'shot') {
     const profile = weaponSoundProfile(event.weaponId);
     const local = event.source === myId;
-    return {
+    return withRuntimeSample({
       kind: 'weapon',
       priority: local ? 'high' : 'normal',
       spatial: !local,
@@ -64,7 +81,7 @@ export function describeCombatCue(event, context = {}) {
       pitch: 1,
       profile,
       source: event.source ?? null,
-    };
+    }, runtimeSample(context, 'weapon', event.weaponId));
   }
   if (type === 'hit' && event.source === myId) {
     return { kind: 'hit_confirm', priority: 'high', spatial: false, position: null, gain: 0.34, pitch: event.headshot ? 1.34 : 1 };
@@ -78,11 +95,20 @@ export function describeCombatCue(event, context = {}) {
   if (type === 'ultimate_used') {
     const source = event.player ?? event.source;
     const local = source === myId;
-    return {
+    return withRuntimeSample({
       kind: 'ultimate', priority: 'critical', spatial: !local,
       position: local ? null : safePosition(event.pos ?? event.position ?? event.origin),
       gain: local ? 0.78 : 0.66, pitch: local ? 1.08 : 0.92,
-    };
+    }, runtimeSample(context, 'action', event.abilityId ?? event.actionId));
+  }
+  if (type === 'ability_used') {
+    const source = event.player ?? event.source;
+    const local = source === myId;
+    return withRuntimeSample({
+      kind: 'ability', priority: local ? 'high' : 'normal', spatial: !local,
+      position: local ? null : safePosition(event.pos ?? event.position ?? event.origin ?? event.target),
+      gain: local ? 0.58 : 0.46, pitch: 1,
+    }, runtimeSample(context, 'action', event.abilityId ?? event.actionId));
   }
   if (type === 'ability_windup') {
     const source = event.player ?? event.source;

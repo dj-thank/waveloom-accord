@@ -29,6 +29,8 @@ import {
 import { buildCombatGuidance } from '/client/combat_guidance.js';
 import { CombatAudio } from '/client/combat_audio.js';
 import { HEROES, HERO_BY_ID, DEFAULT_HERO_ID, ROLE_NAMES } from '/shared/data/heroes.js';
+import { getActionAsset, getHeroAsset, getWeaponAsset } from '/shared/data/hero_assets.js';
+import { createVerifiedObjectUrl } from '/client/runtime_asset_integrity.js';
 import { ROLE_SLOTS } from '/shared/rules/team_composition.js';
 
 const FIXED_DT = 1 / 63;               // PROTOCOL.md: サーバーと同一の固定ステップ
@@ -108,10 +110,11 @@ const BEHAVIOR_TEXT = Object.freeze({
 const map = buildMap();
 const collider = new Collider(map.solids);
 const canvas = document.getElementById('gl');
-const renderer = new SceneRenderer(canvas, map);
+const heroAssetCatalog = Object.freeze({ getActionAsset, getHeroAsset, getWeaponAsset });
+const renderer = new SceneRenderer(canvas, map, heroAssetCatalog);
 const hud = new Hud();
 const net = new Net();
-const audio = new CombatAudio(window);
+const audio = new CombatAudio(window, heroAssetCatalog);
 
 // ---- 状態 ----
 let joined = false;
@@ -228,6 +231,7 @@ const updateMapStatus = (status, detail = {}) => {
 window.addEventListener('authored-map-loaded', event => updateMapStatus('loaded', event.detail));
 window.addEventListener('authored-map-fallback', event => updateMapStatus('fallback', event.detail));
 updateMapStatus(document.documentElement.dataset.authoredMap || 'loading');
+const conceptObjectUrls = new Map();
 renderHeroRoster();
 selectHeroForPicker(selectedHeroId);
 
@@ -236,6 +240,35 @@ function makeElement(tag, className = '', text = '') {
   if (className) element.className = className;
   if (text) element.textContent = text;
   return element;
+}
+
+async function applyConceptAtlas(element, heroId) {
+  const visual = getHeroAsset(heroId)?.concept?.visual;
+  if (!element || !visual?.runtimeUrl) return false;
+  element.dataset.assetSha256 = visual.sha256;
+  element.dataset.assetIntegrity = 'verifying';
+  const key = `${visual.runtimeUrl}|${visual.sha256}`;
+  try {
+    if (!conceptObjectUrls.has(key)) {
+      conceptObjectUrls.set(key, createVerifiedObjectUrl(visual, {
+        host: window,
+        expectedContentType: 'image/webp',
+        maxBytes: 8 * 1024 * 1024,
+      }).catch(error => {
+        conceptObjectUrls.delete(key);
+        throw error;
+      }));
+    }
+    const verified = await conceptObjectUrls.get(key);
+    element.style.backgroundImage = `url("${verified.objectUrl}")`;
+    element.dataset.assetIntegrity = 'verified';
+    return true;
+  } catch (error) {
+    element.style.backgroundImage = '';
+    element.dataset.assetIntegrity = 'failed';
+    element.dataset.assetIntegrityError = String(error?.message || 'verification failed').slice(0, 160);
+    return false;
+  }
 }
 
 function compositionLabel(slots = mode?.roleSlots || ROLE_SLOTS) {
@@ -278,7 +311,11 @@ function renderHeroRoster() {
           : 'このロールの人間枠は埋まっています';
       }
       option.style.setProperty('--hero-color', hero.color);
+      const art = makeElement('span', 'heroOptionArt');
+      art.setAttribute('aria-hidden', 'true');
+      applyConceptAtlas(art, hero.id);
       option.append(
+        art,
         makeElement('span', 'heroOptionName', hero.name),
         makeElement('span', 'heroOptionType', `${hero.subtype} ／ HP ${hero.maxHp}`),
         makeElement('span', 'heroOptionMeta', `武器: ${hero.weapon.displayName}`),
@@ -305,13 +342,30 @@ function selectHeroForPicker(heroId) {
   for (const option of heroRoster.querySelectorAll('.heroOption')) {
     option.setAttribute('aria-pressed', String(option.dataset.heroId === selectedHeroId));
   }
+  audio.preloadHero(hero.id).catch(() => {});
+  document.documentElement.dataset.abilityAssetIntegrity = `verifying:${hero.id}`;
+  renderer.preloadHeroAssets(hero.id).then(results => {
+    if (selectedHeroId !== hero.id) return;
+    const verified = results.filter(result => result.status === 'fulfilled' && result.value).length;
+    document.documentElement.dataset.abilityAssetIntegrity = verified === 4
+      ? `verified:${hero.id}:4/4`
+      : `failed:${hero.id}:${verified}/4`;
+  }).catch(() => {
+    if (selectedHeroId === hero.id) {
+      document.documentElement.dataset.abilityAssetIntegrity = `failed:${hero.id}:0/4`;
+    }
+  });
   renderHeroDetail(hero);
 }
 
 function renderHeroDetail(hero) {
   const wrapper = makeElement('div');
   wrapper.style.setProperty('--hero-color', hero.color);
+  const art = makeElement('div', 'detailHeroArt');
+  art.setAttribute('aria-hidden', 'true');
+  applyConceptAtlas(art, hero.id);
   wrapper.append(
+    art,
     makeElement('div', 'detailName', hero.name),
     makeElement('div', 'detailRole', `${hero.roleLabel} ／ ${hero.subtype}`),
     makeElement('p', 'detailSummary', `${hero.subtype}の${hero.roleLabel}。最大体力 ${hero.maxHp}、移動倍率 ${hero.moveSpeedMult.toFixed(2)}。`),

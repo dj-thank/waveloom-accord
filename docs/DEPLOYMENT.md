@@ -14,10 +14,10 @@ Node、Go toolchain、Caddyのベースイメージはtagに加えてSHA-256 dig
 ```dotenv
 KAGARIAI_DOMAIN=play.example.jp
 KAGARIAI_PUBLIC_ORIGIN=https://play.example.jp
-KAGARIAI_IMAGE_TAG=1.0.0-rc.4
+KAGARIAI_IMAGE_TAG=1.0.0-rc.5
 KAGARIAI_CADDY_IMAGE_TAG=2.11.4-kagariai-go1.26.4
-KAGARIAI_CADDY_DATA_VOLUME=kagariai_caddy_data_rc4
-KAGARIAI_CADDY_CONFIG_VOLUME=kagariai_caddy_config_rc4
+KAGARIAI_CADDY_DATA_VOLUME=kagariai_caddy_data_rc5
+KAGARIAI_CADDY_CONFIG_VOLUME=kagariai_caddy_config_rc5
 # 既定は80/443。ローカル検証時だけ別ポートへ変更可能
 KAGARIAI_HTTP_PORT=80
 KAGARIAI_HTTPS_PORT=443
@@ -37,7 +37,7 @@ CaddyがTLS証明書を取得し、HTTP/WebSocketを同じOriginでアプリへ�
 
 Compose project名はmanifest内で `kagariai` に固定し、releaseディレクトリへmanifestを移しても別stackを誤作成しない。両サービスの停止猶予は15秒で、アプリのgraceful shutdown期限より長く確保する。
 
-rc.4は既存Caddyボリュームを上書きせず、環境変数で指定した`kagariai_caddy_data_rc4` / `kagariai_caddy_config_rc4`をside-by-sideで新設する。初回だけ証明書を再取得するため、切替前にCAのrate limitとDNSを確認する。旧ボリュームはロールバック完了まで削除しない。
+rc.5は既存Caddyボリュームを上書きせず、環境変数で指定した`kagariai_caddy_data_rc5` / `kagariai_caddy_config_rc5`をside-by-sideで新設する。初回だけ証明書を再取得するため、切替前にCAのrate limitとDNSを確認する。旧ボリュームはロールバック完了まで削除しない。
 
 ## 停止
 

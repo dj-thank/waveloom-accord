@@ -1,4 +1,5 @@
 import { HERO_BY_ID } from '../data/heroes.js';
+import { spendGauge, refundGauge } from './ult_economy.js';
 import {
   rayCylinder,
   rayCylinderSide,
@@ -80,7 +81,7 @@ export function tryActivateAbility(world, player, slot) {
   if (player.abilities.statuses.some(status => status.abilityLocked) && slot !== 'secondary') return false;
   const anchorFollowup = definition.behavior === 'anchor_launch' && !!player.abilities.heroState.anchor;
   if (slot !== 'ultimate' && !anchorFollowup && (player.abilities.cooldowns[slot] || 0) > 0) return false;
-  if (slot === 'ultimate' && player.ultGauge < (definition.ultCost || 100)) return false;
+  if (slot === 'ultimate' && !spendGauge(player.ultGauge, definition.ultCost || 100, world.combat?.ultimateEconomy).ok) return false;
   if (definition.resourceCost && (!player.resource || player.resource.value < definition.resourceCost)) return false;
 
   const paidResourceCost = definition.resourceCost && !anchorFollowup ? definition.resourceCost : 0;
@@ -92,7 +93,7 @@ export function tryActivateAbility(world, player, slot) {
     player.resource.value -= definition.resourceCost;
     player.lastResourceSpendT = world.t;
   }
-  if (slot === 'ultimate') player.ultGauge = Math.max(0, player.ultGauge - paidUltCost);
+  if (slot === 'ultimate') player.ultGauge = spendGauge(player.ultGauge, paidUltCost, world.combat?.ultimateEconomy).gauge;
   else if (definition.behavior !== 'anchor_launch' || anchorFollowup) {
     player.abilities.cooldowns[slot] = definition.cooldownSec || 0;
   }
@@ -123,7 +124,7 @@ export function interruptAbility(world, player, reason = 'interrupted') {
     definition.interruptRefundPct ?? (definition.slot === 'ultimate' ? 0.5 : 0),
   ));
   if (cast.spent?.ultCost && refundPct) {
-    player.ultGauge = Math.min(100, player.ultGauge + cast.spent.ultCost * refundPct);
+    player.ultGauge = refundGauge(player.ultGauge, cast.spent.ultCost, refundPct, world.combat?.ultimateEconomy);
   }
   if (cast.spent?.resourceCost && player.resource && refundPct) {
     player.resource.value = Math.min(player.resource.max, player.resource.value + cast.spent.resourceCost * refundPct);

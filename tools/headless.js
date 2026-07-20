@@ -10,6 +10,7 @@ import { buildMap } from '../shared/data/map_oshioi.js';
 import { BotController } from '../server/bots.js';
 import { makeRng } from '../shared/sim/rng.js';
 import { HEROES } from '../shared/data/heroes.js';
+import { summarizeUltimateUses } from '../shared/sim/ult_economy.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -45,6 +46,7 @@ const suiteStats = {
     byHero: {},
   },
   healing: { events: 0, amount: 0 },
+  matchUltimates: [],
 };
 
 function assert(cond, msg) {
@@ -76,6 +78,7 @@ function recordEvent(event, world) {
     suiteStats.actions.ultimates++;
     suiteStats.actions.slots.ultimate++;
     if (event.heroId) heroActionStats(event.heroId).ultimate++;
+    world.players.get(event.player)?.stats && (world.players.get(event.player).stats.ultimates = (world.players.get(event.player).stats.ultimates || 0) + 1);
   } else if (event.type === 'heal') {
     suiteStats.healing.events++;
     suiteStats.healing.amount += event.amount || 0;
@@ -125,6 +128,7 @@ function runMatch(seed, matchIndex) {
   }
 
   const snap = world.snapshot();
+  const ultimatesByPlayer = Object.fromEntries([...world.players.values()].map(pl => [pl.id, { heroId: pl.heroId, uses: pl.stats.ultimates || 0 }]));
   if (!JSON_OUTPUT) {
     console.log(`  終了: state=${snap.match.state} score=[${snap.match.score}] winner=${snap.match.matchWinner} 実ゲーム時間=${(world.t / 60).toFixed(1)}分 tick=${ticks}`);
   }
@@ -147,6 +151,7 @@ function runMatch(seed, matchIndex) {
   assert(world.log.length > 0, '試合ログが空（§9違反）');
   const caps = seq.filter(s => s === 'obj_captured').length;
   assert(caps >= world.flow.round, '確保イベントがラウンド数より少ない');
+  suiteStats.matchUltimates.push(ultimatesByPlayer);
   return { seq, world };
 }
 
@@ -161,6 +166,7 @@ for (let m = 0; m < MATCHES; m++) {
 }
 
 const completeRosterRun = MATCHES >= MIN_ROSTER_MATCHES;
+const ultimateEconomySummary = summarizeUltimateUses(suiteStats.matchUltimates);
 if (completeRosterRun) {
   assert(suiteStats.roster.size === HEROES.length,
     `ロスター網羅が不足: ${suiteStats.roster.size}/${HEROES.length}`);
@@ -168,6 +174,17 @@ if (completeRosterRun) {
   assert(suiteStats.actions.abilities > 0, '通常能力が一度も発動していない');
   assert(suiteStats.actions.ultimates > 0, '必殺技が一度も発動していない');
   assert(suiteStats.healing.events > 0 && suiteStats.healing.amount > 0, '回復が一度も発生していない');
+}
+
+if (completeRosterRun) {
+  assert(ultimateEconomySummary.averageUses >= 2 && ultimateEconomySummary.averageUses <= 4.5,
+    `ultimate average outside about-three target: ${ultimateEconomySummary.averageUses}`);
+  assert(ultimateEconomySummary.medianUses >= 2 && ultimateEconomySummary.medianUses <= 5,
+    `ultimate median outside about-three target: ${ultimateEconomySummary.medianUses}`);
+  assert(ultimateEconomySummary.zeroUseRate <= 0.15,
+    `ultimate zero-use rate too high: ${ultimateEconomySummary.zeroUseRate}`);
+  assert(ultimateEconomySummary.maxUses <= 8,
+    `ultimate outlier too high: ${ultimateEconomySummary.maxUses}`);
 }
 
 const summary = {
@@ -185,6 +202,8 @@ const summary = {
     events: suiteStats.healing.events,
     amount: Math.round(suiteStats.healing.amount * 10) / 10,
   },
+  ultimateDistribution: suiteStats.matchUltimates,
+  ultimateEconomy: ultimateEconomySummary,
   failures,
 };
 
@@ -196,6 +215,7 @@ if (JSON_OUTPUT) {
     ` abilities=${summary.actions.abilities} ultimates=${summary.actions.ultimates}` +
     ` heals=${summary.healing.events}/${summary.healing.amount}`);
   console.log(`  action slots=${JSON.stringify(summary.actions.slots)}`);
+  console.log(`  ultimate economy=${JSON.stringify(summary.ultimateEconomy)}`);
 }
 
 if (failures > 0) {

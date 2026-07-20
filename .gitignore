@@ -6,4 +6,6 @@ node_modules/
 *.pem
 *.p12
 secrets/
+work/
+assets-src/imagegen/derived/**/.atlas-cache.json
 .DS_Store

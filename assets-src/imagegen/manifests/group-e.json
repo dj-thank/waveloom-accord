@@ -1,0 +1,320 @@
+{
+  "group": "group-e",
+  "records": [
+    {
+      "heroId": "tsuzuri",
+      "kind": "concept",
+      "slot": "concept",
+      "actionId": null,
+      "behavior": "identity/material atlas",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 2x2 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "2x2",
+      "greenPath": "assets-src/imagegen/heroes/tsuzuri/tsuzuri-concept-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/tsuzuri/tsuzuri-concept-alpha-v1.png",
+      "greenSHA256": "a7f732a31f6b75c568bc1142d77d67f1438c20a3ca33dcbcacbbd84916f21c03",
+      "alphaSHA256": "1771c39647dcb70d61dcfd9baa3649fbd718848ecdc3b6bf8022b2bb39f46b2b",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.724647,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "tsuzuri",
+      "kind": "action",
+      "slot": "secondary",
+      "actionId": "itokuri",
+      "behavior": "ammo_restore",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 4x4 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "4x4",
+      "greenPath": "assets-src/imagegen/heroes/tsuzuri/itokuri-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/tsuzuri/itokuri-alpha-v1.png",
+      "greenSHA256": "007349ce9ab0c86be4e7bf6e0addbfd1f7ce935131c19191532d46a1f93a33b2",
+      "alphaSHA256": "db697a9fe2115b39aba3f6922cc43dab332b606331b957ef57a17325d190383f",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.850491,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "tsuzuri",
+      "kind": "action",
+      "slot": "ability1",
+      "actionId": "tsuzuriwatari",
+      "behavior": "ally_grapple",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 4x4 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "4x4",
+      "greenPath": "assets-src/imagegen/heroes/tsuzuri/tsuzuriwatari-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/tsuzuri/tsuzuriwatari-alpha-v1.png",
+      "greenSHA256": "9df15dd42d469725aae50b027956703fd32b5a668f66f8255eb7834a77f35db1",
+      "alphaSHA256": "daec1788e300181fd7fa6cec74114e6ef83ab0cc35786c9a010d1c2bd4507691",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.848813,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "tsuzuri",
+      "kind": "action",
+      "slot": "ability2",
+      "actionId": "tokito",
+      "behavior": "release_stored_heal",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 4x4 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "4x4",
+      "greenPath": "assets-src/imagegen/heroes/tsuzuri/tokito-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/tsuzuri/tokito-alpha-v1.png",
+      "greenSHA256": "b80c0a676300c8b6d098d9f6690a7308b8c6c7794651315e508ef057f995ff58",
+      "alphaSHA256": "41df232ff4dbfb20781d233d0763c44748cb6ff984f1b4a8b5aa7b1664f7ad24",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.8507,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "tsuzuri",
+      "kind": "action",
+      "slot": "ultimate",
+      "actionId": "senbari",
+      "behavior": "stored_heal_burst",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 4x4 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "4x4",
+      "greenPath": "assets-src/imagegen/heroes/tsuzuri/senbari-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/tsuzuri/senbari-alpha-v1.png",
+      "greenSHA256": "a79e436858be8fcb764e20cb330dccde28f3aac2fe385e6ad8117b8dd8437139",
+      "alphaSHA256": "871097d603e357def9bca3044a0af7b314958d0731b63a3ec5494eb4a44a6baf",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.898834,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "koyomi",
+      "kind": "concept",
+      "slot": "concept",
+      "actionId": null,
+      "behavior": "identity/material atlas",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 2x2 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "2x2",
+      "greenPath": "assets-src/imagegen/heroes/koyomi/koyomi-concept-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/koyomi/koyomi-concept-alpha-v1.png",
+      "greenSHA256": "28d94bbe2f721efb001876c1359d2b606782193c0bb2f2ea9276336daac5a23b",
+      "alphaSHA256": "062c213972efe1e84fc590de1410cd49e63f62a6d738acdbd58ae4c548bff4c1",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.704718,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "koyomi",
+      "kind": "action",
+      "slot": "secondary",
+      "actionId": "kemurio",
+      "behavior": "zone_dash",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 4x4 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "4x4",
+      "greenPath": "assets-src/imagegen/heroes/koyomi/kemurio-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/koyomi/kemurio-alpha-v1.png",
+      "greenSHA256": "ce8d3477a9f0905a49f127a26df92a977193a7db8c14cd7e3104669710ba7100",
+      "alphaSHA256": "30e797e9ee2a4f05668e544e2f08352549424b8f19f26b7035fdbe33691da42e",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.714367,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "koyomi",
+      "kind": "action",
+      "slot": "ability1",
+      "actionId": "hayamawashi",
+      "behavior": "cooldown_zone",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 4x4 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "4x4",
+      "greenPath": "assets-src/imagegen/heroes/koyomi/hayamawashi-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/koyomi/hayamawashi-alpha-v1.png",
+      "greenSHA256": "255670324ca8693709bddf72e1f5ca0edc828e16c7d4b3eb9cd0ed21c4f5cb05",
+      "alphaSHA256": "8360edb48531332c2e3f8b463db54da142e9ea2cc86898d816d7105f6e0d3df3",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.666576,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "koyomi",
+      "kind": "action",
+      "slot": "ability2",
+      "actionId": "chien",
+      "behavior": "cast_delay_zone",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 4x4 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "4x4",
+      "greenPath": "assets-src/imagegen/heroes/koyomi/chien-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/koyomi/chien-alpha-v1.png",
+      "greenSHA256": "dc117397d17e81274ecbc712d9305761f03d193b95dd6165512735550202ef5e",
+      "alphaSHA256": "6a6bfd33908cde3df0765a3675b5ffae8b3435a2ae861a2a13a9a95a37149db0",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.686089,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "koyomi",
+      "kind": "action",
+      "slot": "ultimate",
+      "actionId": "uruudoki",
+      "behavior": "team_cooldown_buff",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 4x4 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "4x4",
+      "greenPath": "assets-src/imagegen/heroes/koyomi/uruudoki-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/koyomi/uruudoki-alpha-v1.png",
+      "greenSHA256": "4958864d6c76426612681c32f2966312cfbbf3bf05c28a3528cae23f45cbd14f",
+      "alphaSHA256": "9fb21ce2e01dabdfe2351b8a75311058352f7fcc93d58598ae8bde448b59ab8b",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.561095,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "karakasa",
+      "kind": "concept",
+      "slot": "concept",
+      "actionId": null,
+      "behavior": "identity/material atlas",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 2x2 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "2x2",
+      "greenPath": "assets-src/imagegen/heroes/karakasa/karakasa-concept-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/karakasa/karakasa-concept-alpha-v1.png",
+      "greenSHA256": "921bd1618eff9ef0d377095dcc6053cca311b201ca0e93cebe3881c64c0ae88d",
+      "alphaSHA256": "02e89a14c3ce6c7395d371f1b41352867ce8dcfa72f634b3ece1b182d9bea8a5",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.657708,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "karakasa",
+      "kind": "action",
+      "slot": "secondary",
+      "actionId": "ukenagashi",
+      "behavior": "projectile_guard",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 4x4 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "4x4",
+      "greenPath": "assets-src/imagegen/heroes/karakasa/ukenagashi-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/karakasa/ukenagashi-alpha-v1.png",
+      "greenSHA256": "61eb189e8acd86115450ddd794f6c5285ec05a987494afe2b4c1b4778ad449a9",
+      "alphaSHA256": "9ce6e844ab713c5d1fb484a3adfd7227b9501157b3fbc6beeaa6ae2e40e9f700",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.803161,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "karakasa",
+      "kind": "action",
+      "slot": "ability1",
+      "actionId": "kasasuberi",
+      "behavior": "air_dash",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 4x4 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "4x4",
+      "greenPath": "assets-src/imagegen/heroes/karakasa/kasasuberi-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/karakasa/kasasuberi-alpha-v1.png",
+      "greenSHA256": "608f149abeaaed6b56cc363a95355142c9c1a827617f765de10b493a8e4b2792",
+      "alphaSHA256": "d1012f53fdd37594f8a00a2ca87741ab29e3cccc3a9f5c4c69a31e3548481e21",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.81996,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "karakasa",
+      "kind": "action",
+      "slot": "ability2",
+      "actionId": "kasauch",
+      "behavior": "cone_blast",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 4x4 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "4x4",
+      "greenPath": "assets-src/imagegen/heroes/karakasa/kasauch-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/karakasa/kasauch-alpha-v1.png",
+      "greenSHA256": "3e6e3188af1247b97dd3f1fe13c2cd10db793b1886db222a8882c5e00c350c9e",
+      "alphaSHA256": "cbc4e6931c279881b65eb8692b2d2c1ff78e2c73952aacf4f638f39d7767fba0",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.765082,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    },
+    {
+      "heroId": "karakasa",
+      "kind": "action",
+      "slot": "ultimate",
+      "actionId": "senbonkasa",
+      "behavior": "team_guard",
+      "exactPrompt": "Built-in ImageGen: high-end realistic 3D competitive tactical hero shooter, Japanese industrial-fantasy; exact 4x4 atlas; solid #00FF00 chroma-key background; no text/logo/watermark; no key green subject.",
+      "provider": "built-in image_gen",
+      "keyColor": "#00FF00",
+      "grid": "4x4",
+      "greenPath": "assets-src/imagegen/heroes/karakasa/senbonkasa-green-v1.png",
+      "alphaPath": "assets-src/imagegen/heroes/karakasa/senbonkasa-alpha-v1.png",
+      "greenSHA256": "62878707654e9ee6fc0cf7e0a22d96153b8789a1b1fe0ba6acb99ea416ce4882",
+      "alphaSHA256": "75e4a188752d7fc2f5c0ece19a25a986c2acebdbd451f15bfec21205cc06748e",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparencyFraction": 0.658962,
+      "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative."
+    }
+  ]
+}
