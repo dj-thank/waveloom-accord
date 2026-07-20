@@ -3,6 +3,7 @@
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, rename, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { setTimeout as delay } from 'node:timers/promises';
 import { fileURLToPath } from 'node:url';
 import { HEROES } from '../shared/data/heroes.js';
 
@@ -222,11 +223,13 @@ async function isRecordedAssetValid(record) {
   }
 }
 
-async function fetchWithRetry(item, attempts = 4) {
+async function fetchWithRetry(item, signal, attempts = 4) {
   let lastError;
   for (let attempt = 1; attempt <= attempts; attempt++) {
     try {
       const url = `${ENDPOINT}?output_format=${encodeURIComponent(OUTPUT_FORMAT)}`;
+      const timeoutSignal = AbortSignal.timeout(120_000);
+      const requestSignal = signal ? AbortSignal.any([signal, timeoutSignal]) : timeoutSignal;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -240,7 +243,7 @@ async function fetchWithRetry(item, attempts = 4) {
           loop: false,
           model_id: MODEL_ID,
         }),
-        signal: AbortSignal.timeout(120_000),
+        signal: requestSignal,
       });
       if (!response.ok) {
         const detail = (await response.text()).slice(0, 500);
@@ -262,16 +265,17 @@ async function fetchWithRetry(item, attempts = 4) {
         };
       }
     } catch (error) {
+      if (signal?.aborted) throw signal.reason instanceof Error ? signal.reason : error;
       if (error?.retryable === false) throw error;
       lastError = error;
       if (attempt === attempts) break;
     }
-    await new Promise(resolve => setTimeout(resolve, Math.min(12_000, 800 * (2 ** (attempt - 1)))));
+    await delay(Math.min(12_000, 800 * (2 ** (attempt - 1))), undefined, signal ? { signal } : undefined);
   }
   throw lastError;
 }
 
-async function generateOne(item, records) {
+async function generateOne(item, records, signal) {
   const key = `${item.kind}:${item.id}`;
   const existing = records.get(key);
   if (await isRecordedAssetValid(existing)) {
@@ -290,7 +294,7 @@ async function generateOne(item, records) {
     if (error?.code !== 'ENOENT') throw error;
   }
 
-  const generated = await fetchWithRetry(item);
+  const generated = await fetchWithRetry(item, signal);
   const hash = sha256(generated.bytes);
   const runtimeDirectory = path.join(RUNTIME_ROOT, item.kind === 'weapon' ? 'weapons' : 'abilities');
   const runtimePath = path.join(runtimeDirectory, `${item.id}.${hash.slice(0, 12)}.mp3`);
@@ -331,16 +335,27 @@ async function generateOne(item, records) {
   console.log(`[generated] ${key} bytes=${record.bytes} cost=${record.characterCost ?? 'unknown'} sha256=${hash.slice(0, 12)}`);
 }
 
-async function mapConcurrent(items, workerCount, worker) {
+export async function mapConcurrent(items, workerCount, worker) {
   let cursor = 0;
+  let firstError = null;
+  const controller = new AbortController();
   const workers = Array.from({ length: workerCount }, async () => {
-    while (true) {
+    while (!firstError && !controller.signal.aborted) {
       const index = cursor++;
       if (index >= items.length) return;
-      await worker(items[index]);
+      try {
+        await worker(items[index], controller.signal);
+      } catch (error) {
+        if (!firstError) {
+          firstError = error;
+          controller.abort(error);
+        }
+        return;
+      }
     }
   });
-  await Promise.all(workers);
+  await Promise.allSettled(workers);
+  if (firstError) throw firstError;
 }
 
 async function main() {
@@ -352,7 +367,7 @@ async function main() {
   if (!API_KEY) throw new Error('ELEVENLABS_API_KEY is required in the process environment; it is never read from source files.');
 
   const records = await existingManifest();
-  await mapConcurrent(assets, CONCURRENCY, item => generateOne(item, records));
+  await mapConcurrent(assets, CONCURRENCY, (item, signal) => generateOne(item, records, signal));
   await manifestWrite;
 
   const expected = new Set(requestedAssets().map(item => `${item.kind}:${item.id}`));
@@ -360,5 +375,16 @@ async function main() {
   console.log(JSON.stringify({ completed: valid.length, requested: expected.size, manifest: path.relative(ROOT, MANIFEST_PATH).replaceAll(path.sep, '/') }));
 }
 
+export async function runCli(run = main, logError = console.error) {
+  try {
+    await run();
+    return 0;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    logError(`ElevenLabs generation failed: ${message}`);
+    return 1;
+  }
+}
+
 const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : null;
-if (invokedPath === fileURLToPath(import.meta.url)) await main();
+if (invokedPath === fileURLToPath(import.meta.url)) process.exitCode = await runCli();

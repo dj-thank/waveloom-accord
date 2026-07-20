@@ -83,7 +83,7 @@ def write_cache(cache_path: Path, cache_key: str, result: dict) -> None:
     cache_path.parent.mkdir(parents=True, exist_ok=True)
     temporary = cache_path.with_name(f".{cache_path.name}.{os.getpid()}.partial")
     temporary.write_text(
-        json.dumps({"cacheKey": cache_key, "result": result}, ensure_ascii=False, sort_keys=True),
+        json.dumps({"cacheKey": cache_key, "result": result}, ensure_ascii=False),
         encoding="utf-8",
     )
     temporary.replace(cache_path)

@@ -1,6 +1,6 @@
 # Kagariai 1.0.0-rc.5 アセット候補レポート
 
-実施日: 2026-07-20（Asia/Tokyo）
+実施日: 2026-07-20、追補: 2026-07-21（Asia/Tokyo）
 
 ## 判定
 
@@ -44,7 +44,9 @@ SSOT の内容ハッシュは `e62cad2a166deb901b2ec9da5e4852a985720fe6f56d6daa0
 
 | ゲート | 結果 |
 |---|---|
-| 音声完全性以外の Node 回帰 | 422/422 pass |
+| 音声完全性以外の Node 回帰 | 425/425 pass |
+| 画像キャッシュ決定性 | Python unittest pass、連続再構築のSSOT SHA-256一致 |
+| quota安全停止 | 実ElevenLabs APIで終了コード1、未処理例外・libuv assertionなし |
 | strict hero asset テスト | 3 pass / 1 fail（音声 88 件不足を正しく検出） |
 | authored map collision | pass、`D4D471A28169A82C20D34D47E7DEBA99C271268646737BD3E93A0C6292D95219` |
 | headless BO3 | 2 seed × 2 match 完走、18/18 ヒーロー、能力・必殺・回復を確認 |
@@ -68,7 +70,7 @@ SSOT の内容ハッシュは `e62cad2a166deb901b2ec9da5e4852a985720fe6f56d6daa0
 
 ## ElevenLabs 再開条件
 
-接続と生成自体は成功したが、使用した API キーは 2 件生成後に quota 0 となった。dry-run の全 90 件概算は 6,304 credits。十分な追加 quota または別キーを現在のプロセスだけに設定し、次を実行する。
+接続と生成自体は成功したが、使用した API キーは 2 件生成後に quota 0 となった。2026-07-21にクリップボードのキーで再確認してもElevenLabs側の応答は残量0だった。dry-run の全 90 件概算は 6,304 credits。十分な追加 quota または別アカウントの利用可能キーを現在のプロセスだけに設定し、次を実行する。
 
 ```powershell
 node tools/generate_elevenlabs_assets.js --concurrency 3
@@ -84,4 +86,3 @@ node --test tests/hero_assets.test.js tests/elevenlabs_asset_generator.test.js
 2. 実機スピーカー/ヘッドホンで全 90 音の音量、長さ、反復疲労、空間定位を人間が監査する。
 3. 画像アトラスを全ヒーロー・全能力で実プレイし、意匠の一貫性、読みやすさ、遮蔽への悪影響を人間が監査する。
 4. 公開 DNS/TLS/WSS、実ネットワーク損失・遅延、長時間 soak、実プレイヤー 10 人の E2E を別ゲートで確認する。
-
