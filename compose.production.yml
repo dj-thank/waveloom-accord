@@ -1,0 +1,73 @@
+name: kagariai
+
+services:
+  kagariai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kagariai:${KAGARIAI_IMAGE_TAG:?required}
+    restart: unless-stopped
+    stop_grace_period: 15s
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,noexec,nosuid
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      NODE_ENV: production
+      KAGARIAI_HOST: 0.0.0.0
+      KAGARIAI_PORT: 8787
+      KAGARIAI_PUBLIC_ORIGIN: ${KAGARIAI_PUBLIC_ORIGIN:?required}
+      KAGARIAI_SHUTDOWN_GRACE_MS: 9000
+    expose:
+      - "8787"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:8787/readyz"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - edge
+
+  caddy:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.caddy
+    image: kagariai-caddy:${KAGARIAI_CADDY_IMAGE_TAG:?required}
+    restart: unless-stopped
+    stop_grace_period: 15s
+    user: "65534:65534"
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,noexec,nosuid
+    depends_on:
+      kagariai:
+        condition: service_healthy
+    ports:
+      - "${KAGARIAI_HTTP_PORT:-80}:8080"
+      - "${KAGARIAI_HTTPS_PORT:-443}:8443"
+      - "${KAGARIAI_HTTPS_PORT:-443}:8443/udp"
+    environment:
+      KAGARIAI_DOMAIN: ${KAGARIAI_DOMAIN:?required}
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - edge
+
+networks:
+  edge:
+
+volumes:
+  caddy_data:
+    name: ${KAGARIAI_CADDY_DATA_VOLUME:?required}
+  caddy_config:
+    name: ${KAGARIAI_CADDY_CONFIG_VOLUME:?required}

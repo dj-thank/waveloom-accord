@@ -1,0 +1,19 @@
+FROM golang:1.26.4-alpine@sha256:3ad57304ad93bbec8548a0437ad9e06a455660655d9af011d58b993f6f615648 AS builder
+
+RUN CGO_ENABLED=0 go install \
+    -ldflags='-s -w -X github.com/caddyserver/caddy/v2.CustomVersion=v2.11.4-kagariai-go1.26.4' \
+    github.com/caddyserver/caddy/v2/cmd/caddy@v2.11.4
+
+FROM caddy:2.11.4-alpine@sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648
+
+COPY --from=builder /go/bin/caddy /usr/bin/caddy
+COPY deploy/Caddyfile.example /etc/caddy/Caddyfile
+
+# The upstream binary carries cap_net_bind_service. This deployment listens on
+# unprivileged container ports, so remove the file capability before combining
+# a non-root UID with no-new-privileges and an empty capability set.
+RUN apk del --no-cache curl \
+    && (setcap -r /usr/bin/caddy 2>/dev/null || true) \
+    && chown -R 65534:65534 /data /config
+
+USER 65534:65534

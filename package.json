@@ -1,0 +1,24 @@
+{
+  "name": "kagariai",
+  "version": "1.0.0-rc.4",
+  "private": true,
+  "type": "module",
+  "description": "『篝合』ブラウザFPS Production Candidate — 18ヒーロー、PBR競技マップ、空間音響、戦術HUD、本番サーバー",
+  "scripts": {
+    "start": "node server/index.js",
+    "server": "node server/index.js",
+    "headless": "node tools/headless.js",
+    "smoke": "node tools/ws_smoke.js",
+    "map:check": "node tools/generate_authored_map_collision.js --check",
+    "test": "node --test \"tests/*.test.js\"",
+    "verify": "npm test && npm run map:check && npm run headless",
+    "verify:release": "npm run verify && node tools/release_verify.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "three": "^0.166.0",
+    "ws": "^8.18.0"
+  }
+}

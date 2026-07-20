@@ -1,0 +1,42 @@
+# Asset provenance and release ledger
+
+Audit date: 2026-07-20 (Asia/Tokyo)
+
+This ledger is the release gate for third-party visual assets. Runtime assets
+must have a direct source page, a verified license, a content hash, and a clear
+gameplay role. Imported meshes are decorative by default; collision is authored
+separately from the competitive map blueprint.
+
+## Bundled assets
+
+| Asset | Source / author | License | Runtime role | Source bytes | Verification |
+|---|---|---|---|---:|---|
+| `chicken_gun_fruzer_mine.glb` | [Sketchfab source](https://sketchfab.com/3d-models/chicken-gun-fruzer-mine-055bcbb8505548b88af029ed198c37c2), amogusstrikesback2 | CC BY 4.0 | Verified hidden reference; its unmatched opaque structures are not rendered and never replace gameplay collision | 23,866,668 | SHA-256 `DC9017A5F1D875B7CB45C00183E158491FAE042F6A33CE8EC42FCA8D9CA2E597` |
+| Concrete Floor 01 diffuse 1K | [Poly Haven](https://polyhaven.com/a/concrete_floor_01), Rob Tuytel | CC0 1.0 | Walkable floor albedo | 755,740 | SHA-256 `DB7C800F1464359B5F359FC743E82AC51B34E014FDFD53844F4AF34BB1949229`; API MD5 matched |
+| Concrete Floor 01 normal GL 1K | same | CC0 1.0 | Walkable floor normal | 909,898 | SHA-256 `28BE1F6FA82EEAB137C84954BF7EA0F5D8A4434352D01C29F15E20926EB7227E`; API MD5 matched |
+| Concrete Floor 01 roughness 1K | same | CC0 1.0 | Walkable floor roughness | 354,529 | SHA-256 `F5239E1C6DB5F0DDB4C2397E881A5938AB511386AAB19A23C20D40F4AB2C181B`; API MD5 matched |
+| Concrete diffuse 1K | [Poly Haven](https://polyhaven.com/a/concrete), Rob Tuytel | CC0 1.0 | Walls and structural cover albedo | 543,902 | SHA-256 `046C0E2AEBE31E6043A6BC074E779F6A345F1D823D0CA1C69446C5CABADEFA8A`; API MD5 matched |
+| Concrete normal GL 1K | same | CC0 1.0 | Walls and structural cover normal | 114,447 | SHA-256 `298A0E93040C9D76D239A894BDF28A9787755EA5F22BAA068FFA8075369EE428`; API MD5 matched |
+| Concrete roughness 1K | same | CC0 1.0 | Walls and structural cover roughness | 215,714 | SHA-256 `0DC74E17295160CF2FC214BF22A57FDDC68F261E2CBACEBB706F5B3FA5D07458`; API MD5 matched |
+
+Poly Haven's provider statement says its HDRIs, textures, and models are CC0,
+including commercial use, modification, and redistribution. The exact provider
+statement is linked above and is rechecked for each release.
+
+## Downloaded for evaluation, not bundled
+
+| Asset | Source | License | Captured artifact | Status |
+|---|---|---|---|---|
+| Kenney Modular Dungeon Kit 2.1 | [Kenney asset page](https://kenney.nl/assets/modular-dungeon-kit) | CC0 1.0 | 6,886,434 bytes; SHA-256 `DD0AA6776DB8912283CDCA60161DEE6A8839BBDA3558EBA2EA501419EB5B4623` | Retained under task `work/assets` for visual evaluation; not shipped in the runtime bundle |
+
+## Admission policy
+
+- Prefer CC0. CC BY is accepted only with complete author/source/license notice.
+- Reject NC, ND, Editorial, unknown, or model-page-only license claims for a
+  redistributable production bundle. CC BY-SA/GPL assets require a separate
+  compatibility review and are not accepted by default.
+- Record original and converted SHA-256 values, conversion tool/version,
+  texture resizing, LOD generation, and all attribution obligations.
+- A downloaded mesh cannot create authoritative collision implicitly. Every
+  gameplay surface must be compiled from the shared map blueprint and tested
+  against the visible presentation surface.

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "tickRateHz": 63,
+  "snapshotEveryTicks": 3,
+  "movement": {
+    "baseSpeedMps": 5.5,
+    "crouchSpeedMult": 0.55,
+    "airControlMult": 0.35,
+    "accelMps2": 40.0,
+    "frictionMps2": 45.0,
+    "gravityMps2": 22.0,
+    "jumpVelMps": 7.0,
+    "stepUpM": 0.55,
+    "stepDownM": 0.3,
+    "capsuleRadiusM": 0.4,
+    "standHeightM": 1.7,
+    "crouchHeightM": 1.2,
+    "eyeStandM": 1.6,
+    "eyeCrouchM": 1.1
+  },
+  "health": {
+    "trainingBodyHp": 250,
+    "respawnFullHeal": true
+  },
+  "trainingWeapon": {
+    "id": "wpn_training_lantern_rifle",
+    "displayName": "訓練灯銃",
+    "type": "hitscan",
+    "damage": 11,
+    "headshotMult": 1.5,
+    "rps": 10.0,
+    "magSize": 25,
+    "reloadSec": 1.6,
+    "falloffStartM": 20.0,
+    "falloffEndM": 40.0,
+    "falloffMinMult": 0.6,
+    "spreadDeg": 0.5,
+    "maxRangeM": 80.0
+  },
+  "headHitbox": { "radiusM": 0.25 },
+  "lagComp": { "maxRewindSec": 0.22, "historySec": 0.5 },
+  "notes": "DPS = 11×10 = 110（凍結ガイドライン100〜140内）。単独TTK対250HP≒2.27秒（1.8〜2.5秒帯）。HS込み165DPS。"
+}

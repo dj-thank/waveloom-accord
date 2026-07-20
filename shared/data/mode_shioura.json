@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "mode_shioura",
+  "displayName": "潮占",
+  "sourceOfTruth": "docs/mode_shioura_rules_v0.2_FROZEN.md",
+  "teamSize": 5,
+  "roleSlots": { "frontline": 1, "damage": 2, "support": 2 },
+  "roundsToWin": 2,
+  "maxRounds": 3,
+  "setupSec": 30.0,
+  "resultSec": 5.0,
+  "roundCapSec": 480.0,
+  "capture": {
+    "radiusM": 7.0,
+    "heightM": 5.0,
+    "hysteresisM": 0.2,
+    "gaugeMax": 100.0,
+    "ratePtPerSecByCount": { "1": 16.67, "2": 22.22, "3": 27.78 },
+    "decayDelaySec": 2.0,
+    "decayPtPerSec": 10.0,
+    "simultaneousFullSetbackPt": 99.0
+  },
+  "progress": {
+    "ratePctPerSec": 1.2,
+    "maxPct": 100.0,
+    "integerTenths": true
+  },
+  "overtime": {
+    "graceInitialSec": 5.0,
+    "decayPerSec": 2.0,
+    "regenPerSec": 1.0,
+    "capShrinkEverySec": 10.0,
+    "capShrinkAmountSec": 1.0,
+    "capMinSec": 2.0,
+    "respawnPenaltySec": [3.0, 6.0],
+    "respawnPenaltyLateAfterSec": 30.0
+  },
+  "respawn": {
+    "baseSec": 10.0,
+    "waveIntervalSec": 2.5
+  },
+  "sideAssignment": { "round1": "random_seeded", "round2": "swap", "round3": "random_seeded" },
+  "areaPolicy": "single_area_repeat",
+  "reconnectGraceSec": { "casual": 300, "ranked": 120 },
+  "leaverBotTakeoverSec": 3.0,
+  "ultCarryoverMult": 0.5
+}

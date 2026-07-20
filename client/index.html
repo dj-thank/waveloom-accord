@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>篝合 — 潮占 Production Candidate</title>
+<style>
+  :root {
+    --c-ally: #35d5e8;
+    --c-enemy: #ff9750;
+    --c-panel: rgba(12, 22, 30, 0.62);
+    --c-panel-line: rgba(255, 255, 255, 0.14);
+    --c-text: #eef6f8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #0a141a; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", "Noto Sans JP", sans-serif;
+    color: var(--c-text);
+    user-select: none;
+  }
+  #gl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; }
+
+  /* ---- HUD 全体 ---- */
+  #hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
+  .panel {
+    background: var(--c-panel);
+    border: 1px solid var(--c-panel-line);
+    border-radius: 8px;
+    backdrop-filter: blur(2px);
+  }
+
+  /* ---- 上部中央: 目標パネル ---- */
+  #topPanel {
+    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+    min-width: 460px; padding: 8px 16px 10px; text-align: center;
+  }
+  #potRow { display: flex; align-items: center; justify-content: center; gap: 14px; }
+  .potBox { width: 130px; }
+  .potPct { font-size: 26px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .potLabel { font-size: 11px; opacity: 0.85; }
+  #potAlly .potPct { color: var(--c-ally); }
+  #potEnemy .potPct { color: var(--c-enemy); }
+  #objCenter { width: 170px; }
+  #objState { font-size: 15px; font-weight: 700; min-height: 20px; }
+  #objState.blink { animation: blink 0.5s steps(2, start) infinite; }
+  @keyframes blink { 50% { opacity: 0.25; } }
+  #objCount { font-size: 12px; opacity: 0.9; min-height: 15px; font-variant-numeric: tabular-nums; }
+  #roundTime { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .gaugeBar { height: 5px; border-radius: 3px; background: rgba(255,255,255,0.15); margin-top: 3px; overflow: hidden; }
+  .gaugeBar > div { height: 100%; width: 0%; border-radius: 3px; transition: width 0.1s linear; }
+  #gaugeAllyFill { background: var(--c-ally); }
+  #gaugeEnemyFill { background: var(--c-enemy); }
+  #matchRow { margin-top: 4px; font-size: 12px; opacity: 0.92; font-variant-numeric: tabular-nums; }
+
+  /* ---- 延長パネル ---- */
+  #otPanel {
+    position: absolute; top: 118px; left: 50%; transform: translateX(-50%);
+    padding: 6px 18px; text-align: center; display: none;
+    border-color: rgba(255, 200, 80, 0.5);
+  }
+  #otTitle { font-size: 15px; font-weight: 700; color: #ffd76e; }
+  #otGauge { width: 240px; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.15); margin: 4px auto; overflow: hidden; }
+  #otGaugeFill { height: 100%; background: #ffd76e; border-radius: 4px; }
+  #otInfo { font-size: 12px; opacity: 0.95; font-variant-numeric: tabular-nums; }
+
+  /* ---- 中央バナー ---- */
+  #banner {
+    position: absolute; top: 26%; left: 50%; transform: translate(-50%, -50%);
+    text-align: center; display: none;
+  }
+  #bannerMain {
+    font-size: 46px; font-weight: 800; letter-spacing: 0.25em; padding-left: 0.25em;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.7);
+  }
+  #bannerSub { font-size: 18px; margin-top: 6px; text-shadow: 0 1px 8px rgba(0,0,0,0.7); font-variant-numeric: tabular-nums; }
+  #restartBtn {
+    pointer-events: auto; display: none;
+    margin-top: 16px; padding: 10px 34px; font-size: 17px; font-weight: 700;
+    color: #08222a; background: var(--c-ally); border: none; border-radius: 6px; cursor: pointer;
+  }
+  #restartBtn:hover { filter: brightness(1.12); }
+
+  /* ---- トースト ---- */
+  #toasts { position: absolute; top: 38%; left: 50%; transform: translateX(-50%); text-align: center; }
+  .toast {
+    display: inline-block; margin: 3px auto; padding: 4px 16px; font-size: 15px; font-weight: 600;
+    background: rgba(10, 20, 26, 0.68); border-radius: 5px; border: 1px solid var(--c-panel-line);
+    animation: toastIn 0.18s ease-out;
+  }
+  @keyframes toastIn { from { opacity: 0; transform: translateY(-6px); } }
+
+  /* ---- クロスヘア ---- */
+  #crosshair {
+    position: absolute; left: 50%; top: 50%; width: 22px; height: 22px;
+    transform: translate(-50%, -50%);
+  }
+  #crosshair::before, #crosshair::after {
+    content: ""; position: absolute; background: rgba(255,255,255,0.92);
+    box-shadow: 0 0 2px rgba(0,0,0,0.9);
+  }
+  #crosshair::before { left: 50%; top: 2px; width: 2px; height: 18px; margin-left: -1px; }
+  #crosshair::after { top: 50%; left: 2px; height: 2px; width: 18px; margin-top: -1px; }
+  #crossDot { position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; margin: -2px 0 0 -2px;
+    border-radius: 50%; background: rgba(255,255,255,0.9); }
+  #tacticalPrompt {
+    position: absolute; left: 50%; top: calc(50% + 38px); transform: translateX(-50%);
+    display: flex; align-items: baseline; gap: 8px; width: max-content; max-width: min(620px, calc(100% - 28px));
+    padding: 5px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 6px;
+    background: rgba(6,15,20,0.74); text-shadow: 0 1px 4px #000;
+  }
+  #tacticalPrompt[data-tone="blocked"] { border-color: rgba(255,215,110,0.7); background: rgba(54,34,10,0.8); }
+  #tacticalPromptLabel { flex: none; font-size: 10px; font-weight: 900; letter-spacing: 0.08em; color: #ffd76e; }
+  #tacticalPromptText { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 700; }
+  #hitmarker {
+    position: absolute; left: 50%; top: 50%; width: 34px; height: 34px;
+    transform: translate(-50%, -50%) rotate(45deg); opacity: 0; pointer-events: none;
+  }
+  #hitmarker span { position: absolute; background: #fff; }
+  #hitmarker span:nth-child(1) { left: 0; top: 50%; width: 10px; height: 2px; }
+  #hitmarker span:nth-child(2) { right: 0; top: 50%; width: 10px; height: 2px; }
+  #hitmarker span:nth-child(3) { left: 50%; top: 0; width: 2px; height: 10px; }
+  #hitmarker span:nth-child(4) { left: 50%; bottom: 0; width: 2px; height: 10px; }
+  #hitmarker.hs span { background: #ff5a4a; }
+  #muzzleGlow {
+    position: absolute; left: 50%; top: 50%; width: 120px; height: 120px;
+    transform: translate(-50%, -50%); border-radius: 50%; opacity: 0;
+    background: radial-gradient(circle, rgba(255,236,170,0.5) 0%, rgba(255,236,170,0) 65%);
+  }
+  #cinematicOverlay {
+    position: fixed; inset: 0; z-index: 5; pointer-events: none; overflow: hidden;
+    background:
+      radial-gradient(circle at center, transparent 48%, rgba(3,10,14,0.17) 100%),
+      linear-gradient(180deg, rgba(255,220,160,0.025), rgba(0,58,72,0.035));
+    mix-blend-mode: normal;
+  }
+  #cinematicOverlay::after {
+    content: ""; position: absolute; inset: -40%; opacity: 0.035;
+    background-image: repeating-radial-gradient(circle at 30% 40%, #fff 0 0.6px, transparent 0.8px 3px);
+    animation: grainShift 0.28s steps(2) infinite;
+  }
+  @keyframes grainShift { 50% { transform: translate3d(1.5%, -1%, 0); } }
+  #damageVignette {
+    position: absolute; inset: 0; opacity: 0;
+    background: radial-gradient(circle, transparent 32%, rgba(160,16,8,0.78) 100%);
+    transition: opacity 0.3s ease-out;
+  }
+  #damageIndicator {
+    position: absolute; left: 50%; top: 50%; width: 250px; height: 250px; opacity: 0;
+    transform: translate(-50%, -50%) rotate(0rad); transition: opacity 0.28s ease-out;
+  }
+  #damageIndicator::before {
+    content: ""; position: absolute; left: 50%; top: 0; width: 58px; height: 12px;
+    transform: translateX(-50%); border-radius: 8px;
+    background: linear-gradient(90deg, transparent, rgba(255,74,56,0.95), transparent);
+    box-shadow: 0 0 12px rgba(255,45,30,0.78);
+  }
+
+  /* ---- 下部中央: HP / 弾 ---- */
+  #bottomPanel {
+    position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: flex-end; gap: 26px; padding: 10px 20px;
+  }
+  #hpBlock { width: 220px; }
+  #hpNum { font-size: 30px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+  #hpBar { height: 8px; border-radius: 4px; background: rgba(255,255,255,0.15); margin-top: 5px; overflow: hidden; }
+  #hpFill { height: 100%; width: 100%; background: var(--c-ally); border-radius: 4px; transition: width 0.12s linear; }
+  #hpBlock .subLabel, #ammoBlock .subLabel { font-size: 11px; opacity: 0.8; margin-bottom: 2px; }
+  #ammoBlock { text-align: right; min-width: 120px; }
+  #ammoNum { font-size: 30px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+  #ammoNum small { font-size: 16px; font-weight: 600; opacity: 0.8; }
+  #reloadTxt { font-size: 13px; color: #ffd76e; min-height: 17px; font-weight: 700; }
+  #weaponTrait {
+    max-width: 190px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis;
+    color: rgba(238,246,248,0.72); font-size: 10px; white-space: nowrap;
+  }
+
+  /* ---- 死亡オーバーレイ ---- */
+  #deathOverlay {
+    position: absolute; inset: 0; display: none;
+    background: radial-gradient(circle, rgba(60,0,0,0) 40%, rgba(60,5,5,0.5) 100%);
+    text-align: center;
+  }
+  #deathOverlay .inner { position: absolute; top: 42%; left: 50%; min-width: min(360px, 90vw); transform: translate(-50%, -50%); }
+  #deathTitle { font-size: 30px; font-weight: 800; letter-spacing: 0.2em; text-shadow: 0 2px 10px #000; }
+  #respawnTxt { font-size: 20px; margin-top: 10px; font-variant-numeric: tabular-nums; text-shadow: 0 2px 10px #000; }
+  #respawnContext { margin-top: 7px; font-size: 12px; opacity: 0.9; text-shadow: 0 1px 6px #000; }
+  #respawnHeroBtn {
+    pointer-events: auto; margin-top: 12px; padding: 8px 16px; cursor: pointer;
+    color: var(--c-text); background: rgba(10,22,30,0.84);
+    border: 1px solid rgba(255,215,110,0.72); border-radius: 6px;
+  }
+
+  /* ---- キルフィード ---- */
+  #killfeed { position: absolute; top: 12px; right: 14px; text-align: right; }
+  .kfRow {
+    margin-bottom: 5px; padding: 4px 12px; font-size: 13px; font-weight: 600;
+    background: rgba(10, 20, 26, 0.62); border-radius: 4px; border: 1px solid var(--c-panel-line);
+    animation: toastIn 0.15s ease-out;
+  }
+  .kfAlly { color: var(--c-ally); } .kfEnemy { color: var(--c-enemy); }
+  .kfArrow { color: #dddddd; margin: 0 6px; } .kfHs { color: #ff5a4a; margin-left: 5px; font-weight: 800; }
+  .kfAbility { margin-left: 6px; color: #ffd76e; font-size: 0.88em; }
+
+  /* ---- スコアボード ---- */
+  #scoreboard {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    display: none; padding: 16px 22px; min-width: 620px;
+  }
+  #sbTitle { text-align: center; font-size: 17px; font-weight: 800; margin-bottom: 10px; font-variant-numeric: tabular-nums; }
+  #sbTables { display: flex; gap: 22px; }
+  .sbTeam { flex: 1; }
+  .sbTeam h3 { font-size: 14px; margin-bottom: 4px; }
+  .sbTeam.ally h3 { color: var(--c-ally); } .sbTeam.enemy h3 { color: var(--c-enemy); }
+  .sbTeam table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .sbTeam th { font-weight: 600; opacity: 0.7; text-align: right; padding: 2px 6px; border-bottom: 1px solid var(--c-panel-line); }
+  .sbTeam th:first-child, .sbTeam td:first-child { text-align: left; }
+  .sbTeam td { text-align: right; padding: 3px 6px; }
+  .sbDead { opacity: 0.45; }
+  .sbMe td:first-child { text-decoration: underline; }
+
+  /* ---- 隅の情報 ---- */
+  #pingBox {
+    position: absolute; right: 12px; bottom: 12px; padding: 4px 10px;
+    font-size: 11px; opacity: 0.85; font-variant-numeric: tabular-nums;
+  }
+  #settings {
+    position: absolute; left: 12px; bottom: 178px; padding: 8px 12px;
+    font-size: 12px; pointer-events: auto;
+  }
+  #settings { display: grid; gap: 5px; min-width: 226px; }
+  .settingRow { display: grid; grid-template-columns: 76px minmax(70px, 1fr) 58px; align-items: center; gap: 5px; }
+  #settings label { margin: 0; opacity: 0.9; }
+  #sensSlider, #masterVolume { width: 100%; vertical-align: middle; }
+  #sensNumber, #gamepadSensNumber {
+    width: 58px; padding: 2px 4px; text-align: right; color: var(--c-text);
+    background: rgba(255,255,255,0.08); border: 1px solid var(--c-panel-line); border-radius: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .settingUnit { opacity: 0.7; }
+  #audioToggle {
+    padding: 3px 7px; color: var(--c-text); cursor: pointer;
+    border: 1px solid var(--c-panel-line); border-radius: 4px; background: rgba(255,255,255,0.08);
+  }
+  #volumeValue { text-align: right; font-variant-numeric: tabular-nums; }
+
+  #lockHint {
+    position: absolute; bottom: 225px; left: 50%; transform: translateX(-50%);
+    padding: 6px 18px; font-size: 14px; display: none;
+  }
+
+  /* ---- 参加オーバーレイ ---- */
+  #joinOverlay {
+    position: fixed; inset: 0; z-index: 20; display: flex;
+    align-items: center; justify-content: center;
+    background: linear-gradient(180deg, rgba(8,18,26,0.55) 0%, rgba(8,18,26,0.85) 100%);
+  }
+  #joinCard {
+    text-align: center; padding: 36px 48px;
+    background: rgba(10, 22, 30, 0.85); border: 1px solid var(--c-panel-line); border-radius: 12px;
+  }
+  #joinCard h1 { font-size: 40px; letter-spacing: 0.35em; padding-left: 0.35em; margin-bottom: 4px; }
+  #joinCard .subtitle { font-size: 14px; opacity: 0.85; margin-bottom: 24px; }
+  #nameInput {
+    width: 240px; padding: 9px 12px; font-size: 16px; text-align: center;
+    color: var(--c-text); background: rgba(255,255,255,0.08);
+    border: 1px solid var(--c-panel-line); border-radius: 6px; outline: none;
+  }
+  #nameInput:focus { border-color: var(--c-ally); }
+  #joinBtn {
+    display: block; margin: 18px auto 0; padding: 10px 46px; font-size: 17px; font-weight: 700;
+    color: #08222a; background: var(--c-ally); border: none; border-radius: 6px; cursor: pointer;
+  }
+  #joinBtn:hover { filter: brightness(1.12); }
+  #joinBtn:disabled { opacity: 0.5; cursor: default; }
+  #joinStatus { margin-top: 12px; font-size: 13px; min-height: 17px; color: #ffd76e; }
+  #joinCard .help { margin-top: 18px; font-size: 12px; opacity: 0.7; line-height: 1.7; }
+
+  /* ---- キャラクター選択 / 拡張HUD ---- */
+  [hidden] { display: none !important; }
+  button, input { font: inherit; }
+  input { user-select: text; }
+  button:focus-visible, input:focus-visible, .heroOption:focus-visible {
+    outline: 3px solid #fff2a8; outline-offset: 2px;
+  }
+  #gl { touch-action: none; }
+  #bottomPanel {
+    width: min(1120px, calc(100% - 28px));
+    display: grid; grid-template-columns: 1.05fr 1.35fr 0.9fr 1fr;
+    align-items: end; gap: 8px 14px; padding: 10px 14px;
+  }
+  #heroIdentity, #hpBlock, #ammoBlock, #resourceBlock { min-width: 0; }
+  #heroIdentity .subLabel, #resourceBlock .subLabel { font-size: 11px; opacity: 0.8; }
+  #heroName { font-size: 20px; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #heroRole { font-size: 11px; opacity: 0.86; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #statusList { min-height: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #ffd76e; font-size: 9px; }
+  #hpBlock { width: auto; }
+  .vitalNumbers { white-space: nowrap; font-variant-numeric: tabular-nums; }
+  #shieldNum { margin-left: 5px; color: #82cfff; font-size: 20px; font-weight: 800; }
+  #maxHpNum { font-size: 13px; opacity: 0.72; }
+  #hpBar { position: relative; }
+  #hpFill, #shieldFill { position: absolute; top: 0; bottom: 0; transition: width 0.12s linear, left 0.12s linear; }
+  #shieldFill { left: 0; width: 0; background: #66a9e8; border-radius: 0 4px 4px 0; }
+  #ammoBlock { min-width: 0; }
+  #ammoBlock .subLabel { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #resourceNum { font-size: 16px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  #resourceBar { height: 5px; margin-top: 4px; overflow: hidden; border-radius: 3px; background: rgba(255,255,255,0.15); }
+  #resourceFill { height: 100%; width: 0; background: #ffd76e; transition: width 0.12s linear; }
+  #abilities { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
+  .abilityCard {
+    position: relative; min-width: 0; min-height: 82px; padding: 5px 7px 7px; overflow: hidden;
+    border: 1px solid var(--c-panel-line); border-radius: 6px; background: rgba(255,255,255,0.055);
+  }
+  .abilityCard.cooldown { opacity: 0.68; }
+  .abilityCard.blocked { border-style: dashed; }
+  .abilityCard.casting { border-color: #ffd76e; }
+  .abilityCard.active { border-color: var(--c-ally); box-shadow: inset 0 0 12px rgba(53,213,232,0.15); }
+  .abilityCard.ready { border-color: rgba(255,255,255,0.32); }
+  .abilityTop { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+  .abilityKey { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 9px; opacity: 0.82; }
+  .abilityName { position: relative; z-index: 1; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+  .abilityState { flex: none; max-width: 58%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; color: #d9e4e7; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .abilityEffect { position: relative; z-index: 1; display: -webkit-box; min-height: 26px; margin-top: 2px; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size: 10px; line-height: 1.3; opacity: 0.92; }
+  .abilityMeta { position: relative; z-index: 1; display: block; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 9px; opacity: 0.72; font-variant-numeric: tabular-nums; }
+  .abilityFill { position: absolute; left: 0; right: auto; bottom: 0; height: 3px; width: 0; background: var(--c-ally); }
+  .abilityCard.ultimate .abilityFill { background: #ffd76e; }
+  #guidancePanel {
+    grid-column: 1 / -1; display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 5px 12px;
+    padding: 7px 9px; border-top: 1px solid rgba(255,255,255,0.14);
+    background: linear-gradient(90deg, rgba(53,213,232,0.055), transparent 55%);
+  }
+  #guidanceRolePurpose { grid-row: 1 / 3; font-size: 10px; line-height: 1.35; opacity: 0.78; }
+  #guidancePhase { font-size: 11px; font-weight: 900; letter-spacing: 0.12em; color: #ffd76e; }
+  #guidanceInstruction { min-width: 0; font-size: 12px; font-weight: 700; line-height: 1.3; }
+  #guidanceChecklist { grid-column: 2; display: flex; flex-wrap: wrap; gap: 4px; list-style: none; }
+  #guidanceChecklist li { padding: 1px 6px; border-radius: 9px; background: rgba(255,255,255,0.08); font-size: 9px; opacity: 0.9; }
+  #guidancePanel[data-urgency="danger"] { border-color: rgba(255,90,74,0.6); background: linear-gradient(90deg, rgba(255,90,74,0.16), transparent 62%); }
+  #guidancePanel[data-urgency="focus"] { border-color: rgba(255,215,110,0.55); }
+
+  #teamPanel { position: absolute; top: 12px; left: 12px; width: 230px; padding: 8px 10px; }
+  #teamTitle { margin-bottom: 4px; font-size: 11px; font-weight: 800; opacity: 0.82; }
+  .teamMate { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 5px; margin: 3px 0; font-size: 11px; }
+  .teamMateName { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .teamMateHero { opacity: 0.68; }
+  .teamMateHp { font-variant-numeric: tabular-nums; }
+  .teamMateBar { grid-column: 1 / -1; height: 3px; overflow: hidden; border-radius: 2px; background: rgba(255,255,255,0.14); }
+  .teamMateFill { height: 100%; background: var(--c-ally); }
+  .teamMate.dead { opacity: 0.45; }
+  #heroChangeBtn {
+    display: block; margin-top: 6px; width: 100%; padding: 5px 7px; border: 1px solid var(--c-panel-line);
+    border-radius: 5px; color: var(--c-text); background: rgba(255,255,255,0.1); cursor: pointer;
+  }
+
+  #joinOverlay { overflow: auto; padding: 18px; }
+  #joinCard {
+    width: min(1180px, 100%); max-height: calc(100dvh - 36px); overflow: hidden;
+    display: flex; flex-direction: column; padding: 22px 26px; text-align: left;
+  }
+  #joinCard h1, #joinCard .subtitle { text-align: center; }
+  #roleRule { margin: -6px 0 8px; text-align: center; color: #ffd76e; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; }
+  #mapStatus { margin: -4px 0 7px; text-align: center; color: #bfeef4; font-size: 10px; }
+  #mapCredit { margin-top: 7px; text-align: center; font-size: 9px; opacity: 0.72; }
+  #mapCredit a { color: #bfeef4; pointer-events: auto; }
+  #joinCard h1 { font-size: 34px; margin-bottom: 2px; }
+  #joinCard .subtitle { margin-bottom: 12px; }
+  #joinControls { display: flex; align-items: center; justify-content: center; gap: 9px; margin-bottom: 10px; }
+  #joinControls label { font-size: 13px; font-weight: 700; }
+  #nameInput { width: min(260px, 62vw); }
+  #heroPicker { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 340px; grid-template-rows: minmax(0, 1fr); gap: 14px; }
+  #heroRoster { min-height: 0; overflow: auto; padding-right: 5px; }
+  .roleGroup { margin-bottom: 12px; }
+  .roleHeading { margin-bottom: 5px; font-size: 15px; color: var(--role-color, var(--c-ally)); }
+  .roleHeroGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+  .heroOption {
+    min-width: 0; min-height: 110px; padding: 8px 9px; text-align: left; cursor: pointer;
+    color: var(--c-text); background: rgba(255,255,255,0.055); border: 1px solid var(--c-panel-line); border-radius: 7px;
+  }
+  .heroOption:hover { background: rgba(255,255,255,0.1); }
+  .heroOption:disabled { opacity: 0.34; cursor: not-allowed; filter: grayscale(0.55); }
+  .heroOption[aria-pressed="true"] { border-color: var(--hero-color, var(--c-ally)); box-shadow: inset 4px 0 var(--hero-color, var(--c-ally)); background: rgba(255,255,255,0.13); }
+  .heroOptionName { display: block; font-size: 16px; font-weight: 800; }
+  .heroOptionType { display: block; font-size: 10px; opacity: 0.74; }
+  .heroOptionMeta { display: block; margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
+  .heroActionList { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 5px; }
+  .heroActionList span { max-width: 100%; padding: 1px 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 9px; border-radius: 3px; background: rgba(0,0,0,0.2); }
+  #heroDetail { min-height: 0; overflow: auto; padding: 14px; border: 1px solid var(--c-panel-line); border-radius: 8px; background: rgba(0,0,0,0.2); }
+  .detailName { font-size: 25px; font-weight: 800; }
+  .detailRole { margin-bottom: 8px; color: var(--hero-color, var(--c-ally)); font-size: 12px; }
+  .detailSummary { margin-bottom: 10px; font-size: 12px; line-height: 1.55; }
+  .detailItem { margin-top: 8px; }
+  .detailItem dt { font-size: 11px; font-weight: 800; color: #ffdca0; }
+  .detailItem dd { margin-top: 2px; font-size: 11px; line-height: 1.45; opacity: 0.92; }
+  .detailActions { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 9px; }
+  .detailAction { padding: 7px; border-radius: 5px; background: rgba(255,255,255,0.055); }
+  .detailAction strong, .detailAction span { display: block; }
+  .detailAction strong { font-size: 11px; }
+  .detailAction span { margin-top: 2px; font-size: 10px; line-height: 1.4; opacity: 0.82; }
+  .joinActions { display: flex; justify-content: center; gap: 10px; margin-top: 12px; }
+  #joinBtn, #joinCancelBtn {
+    margin: 0; padding: 9px 28px; border-radius: 6px; cursor: pointer;
+  }
+  #joinCancelBtn { color: var(--c-text); border: 1px solid var(--c-panel-line); background: rgba(255,255,255,0.08); }
+  #joinStatus { text-align: center; }
+  #joinCard .help { margin-top: 8px; text-align: center; }
+
+  @media (max-width: 900px) {
+    #heroPicker { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
+    #heroDetail { max-height: 35vh; }
+    .roleHeroGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 600px) {
+    #topPanel { top: 4px; width: calc(100% - 8px); min-width: 0; padding: 6px 5px 7px; }
+    #potRow { gap: 4px; }
+    .potBox { width: 27%; min-width: 0; }
+    .potPct { font-size: 18px; }
+    #objCenter { width: 46%; }
+    #roundTime { font-size: 17px; }
+    #objState { min-height: 16px; font-size: 12px; }
+    #objCount, #matchRow { font-size: 9px; }
+    #otPanel { top: 83px; padding: 4px 8px; }
+    #otGauge { width: min(210px, 70vw); }
+    #bannerMain { font-size: 28px; }
+    #bannerSub { font-size: 13px; }
+    #bottomPanel {
+      bottom: 4px; width: calc(100% - 8px); padding: 5px 6px;
+      grid-template-columns: 0.9fr 1.25fr 0.9fr; gap: 4px 6px;
+    }
+    #heroName { font-size: 14px; }
+    #heroRole, #heroIdentity .subLabel, #hpBlock .subLabel, #ammoBlock .subLabel, #resourceBlock .subLabel { font-size: 8px; }
+    #hpNum, #ammoNum { font-size: 21px; }
+    #ammoNum small { font-size: 10px; }
+    #shieldNum { font-size: 13px; }
+    #maxHpNum { font-size: 9px; }
+    #reloadTxt { min-height: 10px; font-size: 9px; }
+    #resourceBlock { grid-column: 1 / -1; display: grid; grid-template-columns: auto auto minmax(80px, 1fr); align-items: center; gap: 5px; }
+    #resourceNum { font-size: 10px; }
+    #resourceBar { margin: 0; }
+    #abilities { gap: 3px; }
+    .abilityCard { min-height: 68px; padding: 3px 4px 5px; }
+    .abilityKey { font-size: 8px; }
+    .abilityName { font-size: 9px; }
+    .abilityState { font-size: 8px; }
+    .abilityEffect { min-height: 20px; font-size: 8px; line-height: 1.2; }
+    .abilityMeta { font-size: 7px; }
+    #teamPanel { top: 86px; left: 4px; width: min(160px, 44vw); max-height: 112px; overflow: hidden; padding: 5px 6px; }
+    .teamMate { font-size: 8px; margin: 2px 0; }
+    #killfeed { top: 86px; right: 4px; max-width: 51vw; }
+    .kfRow { margin-bottom: 3px; padding: 3px 6px; font-size: 9px; }
+    #scoreboard { width: calc(100% - 8px); min-width: 0; max-height: calc(100% - 12px); overflow: auto; padding: 8px; }
+    #sbTables { display: block; }
+    .sbTeam + .sbTeam { margin-top: 8px; }
+    .sbTeam table { font-size: 9px; }
+    .sbTeam th, .sbTeam td { padding: 2px 3px; }
+    #guidancePanel { grid-template-columns: 1fr; gap: 2px; padding: 3px 4px; }
+    #guidanceRolePurpose { display: block; grid-row: auto; font-size: 8px; }
+    #guidanceChecklist { display: none; }
+    #guidancePhase { font-size: 8px; }
+    #guidanceInstruction { font-size: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #settings { left: 4px; bottom: 188px; min-width: 170px; padding: 4px 6px; font-size: 8px; }
+    .settingRow { grid-template-columns: 56px minmax(55px, 1fr) 43px; gap: 3px; }
+    #sensNumber, #gamepadSensNumber { width: 43px; }
+    #heroChangeBtn { margin-top: 3px; padding: 3px 4px; font-size: 9px; }
+    #pingBox { right: 4px; bottom: 148px; font-size: 8px; }
+    #lockHint { bottom: 215px; max-width: calc(100% - 8px); padding: 4px 7px; font-size: 9px; text-align: center; }
+    #joinOverlay { padding: 0; }
+    #joinCard { width: 100%; max-height: 100dvh; min-height: 100dvh; padding: 10px 8px; border-radius: 0; }
+    #joinCard h1 { font-size: 25px; }
+    #joinCard .subtitle { margin-bottom: 6px; font-size: 10px; }
+    #joinControls { margin-bottom: 6px; }
+    #joinControls label { font-size: 11px; }
+    #nameInput { padding: 6px 8px; font-size: 13px; }
+    #heroPicker { gap: 7px; }
+    .roleGroup { margin-bottom: 7px; }
+    .roleHeading { font-size: 12px; }
+    .roleHeroGrid { gap: 4px; }
+    .heroOption { min-height: 94px; padding: 6px; }
+    .heroOptionName { font-size: 13px; }
+    .heroOptionType, .heroOptionMeta { font-size: 8px; }
+    .heroActionList span { font-size: 7px; }
+    #heroDetail { max-height: 28vh; padding: 8px; }
+    .detailName { font-size: 18px; }
+    .detailSummary, .detailItem dd { font-size: 9px; }
+    .detailActions { grid-template-columns: 1fr; }
+    .joinActions { margin-top: 7px; }
+    #joinBtn, #joinCancelBtn { padding: 7px 13px; font-size: 12px; }
+    #joinStatus { margin-top: 5px; font-size: 10px; }
+    #joinCard .help { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important; scroll-behavior: auto !important;
+    }
+    #cinematicOverlay::after { display: none; }
+  }
+</style>
+</head>
+<body>
+<canvas id="gl" tabindex="0" aria-label="篝合の戦場。クリックするとマウスで視点操作を開始します"></canvas>
+<div id="cinematicOverlay" aria-hidden="true"><div id="damageVignette"></div><div id="damageIndicator"></div></div>
+
+<div id="hud">
+  <div id="topPanel" class="panel">
+    <div id="potRow">
+      <div class="potBox" id="potAlly">
+        <div class="potPct">0.0%</div>
+        <div class="potLabel" id="potAllyLabel">自軍の甕</div>
+        <div class="gaugeBar"><div id="gaugeAllyFill"></div></div>
+      </div>
+      <div id="objCenter">
+        <div id="roundTime">--:--</div>
+        <div id="objState">—</div>
+        <div id="objCount"></div>
+      </div>
+      <div class="potBox" id="potEnemy">
+        <div class="potPct">0.0%</div>
+        <div class="potLabel" id="potEnemyLabel">敵軍の甕</div>
+        <div class="gaugeBar"><div id="gaugeEnemyFill"></div></div>
+      </div>
+    </div>
+    <div id="matchRow">ラウンド 1 ／ スコア 0 - 0</div>
+  </div>
+
+  <div id="otPanel" class="panel">
+    <div id="otTitle">延長戦</div>
+    <div id="otGauge"><div id="otGaugeFill"></div></div>
+    <div id="otInfo"></div>
+  </div>
+
+  <div id="banner" aria-live="polite">
+    <div id="bannerMain"></div>
+    <div id="bannerSub"></div>
+    <button id="restartBtn">再試合</button>
+  </div>
+
+  <div id="toasts" role="status" aria-live="polite" aria-atomic="false"></div>
+
+  <div id="crosshair"><div id="crossDot"></div></div>
+  <div id="tacticalPrompt" role="status" aria-live="polite" aria-atomic="true" data-tone="normal" hidden>
+    <span id="tacticalPromptLabel">今すること</span>
+    <span id="tacticalPromptText">味方と合流し、目標への入口を確認する。</span>
+  </div>
+  <div id="hitmarker"><span></span><span></span><span></span><span></span></div>
+  <div id="muzzleGlow"></div>
+
+  <div id="bottomPanel" class="panel" aria-label="自分の戦闘状況">
+    <div id="heroIdentity">
+      <div class="subLabel">キャラクター</div>
+      <div id="heroName">未選択</div>
+      <div id="heroRole">—</div>
+      <div id="statusList" aria-label="状態効果"></div>
+    </div>
+    <div id="hpBlock">
+      <div class="subLabel">体力 + シールド</div>
+      <div class="vitalNumbers"><span id="hpNum">250</span><span id="shieldNum">+0</span><small id="maxHpNum"> / 250</small></div>
+      <div id="hpBar"><div id="hpFill"></div><div id="shieldFill"></div></div>
+    </div>
+    <div id="ammoBlock">
+      <div class="subLabel" id="weaponName">訓練灯銃</div>
+      <div id="ammoNum">25<small> / 25</small></div>
+      <div id="reloadTxt"></div>
+      <div id="weaponTrait">即着弾・中距離</div>
+    </div>
+    <div id="resourceBlock" hidden>
+      <div class="subLabel" id="resourceName">固有資源</div>
+      <div id="resourceNum">0 / 100</div>
+      <div id="resourceBar"><div id="resourceFill"></div></div>
+    </div>
+    <div id="abilities" aria-label="能力状態">
+      <div class="abilityCard" id="abilitySecondary" role="group">
+        <div class="abilityTop"><span class="abilityKey">右クリック / LT</span><span class="abilityState">使用可</span></div>
+        <strong class="abilityName">サブ</strong><span class="abilityEffect">効果を読み込み中</span>
+        <span class="abilityMeta">射程 — ／ CT —</span><span class="abilityFill"></span>
+      </div>
+      <div class="abilityCard" id="abilityAbility1" role="group">
+        <div class="abilityTop"><span class="abilityKey">Shift / LB</span><span class="abilityState">使用可</span></div>
+        <strong class="abilityName">能力1</strong><span class="abilityEffect">効果を読み込み中</span>
+        <span class="abilityMeta">射程 — ／ CT —</span><span class="abilityFill"></span>
+      </div>
+      <div class="abilityCard" id="abilityAbility2" role="group">
+        <div class="abilityTop"><span class="abilityKey">E / RB</span><span class="abilityState">使用可</span></div>
+        <strong class="abilityName">能力2</strong><span class="abilityEffect">効果を読み込み中</span>
+        <span class="abilityMeta">射程 — ／ CT —</span><span class="abilityFill"></span>
+      </div>
+      <div class="abilityCard ultimate" id="abilityUltimate" role="group">
+        <div class="abilityTop"><span class="abilityKey">Q / Y</span><span class="abilityState" id="ultGaugePct">使用不可：0%</span></div>
+        <strong class="abilityName">必殺技</strong><span class="abilityEffect">効果を読み込み中</span>
+        <span class="abilityMeta">射程 — ／ CT 必殺ゲージ</span><span class="abilityFill"></span>
+      </div>
+    </div>
+    <section id="guidancePanel" aria-label="現在の役割と推奨行動" data-urgency="normal">
+      <div id="guidanceRolePurpose">ロールの責務を読み込み中</div>
+      <div id="guidancePhase">灯見</div>
+      <div id="guidanceInstruction">人数・遮蔽・クールダウンを確認する。</div>
+      <ul id="guidanceChecklist"><li>味方と合流</li></ul>
+    </section>
+  </div>
+
+  <div id="deathOverlay">
+    <div class="inner">
+      <div id="deathTitle">復帰待機</div>
+      <div id="respawnTxt">復帰まで --.- 秒</div>
+      <div id="respawnContext" hidden>次の復帰キャラクターを同じロール内で変更できます。</div>
+      <button id="respawnHeroBtn" type="button" hidden>復帰キャラクターを変更</button>
+    </div>
+  </div>
+
+  <div id="killfeed" aria-live="polite" aria-label="キルフィード"></div>
+
+  <div id="teamPanel" class="panel" aria-label="味方の体力">
+    <div id="teamTitle">味方</div>
+    <div id="teamList"></div>
+  </div>
+
+  <div id="scoreboard" class="panel">
+    <div id="sbTitle"></div>
+    <div id="sbTables">
+      <div class="sbTeam ally"><h3 id="sbAllyName">自軍</h3><table id="sbAllyTable"></table></div>
+      <div class="sbTeam enemy"><h3 id="sbEnemyName">敵軍</h3><table id="sbEnemyTable"></table></div>
+    </div>
+  </div>
+
+  <div id="pingBox" class="panel">RTT -- ms ／ 補間 100 ms</div>
+
+  <div id="settings" class="panel">
+    <div class="settingRow">
+      <label for="sensNumber">マウス感度</label>
+      <input id="sensSlider" type="range" min="1" max="200" step="0.1" value="25" aria-label="マウス感度スライダー">
+      <input id="sensNumber" type="number" min="1" max="200" step="0.1" value="25" inputmode="decimal" aria-label="マウス感度の数値">
+    </div>
+    <div class="settingRow">
+      <label for="gamepadSensNumber">Pad視点速度</label>
+      <span class="settingUnit">rad/秒</span>
+      <input id="gamepadSensNumber" type="number" min="0.1" max="20" step="0.1" value="2.8" inputmode="decimal" aria-label="ゲームパッド視点速度の数値">
+    </div>
+    <div class="settingRow">
+      <button id="audioToggle" type="button" aria-pressed="true">音響 ON</button>
+      <input id="masterVolume" type="range" min="0" max="100" step="1" value="72" aria-label="全体音量">
+      <span id="volumeValue">72%</span>
+    </div>
+    <button id="heroChangeBtn" type="button" hidden>キャラクター変更</button>
+  </div>
+
+  <div id="lockHint" class="panel">画面クリックでマウス操作、またはGamepad Startで操作再開。WASD / 左射撃 / 右サブ / Shift・E / Q ／ View: スコアボード。</div>
+</div>
+
+<div id="joinOverlay" role="dialog" aria-modal="true" aria-labelledby="joinTitle">
+  <div id="joinCard">
+    <h1 id="joinTitle">篝合</h1>
+    <div class="subtitle">モード「潮占」 — 潮汲み環礁ウルハ・大潮井（Production Candidate）</div>
+    <div id="roleRule">固定編成を読み込み中</div>
+    <div id="mapStatus" role="status" aria-live="polite">提供3Dマップを読み込み中…</div>
+    <div id="joinControls">
+      <label for="nameInput">参加名</label>
+      <input id="nameInput" maxlength="16" autocomplete="nickname" placeholder="見習いの篝手">
+    </div>
+    <div id="heroPicker">
+      <div id="heroRoster" aria-label="18人のキャラクター一覧"></div>
+      <aside id="heroDetail" aria-live="polite" aria-label="選択中のキャラクター詳細"></aside>
+    </div>
+    <div class="joinActions">
+      <button id="joinCancelBtn" type="button" hidden>戻る</button>
+      <button id="joinBtn" type="button">このキャラクターで接続</button>
+    </div>
+    <div id="joinStatus" role="status" aria-live="polite"></div>
+    <div class="help">
+      WASD: 移動 ／ 左クリック: 射撃 ／ 右クリック: サブ ／ Shift・E: 能力 ／ Q: 必殺技<br>
+      Space: ジャンプ ／ Ctrl・C: しゃがみ ／ R: リロード ／ Tab: スコアボード<br>
+      Gamepad: Start 操作再開 ／ View スコアボード ／ 左/右スティック ／ RT射撃 ／ LTサブ ／ LB・RB能力 ／ Y必殺 ／ A・B・X
+    </div>
+    <div id="mapCredit">
+      3D Map: <a href="https://sketchfab.com/3d-models/chicken-gun-fruzer-mine-055bcbb8505548b88af029ed198c37c2" target="_blank" rel="noopener noreferrer">chicken gun fruzer mine</a>
+      by <a href="https://sketchfab.com/amogusstrikesback2" target="_blank" rel="noopener noreferrer">amogusstrikesback2</a> — CC BY 4.0
+    </div>
+  </div>
+</div>
+
+<script type="importmap">{"imports":{"three":"/vendor/three.module.js","three/addons/":"/vendor/addons/"}}</script>
+<script type="module" src="/client/main.js"></script>
+</body>
+</html>

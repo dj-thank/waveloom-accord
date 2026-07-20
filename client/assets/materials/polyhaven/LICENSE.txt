@@ -1,0 +1,22 @@
+Poly Haven CC0 materials bundled with KAGARIAI
+Retrieved: 2026-07-20
+
+License: Creative Commons Zero 1.0 Universal (CC0 1.0)
+License URL: https://creativecommons.org/publicdomain/zero/1.0/
+Provider license statement: https://polyhaven.com/license
+
+Assets:
+
+1. Concrete Floor 01
+   Source: https://polyhaven.com/a/concrete_floor_01
+   Author: Rob Tuytel
+   Files: 1K JPG diffuse, OpenGL normal, roughness
+
+2. Concrete
+   Source: https://polyhaven.com/a/concrete
+   Author: Rob Tuytel
+   Files: 1K JPG diffuse, OpenGL normal, roughness
+
+Poly Haven states that its assets are CC0 and may be used, modified, and
+redistributed for commercial purposes without attribution. Attribution is
+included here voluntarily for provenance and auditability.

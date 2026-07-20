@@ -1,0 +1,26 @@
+Model Information
+=================
+
+Title: chicken gun fruzer mine
+Source: https://sketchfab.com/3d-models/chicken-gun-fruzer-mine-055bcbb8505548b88af029ed198c37c2
+Author: amogusstrikesback2
+Author profile: https://sketchfab.com/amogusstrikesback2
+
+License
+=======
+
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+
+Required attribution
+====================
+
+This work is based on "chicken gun fruzer mine"
+(https://sketchfab.com/3d-models/chicken-gun-fruzer-mine-055bcbb8505548b88af029ed198c37c2)
+by amogusstrikesback2 (https://sketchfab.com/amogusstrikesback2),
+licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
+
+Imported asset SHA-256
+=====================
+
+DC9017A5F1D875B7CB45C00183E158491FAE042F6A33CE8EC42FCA8D9CA2E597
