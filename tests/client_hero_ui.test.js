@@ -254,6 +254,7 @@ test('キャラクター選択と戦闘HUDの公開DOM・通信契約を備え�
     'guidanceChecklist', 'roleRule', 'mapStatus', 'mapCredit', 'cinematicOverlay', 'damageVignette',
     'damageIndicator', 'respawnContext', 'respawnHeroBtn', 'gamepadSensNumber',
     'tacticalPrompt', 'tacticalPromptLabel', 'tacticalPromptText',
+    'hudDetailToggle', 'settingsToggle',
   ]) {
     assert.match(html, new RegExp(`id="${id}"`), `#${id} が必要`);
   }
@@ -266,6 +267,12 @@ test('キャラクター選択と戦闘HUDの公開DOM・通信契約を備え�
   assert.match(html, /id="tacticalPrompt"[^>]+role="status"[^>]+aria-live="polite"[^>]+aria-atomic="true"/);
   assert.equal([...html.matchAll(/class="abilityEffect"/g)].length, 4);
   assert.equal([...html.matchAll(/class="abilityMeta"/g)].length, 4);
+  assert.match(html, /id="hudDetailToggle"[^>]+aria-controls="guidancePanel"[^>]+aria-expanded="false"/);
+  assert.match(html, /id="settings"[^>]+class="panel"[^>]*>\s*<summary\s+id="settingsToggle"/);
+  assert.match(html, /body\.hud-expanded\s+#guidancePanel/);
+  assert.match(html, /body\.hud-expanded\s+#hudDetailToggle\s*\{[^}]*top:\s*4px/);
+  assert.match(html, /body\.hud-expanded\s+#lockHint\s*\{[^}]*bottom:\s*min\(45dvh,\s*390px\)/);
+  assert.match(html, /body:not\(\.hud-expanded\)\s+\.abilityEffect/);
 
   assert.match(main, /import\s*\{[^}]*HEROES[^}]*DEFAULT_HERO_ID[^}]*\}\s*from\s*['"]\/shared\/data\/heroes\.js['"]/);
   assert.match(main, /buildCombatGuidance/);
@@ -293,6 +300,8 @@ test('キャラクター選択と戦闘HUDの公開DOM・通信契約を備え�
   assert.match(main, /setGamepadLookSensitivity/);
   assert.match(main, /audio\.handleEvent\(e,\s*\{\s*myId,\s*rttMs:\s*net\.rtt,\s*interpMs:\s*net\.interpMs\(\)\s*\}\)/);
   assert.match(main, /e\.source\s*!==\s*myId\s*&&\s*!e\.projectile/);
+  assert.match(main, /event\.code\s*===\s*['"]F1['"]/);
+  assert.match(hud, /toggleDetails\(/);
   assert.match(hud, /healing/);
   assert.match(hud, /abilityId/);
   assert.match(hud, /shield/);

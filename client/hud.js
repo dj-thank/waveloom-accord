@@ -74,6 +74,7 @@ export class Hud {
       tacticalPromptText: $('tacticalPromptText'),
       damageVignette: $('damageVignette'),
       damageIndicator: $('damageIndicator'),
+      hudDetailToggle: $('hudDetailToggle'),
     };
     this.ability = {
       secondary: abilityElements('abilitySecondary'),
@@ -89,6 +90,9 @@ export class Hud {
     this._guidanceSignature = '';
     this._tacticalPromptSignature = '';
     this._damageTimer = 0;
+    this.detailsExpanded = false;
+    this.el.hudDetailToggle?.addEventListener?.('click', () => this.toggleDetails());
+    this.setDetailsExpanded(false);
   }
 
   // ---- 毎フレーム更新 ----
@@ -400,6 +404,18 @@ export class Hud {
 
   showLockHint(show) {
     this.el.lockHint.style.display = show ? 'block' : 'none';
+  }
+
+  setDetailsExpanded(expanded, { restoreFocus = false } = {}) {
+    this.detailsExpanded = !!expanded;
+    globalThis.document?.body?.classList?.toggle('hud-expanded', this.detailsExpanded);
+    this.el.hudDetailToggle?.setAttribute?.('aria-expanded', String(this.detailsExpanded));
+    if (restoreFocus && !this.detailsExpanded) this.el.hudDetailToggle?.focus?.();
+    return this.detailsExpanded;
+  }
+
+  toggleDetails() {
+    return this.setDetailsExpanded(!this.detailsExpanded);
   }
 }
 

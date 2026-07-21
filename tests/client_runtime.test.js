@@ -104,6 +104,26 @@ test('通常移動は従来どおりスナップショット間を線形補間�
   assert.equal(shown.yaw, 0.25);
 });
 
+test('remote character presentation preserves animation-driving snapshot state', () => {
+  const previous = {
+    pos: [0, 0, 0], vel: [0, 0, 0], yaw: 0, pitch: 0, alive: true,
+    grounded: true, crouch: false, reloading: false, cast: null,
+  };
+  const current = {
+    pos: [2, 0, 0], vel: [4, 2, -1], yaw: 0.4, pitch: 0.2, alive: true,
+    grounded: false, crouch: true, reloading: true, cast: { abilityId: 'test-cast' },
+  };
+
+  const shown = interpolateRemotePlayer(previous, current, 0.25, 5);
+
+  assert.deepEqual(shown.vel, [1, 0.5, -0.25]);
+  assert.equal(shown.pitch, 0.05);
+  assert.equal(shown.grounded, false);
+  assert.equal(shown.crouch, true);
+  assert.equal(shown.reloading, true);
+  assert.deepEqual(shown.cast, current.cast);
+});
+
 test('途中参加時もサーバースナップショットの復帰補正値を表示する', () => {
   const objective = { ot: { grace: 3, cap: 5 }, suddenDeath: false, respawnPenaltySec: 6, otPenaltyStartT: 100 };
   assert.equal(resolveRespawnPenalty(objective, null, 140, -1), 6);

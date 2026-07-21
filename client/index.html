@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>篝合 — 潮占 Production Candidate</title>
 <style>
   :root {
@@ -501,6 +501,106 @@
     #joinCard .help { display: none; }
   }
 
+  /* ---- Combat-first compact HUD ---- */
+  :root {
+    --hud-bottom-gap: max(8px, env(safe-area-inset-bottom));
+    --hud-compact-height: 94px;
+  }
+  #bottomPanel {
+    bottom: var(--hud-bottom-gap); width: min(900px, calc(100% - 28px));
+    grid-template-columns: 0.9fr 1.15fr 0.9fr 0.8fr; gap: 4px 12px;
+    align-items: center; padding: 7px 12px 8px;
+    background: linear-gradient(180deg, rgba(10,20,28,0.52), rgba(7,15,21,0.82));
+  }
+  #hudDetailToggle {
+    position: absolute; top: -26px; right: 7px; z-index: 2;
+    padding: 3px 8px; pointer-events: auto; cursor: pointer;
+    color: var(--c-text); background: rgba(7,15,21,0.82);
+    border: 1px solid var(--c-panel-line); border-radius: 5px 5px 0 0;
+    font-size: 10px; font-weight: 800;
+  }
+  #hudDetailToggle kbd { margin-left: 4px; opacity: 0.72; font-size: 9px; }
+  #heroIdentity .subLabel, #hpBlock .subLabel, #ammoBlock .subLabel,
+  #resourceBlock .subLabel, #statusList, #weaponTrait { display: none; }
+  #heroName { font-size: 15px; line-height: 1.05; }
+  #heroRole { font-size: 9px; }
+  #hpNum, #ammoNum { font-size: 22px; }
+  #shieldNum { font-size: 14px; }
+  #maxHpNum, #ammoNum small { font-size: 10px; }
+  #hpBar { height: 5px; margin-top: 3px; }
+  #reloadTxt { min-height: 10px; font-size: 9px; line-height: 1; }
+  #resourceNum { font-size: 11px; }
+  #abilities { grid-column: 1 / -1; gap: 5px; }
+  .abilityCard { min-height: 38px; padding: 3px 6px 5px; }
+  .abilityKey { font-size: 8px; }
+  .abilityName { font-size: 10px; }
+  .abilityState { font-size: 9px; }
+  body:not(.hud-expanded) .abilityEffect,
+  body:not(.hud-expanded) .abilityMeta,
+  body:not(.hud-expanded) #guidancePanel { display: none; }
+  #tacticalPrompt {
+    top: auto; bottom: calc(var(--hud-bottom-gap) + var(--hud-compact-height) + 10px);
+    max-width: min(560px, calc(100% - 28px));
+  }
+  #settings {
+    left: max(8px, env(safe-area-inset-left));
+    bottom: calc(var(--hud-bottom-gap) + var(--hud-compact-height) + 10px);
+    display: block; min-width: 0; padding: 0; overflow: hidden;
+  }
+  #settings summary {
+    padding: 5px 9px; cursor: pointer; list-style: none; font-size: 10px; font-weight: 800;
+  }
+  #settings summary::-webkit-details-marker { display: none; }
+  #settings .settingsContent { display: grid; gap: 5px; min-width: 226px; padding: 7px 10px 9px; border-top: 1px solid var(--c-panel-line); }
+  #lockHint { bottom: calc(var(--hud-bottom-gap) + var(--hud-compact-height) + 10px); }
+  #pingBox { right: max(8px, env(safe-area-inset-right)); bottom: var(--hud-bottom-gap); }
+
+  body.hud-expanded #bottomPanel {
+    width: min(960px, calc(100% - 28px)); max-height: min(42dvh, 360px); overflow: auto;
+  }
+  body.hud-expanded #hudDetailToggle { top: 4px; border-radius: 5px; }
+  body.hud-expanded .abilityCard { min-height: 78px; padding: 5px 7px 7px; }
+  body.hud-expanded .abilityEffect { display: -webkit-box; }
+  body.hud-expanded .abilityMeta { display: block; }
+  body.hud-expanded #guidancePanel {
+    grid-column: 1 / -1; display: grid; grid-template-columns: 150px minmax(0, 1fr);
+  }
+  body.hud-expanded #tacticalPrompt { bottom: min(45dvh, 390px); }
+  body.hud-expanded #lockHint { bottom: min(45dvh, 390px); }
+
+  @media (max-width: 600px) {
+    :root { --hud-compact-height: 82px; }
+    #bottomPanel {
+      bottom: var(--hud-bottom-gap); width: calc(100% - 8px);
+      grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px 5px; padding: 4px 5px 5px;
+    }
+    #heroName { font-size: 11px; }
+    #heroRole { font-size: 7px; }
+    #hpNum, #ammoNum { font-size: 17px; }
+    #shieldNum { font-size: 10px; }
+    #resourceBlock { grid-column: auto; display: block; }
+    .abilityCard { min-height: 33px; padding: 2px 3px 4px; }
+    .abilityKey { font-size: 7px; }
+    .abilityName, .abilityState { font-size: 8px; }
+    #hudDetailToggle { top: -23px; right: 3px; padding: 2px 6px; font-size: 8px; }
+    #settings { left: 4px; bottom: calc(var(--hud-bottom-gap) + var(--hud-compact-height) + 7px); font-size: 8px; }
+    #settings .settingsContent { min-width: 184px; }
+    #tacticalPrompt { bottom: calc(var(--hud-bottom-gap) + var(--hud-compact-height) + 7px); }
+    #tacticalPromptLabel { font-size: 8px; }
+    #tacticalPromptText { font-size: 9px; }
+    #lockHint { bottom: calc(var(--hud-bottom-gap) + var(--hud-compact-height) + 7px); }
+    #pingBox { bottom: var(--hud-bottom-gap); }
+    body.hud-expanded #guidancePanel { grid-template-columns: 1fr; }
+  }
+
+  @media (max-height: 520px) {
+    :root { --hud-compact-height: 74px; }
+    #bottomPanel { padding-block: 3px; }
+    #heroRole, #reloadTxt { display: none; }
+    .abilityCard { min-height: 30px; }
+    body.hud-expanded #bottomPanel { max-height: 48dvh; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
@@ -559,6 +659,7 @@
   <div id="muzzleGlow"></div>
 
   <div id="bottomPanel" class="panel" aria-label="自分の戦闘状況">
+    <button id="hudDetailToggle" type="button" aria-controls="guidancePanel" aria-expanded="false">戦術詳細 <kbd>F1</kbd></button>
     <div id="heroIdentity">
       <div class="subLabel">キャラクター</div>
       <div id="heroName">未選択</div>
@@ -637,7 +738,9 @@
 
   <div id="pingBox" class="panel">RTT -- ms ／ 補間 100 ms</div>
 
-  <div id="settings" class="panel">
+  <details id="settings" class="panel">
+    <summary id="settingsToggle">設定</summary>
+    <div class="settingsContent">
     <div class="settingRow">
       <label for="sensNumber">マウス感度</label>
       <input id="sensSlider" type="range" min="1" max="200" step="0.1" value="25" aria-label="マウス感度スライダー">
@@ -654,7 +757,8 @@
       <span id="volumeValue">72%</span>
     </div>
     <button id="heroChangeBtn" type="button" hidden>キャラクター変更</button>
-  </div>
+    </div>
+  </details>
 
   <div id="lockHint" class="panel">画面クリックでマウス操作、またはGamepad Startで操作再開。WASD / 左射撃 / 右サブ / Shift・E / Q ／ View: スコアボード。</div>
 </div>

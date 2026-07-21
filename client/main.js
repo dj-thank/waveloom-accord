@@ -510,6 +510,15 @@ const openAvailableHeroPicker = () => {
 heroChangeBtn.addEventListener('click', openAvailableHeroPicker);
 respawnHeroBtn.addEventListener('click', openAvailableHeroPicker);
 document.addEventListener('keydown', (event) => {
+  if (event.code === 'F1' && joined && !event.repeat) {
+    event.preventDefault();
+    hud.toggleDetails();
+    return;
+  }
+  if (event.key === 'Escape' && hud.detailsExpanded) {
+    hud.setDetailsExpanded(false, { restoreFocus: true });
+    return;
+  }
   if (event.key === 'Escape' && isChangingHero()) closeHeroPicker();
 });
 
@@ -714,7 +723,7 @@ function handleEvents(events, snap) {
     if (RENDER_CUE_TYPES.has(e.type)) renderer.spawnAbilityCue(e, myTeam);
     switch (e.type) {
       case 'shot':
-        if (e.source !== myId && !e.projectile) renderer.spawnTracer(e.origin, e.dir, e.dist);
+        if (e.source !== myId && !e.projectile) renderer.spawnTracer(e.origin, e.dir, e.dist, e.source);
         break;
       case 'hit':
         if (e.source === myId) hud.hitmarker(e.headshot);
@@ -820,6 +829,12 @@ function sampleOthers(nowMs) {
       statuses: p.statuses || [], crouch: p.crouch,
       pos: shown.pos,
       yaw: shown.yaw,
+      vel: shown.vel,
+      pitch: shown.pitch,
+      grounded: shown.grounded,
+      reloading: shown.reloading,
+      reloadProgress: shown.reloadProgress,
+      cast: shown.cast,
     });
   }
   return out;

@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
+import { HERO_RIG_ANIMATIONS, HERO_RIG_ASSET } from '../shared/data/character_assets.js';
 import { HERO_BY_ID } from '../shared/data/heroes.js';
 import { pushBounded, ReusableEffectPool } from '../client/bounded_pool.js';
 import { PerformanceBudget, copyRendererInfo } from '../client/performance_budget.js';
@@ -10,6 +11,7 @@ function loadRenderModule({
   GLTFLoader = class {}, verifyAuthoredAssetIdentity = async () => ({}),
   getActionAsset = () => null, getHeroAsset = () => null,
   createVerifiedObjectUrl = async () => { throw new Error('fixture not configured'); },
+  cloneSkeleton = source => source.clone(true),
 } = {}) {
   const file = new URL('../client/render.js', import.meta.url);
   const source = readFileSync(file, 'utf8')
@@ -27,6 +29,9 @@ function loadRenderModule({
     'getActionAsset',
     'getHeroAsset',
     'createVerifiedObjectUrl',
+    'cloneSkeleton',
+    'HERO_RIG_ASSET',
+    'HERO_RIG_ANIMATIONS',
     `${source}\nreturn {\n` +
       `  SceneRenderer,\n` +
       `  heroSilhouettes: typeof HERO_SILHOUETTES === 'undefined' ? null : HERO_SILHOUETTES,\n` +
@@ -35,6 +40,7 @@ function loadRenderModule({
   )(
     THREE, HERO_BY_ID, pushBounded, ReusableEffectPool, PerformanceBudget, copyRendererInfo,
     GLTFLoader, verifyAuthoredAssetIdentity, getActionAsset, getHeroAsset, createVerifiedObjectUrl,
+    cloneSkeleton, HERO_RIG_ASSET, HERO_RIG_ANIMATIONS,
   );
 }
 
@@ -91,6 +97,29 @@ test('all roster heroes have distinct non-color silhouette signatures', () => {
   assert.equal(new Set(signatures).size, 18);
 });
 
+test('the authored hero base is bundled, attributed, and integrity-pinned', () => {
+  const glb = readFileSync(new URL(
+    '../client/assets/generated/characters/robot_expressive/RobotExpressive.047f5e5fb3bb.glb',
+    import.meta.url,
+  ));
+  const license = readFileSync(new URL(
+    '../client/assets/generated/characters/robot_expressive/LICENSE.txt', import.meta.url,
+  ), 'utf8');
+  const renderSource = readFileSync(new URL('../client/render.js', import.meta.url), 'utf8');
+
+  assert.equal(glb.subarray(0, 4).toString('ascii'), 'glTF');
+  assert.equal(glb.byteLength, HERO_RIG_ASSET.bytes);
+  assert.equal(HERO_RIG_ASSET.sha256, '047f5e5fb3bb6d378bd1df16ca6137f2a596c99b3a1b5690b4020c05aaf6f319');
+  assert.equal(HERO_RIG_ASSET.runtimeUrl,
+    '/client/assets/generated/characters/robot_expressive/RobotExpressive.047f5e5fb3bb.glb');
+  assert.deepEqual(Object.keys(HERO_RIG_ANIMATIONS).sort(),
+    ['air', 'cast', 'crouch', 'death', 'fire', 'idle', 'run', 'walk']);
+  assert.match(license, /CC0 1\.0/);
+  assert.match(license, /threejs\.org\/examples\/models\/gltf\/RobotExpressive/);
+  assert.match(renderSource, /shared\/data\/character_assets\.js/);
+  assert.match(renderSource, /createVerifiedObjectUrl\(HERO_RIG_ASSET/);
+});
+
 test('setPlayers builds hero-specific geometry while retaining ally outlines', () => {
   const { SceneRenderer } = loadRenderModule();
   const renderer = makeBareRenderer(SceneRenderer);
@@ -117,6 +146,135 @@ test('setPlayers builds hero-specific geometry while retaining ally outlines', (
   assert.equal(signatures.size, 18);
   assert.equal(renderer.playerVisuals.get('player-zairu').shield.visible, true);
   assert.equal(renderer.playerVisuals.get('player-zairu').statusRing.visible, true);
+});
+
+test('third-person heroes expose an articulated combat rig and animate from snapshot motion', () => {
+  const { SceneRenderer } = loadRenderModule();
+  const renderer = makeBareRenderer(SceneRenderer);
+  equipPlayerRendering(renderer);
+
+  renderer.setPlayers([{
+    id: 'runner', heroId: 'asagi', team: 0, pos: [0, 0, 4], vel: [5, 0, 0],
+    yaw: 0, crouch: false, grounded: true, alive: true, hp: 250, maxHp: 250, name: 'runner',
+  }], 0, 250);
+
+  const visual = renderer.playerVisuals.get('runner');
+  assert.equal(visual.group.userData.rig, 'articulated');
+  for (const joint of ['pelvis', 'spine', 'leftShoulder', 'rightShoulder', 'leftHip', 'rightHip']) {
+    assert.ok(visual.joints[joint]?.isObject3D, `${joint} joint is missing`);
+  }
+  const before = visual.joints.leftHip.rotation.y;
+  renderer.update(0.1);
+  assert.notEqual(visual.joints.leftHip.rotation.y, before, 'running snapshots must drive a leg swing');
+  assert.equal(visual.motionState, 'run');
+});
+
+test('each combat action retriggers the matching authored one-shot animation', () => {
+  const { SceneRenderer } = loadRenderModule();
+  const renderer = makeBareRenderer(SceneRenderer);
+  const calls = { reset: 0, play: 0 };
+  const action = {
+    enabled: false,
+    reset() { calls.reset += 1; return this; },
+    setLoop() { return this; },
+    play() { calls.play += 1; return this; },
+    stop() {},
+  };
+  const visual = {
+    animationActions: new Map([[HERO_RIG_ANIMATIONS.fire, action]]),
+    authoredAnimationState: '',
+    authoredAction: null,
+    actionRevision: 0,
+  };
+  renderer.playerVisuals.set('shooter', visual);
+
+  renderer.markPlayerAction('shooter', 'fire');
+  renderer._selectAuthoredAnimation(visual, 'fire', false, visual.actionRevision);
+  renderer.markPlayerAction('shooter', 'fire');
+  renderer._selectAuthoredAnimation(visual, 'fire', false, visual.actionRevision);
+
+  assert.equal(calls.reset, 2, 'each shot must restart the LoopOnce clip');
+  assert.equal(calls.play, 2);
+  renderer.markPlayerAction('shooter', 'ability');
+  assert.equal(visual.actionState, 'cast', 'ability cues must select the cast pose instead of fire');
+});
+
+test('world dressing adds readable architecture without entering the collision SSOT', () => {
+  const { SceneRenderer } = loadRenderModule();
+  const renderer = makeBareRenderer(SceneRenderer);
+  renderer.renderer = { dispose() {} };
+  renderer._surfaceTextures = [];
+  renderer._loadGameplayPbrMaterials = async () => [];
+  renderer.map = {
+    boundsM: { x: [-46, 46], y: [-34, 34] },
+    presentationSolids: [
+      { min: [-46, -34, -1], max: [46, 34, 0], tag: 'ground' },
+      { min: [-20, 20, 4], max: [20, 20.6, 7], tag: 'wall' },
+      { min: [38, -8, 4], max: [38.6, -2, 8], tag: 'spawnwall' },
+      { min: [-3, 10, 4], max: [3, 16, 8], tag: 'tower' },
+    ],
+    objective: { center: [0, 0, 2.5], radiusM: 7 },
+    routes: { front: [[40, 0, 4], [20, 0, 4], [7, 0, 3.5]] },
+  };
+
+  renderer._buildMapMeshes();
+  renderer._buildWorldDressing();
+
+  assert.equal(renderer.worldDressing.parent, renderer.world);
+  assert.equal(renderer.worldDressing.userData.collision, false);
+  assert.equal(renderer.worldDressing.userData.decorativeOnly, true);
+  for (const name of [
+    'architectural-framing', 'facade-horizontal-bands', 'facade-panels',
+    'route-paving', 'objective-landmark',
+  ]) {
+    assert.ok(renderer.worldDressing.getObjectByName(name), `${name} dressing is missing`);
+  }
+  assert.ok(renderer.worldDressing.children.some(child => child.isInstancedMesh),
+    'repeated architecture should remain draw-call bounded');
+  const framing = renderer.worldDressing.getObjectByName('architectural-framing');
+  const unitBounds = new THREE.Box3(
+    new THREE.Vector3(-0.5, -0.5, -0.5), new THREE.Vector3(0.5, 0.5, 0.5),
+  );
+  const matrix = new THREE.Matrix4();
+  const structural = renderer.map.presentationSolids.filter(solid => solid.tag !== 'ground');
+  for (let index = 0; index < framing.count; index++) {
+    framing.getMatrixAt(index, matrix);
+    const bounds = unitBounds.clone().applyMatrix4(matrix);
+    assert.ok(structural.some(solid => (
+      bounds.min.x >= solid.min[0] - 1e-5 && bounds.max.x <= solid.max[0] + 1e-5
+      && bounds.min.y >= solid.min[1] - 1e-5 && bounds.max.y <= solid.max[1] + 1e-5
+      && bounds.min.z >= solid.min[2] - 1e-5 && bounds.max.z <= solid.max[2] + 1e-5
+    )), `opaque frame ${index} protrudes beyond canonical collision`);
+  }
+  const facadePanels = renderer.worldDressing.getObjectByName('facade-panels');
+  assert.equal(framing.material.polygonOffset, true);
+  assert.ok(framing.material.polygonOffsetFactor < 0);
+  assert.equal(facadePanels.material.polygonOffset, true);
+  assert.ok(facadePanels.material.polygonOffsetFactor < 0);
+  assert.equal(facadePanels.material.vertexColors, false,
+    'instance colors must not be multiplied by a missing vertex-color attribute');
+  assert.ok(facadePanels.instanceColor, 'facade panels need per-instance color rhythm');
+  for (let index = 0; index < facadePanels.count; index++) {
+    facadePanels.getMatrixAt(index, matrix);
+    const bounds = unitBounds.clone().applyMatrix4(matrix);
+    assert.ok(structural.some(solid => (
+      bounds.min.x >= solid.min[0] - 1e-5 && bounds.max.x <= solid.max[0] + 1e-5
+      && bounds.min.y >= solid.min[1] - 1e-5 && bounds.max.y <= solid.max[1] + 1e-5
+      && bounds.min.z >= solid.min[2] - 1e-5 && bounds.max.z <= solid.max[2] + 1e-5
+    )), `opaque facade panel ${index} protrudes beyond canonical collision: ${JSON.stringify({ min: bounds.min.toArray(), max: bounds.max.toArray() })}`);
+  }
+  const facadeBands = renderer.worldDressing.getObjectByName('facade-horizontal-bands');
+  for (let index = 0; index < facadeBands.count; index++) {
+    facadeBands.getMatrixAt(index, matrix);
+    const bounds = unitBounds.clone().applyMatrix4(matrix);
+    assert.ok(structural.some(solid => (
+      bounds.min.x >= solid.min[0] - 1e-5 && bounds.max.x <= solid.max[0] + 1e-5
+      && bounds.min.y >= solid.min[1] - 1e-5 && bounds.max.y <= solid.max[1] + 1e-5
+      && bounds.min.z >= solid.min[2] - 1e-5 && bounds.max.z <= solid.max[2] + 1e-5
+    )), `opaque facade band ${index} protrudes beyond canonical collision`);
+  }
+
+  renderer.dispose();
 });
 
 test('world effects reconcile zones, barrier faces, and projectile bodies by relation', () => {
@@ -369,7 +527,7 @@ test('canonical PBR bundles apply atomically while failed bundles keep procedura
     dispose() {},
   };
 
-  const tags = ['ground', 'slab', 'rim', 'wall', 'tower', 'cover'];
+  const tags = ['ground', 'slab', 'rim', 'stair', 'wall', 'tower', 'cover', 'spawnwall'];
   const mats = Object.fromEntries(tags.map(tag => {
     const fallback = new THREE.Texture();
     return [tag, new THREE.MeshStandardMaterial({ map: fallback, roughness: 0.8 })];
@@ -406,7 +564,7 @@ test('canonical PBR bundles apply atomically while failed bundles keep procedura
     '/client/assets/materials/polyhaven/concrete_floor_01/concrete_floor_01_nor_gl_1k.jpg',
     '/client/assets/materials/polyhaven/concrete_floor_01/concrete_floor_01_rough_1k.jpg',
   ]);
-  for (const tag of ['ground', 'slab', 'rim']) {
+  for (const tag of ['ground', 'slab', 'rim', 'stair']) {
     assert.notEqual(mats[tag].map, fallbackMaps[tag]);
     assert.equal(mats[tag].map, mats.ground.map);
     assert.equal(mats[tag].normalMap, mats.ground.normalMap);
@@ -416,7 +574,7 @@ test('canonical PBR bundles apply atomically while failed bundles keep procedura
     assert.equal(mats[tag].map.repeat.x, 12);
     assert.equal(mats[tag].map.anisotropy, 4);
   }
-  for (const tag of ['wall', 'tower', 'cover']) {
+  for (const tag of ['wall', 'tower', 'cover', 'spawnwall']) {
     assert.equal(mats[tag].map, fallbackMaps[tag]);
     assert.equal(mats[tag].normalMap, null);
     assert.equal(mats[tag].roughnessMap, null);

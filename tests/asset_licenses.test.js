@@ -59,3 +59,26 @@ test('all admitted audio is project-authored local DSP with reproducible provena
     assert.equal(source.subarray(8, 12).toString('ascii'), 'WAVE', identity);
   }
 });
+
+test('third-party notices preserve admitted attribution and dependency licenses', async () => {
+  const notice = await readFile(new URL('THIRD_PARTY_NOTICES.md', REPOSITORY_ROOT), 'utf8');
+  assert.match(notice, /chicken gun fruzer mine/);
+  assert.match(notice, /amogusstrikesback2/);
+  assert.match(notice, /Creative Commons Attribution 4\.0 International/);
+  assert.match(notice, /imported as GLB/);
+  assert.match(notice, /three\.js authors/);
+  assert.match(notice, /Einar Otto Stangvik/);
+  assert.equal((notice.match(/Permission is hereby granted, free of charge/g) ?? []).length, 2);
+
+  const [threeLicense, wsLicense] = await Promise.all([
+    readFile(new URL('node_modules/three/LICENSE', REPOSITORY_ROOT), 'utf8'),
+    readFile(new URL('node_modules/ws/LICENSE', REPOSITORY_ROOT), 'utf8'),
+  ]);
+  const normalizeLicense = text => text.replace(/\s+/g, ' ').trim();
+  const normalizedNotice = normalizeLicense(notice);
+  assert.equal(normalizedNotice.includes(normalizeLicense(threeLicense)), true, 'three.js MIT text drifted');
+  assert.equal(normalizedNotice.includes(normalizeLicense(wsLicense)), true, 'ws MIT text drifted');
+
+  const packageTool = await readFile(new URL('tools/package_rc5_candidate.py', REPOSITORY_ROOT), 'utf8');
+  assert.match(packageTool, /"THIRD_PARTY_NOTICES\.md"/);
+});

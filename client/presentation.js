@@ -15,6 +15,10 @@ export function interpolateRemotePlayer(previous, current, alpha, teleportThresh
     current.pos[2] - q.pos[2],
   );
   const t = distance > teleportThresholdM || q.alive !== current.alive ? 1 : alpha;
+  const qVel = Array.isArray(q.vel) ? q.vel : (Array.isArray(current.vel) ? current.vel : [0, 0, 0]);
+  const currentVel = Array.isArray(current.vel) ? current.vel : qVel;
+  const qPitch = Number.isFinite(q.pitch) ? q.pitch : (Number.isFinite(current.pitch) ? current.pitch : 0);
+  const currentPitch = Number.isFinite(current.pitch) ? current.pitch : qPitch;
   return {
     pos: [
       lerp(q.pos[0], current.pos[0], t),
@@ -22,6 +26,18 @@ export function interpolateRemotePlayer(previous, current, alpha, teleportThresh
       lerp(q.pos[2], current.pos[2], t),
     ],
     yaw: lerpAngle(q.yaw, current.yaw, t),
+    vel: [
+      lerp(qVel[0] || 0, currentVel[0] || 0, t),
+      lerp(qVel[1] || 0, currentVel[1] || 0, t),
+      lerp(qVel[2] || 0, currentVel[2] || 0, t),
+    ],
+    pitch: lerpAngle(qPitch, currentPitch, t),
+    grounded: current.grounded !== false,
+    crouch: !!current.crouch,
+    reloading: !!current.reloading,
+    reloadProgress: Number(current.reloadProgress) || 0,
+    cast: current.cast || null,
+    alive: current.alive !== false,
   };
 }
 

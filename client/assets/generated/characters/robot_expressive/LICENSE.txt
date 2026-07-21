@@ -1,0 +1,16 @@
+RobotExpressive
+
+Model by Tomas Laulhe. Modifications by Don McCurdy: three facial expression
+morph targets, FBX2GLTF conversion, duplicate-material removal, and reduced
+material metalness.
+
+Source:
+https://threejs.org/examples/models/gltf/RobotExpressive/
+
+License: Creative Commons CC0 1.0 Universal
+https://creativecommons.org/publicdomain/zero/1.0/
+
+Admitted runtime file:
+RobotExpressive.047f5e5fb3bb.glb
+SHA-256: 047F5E5FB3BB6D378BD1DF16CA6137F2A596C99B3A1B5690B4020C05AAF6F319
+Bytes: 463988

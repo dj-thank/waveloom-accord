@@ -72,7 +72,7 @@ npm run verify:release # verify後、本番設定の一時サーバーでready/1
 
 ## 3Dマップのクレジット
 
-本作の鉱山表示は [chicken gun fruzer mine](https://sketchfab.com/3d-models/chicken-gun-fruzer-mine-055bcbb8505548b88af029ed198c37c2) by [amogusstrikesback2](https://sketchfab.com/amogusstrikesback2) を使用し、[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) で提供されています。原文クレジットと取得時SHA-256は [`client/assets/chicken_gun_fruzer_mine.LICENSE.txt`](client/assets/chicken_gun_fruzer_mine.LICENSE.txt) に保存しています。
+本作の鉱山表示は [chicken gun fruzer mine](https://sketchfab.com/3d-models/chicken-gun-fruzer-mine-055bcbb8505548b88af029ed198c37c2) by [amogusstrikesback2](https://sketchfab.com/amogusstrikesback2) を使用し、[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) で提供されています。取得物はGLBとして取り込み、当たり判定は別途制作しています。原文クレジット、変更表示、取得時SHA-256は [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) と [`client/assets/chicken_gun_fruzer_mine.LICENSE.txt`](client/assets/chicken_gun_fruzer_mine.LICENSE.txt) に保存しています。
 
 ## 構成
 

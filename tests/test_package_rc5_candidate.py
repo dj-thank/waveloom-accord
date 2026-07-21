@@ -83,6 +83,26 @@ class PackageCandidatePolicyTest(unittest.TestCase):
             with self.subTest(suffix=suffix):
                 self.assertIn(suffix, PACKAGE.EXCLUDED_SUFFIXES)
 
+    def test_release_manifest_hashes_status_and_explicitly_excludes_only_itself(self) -> None:
+        payload = [{"path": "README.md", "bytes": 3, "sha256": "a" * 64}]
+        status_bytes = PACKAGE.canonical_json({"candidateStatus": "COMPLETE_AUDIO"})
+        manifest = PACKAGE.build_release_manifest(payload, status_bytes)
+
+        self.assertEqual(manifest["format"], "kagariai-source-manifest-v2")
+        self.assertEqual(manifest["selfExcludedPath"], PACKAGE.RELEASE_MANIFEST_PATH)
+        self.assertEqual(manifest["fileCount"], 2)
+        self.assertEqual(manifest["archiveEntryCount"], 3)
+        self.assertEqual(
+            {entry["path"] for entry in manifest["files"]},
+            {"README.md", PACKAGE.RELEASE_STATUS_PATH},
+        )
+        status_entry = next(entry for entry in manifest["files"] if entry["path"] == PACKAGE.RELEASE_STATUS_PATH)
+        self.assertEqual(status_entry["bytes"], len(status_bytes))
+        self.assertEqual(status_entry["sha256"], PACKAGE.sha256_bytes(status_bytes))
+
+    def test_visual_refinement_evidence_is_packaged_with_its_report(self) -> None:
+        self.assertIn("outputs/rc5-visual-refinement-audit", PACKAGE.EVIDENCE_DIRECTORIES)
+
     def test_legacy_audio_is_excluded_but_local_wav_is_admitted(self) -> None:
         local_wav = next((ROOT / "assets-src" / "local-audio" / "raw").rglob("*.wav"))
         legacy_mp3 = next((ROOT / "assets-src" / "elevenlabs" / "raw").rglob("*.mp3"))

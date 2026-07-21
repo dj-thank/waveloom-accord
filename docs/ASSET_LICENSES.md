@@ -1,6 +1,6 @@
 # Asset provenance and release ledger
 
-Audit date: 2026-07-20 (Asia/Tokyo)
+Audit date: 2026-07-21 (Asia/Tokyo)
 
 This ledger is the release gate for bundled visual and audio assets. Runtime assets
 must have a direct source page, a verified license, a content hash, and a clear
@@ -27,6 +27,7 @@ and are not evidence for the admitted 90-file local DSP catalog.
 
 | Asset | Source / author | License | Runtime role | Source bytes | Verification |
 |---|---|---|---|---:|---|
+| `RobotExpressive.047f5e5fb3bb.glb` | [Three.js RobotExpressive](https://threejs.org/examples/models/gltf/RobotExpressive/), Tomas Laulhe; glTF modifications by Don McCurdy | CC0 1.0 | Integrity-verified articulated third-person base; hero identity remains the project-authored silhouette/accessory layer | 463,988 | SHA-256 `047F5E5FB3BB6D378BD1DF16CA6137F2A596C99B3A1B5690B4020C05AAF6F319`; descriptor in `shared/data/character_assets.js` |
 | `chicken_gun_fruzer_mine.glb` | [Sketchfab source](https://sketchfab.com/3d-models/chicken-gun-fruzer-mine-055bcbb8505548b88af029ed198c37c2), amogusstrikesback2 | CC BY 4.0 | Verified hidden reference; its unmatched opaque structures are not rendered and never replace gameplay collision | 23,866,668 | SHA-256 `DC9017A5F1D875B7CB45C00183E158491FAE042F6A33CE8EC42FCA8D9CA2E597` |
 | Concrete Floor 01 diffuse 1K | [Poly Haven](https://polyhaven.com/a/concrete_floor_01), Rob Tuytel | CC0 1.0 | Walkable floor albedo | 755,740 | SHA-256 `DB7C800F1464359B5F359FC743E82AC51B34E014FDFD53844F4AF34BB1949229`; API MD5 matched |
 | Concrete Floor 01 normal GL 1K | same | CC0 1.0 | Walkable floor normal | 909,898 | SHA-256 `28BE1F6FA82EEAB137C84954BF7EA0F5D8A4434352D01C29F15E20926EB7227E`; API MD5 matched |

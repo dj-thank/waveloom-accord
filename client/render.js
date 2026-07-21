@@ -7,8 +7,10 @@
 
 import * as THREE from '/vendor/three.module.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { clone as cloneSkeleton } from 'three/addons/utils/SkeletonUtils.js';
 import { pushBounded, ReusableEffectPool } from '/client/bounded_pool.js';
 import { PerformanceBudget, copyRendererInfo } from '/client/performance_budget.js';
+import { HERO_RIG_ANIMATIONS, HERO_RIG_ASSET } from '/shared/data/character_assets.js';
 import { HERO_BY_ID } from '/shared/data/heroes.js';
 import { verifyAuthoredAssetIdentity } from '/shared/data/map_oshioi.js';
 import { weaponMuzzlePosition } from '/shared/sim/combat.js';
@@ -29,14 +31,14 @@ const TAG_COLORS = {
 const GAMEPLAY_PBR_MATERIALS = Object.freeze([
   Object.freeze({
     id: 'concrete-floor',
-    tags: Object.freeze(['ground', 'slab', 'rim']),
+    tags: Object.freeze(['ground', 'slab', 'rim', 'stair']),
     baseUrl: '/client/assets/materials/polyhaven/concrete_floor_01',
     stem: 'concrete_floor_01',
     repeat: 12,
   }),
   Object.freeze({
     id: 'concrete-structure',
-    tags: Object.freeze(['wall', 'tower', 'cover']),
+    tags: Object.freeze(['wall', 'tower', 'cover', 'spawnwall']),
     baseUrl: '/client/assets/materials/polyhaven/concrete',
     stem: 'concrete',
     repeat: 8,
@@ -248,6 +250,7 @@ export class SceneRenderer {
     this._applyQualityProfile(this.performanceBudget.quality);
     this._buildMapMeshes();
     this._loadAuthoredMap(this.map.visualAsset);
+    this._buildWorldDressing();
     this._buildEnvironmentProps();
     this._buildObjective();
     this._buildPickups();
@@ -293,6 +296,9 @@ export class SceneRenderer {
       this._reducedMotion = !!event.matches;
     };
     this._motionQuery?.addEventListener?.('change', this._onMotionChange);
+    this._heroRigTemplate = null;
+    this._heroRigAnimations = [];
+    this._heroRigAssetLoad = this._loadHeroRigAsset();
 
     // マズルフラッシュ光
     this.flashLight = new THREE.PointLight(0xffe9b0, 0, 14, 2);
@@ -416,7 +422,7 @@ export class SceneRenderer {
       mesh.receiveShadow = true;
       mesh.castShadow = b.tag !== 'ground';
       canonicalMapPresentation.add(mesh);
-      if (b.tag !== 'ground') {
+      if (b.tag === 'cover' || b.tag === 'tower') {
         // 輪郭線（グレーボックスの視認性向上）を1本のLineSegmentsへ統合
         const eg = new THREE.EdgesGeometry(mesh.geometry);
         const arr = eg.attributes.position.array;
@@ -430,7 +436,7 @@ export class SceneRenderer {
     const edgeGeo = new THREE.BufferGeometry();
     edgeGeo.setAttribute('position', new THREE.Float32BufferAttribute(edgePositions, 3));
     canonicalMapPresentation.add(new THREE.LineSegments(edgeGeo,
-      new THREE.LineBasicMaterial({ color: 0x8d867b, transparent: true, opacity: 0.35 })));
+      new THREE.LineBasicMaterial({ color: 0x776f65, transparent: true, opacity: 0.13 })));
 
     // 浅瀬の水面（視覚のみ・当たり判定なし）
     const [x0, x1] = this.map.boundsM.x, [y0, y1] = this.map.boundsM.y;
@@ -510,6 +516,7 @@ export class SceneRenderer {
   }
 
   _buildEnvironmentProps() {
+    const target = this.worldDressing || this.canonicalMapPresentation;
     const [x0, x1] = this.map.boundsM.x;
     const [y0, y1] = this.map.boundsM.y;
     const rockGeometry = new THREE.DodecahedronGeometry(1, 0);
@@ -521,9 +528,11 @@ export class SceneRenderer {
       state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
       const ratio = (state & 0xffff) / 0xffff;
       const side = index % 4;
-      const margin = 4 + ((state >>> 16) & 7);
-      const x = side < 2 ? x0 + (x1 - x0) * ratio : (side === 2 ? x0 + margin : x1 - margin);
-      const y = side >= 2 ? y0 + (y1 - y0) * ratio : (side === 0 ? y0 + margin : y1 - margin);
+      const margin = 3 + ((state >>> 16) & 7);
+      // Decorative rocks live beyond the canonical boundary wall. Keeping
+      // them outside the playable AABBs prevents non-colliding false cover.
+      const x = side < 2 ? x0 + (x1 - x0) * ratio : (side === 2 ? x0 - margin : x1 + margin);
+      const y = side >= 2 ? y0 + (y1 - y0) * ratio : (side === 0 ? y0 - margin : y1 + margin);
       const scale = 0.28 + ((state >>> 24) / 255) * 0.9;
       dummy.position.set(x, y, 0.18 + scale * 0.25);
       dummy.rotation.set((state & 7) * 0.11, ((state >>> 4) & 15) * 0.2, ((state >>> 8) & 15) * 0.16);
@@ -534,29 +543,272 @@ export class SceneRenderer {
     rocks.castShadow = true;
     rocks.receiveShadow = true;
     rocks.instanceMatrix.needsUpdate = true;
-    this.canonicalMapPresentation.add(rocks);
+    rocks.name = 'boundary-scenery-rocks';
+    rocks.userData.collision = false;
+    target.add(rocks);
 
     const lanternGeometry = new THREE.CylinderGeometry(0.16, 0.2, 0.52, 8);
-    const lanternMaterial = new THREE.MeshStandardMaterial({
-      color: 0x6f4c2a, emissive: 0xffb64d, emissiveIntensity: 1.7, roughness: 0.45, metalness: 0.32,
+    const lanternMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffbd63, transparent: true, opacity: 0.72, depthWrite: false,
+      blending: THREE.AdditiveBlending,
     });
     const lanterns = new THREE.InstancedMesh(lanternGeometry, lanternMaterial, 18);
+    const presentationSolids = Array.isArray(this.map.presentationSolids)
+      ? this.map.presentationSolids
+      : this.map.solids || [];
+    const surfaceTopAt = (x, y) => presentationSolids.reduce((top, solid) => (
+      x >= solid.min[0] && x <= solid.max[0] && y >= solid.min[1] && y <= solid.max[1]
+        ? Math.max(top, solid.max[2])
+        : top
+    ), 0);
     for (let index = 0; index < 18; index++) {
       const angle = index * Math.PI * 2 / 18;
       const radius = this.map.objective.radiusM + 4.2;
-      dummy.position.set(
-        this.map.objective.center[0] + Math.cos(angle) * radius,
-        this.map.objective.center[1] + Math.sin(angle) * radius,
-        0.42,
-      );
-      dummy.rotation.set(0, 0, angle);
+      const x = this.map.objective.center[0] + Math.cos(angle) * radius;
+      const y = this.map.objective.center[1] + Math.sin(angle) * radius;
+      dummy.position.set(x, y, surfaceTopAt(x, y) + 0.26);
+      dummy.rotation.set(Math.PI / 2, 0, angle);
       dummy.scale.setScalar(1);
       dummy.updateMatrix();
       lanterns.setMatrixAt(index, dummy.matrix);
     }
-    lanterns.castShadow = true;
+    lanterns.castShadow = false;
     lanterns.instanceMatrix.needsUpdate = true;
-    this.canonicalMapPresentation.add(lanterns);
+    lanterns.name = 'objective-route-lights';
+    lanterns.userData.collision = false;
+    lanterns.userData.collisionSemantics = 'holographic';
+    target.add(lanterns);
+  }
+
+  _buildWorldDressing() {
+    if (this.worldDressing) return this.worldDressing;
+    const dressing = new THREE.Group();
+    dressing.name = 'non-colliding-world-dressing';
+    dressing.userData.collision = false;
+    dressing.userData.decorativeOnly = true;
+    dressing.userData.collisionSource = 'canonical-gameplay-surfaces';
+    this.world.add(dressing);
+    this.worldDressing = dressing;
+
+    const solids = Array.isArray(this.map.presentationSolids)
+      ? this.map.presentationSolids
+      : this.map.solids || [];
+    const structural = solids.filter(solid => ['wall', 'spawnwall', 'tower', 'cover'].includes(solid.tag));
+    const frameTransforms = [];
+    const bandTransforms = [];
+    const panelTransforms = [];
+    const addTransform = (position, scale) => {
+      frameTransforms.push({ position, scale, rotationZ: 0 });
+    };
+
+    // All opaque trim sits on top of an existing canonical collider. It adds
+    // readable facade rhythm without introducing geometry players can cross.
+    for (const solid of structural) {
+      const dx = solid.max[0] - solid.min[0];
+      const dy = solid.max[1] - solid.min[1];
+      const dz = solid.max[2] - solid.min[2];
+      const cx = (solid.min[0] + solid.max[0]) / 2;
+      const cy = (solid.min[1] + solid.max[1]) / 2;
+      const longX = dx >= dy;
+      const long = Math.max(dx, dy);
+      const short = Math.max(0.18, Math.min(dx, dy));
+      const alongInset = Math.min(0.18, long * 0.12);
+      const usableLong = Math.max(0.12, long - alongInset * 2);
+      const bayCount = Math.min(32, Math.max(2, Math.ceil(long / 2.4)));
+      const bayGap = Math.min(0.18, usableLong / Math.max(4, bayCount * 3));
+      const bayWidth = Math.max(0.06, (usableLong - bayGap * (bayCount - 1)) / bayCount);
+
+      // Vertical posts are aligned to facade bays. Their outer faces remain
+      // coplanar with, never beyond, the authoritative collider.
+      for (let index = 0; index <= bayCount; index++) {
+        const ratio = index / bayCount;
+        const x = longX ? solid.min[0] + alongInset + usableLong * ratio : cx;
+        const y = longX ? cy : solid.min[1] + alongInset + usableLong * ratio;
+        const postScale = longX
+          ? [0.12, short, Math.max(0.12, dz - 0.24)]
+          : [short, 0.12, Math.max(0.12, dz - 0.24)];
+        addTransform([x, y, (solid.min[2] + solid.max[2]) / 2], postScale);
+      }
+
+      if (dz >= 0.9 && dx >= 0.2 && dy >= 0.2) {
+        const verticalInset = Math.min(0.4, dz * 0.2);
+        const verticalSpan = Math.max(0.12, dz - verticalInset * 2);
+        const rowCount = Math.min(4, Math.max(1, Math.ceil(verticalSpan / 2.7)));
+        const rowGap = Math.min(0.18, verticalSpan / Math.max(4, rowCount * 3));
+        const rowHeight = Math.max(0.08, (verticalSpan - rowGap * (rowCount - 1)) / rowCount);
+        const faceThickness = Math.min(0.04, short * 0.25);
+
+        // Horizontal bands make tall boundary walls read as stacked levels,
+        // rather than a single low-density box face.
+        const bandScale = longX
+          ? [Math.max(0.08, long - 0.08), short, 0.1]
+          : [short, Math.max(0.08, long - 0.08), 0.1];
+        for (let row = 1; row < rowCount; row++) {
+          const z = solid.min[2] + verticalInset + row * rowHeight + (row - 0.5) * rowGap;
+          bandTransforms.push({ position: [cx, cy, z], scale: bandScale });
+        }
+        bandTransforms.push({ position: [cx, cy, solid.min[2] + 0.14], scale: bandScale });
+        bandTransforms.push({ position: [cx, cy, solid.max[2] - 0.14], scale: bandScale });
+
+        for (let bay = 0; bay < bayCount; bay++) {
+          const along = (longX ? solid.min[0] : solid.min[1]) + alongInset
+            + bay * (bayWidth + bayGap) + bayWidth / 2;
+          for (let row = 0; row < rowCount; row++) {
+            const panelZ = solid.min[2] + verticalInset
+              + row * (rowHeight + rowGap) + rowHeight / 2;
+            if (longX) {
+              panelTransforms.push({
+                position: [along, solid.min[1] + faceThickness / 2, panelZ],
+                scale: [bayWidth, faceThickness, rowHeight],
+              });
+              panelTransforms.push({
+                position: [along, solid.max[1] - faceThickness / 2, panelZ],
+                scale: [bayWidth, faceThickness, rowHeight],
+              });
+            } else {
+              panelTransforms.push({
+                position: [solid.min[0] + faceThickness / 2, along, panelZ],
+                scale: [faceThickness, bayWidth, rowHeight],
+              });
+              panelTransforms.push({
+                position: [solid.max[0] - faceThickness / 2, along, panelZ],
+                scale: [faceThickness, bayWidth, rowHeight],
+              });
+            }
+          }
+        }
+      }
+    }
+
+    const frameGeometry = new THREE.BoxGeometry(1, 1, 1);
+    const frameMaterial = new THREE.MeshStandardMaterial({
+      color: 0x624637, roughness: 0.66, metalness: 0.2, emissive: 0x21130d, emissiveIntensity: 0.2,
+      polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2,
+    });
+    const frames = new THREE.InstancedMesh(frameGeometry, frameMaterial, Math.max(1, frameTransforms.length));
+    frames.name = 'architectural-framing';
+    frames.userData.collision = false;
+    frames.userData.canonicalContained = true;
+    const dummy = new THREE.Object3D();
+    frameTransforms.forEach((transform, index) => {
+      dummy.position.set(...transform.position);
+      dummy.rotation.set(0, 0, transform.rotationZ);
+      dummy.scale.set(...transform.scale);
+      dummy.updateMatrix();
+      frames.setMatrixAt(index, dummy.matrix);
+    });
+    frames.count = frameTransforms.length;
+    frames.instanceMatrix.needsUpdate = true;
+    frames.castShadow = true;
+    frames.receiveShadow = true;
+    dressing.add(frames);
+
+    const bandGeometry = new THREE.BoxGeometry(1, 1, 1);
+    const bandMaterial = new THREE.MeshStandardMaterial({
+      color: 0x657b78, roughness: 0.72, metalness: 0.1,
+      emissive: 0x132221, emissiveIntensity: 0.16,
+      polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2,
+    });
+    const facadeBands = new THREE.InstancedMesh(bandGeometry, bandMaterial, Math.max(1, bandTransforms.length));
+    facadeBands.name = 'facade-horizontal-bands';
+    facadeBands.userData.collision = false;
+    facadeBands.userData.canonicalContained = true;
+    bandTransforms.forEach((transform, index) => {
+      dummy.position.set(...transform.position);
+      dummy.rotation.set(0, 0, 0);
+      dummy.scale.set(...transform.scale);
+      dummy.updateMatrix();
+      facadeBands.setMatrixAt(index, dummy.matrix);
+    });
+    facadeBands.count = bandTransforms.length;
+    facadeBands.instanceMatrix.needsUpdate = true;
+    facadeBands.castShadow = false;
+    facadeBands.receiveShadow = true;
+    dressing.add(facadeBands);
+
+    const panelGeometry = new THREE.BoxGeometry(1, 1, 1);
+    const panelMaterial = new THREE.MeshStandardMaterial({
+      color: 0xffffff, roughness: 0.78, metalness: 0.04,
+      emissive: 0x162b2c, emissiveIntensity: 0.2,
+      polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1,
+    });
+    const facadePanels = new THREE.InstancedMesh(panelGeometry, panelMaterial, Math.max(1, panelTransforms.length));
+    facadePanels.name = 'facade-panels';
+    facadePanels.userData.collision = false;
+    facadePanels.userData.canonicalContained = true;
+    const facadeColors = [new THREE.Color(0xc2a77d), new THREE.Color(0x789b96), new THREE.Color(0xa97858)];
+    panelTransforms.forEach((transform, index) => {
+      dummy.position.set(...transform.position);
+      dummy.rotation.set(0, 0, 0);
+      dummy.scale.set(...transform.scale);
+      dummy.updateMatrix();
+      facadePanels.setMatrixAt(index, dummy.matrix);
+      facadePanels.setColorAt(index, facadeColors[index % facadeColors.length]);
+    });
+    facadePanels.count = panelTransforms.length;
+    facadePanels.instanceMatrix.needsUpdate = true;
+    if (facadePanels.instanceColor) facadePanels.instanceColor.needsUpdate = true;
+    facadePanels.castShadow = false;
+    facadePanels.receiveShadow = true;
+    dressing.add(facadePanels);
+
+    const routeTransforms = [];
+    for (const route of Object.values(this.map.routes || {})) {
+      if (!Array.isArray(route)) continue;
+      for (let index = 0; index < route.length; index += 2) {
+        const point = safeVec3(route[index]);
+        const next = safeVec3(route[Math.min(index + 1, route.length - 1)], point);
+        const yaw = Math.atan2(next[1] - point[1], next[0] - point[0]);
+        for (const mirror of [1, -1]) {
+          routeTransforms.push({
+            position: [point[0] * mirror, point[1] * mirror, point[2] + 0.025],
+            rotationZ: yaw + (mirror < 0 ? Math.PI : 0),
+          });
+        }
+      }
+    }
+    const routeGeometry = new THREE.BoxGeometry(1.1, 0.34, 0.035);
+    const routeMaterial = new THREE.MeshStandardMaterial({
+      color: 0x4a8790, emissive: 0x173e46, emissiveIntensity: 0.34, roughness: 0.58, metalness: 0.18,
+    });
+    const routePaving = new THREE.InstancedMesh(routeGeometry, routeMaterial, Math.max(1, routeTransforms.length));
+    routePaving.name = 'route-paving';
+    routePaving.userData.collision = false;
+    routeTransforms.forEach((transform, index) => {
+      dummy.position.set(...transform.position);
+      dummy.rotation.set(0, 0, transform.rotationZ);
+      dummy.scale.set(1, 1, 1);
+      dummy.updateMatrix();
+      routePaving.setMatrixAt(index, dummy.matrix);
+    });
+    routePaving.count = routeTransforms.length;
+    routePaving.instanceMatrix.needsUpdate = true;
+    routePaving.receiveShadow = true;
+    dressing.add(routePaving);
+
+    const landmark = new THREE.Group();
+    landmark.name = 'objective-landmark';
+    landmark.userData.collision = false;
+    landmark.userData.collisionSemantics = 'holographic';
+    const center = safeVec3(this.map.objective?.center, [0, 0, 2.5]);
+    const ringMaterial = new THREE.MeshBasicMaterial({
+      color: 0x70e9ec, transparent: true, opacity: 0.62, depthWrite: false,
+    });
+    for (const [height, radius, tube] of [[7.2, 3.4, 0.08], [8.1, 2.25, 0.055]]) {
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(radius, tube, 8, 48), ringMaterial);
+      ring.position.set(center[0], center[1], height);
+      landmark.add(ring);
+    }
+    const beaconMaterial = new THREE.MeshBasicMaterial({
+      color: 0xc7ffff, transparent: true, opacity: 0.22, depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+    const beacon = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.65, 5.1, 12, 1, true), beaconMaterial);
+    beacon.position.set(center[0], center[1], 5.55);
+    beacon.rotation.x = Math.PI / 2;
+    landmark.add(beacon);
+    dressing.add(landmark);
+    return dressing;
   }
 
   _setAuthoredMapStatus(status, detail = {}) {
@@ -663,6 +915,41 @@ export class SceneRenderer {
       console.warn(`[map] authored map fallback: ${error?.message || error}`);
       this._setAuthoredMapStatus('fallback', { url, reason: String(error?.message || error) });
     });
+  }
+
+  async _loadHeroRigAsset() {
+    if (typeof document !== 'undefined') document.documentElement.dataset.heroRig = 'verifying';
+    let verified = null;
+    try {
+      verified = await createVerifiedObjectUrl(HERO_RIG_ASSET, {
+        expectedContentType: HERO_RIG_ASSET.contentType,
+        maxBytes: HERO_RIG_ASSET.maxBytes,
+      });
+      const gltf = await new GLTFLoader().loadAsync(verified.objectUrl);
+      if (this._disposed) {
+        disposeObjectResources(gltf?.scene);
+        return false;
+      }
+      if (!gltf?.scene || !Array.isArray(gltf.animations) || gltf.animations.length === 0) {
+        disposeObjectResources(gltf?.scene);
+        throw new Error('verified hero rig has no scene or animation clips');
+      }
+      this._heroRigTemplate = gltf.scene;
+      this._heroRigTemplate.name = 'verified-hero-rig-template';
+      this._heroRigTemplate.userData.assetId = HERO_RIG_ASSET.id;
+      this._heroRigAnimations = gltf.animations;
+      for (const visual of this.playerVisuals?.values?.() || []) this._attachAuthoredHeroRig(visual);
+      if (typeof document !== 'undefined') document.documentElement.dataset.heroRig = 'verified';
+      return true;
+    } catch (error) {
+      if (!this._disposed) {
+        console.warn(`[hero-rig] articulated fallback: ${error?.message || error}`);
+        if (typeof document !== 'undefined') document.documentElement.dataset.heroRig = 'fallback';
+      }
+      return false;
+    } finally {
+      verified?.revoke?.();
+    }
   }
 
   _buildObjective() {
@@ -1064,6 +1351,8 @@ export class SceneRenderer {
   spawnAbilityCue(rawEvent = {}, myTeam) {
     if (!rawEvent || typeof rawEvent !== 'object') return;
     const event = rawEvent;
+    const actingPlayerId = event.player ?? event.source;
+    if (actingPlayerId !== undefined && actingPlayerId !== null) this.markPlayerAction(actingPlayerId, 'ability');
     if (!Array.isArray(this.abilityCues)) this.abilityCues = [];
     if (!(this._playerPositions instanceof Map)) this._playerPositions = new Map();
 
@@ -1311,8 +1600,12 @@ export class SceneRenderer {
     const heroId = hero?.id || (HERO_SILHOUETTES[requestedHeroId] ? requestedHeroId : 'unknown');
     const silhouette = HERO_SILHOUETTES[heroId] || HERO_SILHOUETTES.asagi;
     const group = new THREE.Group();
+    group.name = `player-${heroId}`;
     const ownedGeometries = [];
     const ownedMaterials = [];
+    const fallbackRig = new THREE.Group();
+    fallbackRig.name = 'articulated-fallback-rig';
+    group.add(fallbackRig);
 
     const bodyGeometry = this._heroBodyGeometry(silhouette.body);
     const headGeometry = silhouette.head === 'square'
@@ -1321,7 +1614,9 @@ export class SceneRenderer {
         ? new THREE.OctahedronGeometry(1)
         : new THREE.SphereGeometry(1, 14, 10);
     const visorGeometry = new THREE.BoxGeometry(0.16, 0.3, 0.12);
-    ownedGeometries.push(bodyGeometry, headGeometry, visorGeometry);
+    const limbGeometry = new THREE.CylinderGeometry(0.82, 1, 1, 8);
+    const jointGeometry = new THREE.SphereGeometry(1, 8, 6);
+    ownedGeometries.push(bodyGeometry, headGeometry, visorGeometry, limbGeometry, jointGeometry);
 
     const heroColor = hero?.color || '#d9a441';
     const bodyMat = new THREE.MeshStandardMaterial({
@@ -1343,7 +1638,57 @@ export class SceneRenderer {
     head.castShadow = head.receiveShadow = true;
     body.rotation.x = Math.PI / 2;
     outlineCyl.rotation.x = Math.PI / 2;
-    group.add(outlineCyl, body, outlineHead, head, visor);
+    const joints = {
+      pelvis: new THREE.Group(), spine: new THREE.Group(), head: new THREE.Group(),
+      leftShoulder: new THREE.Group(), rightShoulder: new THREE.Group(),
+      leftElbow: new THREE.Group(), rightElbow: new THREE.Group(),
+      leftWrist: new THREE.Group(), rightWrist: new THREE.Group(),
+      leftHip: new THREE.Group(), rightHip: new THREE.Group(),
+      leftKnee: new THREE.Group(), rightKnee: new THREE.Group(),
+    };
+    for (const [name, joint] of Object.entries(joints)) joint.name = `rig-${name}`;
+    fallbackRig.add(joints.pelvis);
+    joints.pelvis.add(joints.spine, joints.leftHip, joints.rightHip);
+    joints.spine.add(outlineCyl, body, joints.head, joints.leftShoulder, joints.rightShoulder);
+    joints.head.add(outlineHead, head, visor);
+    joints.leftShoulder.add(joints.leftElbow);
+    joints.rightShoulder.add(joints.rightElbow);
+    joints.leftElbow.add(joints.leftWrist);
+    joints.rightElbow.add(joints.rightWrist);
+    joints.leftHip.add(joints.leftKnee);
+    joints.rightHip.add(joints.rightKnee);
+
+    const limbs = {};
+    const addSegment = (name, parent, material = bodyMat) => {
+      const mesh = new THREE.Mesh(limbGeometry, material);
+      mesh.name = name;
+      mesh.rotation.x = Math.PI / 2;
+      mesh.castShadow = mesh.receiveShadow = true;
+      parent.add(mesh);
+      limbs[name] = mesh;
+      return mesh;
+    };
+    addSegment('leftUpperArm', joints.leftShoulder);
+    addSegment('rightUpperArm', joints.rightShoulder);
+    addSegment('leftForearm', joints.leftElbow);
+    addSegment('rightForearm', joints.rightElbow);
+    addSegment('leftThigh', joints.leftHip);
+    addSegment('rightThigh', joints.rightHip);
+    addSegment('leftShin', joints.leftKnee);
+    addSegment('rightShin', joints.rightKnee);
+    for (const joint of [joints.leftElbow, joints.rightElbow, joints.leftKnee, joints.rightKnee]) {
+      const cap = new THREE.Mesh(jointGeometry, accentMat);
+      cap.scale.setScalar(0.09);
+      joint.add(cap);
+    }
+    const weaponGeometry = new THREE.BoxGeometry(1, 1, 1);
+    ownedGeometries.push(weaponGeometry);
+    const weapon = new THREE.Mesh(weaponGeometry, accentMat);
+    weapon.name = 'third-person-weapon';
+    weapon.position.set(0.3, 0, -0.02);
+    weapon.scale.set(0.48, 0.08, 0.1);
+    weapon.castShadow = true;
+    joints.rightWrist.add(weapon);
 
     const accessoryGroup = this._makeHeroAccessory(
       silhouette.accessory, bodyMat, accentMat, ownedGeometries,
@@ -1378,15 +1723,112 @@ export class SceneRenderer {
     group.userData = {
       heroId,
       silhouetteSignature: `${silhouette.body}|${silhouette.head}|${silhouette.accessory}`,
+      rig: 'articulated',
+      authoredRig: 'pending',
     };
 
     this.world.add(group);
-    return {
+    const visual = {
       group, body, outlineCyl, head, outlineHead, visor, accessoryGroup, shield, shieldMat, statusRing, statusMat,
       sprite: ns.sprite, nameCanvas: ns.canvas, nameTex: ns.tex, nameMat: ns.mat,
-      lastHp: -1, lastName: '', color: mats.color, heroId, silhouette,
+      fallbackRig, joints, limbs, weapon,
+      lastHp: -1, lastName: '', color: mats.color, heroColor, heroId, silhouette,
+      motionState: 'idle', motionSpeed: 0, attackPulse: 0, actionState: 'fire', actionRevision: 0,
+      castActive: false, hasSnapshot: false,
+      grounded: true, crouch: false, pitch: 0, deathAge: Number.POSITIVE_INFINITY, wasAlive: true,
       ownedGeometries, ownedMaterials,
     };
+    this._poseVisual(visual, false);
+    this._attachAuthoredHeroRig(visual);
+    return visual;
+  }
+
+  _attachAuthoredHeroRig(visual) {
+    if (!visual || visual.authoredRig || !this._heroRigTemplate) return false;
+    const model = cloneSkeleton(this._heroRigTemplate);
+    if (!model) return false;
+    const heroTint = new THREE.Color(visual.heroColor || '#d9a441');
+    const teamTint = new THREE.Color(visual.color || ALLY_COLOR);
+    model.traverse(object => {
+      if (!object.isMesh && !object.isSkinnedMesh) return;
+      object.castShadow = true;
+      object.receiveShadow = true;
+      const sourceMaterials = Array.isArray(object.material) ? object.material : [object.material];
+      const clonedMaterials = sourceMaterials.map(source => {
+        const material = source?.clone?.() || source;
+        if (!material) return material;
+        if (material.color?.lerp) material.color.lerp(heroTint, 0.44);
+        if (material.emissive?.copy) {
+          material.emissive.copy(teamTint);
+          material.emissiveIntensity = 0.12;
+        }
+        visual.ownedMaterials.push(material);
+        return material;
+      });
+      object.material = Array.isArray(object.material) ? clonedMaterials : clonedMaterials[0];
+    });
+
+    const sourceBounds = new THREE.Box3().setFromObject(model);
+    const sourceHeight = Math.max(0.1, sourceBounds.max.y - sourceBounds.min.y);
+    const modelScale = 1.7 / sourceHeight;
+    model.scale.setScalar(modelScale);
+    model.position.y = -sourceBounds.min.y * modelScale;
+    model.name = `authored-${visual.heroId}`;
+
+    const zUp = new THREE.Group();
+    zUp.name = 'authored-rig-z-up';
+    zUp.rotation.x = Math.PI / 2;
+    zUp.add(model);
+    const mount = new THREE.Group();
+    mount.name = 'verified-authored-hero-rig';
+    mount.rotation.z = Math.PI / 2;
+    mount.userData.assetId = HERO_RIG_ASSET.id;
+    mount.userData.collision = false;
+    mount.add(zUp);
+    visual.group.add(mount);
+    visual.authoredRig = mount;
+    visual.authoredModel = model;
+    visual.fallbackRig.visible = false;
+    visual.group.userData.authoredRig = 'verified';
+
+    visual.mixer = new THREE.AnimationMixer(model);
+    visual.animationActions = new Map();
+    for (const clip of this._heroRigAnimations || []) {
+      const action = visual.mixer.clipAction(clip);
+      visual.animationActions.set(clip.name, action);
+    }
+    visual.authoredAnimationState = '';
+    this._selectAuthoredAnimation(visual, 'idle', true);
+    return true;
+  }
+
+  _selectAuthoredAnimation(visual, state, immediate = false, triggerRevision = null) {
+    const actions = visual?.animationActions;
+    if (!(actions instanceof Map) || actions.size === 0) return;
+    const clipName = HERO_RIG_ANIMATIONS[state] || HERO_RIG_ANIMATIONS.idle;
+    const retriggered = Number.isSafeInteger(triggerRevision)
+      && visual.authoredAnimationTriggerRevision !== triggerRevision;
+    if (visual.authoredAnimationState === clipName && !retriggered) return;
+    const next = actions.get(clipName) || actions.get(HERO_RIG_ANIMATIONS.idle) || actions.values().next().value;
+    if (!next) return;
+    const previous = visual.authoredAction;
+    next.enabled = true;
+    next.reset();
+    if (state === 'fire' || state === 'cast' || state === 'death' || state === 'air') {
+      next.setLoop(THREE.LoopOnce, 1);
+      next.clampWhenFinished = state === 'death';
+    } else {
+      next.setLoop(THREE.LoopRepeat, Infinity);
+      next.clampWhenFinished = false;
+    }
+    if (previous && previous !== next && !immediate) previous.crossFadeTo(next, 0.16, true);
+    else previous?.stop?.();
+    next.play();
+    visual.authoredAction = next;
+    visual.authoredAnimationState = clipName;
+    if (Number.isSafeInteger(triggerRevision)) {
+      visual.authoredAnimationTriggerRevision = triggerRevision;
+    }
   }
 
   _heroBodyGeometry(body) {
@@ -1507,22 +1949,64 @@ export class SceneRenderer {
       standard: { radius: 0.4, height: 1 },
     }[v.silhouette?.body] || { radius: 0.4, height: 1 };
     const r = profile.radius;
-    const cylH = bh - 0.5;
-    v.body.scale.set(r, cylH * profile.height, r);
-    v.body.position.set(0, 0, cylH / 2);
-    v.outlineCyl.scale.set(r + 0.05, cylH * profile.height + 0.06, r + 0.05);
+    const upperLeg = crouch ? 0.23 : 0.34;
+    const lowerLeg = crouch ? 0.23 : 0.36;
+    const hipHeight = upperLeg + lowerLeg;
+    const torsoHeight = (crouch ? 0.42 : 0.6) * profile.height;
+    const shoulderWidth = r * 0.88;
+    const hipWidth = r * 0.45;
+    const upperArm = crouch ? 0.26 : 0.31;
+    const forearm = crouch ? 0.23 : 0.29;
+    const limbRadius = Math.max(0.07, r * 0.21);
+    const headR = v.silhouette?.head === 'square' ? 0.23 : v.silhouette?.head === 'faceted' ? 0.26 : 0.245;
+
+    v.basePelvisZ = hipHeight;
+    v.joints.pelvis.position.set(0, 0, hipHeight);
+    v.joints.spine.position.set(0, 0, 0.02);
+    v.body.scale.set(r, torsoHeight, r * 0.78);
+    v.body.position.set(0, 0, torsoHeight / 2);
+    v.outlineCyl.scale.set(r + 0.035, torsoHeight + 0.045, r * 0.78 + 0.035);
     v.outlineCyl.position.copy(v.body.position);
-    const headR = v.silhouette?.head === 'square' ? 0.28 : v.silhouette?.head === 'faceted' ? 0.32 : 0.3;
     v.head.scale.set(headR, headR, headR);
-    v.head.position.set(0, 0, bh - headR);
+    v.head.position.set(0, 0, 0);
     v.outlineHead.scale.setScalar(headR + 0.05);
-    v.outlineHead.position.copy(v.head.position);
-    v.visor.position.set(headR + 0.04, 0, bh - headR);
+    v.outlineHead.position.set(0, 0, 0);
+    v.visor.position.set(headR + 0.025, 0, 0);
+    v.joints.head.position.set(0, 0, torsoHeight + 0.08);
+
+    v.joints.leftShoulder.position.set(0, shoulderWidth, torsoHeight * 0.79);
+    v.joints.rightShoulder.position.set(0, -shoulderWidth, torsoHeight * 0.79);
+    v.joints.leftElbow.position.set(0, 0, -upperArm);
+    v.joints.rightElbow.position.set(0, 0, -upperArm);
+    v.joints.leftWrist.position.set(0, 0, -forearm);
+    v.joints.rightWrist.position.set(0, 0, -forearm);
+    v.joints.leftHip.position.set(0, hipWidth, 0);
+    v.joints.rightHip.position.set(0, -hipWidth, 0);
+    v.joints.leftKnee.position.set(0, 0, -upperLeg);
+    v.joints.rightKnee.position.set(0, 0, -upperLeg);
+
+    const sizeSegment = (mesh, length, radius = limbRadius) => {
+      mesh.position.set(0, 0, -length / 2);
+      mesh.scale.set(radius, length, radius);
+    };
+    sizeSegment(v.limbs.leftUpperArm, upperArm);
+    sizeSegment(v.limbs.rightUpperArm, upperArm);
+    sizeSegment(v.limbs.leftForearm, forearm, limbRadius * 0.86);
+    sizeSegment(v.limbs.rightForearm, forearm, limbRadius * 0.86);
+    sizeSegment(v.limbs.leftThigh, upperLeg, limbRadius * 1.16);
+    sizeSegment(v.limbs.rightThigh, upperLeg, limbRadius * 1.16);
+    sizeSegment(v.limbs.leftShin, lowerLeg, limbRadius);
+    sizeSegment(v.limbs.rightShin, lowerLeg, limbRadius);
+
     v.accessoryGroup.position.z = bh - 1.7;
     v.shield.position.set(0, 0, bh * 0.5);
     v.shield.scale.set(0.68, 0.68, bh * 0.62);
     v.statusRing.position.set(0, 0, 0.04);
     v.sprite.position.set(0, 0, bh + 0.65);
+    if (v.authoredRig) {
+      const widthScale = r / 0.4;
+      v.authoredRig.scale.set(widthScale, widthScale, bh / 1.7);
+    }
   }
 
   // players: [{id, name, team, pos:[x,y,z], yaw, crouch, hp, alive}] （自分は除外済み）
@@ -1538,7 +2022,6 @@ export class SceneRenderer {
       const heroId = typeof p.heroId === 'string' ? p.heroId : 'unknown';
       const pos = safeVec3(p.pos ?? p.position);
       seen.add(id);
-      this._playerPositions.set(id, { pos, team: p.team });
       let v = this.playerVisuals.get(id);
       const isAlly = myTeam !== undefined && myTeam !== null && p.team === myTeam;
       if (!v || v.isAlly !== isAlly || v.heroId !== (HERO_BY_ID[heroId]?.id || 'unknown')) {
@@ -1548,12 +2031,35 @@ export class SceneRenderer {
         this.playerVisuals.set(id, v);
       }
       const alive = p.alive !== false;
-      v.group.visible = alive;
-      if (!alive) continue;
+      if (v.hasSnapshot && v.wasAlive && !alive) v.deathAge = 0;
+      else if (!v.hasSnapshot && !alive) v.deathAge = Number.POSITIVE_INFINITY;
+      else if (alive) v.deathAge = Number.POSITIVE_INFINITY;
+      v.hasSnapshot = true;
+      v.wasAlive = alive;
+      v.group.visible = alive || v.deathAge < 1.25;
       v.group.position.set(...pos);
       v.group.rotation.z = finiteNumber(p.yaw, 0);
-      this._poseVisual(v, !!p.crouch);
-      this._updatePlayerEffects(v, p);
+      v.crouch = !!p.crouch;
+      v.grounded = p.grounded !== false;
+      v.pitch = finiteNumber(p.pitch, 0);
+      v.castActive = !!p.cast;
+      const velocity = safeVec3(p.vel);
+      v.motionSpeed = Math.hypot(velocity[0], velocity[1]);
+      v.baseMotionState = !alive ? 'death'
+        : v.castActive ? 'cast'
+          : !v.grounded ? 'air'
+            : v.crouch ? 'crouch'
+              : v.motionSpeed > 3.1 ? 'run'
+                : v.motionSpeed > 0.18 ? 'walk'
+                  : 'idle';
+      v.motionState = v.attackPulse > 0.05 && alive ? 'fire' : v.baseMotionState;
+      this._playerPositions.set(id, { pos, team: p.team, alive });
+      this._poseVisual(v, v.crouch);
+      if (alive) this._updatePlayerEffects(v, p);
+      else {
+        v.shield.visible = false;
+        v.statusRing.visible = false;
+      }
       const heroMaxHp = HERO_BY_ID[v.heroId]?.maxHp;
       const shownMaxHp = Math.max(1, finiteNumber(p.maxHp, finiteNumber(maxHp, finiteNumber(heroMaxHp, 250))));
       const hpInt = Math.round(finiteNumber(p.hp, shownMaxHp));
@@ -1589,8 +2095,91 @@ export class SceneRenderer {
     }
   }
 
+  markPlayerAction(playerId, kind = 'fire') {
+    const visual = this.playerVisuals?.get?.(playerId);
+    if (!visual) return false;
+    visual.attackPulse = kind === 'ability' ? 0.72 : 1;
+    visual.actionState = kind === 'ability' ? 'cast' : 'fire';
+    visual.motionState = visual.actionState;
+    const revision = Number.isSafeInteger(visual.actionRevision) ? visual.actionRevision : 0;
+    visual.actionRevision = revision >= Number.MAX_SAFE_INTEGER - 1 ? 1 : revision + 1;
+    return true;
+  }
+
+  _animatePlayerVisuals(delta) {
+    for (const visual of this.playerVisuals?.values?.() || []) {
+      if (!visual.wasAlive && Number.isFinite(visual.deathAge)) {
+        visual.deathAge += delta;
+        visual.group.visible = visual.deathAge < 1.25;
+      }
+      if (!visual.group.visible) continue;
+
+      const attackActive = visual.attackPulse > 0.05 && visual.wasAlive;
+      const state = attackActive ? visual.actionState || 'fire' : visual.baseMotionState || visual.motionState || 'idle';
+      visual.motionState = state;
+      const reduced = this._reducedMotion;
+      const speed = Math.max(0, finiteNumber(visual.motionSpeed, 0));
+      const cadence = state === 'run' ? 10.5 : state === 'walk' ? 6.7 : state === 'crouch' ? 4.4 : 1.7;
+      const strideStrength = reduced ? 0
+        : state === 'run' ? 0.72 : state === 'walk' ? 0.42 : state === 'crouch' ? 0.2 : 0;
+      const phase = this._effectTime * cadence + (visual.heroId?.length || 0) * 0.17;
+      const stride = Math.sin(phase) * strideStrength;
+      const bob = reduced ? 0 : Math.abs(Math.sin(phase)) * (state === 'run' ? 0.045 : state === 'walk' ? 0.022 : 0);
+
+      const j = visual.joints;
+      j.pelvis.position.z = visual.basePelvisZ + bob;
+      j.pelvis.rotation.set(0, 0, 0);
+      j.spine.rotation.set(0, visual.crouch ? -0.14 : 0, 0);
+      j.head.rotation.set(0, Math.max(-0.35, Math.min(0.35, visual.pitch * 0.32)), 0);
+      for (const name of ['leftShoulder', 'rightShoulder', 'leftElbow', 'rightElbow', 'leftHip', 'rightHip', 'leftKnee', 'rightKnee']) {
+        j[name].rotation.set(0, 0, 0);
+      }
+      j.leftHip.rotation.y = stride;
+      j.rightHip.rotation.y = -stride;
+      j.leftKnee.rotation.y = Math.max(0, -stride) * 0.72;
+      j.rightKnee.rotation.y = Math.max(0, stride) * 0.72;
+      j.leftShoulder.rotation.y = -stride * 0.72;
+      j.rightShoulder.rotation.y = stride * 0.72;
+
+      if (state === 'air') {
+        j.leftHip.rotation.y = -0.38;
+        j.rightHip.rotation.y = 0.28;
+        j.leftKnee.rotation.y = 0.72;
+        j.rightKnee.rotation.y = 0.46;
+        j.leftShoulder.rotation.y = -0.42;
+        j.rightShoulder.rotation.y = -0.18;
+      } else if (state === 'crouch') {
+        j.leftHip.rotation.y -= 0.5;
+        j.rightHip.rotation.y -= 0.5;
+        j.leftKnee.rotation.y = 0.88;
+        j.rightKnee.rotation.y = 0.88;
+      } else if (state === 'fire') {
+        const recoil = reduced ? 0.82 : 0.74 + visual.attackPulse * 0.28;
+        j.rightShoulder.rotation.y = -recoil;
+        j.rightElbow.rotation.y = 0.22;
+        j.leftShoulder.rotation.y = -0.58;
+        j.leftElbow.rotation.y = 0.46;
+        j.spine.rotation.y = -0.08;
+      } else if (state === 'cast') {
+        j.leftShoulder.rotation.y = -0.82;
+        j.rightShoulder.rotation.y = -0.82;
+        j.leftElbow.rotation.y = -0.26;
+        j.rightElbow.rotation.y = -0.26;
+      }
+
+      const deathBlend = state === 'death' ? Math.min(1, visual.deathAge / 0.48) : 0;
+      visual.fallbackRig.rotation.y = -deathBlend * Math.PI / 2;
+      if (visual.authoredRig) visual.authoredRig.rotation.y = -deathBlend * Math.PI / 2;
+      const triggerRevision = attackActive ? visual.actionRevision : null;
+      this._selectAuthoredAnimation(visual, state, false, triggerRevision);
+      visual.mixer?.update?.(reduced ? 0 : delta * Math.max(0.8, Math.min(1.35, speed / 4 || 1)));
+      visual.attackPulse = Math.max(0, visual.attackPulse - delta * 5.2);
+    }
+  }
+
   _disposeVisual(v) {
     this.world.remove(v.group);
+    v.mixer?.stopAllAction?.();
     v.nameTex?.dispose?.();
     v.nameMat?.dispose?.();
     for (const geometry of new Set(v.ownedGeometries || [])) geometry.dispose?.();
@@ -1599,7 +2188,8 @@ export class SceneRenderer {
 
   // ---- 射撃演出 ----
 
-  spawnTracer(origin, dir, dist) {
+  spawnTracer(origin, dir, dist, sourceId = null) {
+    if (sourceId !== null && sourceId !== undefined) this.markPlayerAction(sourceId, 'fire');
     this._ensureTracerPool();
     const d = Math.max(0.5, Math.min(dist, 200));
     const budget = this.performanceBudget?.profile?.tracerBudget ?? MAX_TRACERS;
@@ -1684,6 +2274,7 @@ export class SceneRenderer {
     addRoot(this.camera);
     if (!this.canonicalMapPresentation?.userData?.disposed) addRoot(this.canonicalMapPresentation);
     addRoot(this.authoredMap);
+    addRoot(this._heroRigTemplate);
     addRoot(this._viewWeapon);
     addVisualMap(this.zoneVisuals);
     addVisualMap(this.barrierVisuals);
@@ -1749,7 +2340,10 @@ export class SceneRenderer {
     this._viewWeapon = null;
     this._viewWeaponMuzzle = null;
     this.authoredMap = null;
+    this._heroRigTemplate = null;
+    this._heroRigAnimations = [];
     this.canonicalMapPresentation = null;
+    this.worldDressing = null;
     this.water = null;
     this.waterMaterial = null;
     this._particleGeometry = null;
@@ -1786,6 +2380,7 @@ export class SceneRenderer {
     if (fallbackQuality) this._applyQualityProfile(fallbackQuality);
     this._effectTime = finiteNumber(this._effectTime, 0) + delta;
     if (this.waterMaterial?.uniforms?.uTime) this.waterMaterial.uniforms.uTime.value = this._effectTime;
+    this._animatePlayerVisuals(delta);
     for (let i = this.tracers.length - 1; i >= 0; i--) {
       const t = this.tracers[i];
       t.life -= delta;
@@ -1861,8 +2456,9 @@ export class SceneRenderer {
     const maxDistanceSq = NAMEPLATE_MAX_DISTANCE_M ** 2;
     for (const [id, visual] of this.playerVisuals) {
       if (!visual?.sprite) continue;
-      const trackedPosition = this._playerPositions?.get(id)?.pos;
-      if (!Array.isArray(trackedPosition) || visual.group?.visible === false) {
+      const tracked = this._playerPositions?.get(id);
+      const trackedPosition = tracked?.pos;
+      if (!Array.isArray(trackedPosition) || tracked?.alive === false || visual.group?.visible === false) {
         visual.sprite.visible = false;
         continue;
       }

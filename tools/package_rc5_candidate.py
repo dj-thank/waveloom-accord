@@ -17,6 +17,8 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUTS = ROOT / "outputs"
 PACKAGE_PREFIX = "kagariai-1.0.0-rc.5-source"
+RELEASE_MANIFEST_PATH = "RELEASE_MANIFEST.json"
+RELEASE_STATUS_PATH = "RELEASE_STATUS.json"
 FIXED_ZIP_TIME = (2026, 7, 20, 0, 0, 0)
 ABILITY_SLOTS = ("secondary", "ability1", "ability2", "ultimate")
 AUDIO_PROVIDER = "Kagariai Local DSP"
@@ -38,6 +40,7 @@ ROOT_FILES = (
     "package-lock.json",
     "package.json",
     "README.md",
+    "THIRD_PARTY_NOTICES.md",
 )
 
 ROOT_DIRECTORIES = (
@@ -52,6 +55,10 @@ ROOT_DIRECTORIES = (
 )
 
 EVIDENCE_DIRECTORIES = (
+    "outputs/rc5-audio-evidence",
+    "outputs/rc5-bot-evidence",
+    "outputs/rc5-network-evidence",
+    "outputs/rc5-visual-refinement-audit",
     "outputs/rc5-visual-evidence",
 )
 
@@ -121,6 +128,32 @@ def zip_info(relative: str) -> zipfile.ZipInfo:
 
 def canonical_json(value: object) -> bytes:
     return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
+
+
+def build_release_manifest(payload_entries: list[dict[str, object]], status_bytes: bytes) -> dict[str, object]:
+    """Inventory every archive payload except the manifest that contains this inventory.
+
+    RELEASE_MANIFEST.json cannot hash its own final bytes without a recursive value. The
+    scope is therefore explicit and fail-closed: RELEASE_STATUS.json and every source or
+    evidence payload are hashed, while the sole excluded archive entry is named here.
+    """
+    entries = [dict(entry) for entry in payload_entries]
+    entries.append({
+        "path": RELEASE_STATUS_PATH,
+        "bytes": len(status_bytes),
+        "sha256": sha256_bytes(status_bytes),
+    })
+    entries.sort(key=lambda entry: str(entry["path"]))
+    return {
+        "format": "kagariai-source-manifest-v2",
+        "package": PACKAGE_PREFIX,
+        "inventoryScope": f"all non-directory archive entries except {RELEASE_MANIFEST_PATH}",
+        "selfExcludedPath": RELEASE_MANIFEST_PATH,
+        "archiveEntryCount": len(entries) + 1,
+        "fileCount": len(entries),
+        "totalBytes": sum(int(entry["bytes"]) for entry in entries),
+        "files": entries,
+    }
 
 
 def resolved_file(root: Path, relative: object, label: str) -> Path:
@@ -583,15 +616,9 @@ def main() -> None:
         })
 
     status = release_status()
-    manifest = {
-        "format": "kagariai-source-manifest-v1",
-        "package": PACKAGE_PREFIX,
-        "fileCount": len(entries),
-        "totalBytes": sum(entry["bytes"] for entry in entries),
-        "files": entries,
-    }
-    manifest_bytes = canonical_json(manifest)
     status_bytes = canonical_json(status)
+    manifest = build_release_manifest(entries, status_bytes)
+    manifest_bytes = canonical_json(manifest)
     tree_hash = sha256_bytes(manifest_bytes)
     basename = f"{PACKAGE_PREFIX}-{tree_hash[:12]}"
 
@@ -609,8 +636,8 @@ def main() -> None:
 
     try:
         with zipfile.ZipFile(temporary_path, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6, allowZip64=True) as archive:
-            archive.writestr(zip_info("RELEASE_MANIFEST.json"), manifest_bytes)
-            archive.writestr(zip_info("RELEASE_STATUS.json"), status_bytes)
+            archive.writestr(zip_info(RELEASE_MANIFEST_PATH), manifest_bytes)
+            archive.writestr(zip_info(RELEASE_STATUS_PATH), status_bytes)
             for path in files:
                 relative = path.relative_to(ROOT).as_posix()
                 archive.writestr(zip_info(relative), path.read_bytes())
@@ -630,7 +657,8 @@ def main() -> None:
         "archiveSha256": archive_hash,
         "manifest": str(manifest_path),
         "manifestSha256": tree_hash,
-        "fileCount": len(entries),
+        "fileCount": manifest["fileCount"],
+        "archiveEntryCount": manifest["archiveEntryCount"],
         "sourceBytes": manifest["totalBytes"],
         "status": status["candidateStatus"],
     }, ensure_ascii=False))
