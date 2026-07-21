@@ -12,3 +12,4 @@ work
 *.pem
 *.p12
 secrets
+client/assets/generated/audio/**/*.mp3

@@ -51,13 +51,19 @@ function runtimeSample(context, kind, id) {
   const audio = typeof resolver === 'function' ? resolver(String(id))?.audio : null;
   const url = audio?.runtimeUrl;
   return typeof url === 'string' && url.startsWith('/client/assets/generated/audio/')
-    ? { runtimeUrl: url, sha256: audio.sha256, bytes: audio.bytes }
+    ? { runtimeUrl: url, sha256: audio.sha256, bytes: audio.bytes, sampleContentType: audio.contentType }
     : null;
 }
 
 function withRuntimeSample(cue, sample) {
-  if (!sample) return { ...cue, sampleUrl: null, sampleSha256: null, sampleBytes: null };
-  return { ...cue, sampleUrl: sample.runtimeUrl, sampleSha256: sample.sha256, sampleBytes: sample.bytes };
+  if (!sample) return { ...cue, sampleUrl: null, sampleSha256: null, sampleBytes: null, sampleContentType: null };
+  return {
+    ...cue,
+    sampleUrl: sample.runtimeUrl,
+    sampleSha256: sample.sha256,
+    sampleBytes: sample.bytes,
+    sampleContentType: sample.sampleContentType,
+  };
 }
 
 export function weaponSoundProfile(weaponId) {

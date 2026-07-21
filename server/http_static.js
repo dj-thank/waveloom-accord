@@ -21,6 +21,7 @@ const MIME = Object.freeze({
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
   '.mp3': 'audio/mpeg',
+  '.wav': 'audio/wav',
   '.wasm': 'application/wasm',
   '.woff2': 'font/woff2',
   '.txt': 'text/plain; charset=utf-8',
@@ -77,7 +78,7 @@ export function isFreshRequest(headers, etag, mtime) {
 export function cacheControlForPath(pathname) {
   const normalized = String(pathname || '').toLowerCase();
   if (normalized.endsWith('.html') || normalized.endsWith('.js')) return 'no-cache';
-  if (/\.[a-f0-9]{8,}\.(?:glb|gltf|bin|png|jpe?g|webp|avif|mp3|wasm|css)$/i.test(normalized)) {
+  if (/\.[a-f0-9]{8,}\.(?:glb|gltf|bin|png|jpe?g|webp|avif|mp3|wav|wasm|css)$/i.test(normalized)) {
     return 'public, max-age=31536000, immutable';
   }
   if (normalized.startsWith('/vendor/')) return 'public, max-age=86400';

@@ -127,6 +127,86 @@ test('preloadHero decodes every SSOT sample once and reuses the buffer cache', a
   assert.equal(audio.diagnostics().samples.failed, 0);
 });
 
+test('preloadHero verifies and decodes an SSOT WAV sample with its declared content type', async () => {
+  const host = enableDeterministicIntegrity(hostWith());
+  host.fetch = async () => ({
+    ok: true,
+    headers: { get: () => 'audio/wav' },
+    arrayBuffer: async () => new ArrayBuffer(16),
+  });
+  const url = `/client/assets/generated/audio/weapon.${VERIFIED_DIGEST.slice(0, 12)}.wav`;
+  const audio = new CombatAudio(host, {
+    getHeroAsset: () => ({
+      weapon: {
+        audio: {
+          runtimeUrl: url,
+          sha256: VERIFIED_DIGEST,
+          bytes: 16,
+          contentType: 'audio/wav',
+        },
+      },
+      abilities: {},
+    }),
+  });
+  let decoded = 0;
+  audio.context = { decodeAudioData: async () => ({ id: ++decoded }) };
+
+  await audio.preloadHero('asagi');
+
+  assert.equal(decoded, 1);
+  assert.deepEqual(audio.diagnostics().samples, { ready: 1, loading: 0, failed: 0 });
+});
+
+test('an unpreloaded local shot lazily verifies its SSOT WAV content type before decode', async () => {
+  const host = enableDeterministicIntegrity(hostWith());
+  host.fetch = async () => ({
+    ok: true,
+    headers: { get: () => 'audio/wav' },
+    arrayBuffer: async () => new ArrayBuffer(16),
+  });
+  const url = `/client/assets/generated/audio/weapon.${VERIFIED_DIGEST.slice(0, 12)}.wav`;
+  const audio = new CombatAudio(host, {
+    getWeaponAsset: () => ({
+      audio: {
+        runtimeUrl: url,
+        sha256: VERIFIED_DIGEST,
+        bytes: 16,
+        contentType: 'audio/wav',
+      },
+    }),
+  });
+  const parameter = () => ({
+    value: 0,
+    setValueAtTime() {},
+    exponentialRampToValueAtTime() {},
+  });
+  const node = () => ({
+    onended: null,
+    gain: parameter(),
+    frequency: parameter(),
+    connect() {},
+    start() {},
+    stop() {},
+  });
+  let decoded = 0;
+  audio.context = {
+    state: 'running',
+    currentTime: 10,
+    decodeAudioData: async () => ({ id: ++decoded }),
+    createGain: node,
+    createOscillator: node,
+  };
+  audio.master = node();
+
+  audio.playLocalShot('asagi_survey_rifle');
+  for (let attempt = 0; attempt < 10 && audio.diagnostics().samples.loading > 0; attempt++) {
+    await new Promise(resolve => setImmediate(resolve));
+  }
+
+  assert.equal(decoded, 1);
+  assert.deepEqual(audio.diagnostics().samples, { ready: 1, loading: 0, failed: 0 });
+});
+
 test('tampered SSOT audio is rejected before decode and recorded as a failed sample', async () => {
   const host = enableDeterministicIntegrity(hostWith());
   host.fetch = async () => ({ ok: true, headers: { get: () => 'audio/mpeg' }, arrayBuffer: async () => new ArrayBuffer(16) });

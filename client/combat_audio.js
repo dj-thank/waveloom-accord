@@ -117,10 +117,11 @@ export class CombatAudio {
       audio.runtimeUrl,
       audio.sha256,
       audio.bytes,
+      audio.contentType,
     )));
   }
 
-  _loadSample(url, sha256, bytes) {
+  _loadSample(url, sha256, bytes, contentType) {
     if (this.sampleBuffers.has(url)) return Promise.resolve(this.sampleBuffers.get(url));
     if (this.sampleFailures.has(url)) return Promise.resolve(null);
     if (this.samplePromises.has(url)) return this.samplePromises.get(url);
@@ -128,7 +129,7 @@ export class CombatAudio {
       if (!this.context?.decodeAudioData) throw new Error('audio sample loading is unavailable');
       const verified = await fetchVerifiedAsset({ runtimeUrl: url, sha256, bytes }, {
         host: this.host,
-        expectedContentType: 'audio/mpeg',
+        expectedContentType: contentType || 'audio/mpeg',
         maxBytes: 8 * 1024 * 1024,
       });
       const decoded = await new Promise((resolve, reject) => {
@@ -175,6 +176,7 @@ export class CombatAudio {
           sampleUrl: audio.runtimeUrl,
           sampleSha256: audio.sha256,
           sampleBytes: audio.bytes,
+          sampleContentType: audio.contentType,
         } : {};
       })(),
     });
@@ -282,7 +284,12 @@ export class CombatAudio {
       return;
     }
     if (cue.sampleUrl && !this.sampleFailures.has(cue.sampleUrl)) {
-      this._loadSample(cue.sampleUrl, cue.sampleSha256, cue.sampleBytes).catch(() => {});
+      this._loadSample(
+        cue.sampleUrl,
+        cue.sampleSha256,
+        cue.sampleBytes,
+        cue.sampleContentType,
+      ).catch(() => {});
     }
     if (cue.kind === 'weapon') this._weapon(cue, output);
     else if (cue.kind === 'ultimate') this._chord([82, 123, 196, 294], 0.9, cue, output);

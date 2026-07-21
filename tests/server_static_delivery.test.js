@@ -29,11 +29,13 @@ test('static validators and cache policy distinguish immutable hashes from mutab
   assert.equal(cacheControlForPath('/client/main.js'), 'no-cache');
   assert.equal(cacheControlForPath('/client/assets/map.0123456789abcdef.glb'), 'public, max-age=31536000, immutable');
   assert.equal(cacheControlForPath('/client/assets/audio/cast.0123456789ab.mp3'), 'public, max-age=31536000, immutable');
+  assert.equal(cacheControlForPath('/client/assets/audio/cast.0123456789ab.wav'), 'public, max-age=31536000, immutable');
   assert.equal(cacheControlForPath('/client/assets/map.glb'), 'no-cache');
   assert.equal(contentTypeForPath('/client/assets/floor.jpg'), 'image/jpeg');
   assert.equal(contentTypeForPath('/client/assets/floor.JPEG'), 'image/jpeg');
   assert.equal(contentTypeForPath('/client/assets/normal.png'), 'image/png');
   assert.equal(contentTypeForPath('/client/assets/ultimate.mp3'), 'audio/mpeg');
+  assert.equal(contentTypeForPath('/client/assets/ultimate.wav'), 'audio/wav');
 });
 
 test('real static responder serves HEAD metadata, ranges, validators, and no full Buffer', async (t) => {

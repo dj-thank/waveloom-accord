@@ -22,99 +22,10 @@ function readonlyLookup(entries) {
 export const HERO_ASSET_MANIFEST = deepFreeze({
   "schemaVersion": "1.0.0",
   "authoritative": true,
-  "complete": false,
-  "missingAudio": [
-    "weapon:baraga_forge_hammer",
-    "weapon:vesta_pressure_cannon",
-    "weapon:nuedori_twin_needles",
-    "weapon:sedora_pile_driver",
-    "weapon:shiomaneki_water_bomb",
-    "weapon:asagi_survey_rifle",
-    "weapon:shirasagi_crystal_rifle",
-    "weapon:tsubakuro_blade",
-    "weapon:hokuchi_scattergun",
-    "weapon:botan_bloom_cannon",
-    "weapon:ankou_lure_torpedo",
-    "weapon:tsuzuri_light_needle",
-    "weapon:koyomi_incense_burner",
-    "weapon:karakasa_rib_scatter",
-    "weapon:shirabe_string_beam",
-    "weapon:hibari_spark_shot",
-    "weapon:kazura_vine_beam",
-    "ability:toubyou",
-    "ability:makimodoshi",
-    "ability:keiryukan",
-    "ability:rouke",
-    "ability:chuzouheki",
-    "ability:youkaida",
-    "ability:daichukomi",
-    "ability:henkoya",
-    "ability:kussetsusho",
-    "ability:ranhansha",
-    "ability:byakuyatai",
-    "ability:tobariwatari",
-    "ability:shotoucho",
-    "ability:kagenui",
-    "ability:yoiyami",
-    "ability:katsugu",
-    "ability:sueru",
-    "ability:yobimodoshi",
-    "ability:sando",
-    "ability:naminori",
-    "ability:uneri",
-    "ability:shiogaeshi",
-    "ability:michi",
-    "ability:tensei",
-    "ability:shirubeya",
-    "ability:tsugiashi",
-    "ability:sarashibi",
-    "ability:fukitoru",
-    "ability:hakuro",
-    "ability:hakuyoku",
-    "ability:sumiwatari",
-    "ability:tsubamegaeshi",
-    "ability:tousan",
-    "ability:yobibane",
-    "ability:muretsubame",
-    "ability:hibana",
-    "ability:aburadama",
-    "ability:aburasuberi",
-    "ability:oohimatsuri",
-    "ability:kaika",
-    "ability:shikakehana",
-    "ability:hanabiashi",
-    "ability:senrinzaki",
-    "ability:sasou",
-    "ability:tsuridama",
-    "ability:mizuheri",
-    "ability:shinkainogyoretsu",
-    "ability:itokuri",
-    "ability:tsuzuriwatari",
-    "ability:tokito",
-    "ability:senbari",
-    "ability:kemurio",
-    "ability:hayamawashi",
-    "ability:chien",
-    "ability:uruudoki",
-    "ability:ukenagashi",
-    "ability:kasasuberi",
-    "ability:kasauch",
-    "ability:senbonkasa",
-    "ability:chogen",
-    "ability:waon",
-    "ability:hikiyose",
-    "ability:daigasso",
-    "ability:kassho",
-    "ability:wataribi",
-    "ability:hibariage",
-    "ability:watarinooohi",
-    "ability:yadorizuru",
-    "ability:itamikaiho",
-    "ability:togebaraki",
-    "ability:daiukenoootsuru"
-  ],
+  "complete": true,
+  "missingAudio": [],
   "generatedFor": "kagariai-1.0.0-rc.5",
-  "sourcePolicy": "Change generated assets through the recorded ImageGen/ElevenLabs inputs, then rebuild this manifest.",
+  "sourcePolicy": "Change visual assets through recorded ImageGen inputs and audio through the versioned local DSP generator, then rebuild this manifest.",
   "inputHashes": [
     {
       "path": "assets-src/imagegen/manifests/group-a.json",
@@ -141,8 +52,8 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       "sha256": "88855de6699559b2cab5b27d1fc493f98637fc38e7ce82f871b06e85c05b9fd7"
     },
     {
-      "path": "assets-src/elevenlabs/manifest.json",
-      "sha256": "f0b799cea27ade8614b77c16318aed08a640287dd0266275282fcead348b3bbe"
+      "path": "assets-src/local-audio/manifest.json",
+      "sha256": "5fe306133bcafe4bf704b792361376afdd4db6dc64c6bb1df724a77c12c98808"
     }
   ],
   "heroes": [
@@ -222,21 +133,25 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       "weapon": {
         "id": "zairu_chain_spear",
         "audio": {
-          "provider": "ElevenLabs",
-          "modelId": "eleven_text_to_sound_v2",
-          "outputFormat": "mp3_44100_192",
-          "prompt": "AAA competitive hero-shooter weapon one-shot for zairu, zairu_chain_spear: heavy chain-spear launch with mechanical tension, steel scrape, air tear, and compact impact body. weighty low-mid tactical sound, forged metal body, strong transient. Professionally designed dry game SFX, immediate transient, short controlled tail, no dialogue, no vocals, no music, no ambience, no copyrighted sound, no clipping.",
-          "promptInfluence": 0.5,
-          "requestedDurationSec": 1.2,
-          "sourcePath": "assets-src/elevenlabs/raw/weapon/zairu_chain_spear-v1.mp3",
-          "sourceSha256": "a3a081afd1b2f65bd1db644acb5b5efd4ec997f6e4a94ef13165ccea0f75f736",
-          "runtimeUrl": "/client/assets/generated/audio/weapons/zairu_chain_spear.a3a081afd1b2.mp3",
-          "sha256": "a3a081afd1b2f65bd1db644acb5b5efd4ec997f6e4a94ef13165ccea0f75f736",
-          "bytes": 30137,
-          "contentType": "audio/mpeg",
-          "characterCost": 13,
-          "requestId": null,
-          "generatedAt": "2026-07-20T14:23:01.706Z"
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 2253497378,
+          "profile": "frontline.weapon.primary.metal.zairu",
+          "durationSec": 1.07,
+          "sourcePath": "assets-src/local-audio/raw/weapon/zairu_chain_spear.wav",
+          "sourceSha256": "70c3ab5469f4bfe56f3936813835d63101fd94504fe8b87eba25cf19a08d5251",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/zairu_chain_spear.70c3ab5469f4.wav",
+          "sha256": "70c3ab5469f4bfe56f3936813835d63101fd94504fe8b87eba25cf19a08d5251",
+          "bytes": 94418,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
         }
       },
       "abilities": {
@@ -434,21 +349,25 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "sourceManifest": "assets-src/imagegen/manifests/group-a.json"
           },
           "audio": {
-            "provider": "ElevenLabs",
-            "modelId": "eleven_text_to_sound_v2",
-            "outputFormat": "mp3_44100_192",
-            "prompt": "AAA hero-shooter SFX for zairu/taguriyose: a heavy chain rapidly retracting through steel guides, ending in a magnetic lock clunk. weighty low-mid body and a strong tactical transient; compact one-shot, immediate readable attack, short controlled tail. Professional dry centered mix; no voice, music, ambience, copyrighted motif, long silence, excessive reverb, or clipping.",
-            "promptInfluence": 0.52,
-            "requestedDurationSec": 1.6,
-            "sourcePath": "assets-src/elevenlabs/raw/ability/taguriyose-v1.mp3",
-            "sourceSha256": "0574e92816a4eac29056f7ce6bf85ed4e26a1ae1ef7a6687a3bde22ac6e80545",
-            "runtimeUrl": "/client/assets/generated/audio/abilities/taguriyose.0574e92816a4.mp3",
-            "sha256": "0574e92816a4eac29056f7ce6bf85ed4e26a1ae1ef7a6687a3bde22ac6e80545",
-            "bytes": 40168,
-            "contentType": "audio/mpeg",
-            "characterCost": 18,
-            "requestId": null,
-            "generatedAt": "2026-07-20T14:25:41.054Z"
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1035301674,
+            "profile": "frontline.ability.secondary.metal.zairu",
+            "durationSec": 1.15,
+            "sourcePath": "assets-src/local-audio/raw/ability/taguriyose.wav",
+            "sourceSha256": "3ff7d17a23be1260c974bbb95ebadbf5ddc4e586b87ac655bbfb0a03e5ebc823",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/taguriyose.3ff7d17a23be.wav",
+            "sha256": "3ff7d17a23be1260c974bbb95ebadbf5ddc4e586b87ac655bbfb0a03e5ebc823",
+            "bytes": 101474,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
           }
         },
         "ability1": {
@@ -644,7 +563,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed.",
             "sourceManifest": "assets-src/imagegen/manifests/group-a.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1860727700,
+            "profile": "frontline.ability.ability1.metal.zairu",
+            "durationSec": 1.14,
+            "sourcePath": "assets-src/local-audio/raw/ability/toubyou.wav",
+            "sourceSha256": "b976b08b23da0c995169c72cd92a324a0be998f7fd41cbb4ac533f74e945e884",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/toubyou.b976b08b23da.wav",
+            "sha256": "b976b08b23da0c995169c72cd92a324a0be998f7fd41cbb4ac533f74e945e884",
+            "bytes": 100592,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "makimodoshi",
@@ -839,7 +778,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed.",
             "sourceManifest": "assets-src/imagegen/manifests/group-a.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2815230130,
+            "profile": "frontline.ability.ability2.scan.zairu",
+            "durationSec": 1.19,
+            "sourcePath": "assets-src/local-audio/raw/ability/makimodoshi.wav",
+            "sourceSha256": "319408c5e5d9ba6ecbc9a4436a4073d0f1e2dc59622403dd3ca98d84b7bb63a0",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/makimodoshi.319408c5e5d9.wav",
+            "sha256": "319408c5e5d9ba6ecbc9a4436a4073d0f1e2dc59622403dd3ca98d84b7bb63a0",
+            "bytes": 105002,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "keiryukan",
@@ -1034,7 +993,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed.",
             "sourceManifest": "assets-src/imagegen/manifests/group-a.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 3385463312,
+            "profile": "frontline.ability.ultimate.shield.zairu",
+            "durationSec": 1.74,
+            "sourcePath": "assets-src/local-audio/raw/ability/keiryukan.wav",
+            "sourceSha256": "785243cb4e905d9543160fc6ec5de270ffc1f4719aade50c5e1e8cc547e0be43",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/keiryukan.785243cb4e90.wav",
+            "sha256": "785243cb4e905d9543160fc6ec5de270ffc1f4719aade50c5e1e8cc547e0be43",
+            "bytes": 153512,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -1113,7 +1092,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "baraga_forge_hammer",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 3545881329,
+          "profile": "frontline.weapon.primary.metal.baraga",
+          "durationSec": 0.91,
+          "sourcePath": "assets-src/local-audio/raw/weapon/baraga_forge_hammer.wav",
+          "sourceSha256": "f6ca903374d5126877b9ca7dc0b968e9b39393879ef7cf796bf062cc1a8e72fc",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/baraga_forge_hammer.f6ca903374d5.wav",
+          "sha256": "f6ca903374d5126877b9ca7dc0b968e9b39393879ef7cf796bf062cc1a8e72fc",
+          "bytes": 80306,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -1309,7 +1308,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed.",
             "sourceManifest": "assets-src/imagegen/manifests/group-a.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2628271541,
+            "profile": "frontline.ability.secondary.shield.baraga",
+            "durationSec": 1.14,
+            "sourcePath": "assets-src/local-audio/raw/ability/rouke.wav",
+            "sourceSha256": "cdebb0f3d8df347c2da02ce07c8b19c46f537842bf2ece4fe98e8cf3a55a68c2",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/rouke.cdebb0f3d8df.wav",
+            "sha256": "cdebb0f3d8df347c2da02ce07c8b19c46f537842bf2ece4fe98e8cf3a55a68c2",
+            "bytes": 100592,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "chuzouheki",
@@ -1504,7 +1523,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed.",
             "sourceManifest": "assets-src/imagegen/manifests/group-a.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 164906906,
+            "profile": "frontline.ability.ability1.shield.baraga",
+            "durationSec": 1.17,
+            "sourcePath": "assets-src/local-audio/raw/ability/chuzouheki.wav",
+            "sourceSha256": "3b11180092ac39b5cefc7588bdb4317965849265847967d860525b18843556bf",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/chuzouheki.3b11180092ac.wav",
+            "sha256": "3b11180092ac39b5cefc7588bdb4317965849265847967d860525b18843556bf",
+            "bytes": 103238,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "youkaida",
@@ -1699,7 +1738,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed.",
             "sourceManifest": "assets-src/imagegen/manifests/group-a.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 3278399720,
+            "profile": "frontline.ability.ability2.explosive.baraga",
+            "durationSec": 1.17,
+            "sourcePath": "assets-src/local-audio/raw/ability/youkaida.wav",
+            "sourceSha256": "ce3f02f7c930a3497b35a203c2272975929718d1bce37b8de99e4ccfd2a18066",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/youkaida.ce3f02f7c930.wav",
+            "sha256": "ce3f02f7c930a3497b35a203c2272975929718d1bce37b8de99e4ccfd2a18066",
+            "bytes": 103238,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "daichukomi",
@@ -1894,7 +1953,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed.",
             "sourceManifest": "assets-src/imagegen/manifests/group-a.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 4249650292,
+            "profile": "frontline.ability.ultimate.shield.baraga",
+            "durationSec": 1.79,
+            "sourcePath": "assets-src/local-audio/raw/ability/daichukomi.wav",
+            "sourceSha256": "39118169250396c192fb4abac704133d4ada4e5e7a7b2131da74192dc47e5b81",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/daichukomi.391181692503.wav",
+            "sha256": "39118169250396c192fb4abac704133d4ada4e5e7a7b2131da74192dc47e5b81",
+            "bytes": 157922,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -1973,7 +2052,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "vesta_pressure_cannon",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 2613393809,
+          "profile": "frontline.weapon.primary.energy.vesta",
+          "durationSec": 1.1,
+          "sourcePath": "assets-src/local-audio/raw/weapon/vesta_pressure_cannon.wav",
+          "sourceSha256": "11b8c90025765ca812a930857476b701a668d7920dba3d9fa6dc5a68a024308b",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/vesta_pressure_cannon.11b8c9002576.wav",
+          "sha256": "11b8c90025765ca812a930857476b701a668d7920dba3d9fa6dc5a68a024308b",
+          "bytes": 97064,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -2169,7 +2268,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed.",
             "sourceManifest": "assets-src/imagegen/manifests/group-a.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 443479474,
+            "profile": "frontline.ability.secondary.metal.vesta",
+            "durationSec": 1.13,
+            "sourcePath": "assets-src/local-audio/raw/ability/henkoya.wav",
+            "sourceSha256": "43db7eb17632f52f1df471ecbeaf8a2788d8d18b59a6dfd091673cbf973e5ab2",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/henkoya.43db7eb17632.wav",
+            "sha256": "43db7eb17632f52f1df471ecbeaf8a2788d8d18b59a6dfd091673cbf973e5ab2",
+            "bytes": 99710,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "kussetsusho",
@@ -2364,7 +2483,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed.",
             "sourceManifest": "assets-src/imagegen/manifests/group-a.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 943716021,
+            "profile": "frontline.ability.ability1.mobility.vesta",
+            "durationSec": 1.18,
+            "sourcePath": "assets-src/local-audio/raw/ability/kussetsusho.wav",
+            "sourceSha256": "cd1eeb42898a494126f4052730c7251c2e2d7400d183f77c8904823661460335",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/kussetsusho.cd1eeb42898a.wav",
+            "sha256": "cd1eeb42898a494126f4052730c7251c2e2d7400d183f77c8904823661460335",
+            "bytes": 104120,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "ranhansha",
@@ -2559,7 +2698,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed.",
             "sourceManifest": "assets-src/imagegen/manifests/group-a.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 900006068,
+            "profile": "frontline.ability.ability2.explosive.vesta",
+            "durationSec": 1.14,
+            "sourcePath": "assets-src/local-audio/raw/ability/ranhansha.wav",
+            "sourceSha256": "8d6a0dcf312f6ff4fc41794eae5a431d6c3066c726a081d1c9d7b8181c0f3960",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/ranhansha.8d6a0dcf312f.wav",
+            "sha256": "8d6a0dcf312f6ff4fc41794eae5a431d6c3066c726a081d1c9d7b8181c0f3960",
+            "bytes": 100592,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "byakuyatai",
@@ -2754,7 +2913,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed.",
             "sourceManifest": "assets-src/imagegen/manifests/group-a.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1112018883,
+            "profile": "frontline.ability.ultimate.metal.vesta",
+            "durationSec": 1.78,
+            "sourcePath": "assets-src/local-audio/raw/ability/byakuyatai.wav",
+            "sourceSha256": "2b723019f33dc50a458aedcbedfea3b3bae43c46d3d379f5f2dc13a7405d3237",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/byakuyatai.2b723019f33d.wav",
+            "sha256": "2b723019f33dc50a458aedcbedfea3b3bae43c46d3d379f5f2dc13a7405d3237",
+            "bytes": 157040,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -2833,7 +3012,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "nuedori_twin_needles",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 223927625,
+          "profile": "frontline.weapon.primary.ballistic.nuedori",
+          "durationSec": 0.9,
+          "sourcePath": "assets-src/local-audio/raw/weapon/nuedori_twin_needles.wav",
+          "sourceSha256": "da3c88e4a792f7743660e3fe316797252fae06f4a0dbe036f04bf84ad1663f9d",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/nuedori_twin_needles.da3c88e4a792.wav",
+          "sha256": "da3c88e4a792f7743660e3fe316797252fae06f4a0dbe036f04bf84ad1663f9d",
+          "bytes": 79424,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -3029,7 +3228,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": null,
             "sourceManifest": "assets-src/imagegen/manifests/group-b.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2098014535,
+            "profile": "frontline.ability.secondary.mobility.nuedori",
+            "durationSec": 1.13,
+            "sourcePath": "assets-src/local-audio/raw/ability/tobariwatari.wav",
+            "sourceSha256": "0ce28e62e03d7f1a800deb1ca793ec270e59fac051fe9eebab113d179b2872ad",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/tobariwatari.0ce28e62e03d.wav",
+            "sha256": "0ce28e62e03d7f1a800deb1ca793ec270e59fac051fe9eebab113d179b2872ad",
+            "bytes": 99710,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "shotoucho",
@@ -3224,7 +3443,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": null,
             "sourceManifest": "assets-src/imagegen/manifests/group-b.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1799781733,
+            "profile": "frontline.ability.ability1.scan.nuedori",
+            "durationSec": 1.13,
+            "sourcePath": "assets-src/local-audio/raw/ability/shotoucho.wav",
+            "sourceSha256": "7243ad5f3f36b8cbe3d990ff0055b52fce75afec0263a2f335447e36ea930214",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/shotoucho.7243ad5f3f36.wav",
+            "sha256": "7243ad5f3f36b8cbe3d990ff0055b52fce75afec0263a2f335447e36ea930214",
+            "bytes": 99710,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "kagenui",
@@ -3419,7 +3658,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": null,
             "sourceManifest": "assets-src/imagegen/manifests/group-b.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 4121038693,
+            "profile": "frontline.ability.ability2.scan.nuedori",
+            "durationSec": 1.13,
+            "sourcePath": "assets-src/local-audio/raw/ability/kagenui.wav",
+            "sourceSha256": "60e8bf2006bc3683eb07e063f55f0ab2e9213be4dbc77277421d324552c33a41",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/kagenui.60e8bf2006bc.wav",
+            "sha256": "60e8bf2006bc3683eb07e063f55f0ab2e9213be4dbc77277421d324552c33a41",
+            "bytes": 99710,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "yoiyami",
@@ -3614,7 +3873,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": null,
             "sourceManifest": "assets-src/imagegen/manifests/group-b.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1347454241,
+            "profile": "frontline.ability.ultimate.scan.nuedori",
+            "durationSec": 1.8,
+            "sourcePath": "assets-src/local-audio/raw/ability/yoiyami.wav",
+            "sourceSha256": "ee0eae4da034eec7b072fae5f4c3fcb500c549f133b435b19f6c0518ecb6bed9",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/yoiyami.ee0eae4da034.wav",
+            "sha256": "ee0eae4da034eec7b072fae5f4c3fcb500c549f133b435b19f6c0518ecb6bed9",
+            "bytes": 158804,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -3693,7 +3972,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "sedora_pile_driver",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 2277364436,
+          "profile": "frontline.weapon.primary.ballistic.sedora",
+          "durationSec": 0.96,
+          "sourcePath": "assets-src/local-audio/raw/weapon/sedora_pile_driver.wav",
+          "sourceSha256": "d09b0795943d7d4ac2c8f591d830007157da0bc2b5625e2af5a1501eac89fb40",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/sedora_pile_driver.d09b0795943d.wav",
+          "sha256": "d09b0795943d7d4ac2c8f591d830007157da0bc2b5625e2af5a1501eac89fb40",
+          "bytes": 84716,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -3889,7 +4188,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": null,
             "sourceManifest": "assets-src/imagegen/manifests/group-b.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1425440003,
+            "profile": "frontline.ability.secondary.shield.sedora",
+            "durationSec": 1.17,
+            "sourcePath": "assets-src/local-audio/raw/ability/katsugu.wav",
+            "sourceSha256": "f25c865c3434e2e8cc337939d1d290d9ba454b716aba88afae081e3833384306",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/katsugu.f25c865c3434.wav",
+            "sha256": "f25c865c3434e2e8cc337939d1d290d9ba454b716aba88afae081e3833384306",
+            "bytes": 103238,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "sueru",
@@ -4084,7 +4403,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": null,
             "sourceManifest": "assets-src/imagegen/manifests/group-b.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2209628012,
+            "profile": "frontline.ability.ability1.shield.sedora",
+            "durationSec": 1.17,
+            "sourcePath": "assets-src/local-audio/raw/ability/sueru.wav",
+            "sourceSha256": "b25ee39359907bb5009cf2604449229be219d6936d921003657336c7b6c3acfc",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/sueru.b25ee3935990.wav",
+            "sha256": "b25ee39359907bb5009cf2604449229be219d6936d921003657336c7b6c3acfc",
+            "bytes": 103238,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "yobimodoshi",
@@ -4279,7 +4618,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": null,
             "sourceManifest": "assets-src/imagegen/manifests/group-b.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 3036343151,
+            "profile": "frontline.ability.ability2.metal.sedora",
+            "durationSec": 1.14,
+            "sourcePath": "assets-src/local-audio/raw/ability/yobimodoshi.wav",
+            "sourceSha256": "217b0d0ba5d934e4a23342bad151d845ba15fbcbc4d34a862a2866da22448835",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/yobimodoshi.217b0d0ba5d9.wav",
+            "sha256": "217b0d0ba5d934e4a23342bad151d845ba15fbcbc4d34a862a2866da22448835",
+            "bytes": 100592,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "sando",
@@ -4474,7 +4833,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": null,
             "sourceManifest": "assets-src/imagegen/manifests/group-b.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 945609494,
+            "profile": "frontline.ability.ultimate.shield.sedora",
+            "durationSec": 1.77,
+            "sourcePath": "assets-src/local-audio/raw/ability/sando.wav",
+            "sourceSha256": "aa4ff6c42163d3dc1652ef8e705d27a3160666b15733a686efd1212148da3a68",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/sando.aa4ff6c42163.wav",
+            "sha256": "aa4ff6c42163d3dc1652ef8e705d27a3160666b15733a686efd1212148da3a68",
+            "bytes": 156158,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -4553,7 +4932,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "shiomaneki_water_bomb",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 367579049,
+          "profile": "frontline.weapon.primary.explosive.shiomaneki",
+          "durationSec": 1.07,
+          "sourcePath": "assets-src/local-audio/raw/weapon/shiomaneki_water_bomb.wav",
+          "sourceSha256": "a516de5a9d32bc230779ccb0cc5749cd4f788f0e9d7da2f153f1ec10c22c96b2",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/shiomaneki_water_bomb.a516de5a9d32.wav",
+          "sha256": "a516de5a9d32bc230779ccb0cc5749cd4f788f0e9d7da2f153f1ec10c22c96b2",
+          "bytes": 94418,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -4749,7 +5148,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": null,
             "sourceManifest": "assets-src/imagegen/manifests/group-b.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 3874573572,
+            "profile": "frontline.ability.secondary.mobility.shiomaneki",
+            "durationSec": 1.18,
+            "sourcePath": "assets-src/local-audio/raw/ability/naminori.wav",
+            "sourceSha256": "36788a8c0a54ffa58ff2fb2f5c20a25749aa1159dfcc7dbfc6d737f0e8706335",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/naminori.36788a8c0a54.wav",
+            "sha256": "36788a8c0a54ffa58ff2fb2f5c20a25749aa1159dfcc7dbfc6d737f0e8706335",
+            "bytes": 104120,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "uneri",
@@ -4944,7 +5363,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": null,
             "sourceManifest": "assets-src/imagegen/manifests/group-b.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 3229307713,
+            "profile": "frontline.ability.ability1.field.shiomaneki",
+            "durationSec": 1.13,
+            "sourcePath": "assets-src/local-audio/raw/ability/uneri.wav",
+            "sourceSha256": "60f8b85630fdb380eb3eb3b8dbf22ce63b7fcb86947457c3fc2e692a212784a1",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/uneri.60f8b85630fd.wav",
+            "sha256": "60f8b85630fdb380eb3eb3b8dbf22ce63b7fcb86947457c3fc2e692a212784a1",
+            "bytes": 99710,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "shiogaeshi",
@@ -5139,7 +5578,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": null,
             "sourceManifest": "assets-src/imagegen/manifests/group-b.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2462772585,
+            "profile": "frontline.ability.ability2.explosive.shiomaneki",
+            "durationSec": 1.15,
+            "sourcePath": "assets-src/local-audio/raw/ability/shiogaeshi.wav",
+            "sourceSha256": "7e92211673c7b34c49c5526e17f4bcd3da03ee1eedf25ac41a9cc1127b7df657",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/shiogaeshi.7e92211673c7.wav",
+            "sha256": "7e92211673c7b34c49c5526e17f4bcd3da03ee1eedf25ac41a9cc1127b7df657",
+            "bytes": 101474,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "michi",
@@ -5334,7 +5793,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": null,
             "sourceManifest": "assets-src/imagegen/manifests/group-b.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 722107696,
+            "profile": "frontline.ability.ultimate.field.shiomaneki",
+            "durationSec": 1.76,
+            "sourcePath": "assets-src/local-audio/raw/ability/michi.wav",
+            "sourceSha256": "b63271c2182bec4e7ae3d146fd2a22002e6f1285df7d4a4e6ffc77d6d775b84f",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/michi.b63271c2182b.wav",
+            "sha256": "b63271c2182bec4e7ae3d146fd2a22002e6f1285df7d4a4e6ffc77d6d775b84f",
+            "bytes": 155276,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -5413,7 +5892,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "asagi_survey_rifle",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 243793646,
+          "profile": "damage.weapon.primary.ballistic.asagi",
+          "durationSec": 0.96,
+          "sourcePath": "assets-src/local-audio/raw/weapon/asagi_survey_rifle.wav",
+          "sourceSha256": "e62c03ff4182b9b6c7ce0fcd1cc7b884c3d55bb17328ce3ad71c6ecfa6932b30",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/asagi_survey_rifle.e62c03ff4182.wav",
+          "sha256": "e62c03ff4182b9b6c7ce0fcd1cc7b884c3d55bb17328ce3ad71c6ecfa6932b30",
+          "bytes": 84716,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -5609,7 +6108,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "nonzero dimensions; green source; alpha corners transparent; visually inspected built-in output",
             "sourceManifest": "assets-src/imagegen/manifests/group-c.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 4214340166,
+            "profile": "damage.ability.secondary.metal.asagi",
+            "durationSec": 1.16,
+            "sourcePath": "assets-src/local-audio/raw/ability/tensei.wav",
+            "sourceSha256": "613d991b19fdb1e91fa44ce5822e9153ede57fbc26082905ea816f27579343a8",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/tensei.613d991b19fd.wav",
+            "sha256": "613d991b19fdb1e91fa44ce5822e9153ede57fbc26082905ea816f27579343a8",
+            "bytes": 102356,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "shirubeya",
@@ -5804,7 +6323,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "nonzero dimensions; green source; alpha corners transparent; visually inspected built-in output",
             "sourceManifest": "assets-src/imagegen/manifests/group-c.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 3602173721,
+            "profile": "damage.ability.ability1.scan.asagi",
+            "durationSec": 1.17,
+            "sourcePath": "assets-src/local-audio/raw/ability/shirubeya.wav",
+            "sourceSha256": "76fc78615e07538f6484da0f3334d8a82451159f121aba1f15d0329df064b992",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/shirubeya.76fc78615e07.wav",
+            "sha256": "76fc78615e07538f6484da0f3334d8a82451159f121aba1f15d0329df064b992",
+            "bytes": 103238,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "tsugiashi",
@@ -5999,7 +6538,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "nonzero dimensions; green source; alpha corners transparent; visually inspected built-in output",
             "sourceManifest": "assets-src/imagegen/manifests/group-c.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 324959311,
+            "profile": "damage.ability.ability2.mobility.asagi",
+            "durationSec": 1.13,
+            "sourcePath": "assets-src/local-audio/raw/ability/tsugiashi.wav",
+            "sourceSha256": "b441ef731c722042a8b0291f12bf2cd75aa1516f2f86c896c3afa4e34c205f87",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/tsugiashi.b441ef731c72.wav",
+            "sha256": "b441ef731c722042a8b0291f12bf2cd75aa1516f2f86c896c3afa4e34c205f87",
+            "bytes": 99710,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "sarashibi",
@@ -6194,7 +6753,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "nonzero dimensions; green source; alpha corners transparent; visually inspected built-in output",
             "sourceManifest": "assets-src/imagegen/manifests/group-c.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 4075867888,
+            "profile": "damage.ability.ultimate.scan.asagi",
+            "durationSec": 1.79,
+            "sourcePath": "assets-src/local-audio/raw/ability/sarashibi.wav",
+            "sourceSha256": "2de830c1345be73ab42efb0ced66de889a90766376f2970b50a6f6632cfc263f",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/sarashibi.2de830c1345b.wav",
+            "sha256": "2de830c1345be73ab42efb0ced66de889a90766376f2970b50a6f6632cfc263f",
+            "bytes": 157922,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -6273,7 +6852,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "shirasagi_crystal_rifle",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 4061720235,
+          "profile": "damage.weapon.primary.energy.shirasagi",
+          "durationSec": 1.05,
+          "sourcePath": "assets-src/local-audio/raw/weapon/shirasagi_crystal_rifle.wav",
+          "sourceSha256": "f00c7304dc8da2b8ac2cc481c57b91f3b78cb76d9d307db9e9271d83acb1f022",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/shirasagi_crystal_rifle.f00c7304dc8d.wav",
+          "sha256": "f00c7304dc8da2b8ac2cc481c57b91f3b78cb76d9d307db9e9271d83acb1f022",
+          "bytes": 92654,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -6469,7 +7068,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "nonzero dimensions; green source; alpha corners transparent; visually inspected built-in output",
             "sourceManifest": "assets-src/imagegen/manifests/group-c.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2500021436,
+            "profile": "damage.ability.secondary.mobility.shirasagi",
+            "durationSec": 1.17,
+            "sourcePath": "assets-src/local-audio/raw/ability/fukitoru.wav",
+            "sourceSha256": "3fd3041bd1c647f39729259f3399dfd0102b1ab5309e37aa374f5e9c27acf7f1",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/fukitoru.3fd3041bd1c6.wav",
+            "sha256": "3fd3041bd1c647f39729259f3399dfd0102b1ab5309e37aa374f5e9c27acf7f1",
+            "bytes": 103238,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "hakuro",
@@ -6664,7 +7283,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "nonzero dimensions; green source; alpha corners transparent; visually inspected built-in output",
             "sourceManifest": "assets-src/imagegen/manifests/group-c.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 778264891,
+            "profile": "damage.ability.ability1.scan.shirasagi",
+            "durationSec": 1.19,
+            "sourcePath": "assets-src/local-audio/raw/ability/hakuro.wav",
+            "sourceSha256": "16c30bea4fd8442d31731351de943acf61a8281cd9a447b92d82619a1b8151f7",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/hakuro.16c30bea4fd8.wav",
+            "sha256": "16c30bea4fd8442d31731351de943acf61a8281cd9a447b92d82619a1b8151f7",
+            "bytes": 105002,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "hakuyoku",
@@ -6859,7 +7498,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "nonzero dimensions; green source; alpha corners transparent; visually inspected built-in output",
             "sourceManifest": "assets-src/imagegen/manifests/group-c.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 897471732,
+            "profile": "damage.ability.ability2.mobility.shirasagi",
+            "durationSec": 1.15,
+            "sourcePath": "assets-src/local-audio/raw/ability/hakuyoku.wav",
+            "sourceSha256": "101372d153979a6ff924e6eb7f60c5f30eaef010b30b10b71b7db18e4acef9d9",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/hakuyoku.101372d15397.wav",
+            "sha256": "101372d153979a6ff924e6eb7f60c5f30eaef010b30b10b71b7db18e4acef9d9",
+            "bytes": 101474,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "sumiwatari",
@@ -7054,7 +7713,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "nonzero dimensions; green source; alpha corners transparent; visually inspected built-in output",
             "sourceManifest": "assets-src/imagegen/manifests/group-c.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1492996855,
+            "profile": "damage.ability.ultimate.temporal.shirasagi",
+            "durationSec": 1.76,
+            "sourcePath": "assets-src/local-audio/raw/ability/sumiwatari.wav",
+            "sourceSha256": "69491152479aad8914a9217573d1902fd221fcb320b4c23491b2ea24cb8f155c",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/sumiwatari.69491152479a.wav",
+            "sha256": "69491152479aad8914a9217573d1902fd221fcb320b4c23491b2ea24cb8f155c",
+            "bytes": 155276,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -7133,7 +7812,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "tsubakuro_blade",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 3975971064,
+          "profile": "damage.weapon.primary.metal.tsubakuro",
+          "durationSec": 1.08,
+          "sourcePath": "assets-src/local-audio/raw/weapon/tsubakuro_blade.wav",
+          "sourceSha256": "bcf91775b33bf3eb0260abe8b4847dc6cc998affd1ff64b4b8ba32c4e6cbb4af",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/tsubakuro_blade.bcf91775b33b.wav",
+          "sha256": "bcf91775b33bf3eb0260abe8b4847dc6cc998affd1ff64b4b8ba32c4e6cbb4af",
+          "bytes": 95300,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -7329,7 +8028,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "nonzero dimensions; green source; alpha corners transparent; visually inspected built-in output",
             "sourceManifest": "assets-src/imagegen/manifests/group-c.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2867003707,
+            "profile": "damage.ability.secondary.metal.tsubakuro",
+            "durationSec": 1.16,
+            "sourcePath": "assets-src/local-audio/raw/ability/tsubamegaeshi.wav",
+            "sourceSha256": "f5eb61a4af88d6c0f276a0b9e5b83e7402a8c6351f64620851bb2f4c31266307",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/tsubamegaeshi.f5eb61a4af88.wav",
+            "sha256": "f5eb61a4af88d6c0f276a0b9e5b83e7402a8c6351f64620851bb2f4c31266307",
+            "bytes": 102356,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "tousan",
@@ -7524,7 +8243,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "nonzero dimensions; green source; alpha corners transparent; visually inspected built-in output",
             "sourceManifest": "assets-src/imagegen/manifests/group-c.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2359656877,
+            "profile": "damage.ability.ability1.mobility.tsubakuro",
+            "durationSec": 1.16,
+            "sourcePath": "assets-src/local-audio/raw/ability/tousan.wav",
+            "sourceSha256": "2a1c47fde1638f4f27ed225c8a8bde394369f128bdce0ff469fe83615cb16eda",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/tousan.2a1c47fde163.wav",
+            "sha256": "2a1c47fde1638f4f27ed225c8a8bde394369f128bdce0ff469fe83615cb16eda",
+            "bytes": 102356,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "yobibane",
@@ -7719,7 +8458,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "nonzero dimensions; green source; alpha corners transparent; visually inspected built-in output",
             "sourceManifest": "assets-src/imagegen/manifests/group-c.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 4211938873,
+            "profile": "damage.ability.ability2.metal.tsubakuro",
+            "durationSec": 1.13,
+            "sourcePath": "assets-src/local-audio/raw/ability/yobibane.wav",
+            "sourceSha256": "acba3455de4639ba2c9bace2ef8f2f68318419f9eb226df71db8927887a9ba41",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/yobibane.acba3455de46.wav",
+            "sha256": "acba3455de4639ba2c9bace2ef8f2f68318419f9eb226df71db8927887a9ba41",
+            "bytes": 99710,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "muretsubame",
@@ -7914,7 +8673,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "nonzero dimensions; green source; alpha corners transparent; visually inspected built-in output",
             "sourceManifest": "assets-src/imagegen/manifests/group-c.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2059907188,
+            "profile": "damage.ability.ultimate.temporal.tsubakuro",
+            "durationSec": 1.76,
+            "sourcePath": "assets-src/local-audio/raw/ability/muretsubame.wav",
+            "sourceSha256": "8dcc043a84c9ebd140c5144eb07c6e953785fd121d7fc8bc8b49f36114696c78",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/muretsubame.8dcc043a84c9.wav",
+            "sha256": "8dcc043a84c9ebd140c5144eb07c6e953785fd121d7fc8bc8b49f36114696c78",
+            "bytes": 155276,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -7993,7 +8772,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "hokuchi_scattergun",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 4274856815,
+          "profile": "damage.weapon.primary.ballistic.hokuchi",
+          "durationSec": 0.93,
+          "sourcePath": "assets-src/local-audio/raw/weapon/hokuchi_scattergun.wav",
+          "sourceSha256": "575235d6312711d8b157d7a4570ff3ab16d24a86422bedc59de2d66e39ee99aa",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/hokuchi_scattergun.575235d63127.wav",
+          "sha256": "575235d6312711d8b157d7a4570ff3ab16d24a86422bedc59de2d66e39ee99aa",
+          "bytes": 82070,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -8189,7 +8988,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Recovered from the original labeled ImageGen batch and visually matched to the ignition-spark sequence.",
             "sourceManifest": "assets-src/imagegen/manifests/group-d.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1427840766,
+            "profile": "damage.ability.secondary.explosive.hokuchi",
+            "durationSec": 1.12,
+            "sourcePath": "assets-src/local-audio/raw/ability/hibana.wav",
+            "sourceSha256": "284b2149f9970a608c1471901ebd0755f952676d0ab9de90f81d8abb65d6799b",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/hibana.284b2149f997.wav",
+            "sha256": "284b2149f9970a608c1471901ebd0755f952676d0ab9de90f81d8abb65d6799b",
+            "bytes": 98828,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "aburadama",
@@ -8384,7 +9203,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Recovered from the original labeled ImageGen batch and visually matched to the oil-splash zone sequence.",
             "sourceManifest": "assets-src/imagegen/manifests/group-d.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 3288280021,
+            "profile": "damage.ability.ability1.explosive.hokuchi",
+            "durationSec": 1.19,
+            "sourcePath": "assets-src/local-audio/raw/ability/aburadama.wav",
+            "sourceSha256": "cc5ed3c7c4d5a104c6afb017f7ab4e37fd14e978b0a3c4791323f35a88b01ee1",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/aburadama.cc5ed3c7c4d5.wav",
+            "sha256": "cc5ed3c7c4d5a104c6afb017f7ab4e37fd14e978b0a3c4791323f35a88b01ee1",
+            "bytes": 105002,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "aburasuberi",
@@ -8579,7 +9418,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Recovered from the original labeled ImageGen batch and visually matched to the low-slide sequence.",
             "sourceManifest": "assets-src/imagegen/manifests/group-d.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 3047869868,
+            "profile": "damage.ability.ability2.mobility.hokuchi",
+            "durationSec": 1.17,
+            "sourcePath": "assets-src/local-audio/raw/ability/aburasuberi.wav",
+            "sourceSha256": "a0a13cdfeafd6973d2e8d0d80ed0957b1df45e8abfbd9e48e7df3dd58aaa95b2",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/aburasuberi.a0a13cdfeafd.wav",
+            "sha256": "a0a13cdfeafd6973d2e8d0d80ed0957b1df45e8abfbd9e48e7df3dd58aaa95b2",
+            "bytes": 103238,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "oohimatsuri",
@@ -8774,7 +9633,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Recovered from the original labeled ImageGen batch and visually matched to the rotating fire-and-oil aura.",
             "sourceManifest": "assets-src/imagegen/manifests/group-d.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 105149675,
+            "profile": "damage.ability.ultimate.explosive.hokuchi",
+            "durationSec": 1.74,
+            "sourcePath": "assets-src/local-audio/raw/ability/oohimatsuri.wav",
+            "sourceSha256": "43f35b1fb60f83ed141eef71d5a6bdaf5c88c3e2a4cee800297562e51d7cbceb",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/oohimatsuri.43f35b1fb60f.wav",
+            "sha256": "43f35b1fb60f83ed141eef71d5a6bdaf5c88c3e2a4cee800297562e51d7cbceb",
+            "bytes": 153512,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -8853,7 +9732,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "botan_bloom_cannon",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 3293069954,
+          "profile": "damage.weapon.primary.explosive.botan",
+          "durationSec": 1.07,
+          "sourcePath": "assets-src/local-audio/raw/weapon/botan_bloom_cannon.wav",
+          "sourceSha256": "98ae2c3785e55736183dc4b965642a4ccf208f1196ec4bde2e6a4711beca83d4",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/botan_bloom_cannon.98ae2c3785e5.wav",
+          "sha256": "98ae2c3785e55736183dc4b965642a4ccf208f1196ec4bde2e6a4711beca83d4",
+          "bytes": 94418,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -9049,7 +9948,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated in a labeled root batch and visually verified as a flower-shell airburst sequence.",
             "sourceManifest": "assets-src/imagegen/manifests/group-d.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 3754576725,
+            "profile": "damage.ability.secondary.explosive.botan",
+            "durationSec": 1.18,
+            "sourcePath": "assets-src/local-audio/raw/ability/kaika.wav",
+            "sourceSha256": "e80cb571b839be7cb53956ea5738f3e6a6c2677845b91997bf4727829420dd78",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/kaika.e80cb571b839.wav",
+            "sha256": "e80cb571b839be7cb53956ea5738f3e6a6c2677845b91997bf4727829420dd78",
+            "bytes": 104120,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "shikakehana",
@@ -9244,7 +10163,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated in a labeled root batch and visually verified as a persistent flower hazard.",
             "sourceManifest": "assets-src/imagegen/manifests/group-d.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1910647393,
+            "profile": "damage.ability.ability1.explosive.botan",
+            "durationSec": 1.19,
+            "sourcePath": "assets-src/local-audio/raw/ability/shikakehana.wav",
+            "sourceSha256": "a2ffd049b7bca76756e529c150c5cac86c8d087d74821ef1efb9f6315f2fc19d",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/shikakehana.a2ffd049b7bc.wav",
+            "sha256": "a2ffd049b7bca76756e529c150c5cac86c8d087d74821ef1efb9f6315f2fc19d",
+            "bytes": 105002,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "hanabiashi",
@@ -9439,7 +10378,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated in a labeled root batch and visually verified as a backward-hop sequence.",
             "sourceManifest": "assets-src/imagegen/manifests/group-d.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2727297375,
+            "profile": "damage.ability.ability2.mobility.botan",
+            "durationSec": 1.18,
+            "sourcePath": "assets-src/local-audio/raw/ability/hanabiashi.wav",
+            "sourceSha256": "c3be2342be9860cb54051a3472d71a2427a8daaf74ecc1cef2cd7b8b57940ff7",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/hanabiashi.c3be2342be98.wav",
+            "sha256": "c3be2342be9860cb54051a3472d71a2427a8daaf74ecc1cef2cd7b8b57940ff7",
+            "bytes": 104120,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "senrinzaki",
@@ -9634,7 +10593,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated in a labeled root batch and visually verified from warning impacts through the ultimate climax.",
             "sourceManifest": "assets-src/imagegen/manifests/group-d.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2518760067,
+            "profile": "damage.ability.ultimate.explosive.botan",
+            "durationSec": 1.78,
+            "sourcePath": "assets-src/local-audio/raw/ability/senrinzaki.wav",
+            "sourceSha256": "e3093261540f584b7cf4a7d7078a8e81042335ff53af671c319f4512188ad76c",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/senrinzaki.e3093261540f.wav",
+            "sha256": "e3093261540f584b7cf4a7d7078a8e81042335ff53af671c319f4512188ad76c",
+            "bytes": 157040,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -9713,7 +10692,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "ankou_lure_torpedo",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 4278500967,
+          "profile": "damage.weapon.primary.energy.ankou",
+          "durationSec": 1.05,
+          "sourcePath": "assets-src/local-audio/raw/weapon/ankou_lure_torpedo.wav",
+          "sourceSha256": "ce7c83f7fde8741ed30700910190d87b5f6df6503098c00b1414ab4d4f82f7cd",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/ankou_lure_torpedo.ce7c83f7fde8.wav",
+          "sha256": "ce7c83f7fde8741ed30700910190d87b5f6df6503098c00b1414ab4d4f82f7cd",
+          "bytes": 92654,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -9909,7 +10908,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated in a labeled root batch and visually verified as a reveal-beam and sonar sequence.",
             "sourceManifest": "assets-src/imagegen/manifests/group-d.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1931734562,
+            "profile": "damage.ability.secondary.scan.ankou",
+            "durationSec": 1.17,
+            "sourcePath": "assets-src/local-audio/raw/ability/sasou.wav",
+            "sourceSha256": "620263819fbda6f50ed22fa9f5459d4e1a10749a5a787ac1b8c2e67f14024bdf",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/sasou.620263819fbd.wav",
+            "sha256": "620263819fbda6f50ed22fa9f5459d4e1a10749a5a787ac1b8c2e67f14024bdf",
+            "bytes": 103238,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "tsuridama",
@@ -10104,7 +11123,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated in a labeled root batch and visually verified as a curved homing orb and pressure blast.",
             "sourceManifest": "assets-src/imagegen/manifests/group-d.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 3187777983,
+            "profile": "damage.ability.ability1.explosive.ankou",
+            "durationSec": 1.18,
+            "sourcePath": "assets-src/local-audio/raw/ability/tsuridama.wav",
+            "sourceSha256": "b54708af596fff5636dbb72d41f3f4054319f139d8493df27be370f9df607acc",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/tsuridama.b54708af596f.wav",
+            "sha256": "b54708af596fff5636dbb72d41f3f4054319f139d8493df27be370f9df607acc",
+            "bytes": 104120,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "mizuheri",
@@ -10299,7 +11338,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated in a labeled root batch and visually verified as a water-jet dash sequence.",
             "sourceManifest": "assets-src/imagegen/manifests/group-d.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2118488500,
+            "profile": "damage.ability.ability2.mobility.ankou",
+            "durationSec": 1.13,
+            "sourcePath": "assets-src/local-audio/raw/ability/mizuheri.wav",
+            "sourceSha256": "27952e7417ab875a0016847bccfcd2272c27dfa29cbaeb429aa68cf62fcad0b6",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/mizuheri.27952e7417ab.wav",
+            "sha256": "27952e7417ab875a0016847bccfcd2272c27dfa29cbaeb429aa68cf62fcad0b6",
+            "bytes": 99710,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "shinkainogyoretsu",
@@ -10494,7 +11553,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated in a labeled root batch and visually verified from fish-school assembly through the homing barrage climax.",
             "sourceManifest": "assets-src/imagegen/manifests/group-d.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 79950618,
+            "profile": "damage.ability.ultimate.explosive.ankou",
+            "durationSec": 1.72,
+            "sourcePath": "assets-src/local-audio/raw/ability/shinkainogyoretsu.wav",
+            "sourceSha256": "dfa6aad89eb671d535da0fe8e962047ffd387f1060a914c9438cabc789950d7c",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/shinkainogyoretsu.dfa6aad89eb6.wav",
+            "sha256": "dfa6aad89eb671d535da0fe8e962047ffd387f1060a914c9438cabc789950d7c",
+            "bytes": 151748,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -10573,7 +11652,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "tsuzuri_light_needle",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 1271588113,
+          "profile": "support.weapon.primary.healing.tsuzuri",
+          "durationSec": 1.03,
+          "sourcePath": "assets-src/local-audio/raw/weapon/tsuzuri_light_needle.wav",
+          "sourceSha256": "355d059df794617d7932918e9d7efe27a6d32a2d7bc5a1d465815b9ed5f66a02",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/tsuzuri_light_needle.355d059df794.wav",
+          "sha256": "355d059df794617d7932918e9d7efe27a6d32a2d7bc5a1d465815b9ed5f66a02",
+          "bytes": 90890,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -10769,7 +11868,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative.",
             "sourceManifest": "assets-src/imagegen/manifests/group-e.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1488715702,
+            "profile": "support.ability.secondary.healing.tsuzuri",
+            "durationSec": 1.19,
+            "sourcePath": "assets-src/local-audio/raw/ability/itokuri.wav",
+            "sourceSha256": "cd0700b3b336366271a0de73189be2cf595e7085757e7a1f8393e4f01da8c1f9",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/itokuri.cd0700b3b336.wav",
+            "sha256": "cd0700b3b336366271a0de73189be2cf595e7085757e7a1f8393e4f01da8c1f9",
+            "bytes": 105002,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "tsuzuriwatari",
@@ -10964,7 +12083,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative.",
             "sourceManifest": "assets-src/imagegen/manifests/group-e.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 4117000978,
+            "profile": "support.ability.ability1.metal.tsuzuri",
+            "durationSec": 1.13,
+            "sourcePath": "assets-src/local-audio/raw/ability/tsuzuriwatari.wav",
+            "sourceSha256": "3fb7f4f9382c15d9d667a9f97c9435830ae523d13a295e417a5131361ebd76b3",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/tsuzuriwatari.3fb7f4f9382c.wav",
+            "sha256": "3fb7f4f9382c15d9d667a9f97c9435830ae523d13a295e417a5131361ebd76b3",
+            "bytes": 99710,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "tokito",
@@ -11159,7 +12298,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative.",
             "sourceManifest": "assets-src/imagegen/manifests/group-e.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2649267529,
+            "profile": "support.ability.ability2.healing.tsuzuri",
+            "durationSec": 1.19,
+            "sourcePath": "assets-src/local-audio/raw/ability/tokito.wav",
+            "sourceSha256": "ad082fb61b5e39ffa0c1d2eaa17373a65f808a14dbbec83863c4428f56952719",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/tokito.ad082fb61b5e.wav",
+            "sha256": "ad082fb61b5e39ffa0c1d2eaa17373a65f808a14dbbec83863c4428f56952719",
+            "bytes": 105002,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "senbari",
@@ -11354,7 +12513,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative.",
             "sourceManifest": "assets-src/imagegen/manifests/group-e.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1625849057,
+            "profile": "support.ability.ultimate.healing.tsuzuri",
+            "durationSec": 1.74,
+            "sourcePath": "assets-src/local-audio/raw/ability/senbari.wav",
+            "sourceSha256": "b7bf87e324c55a1a8e852b51377164834d416c19fec8b963f7782eb6e7598dff",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/senbari.b7bf87e324c5.wav",
+            "sha256": "b7bf87e324c55a1a8e852b51377164834d416c19fec8b963f7782eb6e7598dff",
+            "bytes": 153512,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -11433,7 +12612,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "koyomi_incense_burner",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 343224802,
+          "profile": "support.weapon.primary.mechanical.koyomi",
+          "durationSec": 1.03,
+          "sourcePath": "assets-src/local-audio/raw/weapon/koyomi_incense_burner.wav",
+          "sourceSha256": "6a69885cc5f47ca2f33aa8585e7f4a23524f4ebe06f8dd070a5ecfeca884fbfc",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/koyomi_incense_burner.6a69885cc5f4.wav",
+          "sha256": "6a69885cc5f47ca2f33aa8585e7f4a23524f4ebe06f8dd070a5ecfeca884fbfc",
+          "bytes": 90890,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -11629,7 +12828,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative.",
             "sourceManifest": "assets-src/imagegen/manifests/group-e.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 3526733166,
+            "profile": "support.ability.secondary.mobility.koyomi",
+            "durationSec": 1.18,
+            "sourcePath": "assets-src/local-audio/raw/ability/kemurio.wav",
+            "sourceSha256": "881870a4b7337053d0f7779baf1f97318830e74e2600153c214abfdf6c24dcb8",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/kemurio.881870a4b733.wav",
+            "sha256": "881870a4b7337053d0f7779baf1f97318830e74e2600153c214abfdf6c24dcb8",
+            "bytes": 104120,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "hayamawashi",
@@ -11824,7 +13043,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative.",
             "sourceManifest": "assets-src/imagegen/manifests/group-e.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1490871454,
+            "profile": "support.ability.ability1.temporal.koyomi",
+            "durationSec": 1.19,
+            "sourcePath": "assets-src/local-audio/raw/ability/hayamawashi.wav",
+            "sourceSha256": "ef96b2c896beb2b5b3f052ec5db8edbaaeea8e0be438bb8e86146e6cab2e1ff2",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/hayamawashi.ef96b2c896be.wav",
+            "sha256": "ef96b2c896beb2b5b3f052ec5db8edbaaeea8e0be438bb8e86146e6cab2e1ff2",
+            "bytes": 105002,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "chien",
@@ -12019,7 +13258,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative.",
             "sourceManifest": "assets-src/imagegen/manifests/group-e.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 3036469345,
+            "profile": "support.ability.ability2.temporal.koyomi",
+            "durationSec": 1.19,
+            "sourcePath": "assets-src/local-audio/raw/ability/chien.wav",
+            "sourceSha256": "4bdb4b0d7862f95d836d2eef173b5b333cfb998f4ba4e7f9fa8b393192a5d1af",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/chien.4bdb4b0d7862.wav",
+            "sha256": "4bdb4b0d7862f95d836d2eef173b5b333cfb998f4ba4e7f9fa8b393192a5d1af",
+            "bytes": 105002,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "uruudoki",
@@ -12214,7 +13473,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative.",
             "sourceManifest": "assets-src/imagegen/manifests/group-e.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 150862705,
+            "profile": "support.ability.ultimate.temporal.koyomi",
+            "durationSec": 1.79,
+            "sourcePath": "assets-src/local-audio/raw/ability/uruudoki.wav",
+            "sourceSha256": "06bd95d7e7c36f5ff48d0c71d257edc467d540bea494e44c2b074933a014fd16",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/uruudoki.06bd95d7e7c3.wav",
+            "sha256": "06bd95d7e7c36f5ff48d0c71d257edc467d540bea494e44c2b074933a014fd16",
+            "bytes": 157922,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -12293,7 +13572,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "karakasa_rib_scatter",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 811888506,
+          "profile": "support.weapon.primary.ballistic.karakasa",
+          "durationSec": 0.88,
+          "sourcePath": "assets-src/local-audio/raw/weapon/karakasa_rib_scatter.wav",
+          "sourceSha256": "2bd766e30af6493f30eb198b2f491c4beac4686df73028675be8c26b1af5def6",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/karakasa_rib_scatter.2bd766e30af6.wav",
+          "sha256": "2bd766e30af6493f30eb198b2f491c4beac4686df73028675be8c26b1af5def6",
+          "bytes": 77660,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -12489,7 +13788,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative.",
             "sourceManifest": "assets-src/imagegen/manifests/group-e.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 4002472107,
+            "profile": "support.ability.secondary.shield.karakasa",
+            "durationSec": 1.12,
+            "sourcePath": "assets-src/local-audio/raw/ability/ukenagashi.wav",
+            "sourceSha256": "ada849c2881e12360ca35e660fd138c22be311a7b4441607286d5e5a36296365",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/ukenagashi.ada849c2881e.wav",
+            "sha256": "ada849c2881e12360ca35e660fd138c22be311a7b4441607286d5e5a36296365",
+            "bytes": 98828,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "kasasuberi",
@@ -12684,7 +14003,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative.",
             "sourceManifest": "assets-src/imagegen/manifests/group-e.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 118148308,
+            "profile": "support.ability.ability1.mobility.karakasa",
+            "durationSec": 1.19,
+            "sourcePath": "assets-src/local-audio/raw/ability/kasasuberi.wav",
+            "sourceSha256": "7abce3afee6f33113585ffc2e780365872d0642131528b2064edb90ea58677fd",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/kasasuberi.7abce3afee6f.wav",
+            "sha256": "7abce3afee6f33113585ffc2e780365872d0642131528b2064edb90ea58677fd",
+            "bytes": 105002,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "kasauch",
@@ -12879,7 +14218,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative.",
             "sourceManifest": "assets-src/imagegen/manifests/group-e.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1193901022,
+            "profile": "support.ability.ability2.explosive.karakasa",
+            "durationSec": 1.13,
+            "sourcePath": "assets-src/local-audio/raw/ability/kasauch.wav",
+            "sourceSha256": "d005073535aef042f094132231be9d7cf9b06cd9591015e45906137c559078fb",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/kasauch.d005073535ae.wav",
+            "sha256": "d005073535aef042f094132231be9d7cf9b06cd9591015e45906137c559078fb",
+            "bytes": 99710,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "senbonkasa",
@@ -13074,7 +14433,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "PNG RGBA; alpha corners transparent; visually inspected representative.",
             "sourceManifest": "assets-src/imagegen/manifests/group-e.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1140021856,
+            "profile": "support.ability.ultimate.shield.karakasa",
+            "durationSec": 1.73,
+            "sourcePath": "assets-src/local-audio/raw/ability/senbonkasa.wav",
+            "sourceSha256": "a96f88be3abd4997eeccfd8c9a421f9ed10f9a3e5f30b83966970166b2170d24",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/senbonkasa.a96f88be3abd.wav",
+            "sha256": "a96f88be3abd4997eeccfd8c9a421f9ed10f9a3e5f30b83966970166b2170d24",
+            "bytes": 152630,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -13153,7 +14532,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "shirabe_string_beam",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 3051932497,
+          "profile": "support.weapon.primary.energy.shirabe",
+          "durationSec": 1.19,
+          "sourcePath": "assets-src/local-audio/raw/weapon/shirabe_string_beam.wav",
+          "sourceSha256": "fd5ea7c34525a50cd9ddfd12af098999265acc15f3687f12230975b3067650d8",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/shirabe_string_beam.fd5ea7c34525.wav",
+          "sha256": "fd5ea7c34525a50cd9ddfd12af098999265acc15f3687f12230975b3067650d8",
+          "bytes": 105002,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -13349,7 +14748,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified.",
             "sourceManifest": "assets-src/imagegen/manifests/group-f.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 670936878,
+            "profile": "support.ability.secondary.healing.shirabe",
+            "durationSec": 1.12,
+            "sourcePath": "assets-src/local-audio/raw/ability/chogen.wav",
+            "sourceSha256": "5b67bda112432c2fb1066f9e3cdf257165bb26afd51b44fed47f51a56a528f5b",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/chogen.5b67bda11243.wav",
+            "sha256": "5b67bda112432c2fb1066f9e3cdf257165bb26afd51b44fed47f51a56a528f5b",
+            "bytes": 98828,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "waon",
@@ -13544,7 +14963,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified.",
             "sourceManifest": "assets-src/imagegen/manifests/group-f.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1194015930,
+            "profile": "support.ability.ability1.explosive.shirabe",
+            "durationSec": 1.18,
+            "sourcePath": "assets-src/local-audio/raw/ability/waon.wav",
+            "sourceSha256": "6f03d91d8c3e13419c4be1fea7ae8871596981698b16efcfe6eba30e26bf1160",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/waon.6f03d91d8c3e.wav",
+            "sha256": "6f03d91d8c3e13419c4be1fea7ae8871596981698b16efcfe6eba30e26bf1160",
+            "bytes": 104120,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "hikiyose",
@@ -13739,7 +15178,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified.",
             "sourceManifest": "assets-src/imagegen/manifests/group-f.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1569708918,
+            "profile": "support.ability.ability2.metal.shirabe",
+            "durationSec": 1.12,
+            "sourcePath": "assets-src/local-audio/raw/ability/hikiyose.wav",
+            "sourceSha256": "2190e0c988dfe38015de2736416c2cb06bc1c2ec139599ff407d67eab5e7291c",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/hikiyose.2190e0c988df.wav",
+            "sha256": "2190e0c988dfe38015de2736416c2cb06bc1c2ec139599ff407d67eab5e7291c",
+            "bytes": 98828,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "daigasso",
@@ -13934,7 +15393,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified.",
             "sourceManifest": "assets-src/imagegen/manifests/group-f.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 748661553,
+            "profile": "support.ability.ultimate.explosive.shirabe",
+            "durationSec": 1.72,
+            "sourcePath": "assets-src/local-audio/raw/ability/daigasso.wav",
+            "sourceSha256": "9b2244d797d14b37bcaa55d73567806d84c3114fd3973d4472121843441739f6",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/daigasso.9b2244d797d1.wav",
+            "sha256": "9b2244d797d14b37bcaa55d73567806d84c3114fd3973d4472121843441739f6",
+            "bytes": 151748,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -14013,7 +15492,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "hibari_spark_shot",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 3811004439,
+          "profile": "support.weapon.primary.explosive.hibari",
+          "durationSec": 1.08,
+          "sourcePath": "assets-src/local-audio/raw/weapon/hibari_spark_shot.wav",
+          "sourceSha256": "f219198f83f5c209364290974913958a015326e8e1c751d3969fadb48b97d8e8",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/hibari_spark_shot.f219198f83f5.wav",
+          "sha256": "f219198f83f5c209364290974913958a015326e8e1c751d3969fadb48b97d8e8",
+          "bytes": 95300,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -14209,7 +15708,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified.",
             "sourceManifest": "assets-src/imagegen/manifests/group-f.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 901088684,
+            "profile": "support.ability.secondary.mobility.hibari",
+            "durationSec": 1.2,
+            "sourcePath": "assets-src/local-audio/raw/ability/kassho.wav",
+            "sourceSha256": "303ef95d2345e160e9aa6756099440c4941d563f45ed3113d1b6f44b5281bb0f",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/kassho.303ef95d2345.wav",
+            "sha256": "303ef95d2345e160e9aa6756099440c4941d563f45ed3113d1b6f44b5281bb0f",
+            "bytes": 105884,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "wataribi",
@@ -14404,7 +15923,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified.",
             "sourceManifest": "assets-src/imagegen/manifests/group-f.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1125661603,
+            "profile": "support.ability.ability1.healing.hibari",
+            "durationSec": 1.16,
+            "sourcePath": "assets-src/local-audio/raw/ability/wataribi.wav",
+            "sourceSha256": "259af0e62460b197b88a15e968d7c852bb129022611a304924365ee1472471fc",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/wataribi.259af0e62460.wav",
+            "sha256": "259af0e62460b197b88a15e968d7c852bb129022611a304924365ee1472471fc",
+            "bytes": 102356,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "hibariage",
@@ -14599,7 +16138,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified.",
             "sourceManifest": "assets-src/imagegen/manifests/group-f.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1115975354,
+            "profile": "support.ability.ability2.mobility.hibari",
+            "durationSec": 1.17,
+            "sourcePath": "assets-src/local-audio/raw/ability/hibariage.wav",
+            "sourceSha256": "906d168bd949229e9cee602e7282d7c4e7012b3232bcf0eb4ac89562a95c20f5",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/hibariage.906d168bd949.wav",
+            "sha256": "906d168bd949229e9cee602e7282d7c4e7012b3232bcf0eb4ac89562a95c20f5",
+            "bytes": 103238,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "watarinooohi",
@@ -14794,7 +16353,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified.",
             "sourceManifest": "assets-src/imagegen/manifests/group-f.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 831487556,
+            "profile": "support.ability.ultimate.healing.hibari",
+            "durationSec": 1.74,
+            "sourcePath": "assets-src/local-audio/raw/ability/watarinooohi.wav",
+            "sourceSha256": "bc8caa07de7942ad4042b4a8d0ac49149d87d9a72c0a800fdd7645e4a9f06e93",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/watarinooohi.bc8caa07de79.wav",
+            "sha256": "bc8caa07de7942ad4042b4a8d0ac49149d87d9a72c0a800fdd7645e4a9f06e93",
+            "bytes": 153512,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     },
@@ -14873,7 +16452,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
       },
       "weapon": {
         "id": "kazura_vine_beam",
-        "audio": null
+        "audio": {
+          "provider": "Kagariai Local DSP",
+          "generatorVersion": "1.0.0",
+          "generatorPath": "tools/generate_local_audio_assets.js",
+          "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+          "outputFormat": "pcm_s16le",
+          "sampleRateHz": 44100,
+          "channels": 1,
+          "bitDepth": 16,
+          "license": "Project-authored; no third-party samples or model weights",
+          "seed": 1315633901,
+          "profile": "support.weapon.primary.energy.kazura",
+          "durationSec": 1.17,
+          "sourcePath": "assets-src/local-audio/raw/weapon/kazura_vine_beam.wav",
+          "sourceSha256": "eb7f3a09ec151e4b5c47b240d632d00e0763bd2cdd2ca8a8588d1cc84b280be7",
+          "runtimeUrl": "/client/assets/generated/audio/weapons/kazura_vine_beam.eb7f3a09ec15.wav",
+          "sha256": "eb7f3a09ec151e4b5c47b240d632d00e0763bd2cdd2ca8a8588d1cc84b280be7",
+          "bytes": 103238,
+          "contentType": "audio/wav",
+          "generatedAt": "2026-07-21T00:00:00.000Z"
+        }
       },
       "abilities": {
         "secondary": {
@@ -15069,7 +16668,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified.",
             "sourceManifest": "assets-src/imagegen/manifests/group-f.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1571455992,
+            "profile": "support.ability.secondary.shield.kazura",
+            "durationSec": 1.15,
+            "sourcePath": "assets-src/local-audio/raw/ability/yadorizuru.wav",
+            "sourceSha256": "b5cc840d086c172e574b171e66602c8a3ddf5d2adc68d90bde78ceb53c9d0200",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/yadorizuru.b5cc840d086c.wav",
+            "sha256": "b5cc840d086c172e574b171e66602c8a3ddf5d2adc68d90bde78ceb53c9d0200",
+            "bytes": 101474,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability1": {
           "id": "itamikaiho",
@@ -15264,7 +16883,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified.",
             "sourceManifest": "assets-src/imagegen/manifests/group-f.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 2001520849,
+            "profile": "support.ability.ability1.healing.kazura",
+            "durationSec": 1.16,
+            "sourcePath": "assets-src/local-audio/raw/ability/itamikaiho.wav",
+            "sourceSha256": "002031f4f7201baffa632682b6cf2af2bb8eaca65ec3dc5714e65564fef81a52",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/itamikaiho.002031f4f720.wav",
+            "sha256": "002031f4f7201baffa632682b6cf2af2bb8eaca65ec3dc5714e65564fef81a52",
+            "bytes": 102356,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ability2": {
           "id": "togebaraki",
@@ -15459,7 +17098,27 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified.",
             "sourceManifest": "assets-src/imagegen/manifests/group-f.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1398683224,
+            "profile": "support.ability.ability2.explosive.kazura",
+            "durationSec": 1.13,
+            "sourcePath": "assets-src/local-audio/raw/ability/togebaraki.wav",
+            "sourceSha256": "51e8c4538a12b21e0011494b9584c4858a512ca66b013471181e37183ca81196",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/togebaraki.51e8c4538a12.wav",
+            "sha256": "51e8c4538a12b21e0011494b9584c4858a512ca66b013471181e37183ca81196",
+            "bytes": 99710,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         },
         "ultimate": {
           "id": "daiukenoootsuru",
@@ -15654,12 +17313,32 @@ export const HERO_ASSET_MANIFEST = deepFreeze({
             "validationNotes": "Generated built-in output; source preserved; chroma-key alpha helper completed; transparent corners and 4x4/2x2 grid verified.",
             "sourceManifest": "assets-src/imagegen/manifests/group-f.json"
           },
-          "audio": null
+          "audio": {
+            "provider": "Kagariai Local DSP",
+            "generatorVersion": "1.0.0",
+            "generatorPath": "tools/generate_local_audio_assets.js",
+            "generatorSha256": "e94208ca76de3683559d87b78201b0ed7b89b9541bf73f36eb3f9994b1eaf7d8",
+            "outputFormat": "pcm_s16le",
+            "sampleRateHz": 44100,
+            "channels": 1,
+            "bitDepth": 16,
+            "license": "Project-authored; no third-party samples or model weights",
+            "seed": 1793110796,
+            "profile": "support.ability.ultimate.shield.kazura",
+            "durationSec": 1.8,
+            "sourcePath": "assets-src/local-audio/raw/ability/daiukenoootsuru.wav",
+            "sourceSha256": "e2ffa72e60918855573e0bac7552c7a1674813c1ac7231850b9181e20a4c6c55",
+            "runtimeUrl": "/client/assets/generated/audio/abilities/daiukenoootsuru.e2ffa72e6091.wav",
+            "sha256": "e2ffa72e60918855573e0bac7552c7a1674813c1ac7231850b9181e20a4c6c55",
+            "bytes": 158804,
+            "contentType": "audio/wav",
+            "generatedAt": "2026-07-21T00:00:00.000Z"
+          }
         }
       }
     }
   ],
-  "contentSha256": "e62cad2a166deb901b2ec9da5e4852a985720fe6f56d6daa0ae129048945f2f6"
+  "contentSha256": "6085b6af8b484e15248aa7717147e814bf925831410e7f8201002fde68d97c92"
 });
 
 export const HERO_ASSET_BY_ID = readonlyLookup(HERO_ASSET_MANIFEST.heroes.map(hero => [hero.heroId, hero]));

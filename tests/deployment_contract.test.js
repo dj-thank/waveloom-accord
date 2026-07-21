@@ -34,6 +34,8 @@ test('production deploymentは固定イメージ・read-only・healthcheck・必
     'the ingress image tag must be part of the immutable release unit');
   assert.match(dockerignore, /^\.env\.\*$/m,
     'environment secret files must never enter the Docker build context');
+  assert.match(dockerignore, /^client\/assets\/generated\/audio\/\*\*\/\*\.mp3$/m,
+    'non-authoritative legacy ElevenLabs MP3 files must not enter the production image');
   assert.equal(compose.match(/^\s{4}read_only:\s*true\s*$/gm)?.length, 2,
     'application and Caddy services must both use a read-only root filesystem');
   assert.match(caddyDockerfile, /FROM caddy:2\.11\.4-alpine@sha256:[0-9a-f]{64}/,

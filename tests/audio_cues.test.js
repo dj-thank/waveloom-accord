@@ -73,3 +73,23 @@ test('weapon and action cues carry SSOT sample URLs while procedural profiles re
   assert.equal(ultimate.sampleUrl, '/client/assets/generated/audio/abilities/shirubeya.abcdef123456.mp3');
   assert.equal(describeCombatCue({ type: 'ability_used', player: 'me', abilityId: 'missing' }, context).sampleUrl, null);
 });
+
+test('SSOT WAV content type is exposed on weapon and action cue descriptors', () => {
+  const wav = {
+    runtimeUrl: '/client/assets/generated/audio/sample.123456789abc.wav',
+    sha256: '12'.repeat(32),
+    bytes: 44,
+    contentType: 'audio/wav',
+  };
+  const assets = {
+    getWeaponAsset: id => id === 'asagi_survey_rifle' ? { audio: wav } : null,
+    getActionAsset: id => id === 'shirubeya' ? { audio: wav } : null,
+  };
+  const context = { myId: 'me', assets };
+
+  const shot = describeCombatCue({ type: 'shot', source: 'me', weaponId: 'asagi_survey_rifle' }, context);
+  const ability = describeCombatCue({ type: 'ability_used', player: 'me', abilityId: 'shirubeya' }, context);
+
+  assert.equal(shot.sampleContentType, 'audio/wav');
+  assert.equal(ability.sampleContentType, 'audio/wav');
+});

@@ -10,7 +10,8 @@ import { HEROES } from '../shared/data/heroes.js';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const IMAGE_MANIFEST_ROOT = path.join(ROOT, 'assets-src', 'imagegen', 'manifests');
 const DERIVED_ROOT = path.join(ROOT, 'assets-src', 'imagegen', 'derived');
-const ELEVENLABS_MANIFEST = path.join(ROOT, 'assets-src', 'elevenlabs', 'manifest.json');
+const AUDIO_MANIFEST_PATH = path.join(ROOT, 'assets-src', 'local-audio', 'manifest.json');
+const AUDIO_MANIFEST_RELATIVE_PATH = 'assets-src/local-audio/manifest.json';
 const OUTPUT = path.join(ROOT, 'shared', 'data', 'hero_assets.js');
 const PROCESSOR = path.join(ROOT, 'tools', 'process_image_atlas.py');
 const PYTHON = process.env.KAGARIAI_PYTHON || process.env.PYTHON || 'python';
@@ -170,7 +171,11 @@ function runProcessor(record) {
     maxBuffer: 4 * 1024 * 1024,
   });
   if (result.status !== 0) {
-    throw new Error(`atlas processor failed for ${assetId}\n${result.stdout}\n${result.stderr}`);
+    const spawnError = result.error
+      ? `spawn error ${result.error.code || 'UNKNOWN'}: ${result.error.message}`
+      : '';
+    const diagnostics = [spawnError, result.stdout || '', result.stderr || ''].filter(Boolean).join('\n');
+    throw new Error(`atlas processor failed for ${assetId}\n${diagnostics}`);
   }
   const line = result.stdout.trim().split(/\r?\n/).filter(Boolean).at(-1);
   return JSON.parse(line);
@@ -213,9 +218,31 @@ async function processVisual(record) {
 }
 
 async function loadAudioRecords() {
-  const manifest = JSON.parse(await readFile(ELEVENLABS_MANIFEST, 'utf8'));
-  if (manifest.provider !== 'ElevenLabs' || manifest.modelId !== 'eleven_text_to_sound_v2') {
-    throw new Error('ElevenLabs manifest has unexpected provider or model');
+  const manifest = JSON.parse(await readFile(AUDIO_MANIFEST_PATH, 'utf8'));
+  if (manifest.schemaVersion !== '1.0.0'
+    || manifest.authoritative !== true
+    || manifest.generatedFor !== 'kagariai-1.0.0-rc.5'
+    || manifest.provider !== 'Kagariai Local DSP') {
+    throw new Error('audio manifest is not the authoritative Kagariai Local DSP catalog');
+  }
+  if (manifest.contentType !== 'audio/wav'
+    || manifest.sampleRateHz !== 44_100
+    || manifest.channels !== 1
+    || manifest.bitDepth !== 16) {
+    throw new Error('audio manifest has an unsupported WAV delivery contract');
+  }
+  if (!/^\d+\.\d+\.\d+$/.test(manifest.generatorVersion || '')) {
+    throw new Error('audio manifest has an invalid generator version');
+  }
+  if (!/no third-party samples or model weights/i.test(manifest.license || '')) {
+    throw new Error('audio manifest lacks the project-authored provenance declaration');
+  }
+  if (manifest.generatorPath !== 'tools/generate_local_audio_assets.js') {
+    throw new Error('audio manifest has an unexpected generator path');
+  }
+  const generator = await fileRecord(manifest.generatorPath);
+  if (generator.sha256 !== manifest.generatorSha256) {
+    throw new Error('audio manifest generator hash does not match the admitted generator');
   }
   const records = new Map();
   for (const item of manifest.assets || []) {
@@ -226,21 +253,34 @@ async function loadAudioRecords() {
     if (source.sha256 !== runtime.sha256 || source.sha256 !== item.sha256) {
       throw new Error(`audio source/runtime hash mismatch for ${key}`);
     }
+    const expectedRuntimeUrl = `/${runtime.path}`;
+    if (item.runtimeUrl !== expectedRuntimeUrl) throw new Error(`audio runtime URL mismatch for ${key}`);
+    if (!item.runtimeUrl.endsWith(`.${item.sha256.slice(0, 12)}.wav`)) {
+      throw new Error(`audio runtime filename is not content-addressed for ${key}`);
+    }
+    if (item.contentType !== manifest.contentType) throw new Error(`audio content type mismatch for ${key}`);
+    if (!Number.isInteger(item.seed) || !String(item.profile || '').trim() || !(item.durationSec > 0)) {
+      throw new Error(`audio synthesis metadata is incomplete for ${key}`);
+    }
     records.set(key, {
-      provider: 'ElevenLabs',
-      modelId: item.modelId,
-      outputFormat: item.outputFormat,
-      prompt: item.prompt,
-      promptInfluence: item.promptInfluence,
-      requestedDurationSec: item.requestedDurationSec,
+      provider: manifest.provider,
+      generatorVersion: manifest.generatorVersion,
+      generatorPath: generator.path,
+      generatorSha256: generator.sha256,
+      outputFormat: manifest.outputFormat || 'pcm_s16le',
+      sampleRateHz: manifest.sampleRateHz,
+      channels: manifest.channels,
+      bitDepth: manifest.bitDepth,
+      license: manifest.license,
+      seed: item.seed,
+      profile: item.profile,
+      durationSec: item.durationSec,
       sourcePath: source.path,
       sourceSha256: source.sha256,
       runtimeUrl: item.runtimeUrl,
       sha256: runtime.sha256,
       bytes: runtime.bytes,
-      contentType: item.contentType,
-      characterCost: item.characterCost,
-      requestId: item.requestId,
+      contentType: manifest.contentType,
       generatedAt: item.generatedAt,
     });
   }
@@ -278,6 +318,11 @@ async function buildManifest() {
     ...HEROES.flatMap(hero => SLOTS.map(slot => `ability:${hero.abilities[slot].id}`)),
   ];
   const missingAudio = expectedAudioKeys.filter(key => !audio.has(key));
+  const unexpectedAudio = [...audio.keys()].filter(key => !expectedAudioKeys.includes(key));
+  if (unexpectedAudio.length > 0) throw new Error(`unexpected audio records: ${unexpectedAudio.join(', ')}`);
+  if (audio.size !== expectedAudioKeys.length - missingAudio.length) {
+    throw new Error(`audio catalog count mismatch: expected ${expectedAudioKeys.length}, found ${audio.size}`);
+  }
   if (missingAudio.length > 0 && !ALLOW_INCOMPLETE_AUDIO) {
     throw new Error(`expected 90 audio records, found ${audio.size}; missing ${missingAudio.length}`);
   }
@@ -318,15 +363,15 @@ async function buildManifest() {
     const bytes = await readFile(path.join(IMAGE_MANIFEST_ROOT, filename));
     inputHashes.push({ path: `assets-src/imagegen/manifests/${filename}`, sha256: sha256(bytes) });
   }
-  const audioBytes = await readFile(ELEVENLABS_MANIFEST);
-  inputHashes.push({ path: 'assets-src/elevenlabs/manifest.json', sha256: sha256(audioBytes) });
+  const audioBytes = await readFile(AUDIO_MANIFEST_PATH);
+  inputHashes.push({ path: AUDIO_MANIFEST_RELATIVE_PATH, sha256: sha256(audioBytes) });
   const manifest = {
     schemaVersion: '1.0.0',
     authoritative: true,
     complete: missingAudio.length === 0,
     missingAudio,
     generatedFor: 'kagariai-1.0.0-rc.5',
-    sourcePolicy: 'Change generated assets through the recorded ImageGen/ElevenLabs inputs, then rebuild this manifest.',
+    sourcePolicy: 'Change visual assets through recorded ImageGen inputs and audio through the versioned local DSP generator, then rebuild this manifest.',
     inputHashes,
     heroes,
   };

@@ -72,7 +72,7 @@ test('hero asset manifest is the authoritative 18-hero / 72-action visual SSOT',
   assert.equal(actionIds.size, 72);
 });
 
-test('ElevenLabs audio SSOT is complete for all 18 weapons and 72 actions', () => {
+test('project-authored local DSP audio SSOT is complete for all 18 weapons and 72 actions', () => {
   assert.equal(
     HERO_ASSET_MANIFEST.complete,
     true,
@@ -81,9 +81,17 @@ test('ElevenLabs audio SSOT is complete for all 18 weapons and 72 actions', () =
   assert.deepEqual(HERO_ASSET_MANIFEST.missingAudio, []);
   for (const hero of HERO_ASSET_MANIFEST.heroes) {
     for (const audio of [hero.weapon.audio, ...SLOTS.map(slot => hero.abilities[slot].audio)]) {
-      assert.equal(audio.provider, 'ElevenLabs');
-      assert.equal(audio.modelId, 'eleven_text_to_sound_v2');
-      assert.ok(audio.prompt.length >= 80);
+      assert.equal(audio.provider, 'Kagariai Local DSP');
+      assert.match(audio.generatorVersion, /^\d+\.\d+\.\d+$/);
+      assert.equal(audio.generatorPath, 'tools/generate_local_audio_assets.js');
+      assert.match(audio.generatorSha256, /^[a-f0-9]{64}$/);
+      assert.equal(audio.contentType, 'audio/wav');
+      assert.equal(audio.sampleRateHz, 44_100);
+      assert.equal(audio.channels, 1);
+      assert.equal(audio.bitDepth, 16);
+      assert.match(audio.license, /no third-party samples or model weights/i);
+      assert.ok(Number.isInteger(audio.seed));
+      assert.ok(audio.profile.length > 0);
     }
   }
 });
@@ -99,7 +107,7 @@ test('every SSOT runtime image and audio reference matches the admitted bytes', 
       runtimeUrls.add(visual.runtimeUrl);
     }
     for (const audio of [hero.weapon.audio, ...SLOTS.map(slot => hero.abilities[slot].audio)].filter(Boolean)) {
-      await assertRuntimeHash(audio, 'mp3');
+      await assertRuntimeHash(audio, 'wav');
       assert.equal(runtimeUrls.has(audio.runtimeUrl), false, audio.runtimeUrl);
       runtimeUrls.add(audio.runtimeUrl);
     }
