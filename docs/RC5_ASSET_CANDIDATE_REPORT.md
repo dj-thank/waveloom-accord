@@ -50,7 +50,7 @@ SSOT の内容ハッシュは `6085b6af8b484e15248aa7717147e814bf925831410e7f820
 | 画像キャッシュ決定性 | Python unittest pass、連続再構築のSSOT SHA-256一致 |
 | asset/runtime focused | 34/34 pass |
 | Local DSP生成 | 90件を2回再生成し、全WAVとmanifest bytesが一致 |
-| source packager policy | Python unittest 2/2 pass。`.part`、`.partial`、`.tmp`、旧MP3を除外 |
+| source packager policy | Python unittest 6/6 pass。WAV実体・信号品質・18武器/72能力・各slot・正典ID・統合SSOTを構造照合し、任意バイト列と改ざんを拒否 |
 | strict hero asset | `complete=true`、90/90音声、90固有hash、入力/配信byte一致 |
 | authored map collision | pass、`D4D471A28169A82C20D34D47E7DEBA99C271268646737BD3E93A0C6292D95219` |
 | headless BO3 | 2 seed × 2 match 完走、18/18 ヒーロー、能力・必殺・回復を確認 |
@@ -58,6 +58,8 @@ SSOT の内容ハッシュは `6085b6af8b484e15248aa7717147e814bf925831410e7f820
 | ブラウザ DOM | 18/18 ヒーロー画像を verified、選択中 Vesta の能力 4/4 を verified |
 | 実ブラウザWAV | Chrome AudioContextで代表音源をdecode。HTTP 200、`audio/wav`、immutable、warning/error 0 |
 | Docker smoke | healthy、ready、protocol 5、WAV 90、MP3 0、SSOT参照 90/90を確認 |
+
+Python 全回帰は画像キャッシュ決定性1件を含む7/7 pass。source packagerは拡張子やmanifest自己申告だけを信頼せず、各ファイルのRIFF/WAVEヘッダ、44.1 kHz mono PCM16、data長、byte数、SHA-256、duration、peak/RMS/fade、正典ロスター、統合SSOTのdescriptorとcontent hashを再計算してから候補化する。
 
 ブラウザの目視証跡は `docs/evidence/rc5-asset-visual-audit-2026-07-21/VISUAL_AUDIT.md` と `outputs/rc5-visual-evidence/` に保存した。
 
