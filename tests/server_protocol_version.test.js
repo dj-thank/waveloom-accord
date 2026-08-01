@@ -7,15 +7,15 @@ import {
 } from '../shared/protocol.js';
 import { PROTOCOL_VERSION as RUNTIME_PROTOCOL_VERSION } from '../server/runtime.js';
 
-test('shared, runtime, and protocol document agree on protocol v5', () => {
-  assert.equal(PROTOCOL_VERSION, 5);
+test('shared, runtime, and protocol document agree on protocol v6', () => {
+  assert.equal(PROTOCOL_VERSION, 6);
   assert.equal(RUNTIME_PROTOCOL_VERSION, PROTOCOL_VERSION);
-  assert.equal(isSupportedProtocolVersion(5), true);
-  assert.equal(isSupportedProtocolVersion(4), false);
+  assert.equal(isSupportedProtocolVersion(6), true);
+  assert.equal(isSupportedProtocolVersion(5), false);
   assert.deepEqual(LAG_COMPENSATION_POLICY, {
     displayInterpolationBaseMs: 100,
     absoluteMaxMs: 220,
   });
   const title = fs.readFileSync(path.resolve('server/PROTOCOL.md'), 'utf8').split(/\r?\n/, 1)[0];
-  assert.match(title, /v5$/);
+  assert.match(title, /v6$/);
 });

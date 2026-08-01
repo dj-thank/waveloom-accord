@@ -12,10 +12,10 @@ import { WebSocket, WebSocketServer } from 'ws';
 import { World } from '../shared/sim/sim.js';
 import { buildMap } from '../shared/data/map_oshioi.js';
 import {
-  HEROES, HERO_BY_ID, DEFAULT_HERO_ID, heroesForRole,
+  HEROES, HERO_BY_ID, DEFAULT_HERO_ID,
 } from '../shared/data/heroes.js';
 import { BotController } from './bots.js';
-import { makeRng } from '../shared/sim/rng.js';
+import { makeBotRng, scheduleBotThinkOrder } from './bot_fairness.js';
 import {
   bindConnection, unbindConnection, canRequestRestart, clampAccumulator,
   resolveHeroId, receiveInputCommand, isOpenSocket, connectedTeamCounts,
@@ -23,6 +23,8 @@ import {
   createMessageTokenBucket, consumeMessageToken, buildRuntimeDiagnostics,
   shouldExitOnInitialListenError, claimedSlotSpawnOptions, PROTOCOL_VERSION,
   LAG_COMPENSATION_POLICY,
+  applyHeroSelectionTransaction, planRuntimeBotFill, planRuntimeHeroSelection,
+  selectRuntimeClaimSlot,
   canAdmitWebSocketConnection, shouldCloseUnjoinedConnection,
   WS_CONNECTION_LIMIT, WS_JOIN_DEADLINE_MS, WS_FORCE_CLOSE_MS,
 } from './runtime.js';
@@ -31,7 +33,10 @@ import { createStaticFileResponder } from './http_static.js';
 import {
   createEventRing, appendEventRing, readEventRing, eventDeliveryHealth,
 } from './event_ring.js';
-import { ROLE_SLOTS, TEAM_ROLES, countRoles, planRoleChange } from '../shared/rules/team_composition.js';
+import {
+  ROLE_SLOTS, RUNTIME_COMPOSITION_POLICY, RUNTIME_ROSTER_VERSION,
+  validateRuntimeComposition,
+} from '../shared/rules/team_composition.js';
 import {
   readProductionConfig, securityHeaders, isOriginAllowed, buildHealthPayload,
 } from './production.js';
@@ -39,10 +44,10 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const staticFiles = createStaticFileResponder({ root: ROOT, maxConcurrentStreams: 32 });
-const mode = JSON.parse(fs.readFileSync(path.join(ROOT, 'shared/data/mode_shioura.json'), 'utf8'));
+const mode = JSON.parse(fs.readFileSync(path.join(ROOT, 'shared/data/mode_flashpoint.json'), 'utf8'));
 const combat = JSON.parse(fs.readFileSync(path.join(ROOT, 'shared/data/combat.json'), 'utf8'));
 if (JSON.stringify(mode.roleSlots) !== JSON.stringify(ROLE_SLOTS)) {
-  throw new Error('mode.roleSlots must match the frozen 1/2/2 team composition');
+  throw new Error('mode.roleSlots must match the canonical 1/2/2 bot rotation');
 }
 
 const args = process.argv.slice(2);
@@ -51,11 +56,12 @@ const { port: PORT, host: HOST } = production;
 const MAX_MESSAGE_BYTES = 64 * 1024;
 const MAX_BUFFERED_SNAPSHOT_BYTES = 256 * 1024;
 const ROSTER = Object.freeze({
-  version: 1,
+  version: RUNTIME_ROSTER_VERSION,
   defaultHeroId: DEFAULT_HERO_ID,
   roleSlots: ROLE_SLOTS,
-  heroes: HEROES.map(({ id, name, role, roleLabel, subtype, color, maxHp }) => ({
-    id, name, role, roleLabel, subtype, color, maxHp,
+  runtimeCompositionPolicy: RUNTIME_COMPOSITION_POLICY,
+  heroes: HEROES.map(({ id, name, role, roleLabel, subtype, teamFunctions, color, maxHp }) => ({
+    id, name, role, roleLabel, subtype, teamFunctions, color, maxHp,
   })),
 });
 
@@ -127,7 +133,6 @@ const httpServer = http.createServer((req, res) => {
 
 // ---- 試合 ----
 const seed = (Date.now() % 2147483647) | 0;
-const botRng = makeRng(seed ^ 0x5eed);
 let world, bots, sockets;
 const connections = new Map();
 let eventRing = createEventRing();
@@ -148,22 +153,27 @@ const connectionAdmissionMetrics = {
 };
 const webSocketCloseMetrics = { total: 0, byCode: Object.create(null) };
 const lagCompensationTotals = { samples: 0, slowPongOutliers: 0, aboveAbsoluteCapSamples: 0 };
-const BOT_HERO_POOLS = Object.freeze({
-  frontline: heroesForRole('frontline'),
-  damage: heroesForRole('damage'),
-  support: heroesForRole('support'),
-});
 let matchOrdinal = 0;
 
-function playerRole(player) {
-  return HERO_BY_ID[player?.heroId]?.role || null;
+function runtimeCompositionError(team, validation) {
+  const error = new Error(`team ${team} does not satisfy the runtime composition policy`);
+  error.code = validation?.code || 'role_slots_required';
+  error.team = team;
+  error.role = validation?.role;
+  error.roleCounts = { ...(validation?.roleCounts || {}) };
+  error.missingRoles = [...(validation?.missingRoles || [])];
+  error.hasContinuousSustain = Boolean(validation?.hasContinuousSustain);
+  error.missingCapabilities = [...(validation?.missingCapabilities || [])];
+  return error;
 }
 
 function newMatch(keepHumans = []) {
-  const heroRotation = matchOrdinal++;
-  world = new World(buildMap(), mode, combat, seed + Math.floor(Math.random() * 1e6));
-  bots = new Map();
-  sockets = sockets || new Map(); // playerId -> ws
+  const rosterMatchIndex = matchOrdinal;
+  const nextWorld = new World(buildMap(), mode, combat, seed + Math.floor(Math.random() * 1e6));
+  const nextBots = new Map();
+  let nextBotIdx = botIdx;
+  const nextBotName = () => `B-${BOT_NAMES[nextBotIdx++ % BOT_NAMES.length]}`;
+  const botPlayers = [];
   const humansByTeam = [[], []];
   const remaps = [];
   for (const h of keepHumans) {
@@ -172,32 +182,52 @@ function newMatch(keepHumans = []) {
   }
   for (let team = 0; team < 2; team++) {
     for (const h of humansByTeam[team]) {
-      const pl = world.addPlayer(h.name, false, team, h.heroId);
+      if (typeof h.heroId !== 'string' || !Object.hasOwn(HERO_BY_ID, h.heroId)) {
+        const invalid = new Error(`rematch human references an invalid hero: ${h.heroId}`);
+        invalid.code = 'invalid_hero';
+        invalid.missingCapabilities = [];
+        throw invalid;
+      }
+      const pl = nextWorld.addPlayer(h.name, false, team, HERO_BY_ID[h.heroId].id);
       remaps.push({ human: h, player: pl });
     }
-    const teamPlayers = [...world.players.values()]
+    const teamPlayers = [...nextWorld.players.values()]
       .filter(player => player.team === team)
-      .map(player => ({ ...player, role: playerRole(player) }));
-    const roleCounts = countRoles(teamPlayers);
-    let botOrdinal = teamPlayers.length;
-    for (const role of TEAM_ROLES) {
-      const missing = Math.max(0, ROLE_SLOTS[role] - roleCounts[role]);
-      const pool = BOT_HERO_POOLS[role];
-      for (let index = 0; index < missing; index++) {
-        const hero = pool[(heroRotation * 2 + team * 3 + botOrdinal) % pool.length];
-        const pl = world.addPlayer(botName(), true, team, hero.id);
-        bots.set(pl.id, new BotController(world, pl, botRng));
-        botOrdinal++;
-      }
+      .map(player => ({ ...player }));
+    const fill = planRuntimeBotFill(rosterMatchIndex, team, teamPlayers);
+    if (!fill.ok) throw runtimeCompositionError(team, fill);
+    for (const slot of fill.botSlots) {
+      const pl = nextWorld.addPlayer(nextBotName(), true, team, slot.heroId);
+      botPlayers.push(pl);
     }
+    const finalTeam = [...nextWorld.players.values()]
+      .filter(player => player.team === team)
+      .map(player => ({
+        ...player,
+        role: HERO_BY_ID[player.heroId].role,
+        teamFunctions: HERO_BY_ID[player.heroId].teamFunctions,
+      }));
+    const validation = validateRuntimeComposition(finalTeam);
+    if (!validation.ok) throw runtimeCompositionError(team, validation);
   }
+  for (const player of botPlayers) {
+    nextBots.set(
+      player.id,
+      new BotController(nextWorld, player, makeBotRng(nextWorld.seed, player, botPlayers)),
+    );
+  }
+  world = nextWorld;
+  bots = nextBots;
+  sockets = sockets || new Map(); // playerId -> ws
+  eventRing = createEventRing();
+  botIdx = nextBotIdx;
+  matchOrdinal++;
   for (const { human, player } of remaps) human.remap(player);
   console.log(`[match] 新しい試合を開始 seed=${world.seed} (${mode.displayName} / ${world.map.displayName})`);
 }
 
 const BOT_NAMES = ['アオサギ', 'イソナミ', 'ウミボタル', 'カザハヤ', 'シラナミ', 'タマモ', 'ナギサ', 'ヒトデマル', 'フナムシ', 'ミナモ', 'ヤドカリ', 'ワタツミ'];
 let botIdx = 0;
-function botName() { return `B-${BOT_NAMES[botIdx++ % BOT_NAMES.length]}`; }
 
 newMatch();
 
@@ -227,8 +257,8 @@ function safeSend(ws, message) {
   }
 }
 
-function sendError(ws, code, message = code) {
-  safeSend(ws, { t: 'error', code, message });
+function sendError(ws, code, message = code, details = {}) {
+  safeSend(ws, { t: 'error', code, message, ...details });
 }
 
 function sendWelcomeAndSnapshot(ws, player) {
@@ -270,15 +300,22 @@ function closeSocketWithDeadline(ws, code, reason) {
   return forceCloseTimer;
 }
 
-function findClaimableSlot(team, role) {
+function claimableSlots(team) {
+  const candidates = [];
+  const seen = new Set();
   for (const playerId of bots.keys()) {
     const player = world.players.get(playerId);
-    if (player?.team === team && playerRole(player) === role && !isOpenSocket(sockets.get(playerId))) return player;
+    if (player?.team === team && !isOpenSocket(sockets.get(playerId))) {
+      candidates.push(player);
+      seen.add(player.id);
+    }
   }
   for (const player of world.players.values()) {
-    if (player.team === team && playerRole(player) === role && !isOpenSocket(sockets.get(player.id))) return player;
+    if (player.team === team && !seen.has(player.id) && !isOpenSocket(sockets.get(player.id))) {
+      candidates.push(player);
+    }
   }
-  return null;
+  return candidates;
 }
 
 function initializeClaimedSlot(player, name, heroId) {
@@ -309,22 +346,64 @@ function handleJoin(ws, conn, msg) {
 
   const name = sanitizePlayerName(msg.name);
   const heroId = resolveHeroId(msg.heroId, HERO_BY_ID, DEFAULT_HERO_ID);
-  const requestedRole = HERO_BY_ID[heroId].role;
   const counts = connectedTeamCounts(world.players, sockets);
-  const slots = [findClaimableSlot(0, requestedRole), findClaimableSlot(1, requestedRole)];
-  const claimable = slots.map(Boolean);
+  const candidates = [claimableSlots(0), claimableSlots(1)];
+  const plans = candidates.map((teamCandidates, team) => {
+    const teamPlayers = [...world.players.values()]
+      .filter(candidate => candidate.team === team);
+    return {
+      ...selectRuntimeClaimSlot(
+        teamPlayers,
+        teamCandidates.map(candidate => candidate.id),
+        heroId,
+      ),
+      team,
+    };
+  });
+  const claimable = plans.map(plan => plan.ok);
   const team = chooseJoinTeam(counts, claimable, mode.teamSize);
   if (team < 0) {
     const full = counts.every(count => count >= mode.teamSize);
-    sendError(ws, full ? 'server_full' : 'role_full', full
-      ? `The match is full (${mode.teamSize} players per team).`
-      : `The ${requestedRole} role is full on both teams.`);
+    const roleFailure = plans
+      .filter(plan => plan.code === 'role_full')
+      .sort((left, right) => (
+        counts[left.team] - counts[right.team]
+        || left.team - right.team
+      ))[0];
+    const compositionFailure = plans
+      .filter(plan => plan.code === 'sustain_support_required' || plan.code === 'role_slots_required')
+      .sort((left, right) => counts[left.team] - counts[right.team] || left.team - right.team)[0];
+    const code = full
+      ? 'server_full'
+      : roleFailure
+        ? 'role_full'
+        : compositionFailure?.code || 'server_full';
+    sendError(
+      ws,
+      code,
+      full
+        ? `The match is full (${mode.teamSize} players per team).`
+        : roleFailure
+          ? `The ${roleFailure.role} role is already full on both teams.`
+          : compositionFailure
+            ? 'The requested hero would violate the fixed team composition.'
+          : 'No runtime roster slot is available.',
+      roleFailure
+        ? { role: roleFailure.role }
+        : compositionFailure
+          ? {
+            roleCounts: compositionFailure.roleCounts,
+            missingRoles: compositionFailure.missingRoles,
+            hasContinuousSustain: compositionFailure.hasContinuousSustain,
+          }
+          : {},
+    );
     return;
   }
 
   captureWorldEvents();
   conn.eventCursor = readEventRing(eventRing, null).nextCursor;
-  const player = initializeClaimedSlot(slots[team], name, heroId);
+  const player = initializeClaimedSlot(world.players.get(plans[team].slotId), name, heroId);
   conn.lastAcceptedInputSeq = 0;
   bindConnection(conn, player.id, sockets);
   clearJoinDeadline(conn);
@@ -353,26 +432,34 @@ function handleSelect(ws, conn, msg) {
   }
   const targetHero = HERO_BY_ID[msg.heroId];
   const teamPlayers = [...world.players.values()]
-    .filter(candidate => candidate.team === player.team)
-    .map(candidate => ({ ...candidate, role: playerRole(candidate) }));
-  const rolePlan = planRoleChange(teamPlayers, player.id, targetHero.role);
-  if (!rolePlan.ok) {
-    safeSend(ws, { t: 'select_result', ok: false, heroId: msg.heroId, code: rolePlan.code });
+    .filter(candidate => candidate.team === player.team);
+  const plan = planRuntimeHeroSelection(teamPlayers, player.id, targetHero.id);
+  if (!plan.ok) {
+    safeSend(ws, {
+      t: 'select_result',
+      ok: false,
+      heroId: msg.heroId,
+      code: plan.code,
+      ...(plan.code === 'role_full'
+        ? { role: plan.role }
+        : plan.code === 'role_slots_required' || plan.code === 'sustain_support_required'
+          ? {
+            roleCounts: plan.roleCounts,
+            missingRoles: plan.missingRoles,
+            hasContinuousSustain: plan.hasContinuousSustain,
+          }
+        : {}),
+    });
     return;
   }
-  if (rolePlan.swapPlayerId && world.flow.state !== 'SETUP') {
-    safeSend(ws, { t: 'select_result', ok: false, heroId: msg.heroId, code: 'role_change_locked' });
-    return;
-  }
-  if (rolePlan.swapPlayerId) {
-    const swapPlayer = world.players.get(rolePlan.swapPlayerId);
-    if (!swapPlayer || !swapPlayer.isBot || !world.selectHero(swapPlayer.id, player.heroId)) {
-      safeSend(ws, { t: 'select_result', ok: false, heroId: msg.heroId, code: 'role_full' });
-      return;
-    }
-  }
-  if (!world.selectHero(player.id, msg.heroId)) {
-    safeSend(ws, { t: 'select_result', ok: false, heroId: msg.heroId, code: 'selection_locked' });
+  const selection = applyHeroSelectionTransaction(
+    world,
+    player.id,
+    msg.heroId,
+    plan.swapPlayerId,
+  );
+  if (!selection.ok) {
+    safeSend(ws, { t: 'select_result', ok: false, heroId: msg.heroId, code: selection.code });
     return;
   }
   world.neutralizeInput(player.id);
@@ -410,8 +497,10 @@ function handleMessage(ws, conn, msg) {
     const id = typeof msg.id === 'string' || typeof msg.id === 'number' ? msg.id : null;
     safeSend(ws, { t: 'pong', id });
   } else if (msg.t === 'restart') {
-    if (canRequestRestart(conn, world.flow.state)) restart();
-    else sendError(ws, 'restart_not_allowed', 'Restart is only available after MATCH_END.');
+    if (canRequestRestart(conn, world.flow.state)) {
+      const result = restart();
+      if (!result.ok) sendRestartFailure(ws, result);
+    } else sendError(ws, 'restart_not_allowed', 'Restart is only available after MATCH_END.');
   } else {
     sendError(ws, 'invalid_message', `Unknown message type: ${msg.t}`);
   }
@@ -531,7 +620,9 @@ wss.on('connection', (ws) => {
           p.isBot = true;
           p.name = p.name + '(bot)';
           neutralizePlayerInput(disconnectedWorld, p, { acceptedToApplied: true });
-          bots.set(pid, new BotController(world, p, botRng));
+          const botPlayers = [...bots.values()].map(controller => controller.pl);
+          botPlayers.push(p);
+          bots.set(pid, new BotController(world, p, makeBotRng(world.seed, p, botPlayers)));
           console.log(`[leave] ${pid} をボットが引き継ぎ`);
         }
       }, mode.leaverBotTakeoverSec * 1000);
@@ -560,7 +651,7 @@ function restart() {
     humans.push({
       name: pl.name,
       team: pl.team,
-      heroId: resolveHeroId(pl.heroId, HERO_BY_ID, DEFAULT_HERO_ID),
+      heroId: pl.heroId,
       remap: (newPlayer) => {
         world.neutralizeInput(newPlayer.id, {
           resetSequence: true,
@@ -573,8 +664,41 @@ function restart() {
     });
   }
   for (const conn of staleConnections) unbindConnection(conn, sockets);
-  eventRing = createEventRing();
-  newMatch(humans);
+  try {
+    newMatch(humans);
+    return { ok: true };
+  } catch (error) {
+    const result = {
+      ok: false,
+      code: error?.code || 'server_error',
+      role: error?.role,
+      roleCounts: { ...(error?.roleCounts || {}) },
+      missingRoles: [...(error?.missingRoles || [])],
+      hasContinuousSustain: Boolean(error?.hasContinuousSustain),
+      missingCapabilities: [...(error?.missingCapabilities || [])],
+    };
+    console.error(`[match] rematch rejected: ${result.code} (${result.missingRoles.join(',') || result.role || 'none'})`);
+    return result;
+  }
+}
+
+function sendRestartFailure(ws, result) {
+  const isCompositionFailure = result.code === 'role_slots_required'
+    || result.code === 'sustain_support_required';
+  sendError(
+    ws,
+    result.code,
+    isCompositionFailure
+      ? 'The retained players cannot be completed into the fixed 1/2/2 team composition.'
+      : 'The rematch could not be created.',
+    isCompositionFailure
+      ? {
+        roleCounts: result.roleCounts,
+        missingRoles: result.missingRoles,
+        hasContinuousSustain: result.hasContinuousSustain,
+      }
+      : {},
+  );
 }
 
 // ---- tickループ（63Hz、ドリフト補正付き） ----
@@ -595,14 +719,20 @@ const tickTimer = setInterval(() => {
   }
   let steps = 0;
   while (acc >= dtMs && steps < 8) {
-    for (const bc of bots.values()) bc.think(world.dt);
+    for (const bc of scheduleBotThinkOrder(bots.values(), world.tickCount)) bc.think(world.dt);
     world.tick(monotonicNowMs());
     acc -= dtMs;
     steps++;
     if (world.tickCount % combat.snapshotEveryTicks === 0) broadcast();
     if (world.flow.state === 'MATCH_END') {
       if (!autoRestartAt) autoRestartAt = Date.now() + 15000;
-      else if (Date.now() > autoRestartAt) { autoRestartAt = 0; restart(); }
+      else if (Date.now() > autoRestartAt) {
+        autoRestartAt = 0;
+        const result = restart();
+        if (!result.ok) {
+          for (const ws of sockets.values()) sendRestartFailure(ws, result);
+        }
+      }
     }
   }
 }, 4);

@@ -1,0 +1,108 @@
+{
+  "id": "ankou",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/ankou/ankou-concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/ankou/ankou-concept-green-v1.png"
+  },
+  "role": "damage",
+  "cohort": "tactical lure",
+  "modelArchetype": "deep-sea angler hunter",
+  "proportions": {
+    "heightM": 1.82,
+    "bodyRatio": "sloped back,low head,fin silhouette",
+    "notes": "Keep ankou proportions legible at gameplay distance; preserve the distinctive angler lure forehead against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "angler lure forehead",
+      "diver harness torso",
+      "tethered hook arm"
+    ],
+    "side": [
+      "sloped back,low head,fin silhouette profile",
+      "flipper boots",
+      "glowing lure"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "blue",
+      "hex": "#4d6a90",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "deep navy",
+      "hex": "#18273b",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "cyan",
+      "hex": "#6ad4dc",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "angler lure forehead"
+    ],
+    "torso": [
+      "diver harness torso"
+    ],
+    "limbs": [
+      "tethered hook arm",
+      "flipper boots"
+    ],
+    "weapons": [
+      "lure harpoon"
+    ],
+    "accessories": [
+      "glowing lure"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "low stalking gait",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "cloak and reveal",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The glowing lure overhang can inflate the collider if not separated.",
+    "Asymmetric tethered hook arm needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 12,
+    "rationale": "ankou establishes the tactical lure cohort and exposes its glowing lure anchor early."
+  },
+  "status": "brief"
+}
+

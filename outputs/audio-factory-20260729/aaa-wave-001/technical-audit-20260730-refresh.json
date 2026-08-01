@@ -1,0 +1,428 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-29T19:37:32.809Z",
+  "manifest": "outputs/audio-factory-20260729/manifests/aaa-wave-001.json",
+  "root": "outputs/audio-factory-20260729/aaa-wave-001",
+  "assets": 32,
+  "passed": 32,
+  "failed": 0,
+  "admission": "candidate-only; technical QC does not grant rights, mixing, gameplay, or human visual/audio-quality approval",
+  "results": [
+    {
+      "id": "aaa.wave001.music.oshioi-main-menu.v001",
+      "kind": "music",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/oshioi-main-menu-v001.mp3",
+      "bytes": 593261,
+      "technical": {
+        "durationSec": 24.024,
+        "codec": "mp3",
+        "sampleRate": 48000,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.music.match-setup-briefing.v001",
+      "kind": "music",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/match-setup-briefing-v001.mp3",
+      "bytes": 545453,
+      "technical": {
+        "durationSec": 22.032,
+        "codec": "mp3",
+        "sampleRate": 48000,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.music.controlpoint-neutral-tension.v001",
+      "kind": "music",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/controlpoint-neutral-tension-v001.mp3",
+      "bytes": 641645,
+      "technical": {
+        "durationSec": 26.04,
+        "codec": "mp3",
+        "sampleRate": 48000,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.music.controlpoint-team0-push.v001",
+      "kind": "music",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/controlpoint-team0-push-v001.mp3",
+      "bytes": 593261,
+      "technical": {
+        "durationSec": 24.024,
+        "codec": "mp3",
+        "sampleRate": 48000,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.music.controlpoint-team1-push.v001",
+      "kind": "music",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/controlpoint-team1-push-v001.mp3",
+      "bytes": 593261,
+      "technical": {
+        "durationSec": 24.024,
+        "codec": "mp3",
+        "sampleRate": 48000,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.music.flashpoint-transition.v001",
+      "kind": "music",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/flashpoint-transition-v001.mp3",
+      "bytes": 449261,
+      "technical": {
+        "durationSec": 18.024,
+        "codec": "mp3",
+        "sampleRate": 48000,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.music.sudden-death.v001",
+      "kind": "music",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/sudden-death-v001.mp3",
+      "bytes": 497645,
+      "technical": {
+        "durationSec": 20.04,
+        "codec": "mp3",
+        "sampleRate": 48000,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.music.victory-team0.v001",
+      "kind": "music",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/victory-team0-v001.mp3",
+      "bytes": 401453,
+      "technical": {
+        "durationSec": 16.032,
+        "codec": "mp3",
+        "sampleRate": 48000,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.music.defeat-refocus.v001",
+      "kind": "music",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/defeat-refocus-v001.mp3",
+      "bytes": 401453,
+      "technical": {
+        "durationSec": 16.032,
+        "codec": "mp3",
+        "sampleRate": 48000,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.music.north-lantern-rooftops.v001",
+      "kind": "music",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/north-lantern-rooftops-v001.mp3",
+      "bytes": 593261,
+      "technical": {
+        "durationSec": 24.024,
+        "codec": "mp3",
+        "sampleRate": 48000,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.music.central-plaza.v001",
+      "kind": "music",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/central-plaza-v001.mp3",
+      "bytes": 593261,
+      "technical": {
+        "durationSec": 24.024,
+        "codec": "mp3",
+        "sampleRate": 48000,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.music.south-docks.v001",
+      "kind": "music",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/south-docks-v001.mp3",
+      "bytes": 593261,
+      "technical": {
+        "durationSec": 24.024,
+        "codec": "mp3",
+        "sampleRate": 48000,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-match-start.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-match-start-v001.mp3",
+      "bytes": 40795,
+      "technical": {
+        "durationSec": 1.625397,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-reach-objective.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-reach-objective-v001.mp3",
+      "bytes": 60857,
+      "technical": {
+        "durationSec": 2.461315,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-capture-begin.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-capture-begin-v001.mp3",
+      "bytes": 55214,
+      "technical": {
+        "durationSec": 2.229116,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-capture-progress.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-capture-progress-v001.mp3",
+      "bytes": 58349,
+      "technical": {
+        "durationSec": 2.368435,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-capture-secured.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-capture-secured-v001.mp3",
+      "bytes": 42675,
+      "technical": {
+        "durationSec": 1.718277,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-capture-contested.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-capture-contested-v001.mp3",
+      "bytes": 56468,
+      "technical": {
+        "durationSec": 2.275556,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-capture-lost.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-capture-lost-v001.mp3",
+      "bytes": 42675,
+      "technical": {
+        "durationSec": 1.718277,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-rotation-open.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-rotation-open-v001.mp3",
+      "bytes": 59603,
+      "technical": {
+        "durationSec": 2.414875,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-rotation-warning.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-rotation-warning-v001.mp3",
+      "bytes": 58349,
+      "technical": {
+        "durationSec": 2.368435,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-ally-down.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-ally-down-v001.mp3",
+      "bytes": 69634,
+      "technical": {
+        "durationSec": 2.832834,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-team-advantage.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-team-advantage-v001.mp3",
+      "bytes": 52706,
+      "technical": {
+        "durationSec": 2.136236,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-regroup.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-regroup-v001.mp3",
+      "bytes": 87188,
+      "technical": {
+        "durationSec": 3.575873,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-overtime.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-overtime-v001.mp3",
+      "bytes": 82800,
+      "technical": {
+        "durationSec": 3.390113,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-sudden-death.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-sudden-death-v001.mp3",
+      "bytes": 76530,
+      "technical": {
+        "durationSec": 3.111474,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-one-minute.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-one-minute-v001.mp3",
+      "bytes": 37033,
+      "technical": {
+        "durationSec": 1.486077,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-thirty-seconds.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-thirty-seconds-v001.mp3",
+      "bytes": 38287,
+      "technical": {
+        "durationSec": 1.532517,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-ten-seconds.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-ten-seconds-v001.mp3",
+      "bytes": 38287,
+      "technical": {
+        "durationSec": 1.532517,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-victory.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-victory-v001.mp3",
+      "bytes": 65245,
+      "technical": {
+        "durationSec": 2.647075,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-defeat.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-defeat-v001.mp3",
+      "bytes": 79665,
+      "technical": {
+        "durationSec": 3.250794,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-rematch-ready.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/generated/voices/ja-ops-rematch-ready-v001.mp3",
+      "bytes": 74022,
+      "technical": {
+        "durationSec": 3.018594,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    }
+  ]
+}

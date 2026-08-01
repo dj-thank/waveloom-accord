@@ -1,0 +1,108 @@
+{
+  "id": "asagi",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/asagi/concept/asagi-concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/asagi/concept/asagi-concept-green-v1.png"
+  },
+  "role": "damage",
+  "cohort": "midrange marksman",
+  "modelArchetype": "compact scout sharpshooter",
+  "proportions": {
+    "heightM": 1.75,
+    "bodyRatio": "balanced slim frame,forward shoulders,light feet",
+    "notes": "Keep asagi proportions legible at gameplay distance; preserve the distinctive angular hood and targeting lens against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "angular hood and targeting lens",
+      "short jacket with target sash",
+      "rifle-ready forearms"
+    ],
+    "side": [
+      "balanced slim frame,forward shoulders,light feet profile",
+      "light boots",
+      "scope lens"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "teal",
+      "hex": "#4f9dbc",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "navy",
+      "hex": "#1d2d43",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "brass",
+      "hex": "#d2b36a",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "angular hood and targeting lens"
+    ],
+    "torso": [
+      "short jacket with target sash"
+    ],
+    "limbs": [
+      "rifle-ready forearms",
+      "light boots"
+    ],
+    "weapons": [
+      "marksman carbine"
+    ],
+    "accessories": [
+      "scope lens"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "quick jog",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "strafe and aim",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The scope lens overhang can inflate the collider if not separated.",
+    "Asymmetric rifle-ready forearms needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 7,
+    "rationale": "asagi establishes the midrange marksman cohort and exposes its scope lens anchor early."
+  },
+  "status": "brief"
+}
+

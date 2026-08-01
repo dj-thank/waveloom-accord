@@ -1,0 +1,17 @@
+[
+  {
+    "view": "site-mizuichi",
+    "applied": true,
+    "file": "outputs/sites/site-mizuichi.png"
+  },
+  {
+    "view": "objective",
+    "applied": true,
+    "file": "outputs/sites/objective.png"
+  },
+  {
+    "view": "network",
+    "applied": true,
+    "file": "outputs/sites/network.png"
+  }
+]

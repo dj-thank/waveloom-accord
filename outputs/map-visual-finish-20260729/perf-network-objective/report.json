@@ -1,0 +1,137 @@
+{
+  "globalInfo": {
+    "instanceCount": 17497,
+    "layerCount": 110,
+    "siteCount": 5,
+    "mapId": "map_oshioi",
+    "presentationId": "oshioi-shiokagami-original-v1"
+  },
+  "report": [
+    {
+      "view": "network",
+      "stats": {
+        "snapshot": {
+          "quality": "high",
+          "profile": {
+            "dprCap": 1.75,
+            "shadows": true,
+            "shadowMapSize": 2048,
+            "particleBudget": 420,
+            "tracerBudget": 200,
+            "targetFrameMs": 16.7
+          },
+          "frameMs": {
+            "samples": 7,
+            "average": 33.32857142857132,
+            "p95": 50,
+            "p99": 50,
+            "max": 50
+          },
+          "pools": {
+            "particles": {
+              "active": 0,
+              "budget": 420,
+              "capacity": 420,
+              "peak": 0
+            },
+            "tracers": {
+              "active": 0,
+              "budget": 200,
+              "capacity": 200,
+              "peak": 0
+            }
+          },
+          "renderer": {
+            "memory": {
+              "geometries": 191,
+              "textures": 15
+            },
+            "render": {
+              "calls": 205,
+              "triangles": 505902,
+              "points": 0,
+              "lines": 3846,
+              "frame": 7
+            }
+          }
+        },
+        "rendererInfo": {
+          "memory": {
+            "geometries": 191,
+            "textures": 15
+          },
+          "render": {
+            "calls": 205,
+            "triangles": 505902,
+            "points": 0,
+            "lines": 3846,
+            "frame": 7
+          }
+        }
+      }
+    },
+    {
+      "view": "objective",
+      "stats": {
+        "snapshot": {
+          "quality": "high",
+          "profile": {
+            "dprCap": 1.75,
+            "shadows": true,
+            "shadowMapSize": 2048,
+            "particleBudget": 420,
+            "tracerBudget": 200,
+            "targetFrameMs": 16.7
+          },
+          "frameMs": {
+            "samples": 15,
+            "average": 42.21999999999995,
+            "p95": 50,
+            "p99": 50,
+            "max": 50
+          },
+          "pools": {
+            "particles": {
+              "active": 0,
+              "budget": 420,
+              "capacity": 420,
+              "peak": 0
+            },
+            "tracers": {
+              "active": 0,
+              "budget": 200,
+              "capacity": 200,
+              "peak": 0
+            }
+          },
+          "renderer": {
+            "memory": {
+              "geometries": 191,
+              "textures": 15
+            },
+            "render": {
+              "calls": 146,
+              "triangles": 503470,
+              "points": 0,
+              "lines": 3408,
+              "frame": 15
+            }
+          }
+        },
+        "rendererInfo": {
+          "memory": {
+            "geometries": 191,
+            "textures": 15
+          },
+          "render": {
+            "calls": 146,
+            "triangles": 503470,
+            "points": 0,
+            "lines": 3408,
+            "frame": 15
+          }
+        }
+      }
+    }
+  ]
+}

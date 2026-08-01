@@ -1,0 +1,310 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "mode_flashpoint",
+  "displayName": "Kagariai Fivefold Tide",
+  "status": "runtime_enabled",
+  "sourceOfTruth": "docs/mode_flashpoint_rules_v0.1.md",
+  "captureSemanticsSource": "mode_shioura@1.0.0",
+  "authorship": {
+    "origin": "original_kagariai",
+    "externalReferenceLayout": false,
+    "externalRuntimeAssets": []
+  },
+  "teamSize": 5,
+  "roleSlots": {
+    "frontline": 1,
+    "damage": 2,
+    "support": 2
+  },
+  "map": {
+    "id": "oshioi-fivefold-tide-original-v1",
+    "siteCount": 5,
+    "siteIds": [
+      "shiogama",
+      "mizuichi",
+      "kado",
+      "ami",
+      "kazami"
+    ],
+    "openingSiteId": "shiogama",
+    "captureVolumePolicy": "uniform_mode_values"
+  },
+  "match": {
+    "structure": "single_continuous_match",
+    "nestedBestOf": false,
+    "pointsToWin": 3,
+    "maxCompletedSites": 5,
+    "setupSec": 30.0,
+    "setupCaptureLocked": true,
+    "siteCapSec": 480.0,
+    "sideSwapBetweenSites": false,
+    "endsImmediatelyAtPointsToWin": true
+  },
+  "capture": {
+    "radiusM": 7.0,
+    "heightM": 5.0,
+    "hysteresisM": 0.2,
+    "gaugeMax": 100.0,
+    "ratePtPerSecByCount": {
+      "1": 16.67,
+      "2": 22.22,
+      "3": 27.78
+    },
+    "decayDelaySec": 2.0,
+    "decayPtPerSec": 10.0,
+    "simultaneousFullSetbackPt": 99.0
+  },
+  "progress": {
+    "ratePctPerSec": 1.2,
+    "maxPct": 100.0,
+    "integerTenths": true
+  },
+  "overtime": {
+    "graceInitialSec": 5.0,
+    "decayPerSec": 2.0,
+    "regenPerSec": 1.0,
+    "capShrinkEverySec": 10.0,
+    "capShrinkAmountSec": 1.0,
+    "capMinSec": 2.0,
+    "respawnPenaltySec": [
+      3.0,
+      6.0
+    ],
+    "respawnPenaltyLateAfterSec": 30.0
+  },
+  "respawn": {
+    "baseSec": 10.0,
+    "waveIntervalSec": 2.5
+  },
+  "siteCapture": {
+    "scope": "active_site_only",
+    "requiresMatchState": "ACTIVE",
+    "pendingAndCompletedSitesLocked": true,
+    "membershipKey": "siteId",
+    "clearMembershipOnActivation": true,
+    "verticalFloorOffsetM": -0.5,
+    "aliveRequired": true,
+    "excludedEffectivePresenceFlags": [
+      "invulnerable",
+      "intangible"
+    ],
+    "resolutionUsesExistingCaptureAndOvertimeStateMachine": true,
+    "siteScoreAwardedExactlyOnce": true
+  },
+  "lifecycle": {
+    "phaseValues": [
+      "active",
+      "transition",
+      "complete"
+    ],
+    "initial": {
+      "phase": "active",
+      "activeSiteId": "shiogama",
+      "pendingSiteId": null,
+      "completedSiteIds": [],
+      "siteScores": [
+        0,
+        0
+      ]
+    },
+    "completedSitePolicy": "no_repeat_in_match",
+    "transition": {
+      "durationSec": 12.0,
+      "captureEnabled": false,
+      "activeSiteId": null,
+      "pendingSiteId": "selector_result",
+      "activateAtRemainingSec": 0.0
+    },
+    "terminal": {
+      "trigger": "either_site_score_reaches_3",
+      "phase": "complete",
+      "activeSiteId": null,
+      "pendingSiteId": null,
+      "selectNextSite": false
+    }
+  },
+  "continuity": {
+    "simulationContinuesDuringTransition": true,
+    "teleportPlayers": false,
+    "clearProjectiles": false,
+    "resetRespawnQueue": false,
+    "ultimateChargeMultiplier": 1.0,
+    "preserve": [
+      "players",
+      "playerTransforms",
+      "playerHealthAliveAndStatuses",
+      "ultimateCharge",
+      "abilityCooldowns",
+      "weaponState",
+      "projectiles",
+      "zones",
+      "barriers",
+      "respawnQueue",
+      "teamSides"
+    ],
+    "reset": [
+      "siteOwner",
+      "siteCaptureGauges",
+      "siteProgress",
+      "siteOvertime",
+      "sitePresenceMembership",
+      "siteClock"
+    ]
+  },
+  "clocks": {
+    "matchClock": {
+      "scope": "whole_match",
+      "monotonic": true,
+      "resetAtSiteTransition": false
+    },
+    "respawnClock": {
+      "scope": "whole_match",
+      "monotonic": true,
+      "resetAtSiteTransition": false
+    },
+    "siteClock": {
+      "scope": "one_site_activation",
+      "monotonicWithinActivation": true,
+      "resetAtSiteActivation": true
+    },
+    "eventTimeFields": [
+      "matchTick",
+      "matchTimeSec",
+      "siteTimeSec"
+    ]
+  },
+  "selector": {
+    "authority": "server",
+    "policy": "dedicated-seeded-weighted-choice",
+    "selectorVersion": 1,
+    "candidateOrder": "map_site_order",
+    "completedSiteFilter": "exclude",
+    "diagonalAvoidance": {
+      "pairs": [
+        [
+          "mizuichi",
+          "kazami"
+        ],
+        [
+          "kado",
+          "ami"
+        ]
+      ],
+      "policy": "exclude_opposite_when_non_diagonal_alternative_exists",
+      "fallback": "allow_opposite_when_only_eligible_candidate"
+    },
+    "travelBias": {
+      "trailingTeamBasis": "scores_after_site_award",
+      "tiedScorePolicy": "neutral_weights",
+      "metric": "routesBySite.<siteId>.<side>.front.measuredLengthM",
+      "normalization": "post_diagonal_eligible_mean_for_losing_side",
+      "rawFormula": "(eligibleMeanTravelMeters - biasTravelMeters) / eligibleMeanTravelMeters",
+      "maxAbsolute": 0.25,
+      "appliedClamp": [
+        -0.25,
+        0.25
+      ],
+      "weightFormula": "1 + appliedTravelBias",
+      "weightRange": [
+        0.75,
+        1.25
+      ]
+    },
+    "rng": {
+      "source": "dedicated_selector_prng",
+      "algorithm": "fnv1a32_selection_mix_v1",
+      "keyFields": [
+        "matchSeed",
+        "selectionIndex"
+      ],
+      "sharedWithCombat": false,
+      "draw": "stable_order_cumulative_weighted"
+    },
+    "selectionAuditFields": [
+      "policy",
+      "selectorVersion",
+      "selectionIndex",
+      "previousSiteId",
+      "losingTeam",
+      "losingSide",
+      "travelBiasCap",
+      "eligibleSiteIdsBeforeDiagonal",
+      "excludedDiagonalSiteIds",
+      "eligibleMeanTravelMeters",
+      "sample",
+      "totalWeight",
+      "candidates",
+      "chosenSiteId"
+    ],
+    "candidateAuditFields": [
+      "siteId",
+      "travelMeters",
+      "biasTravelMeters",
+      "rawTravelBias",
+      "appliedTravelBias",
+      "weight"
+    ]
+  },
+  "protocol": {
+    "minimumProtocolVersion": 6,
+    "snapshotSchemaVersion": 1,
+    "serverAuthoritative": true,
+    "fullSnapshotCanonical": true,
+    "eventsSupplemental": true,
+    "rejectLegacyProtocolBeforeSnapshot": true,
+    "requiredMatchSnapshotFields": [
+      "state",
+      "stateT",
+      "matchClockSec",
+      "respawnClockSec"
+    ],
+    "requiredFlashpointSnapshotFields": [
+      "phase",
+      "activeSiteId",
+      "pendingSiteId",
+      "completedSiteIds",
+      "siteScores",
+      "transitionRemainingSec",
+      "activationIndex",
+      "selectionIndex",
+      "winnerTeam",
+      "lastSelection",
+      "sites"
+    ],
+    "requiredSiteStateFields": [
+      "siteId",
+      "phase",
+      "capture",
+      "result"
+    ],
+    "playerObjectiveFields": [
+      "onPoint",
+      "onObjectiveId"
+    ],
+    "compatibilityProjection": {
+      "objective": "active_site_capture_or_null",
+      "onPoint": "onObjectiveId_equals_activeSiteId"
+    },
+    "events": {
+      "requiredObjectiveEventFields": [
+        "siteId",
+        "activationIndex",
+        "matchTick",
+        "matchTimeSec",
+        "siteTimeSec"
+      ],
+      "flashpointEventTypes": [
+        "flashpoint_site_completed",
+        "flashpoint_site_selected",
+        "flashpoint_transition_started",
+        "flashpoint_site_activated",
+        "flashpoint_match_completed"
+      ]
+    },
+    "recovery": {
+      "joinUsesFullSnapshot": true,
+      "resyncUsesFullSnapshot": true,
+      "requiresPriorEvents": false
+    }
+  }
+}

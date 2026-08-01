@@ -3,7 +3,16 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
 import { HERO_RIG_ANIMATIONS, HERO_RIG_ASSET } from '../shared/data/character_assets.js';
+import {
+  CHARACTER_MODEL_ASSETS_BY_HERO_ID,
+  getRuntimeEligibleCharacterModelAsset,
+} from '../shared/data/character_model_assets.js';
+import {
+  createCharacterModelProvider,
+  getCharacterModelMetadata,
+} from '../client/img2threejs/runtime/index.js';
 import { HERO_BY_ID } from '../shared/data/heroes.js';
+import { OSHIOI_PRESENTATION } from '../shared/data/map_oshioi_presentation.js';
 import { pushBounded, ReusableEffectPool } from '../client/bounded_pool.js';
 import { PerformanceBudget, copyRendererInfo } from '../client/performance_budget.js';
 
@@ -12,6 +21,10 @@ function loadRenderModule({
   getActionAsset = () => null, getHeroAsset = () => null,
   createVerifiedObjectUrl = async () => { throw new Error('fixture not configured'); },
   cloneSkeleton = source => source.clone(true),
+  characterModelAssets = CHARACTER_MODEL_ASSETS_BY_HERO_ID,
+  getRuntimeCharacterModel = getRuntimeEligibleCharacterModelAsset,
+  createModelProvider = createCharacterModelProvider,
+  getModelMetadata = getCharacterModelMetadata,
 } = {}) {
   const file = new URL('../client/render.js', import.meta.url);
   const source = readFileSync(file, 'utf8')
@@ -20,6 +33,10 @@ function loadRenderModule({
   return new Function(
     'THREE',
     'HERO_BY_ID',
+    'CHARACTER_MODEL_ASSETS_BY_HERO_ID',
+    'getRuntimeEligibleCharacterModelAsset',
+    'createCharacterModelProvider',
+    'getCharacterModelMetadata',
     'pushBounded',
     'ReusableEffectPool',
     'PerformanceBudget',
@@ -38,7 +55,8 @@ function loadRenderModule({
       `  maxAbilityCues: typeof MAX_ABILITY_CUES === 'undefined' ? null : MAX_ABILITY_CUES,\n` +
       `};`,
   )(
-    THREE, HERO_BY_ID, pushBounded, ReusableEffectPool, PerformanceBudget, copyRendererInfo,
+    THREE, HERO_BY_ID, characterModelAssets, getRuntimeCharacterModel, createModelProvider, getModelMetadata,
+    pushBounded, ReusableEffectPool, PerformanceBudget, copyRendererInfo,
     GLTFLoader, verifyAuthoredAssetIdentity, getActionAsset, getHeroAsset, createVerifiedObjectUrl,
     cloneSkeleton, HERO_RIG_ASSET, HERO_RIG_ANIMATIONS,
   );
@@ -117,6 +135,8 @@ test('the authored hero base is bundled, attributed, and integrity-pinned', () =
   assert.match(license, /CC0 1\.0/);
   assert.match(license, /threejs\.org\/examples\/models\/gltf\/RobotExpressive/);
   assert.match(renderSource, /shared\/data\/character_assets\.js/);
+  assert.match(renderSource, /shared\/data\/character_model_assets\.js/);
+  assert.match(renderSource, /client\/img2threejs\/runtime\/index\.js/);
   assert.match(renderSource, /createVerifiedObjectUrl\(HERO_RIG_ASSET/);
 });
 
@@ -146,6 +166,63 @@ test('setPlayers builds hero-specific geometry while retaining ally outlines', (
   assert.equal(signatures.size, 18);
   assert.equal(renderer.playerVisuals.get('player-zairu').shield.visible, true);
   assert.equal(renderer.playerVisuals.get('player-zairu').statusRing.visible, true);
+});
+
+test('an accepted img2threejs model replaces the generic visual through the provider seam', async () => {
+  const modelRoot = new THREE.Group();
+  modelRoot.name = 'fixture-root';
+  modelRoot.add(new THREE.Mesh(
+    new THREE.BoxGeometry(1.2, 2, 0.8),
+    new THREE.MeshStandardMaterial({ color: 0x397f9f }),
+  ));
+  const headPivot = new THREE.Group();
+  headPivot.name = 'fixture-head';
+  modelRoot.add(headPivot);
+  modelRoot.userData = {
+    heroId: 'shiomaneki',
+    characterModel: {
+      heroId: 'shiomaneki',
+      pivots: { root: 'fixture-root', head: 'fixture-head' },
+      sockets: {},
+      colliderHints: { torso: { type: 'capsule' } },
+    },
+  };
+  const entry = { heroId: 'shiomaneki', status: 'accepted' };
+  const { SceneRenderer } = loadRenderModule({
+    getRuntimeCharacterModel: heroId => heroId === 'shiomaneki' ? entry : null,
+    createModelProvider: () => ({ instantiate: async () => modelRoot }),
+  });
+  const renderer = makeBareRenderer(SceneRenderer);
+  equipPlayerRendering(renderer);
+
+  const visual = renderer._makePlayerVisual(true, 'shiomaneki');
+  assert.equal(visual.characterModelState, 'loading');
+  assert.equal(await visual.characterModelLoad, true);
+  assert.equal(visual.characterModelState, 'accepted');
+  assert.equal(visual.group.userData.characterModel, 'accepted');
+  assert.equal(visual.fallbackRig.visible, false);
+  assert.equal(visual.accessoryGroup.visible, false);
+  assert.equal(visual.characterModelRoot, modelRoot);
+  assert.ok(visual.group.getObjectByName('img2threejs-shiomaneki'));
+  renderer._disposeVisual(visual);
+});
+
+test('an accepted-model load failure returns to the existing articulated fallback', async () => {
+  const entry = { heroId: 'shiomaneki', status: 'accepted' };
+  const { SceneRenderer } = loadRenderModule({
+    getRuntimeCharacterModel: heroId => heroId === 'shiomaneki' ? entry : null,
+    createModelProvider: () => ({ instantiate: async () => { throw new Error('fixture failure'); } }),
+  });
+  const renderer = makeBareRenderer(SceneRenderer);
+  equipPlayerRendering(renderer);
+
+  const visual = renderer._makePlayerVisual(true, 'shiomaneki');
+  assert.equal(await visual.characterModelLoad, false);
+  assert.equal(visual.characterModelState, 'fallback');
+  assert.equal(visual.fallbackRig.visible, true);
+  assert.equal(visual.accessoryGroup.visible, true);
+  assert.equal(visual.group.userData.characterModel, 'fallback');
+  renderer._disposeVisual(visual);
 });
 
 test('third-person heroes expose an articulated combat rig and animate from snapshot motion', () => {
@@ -273,6 +350,30 @@ test('world dressing adds readable architecture without entering the collision S
       && bounds.min.z >= solid.min[2] - 1e-5 && bounds.max.z <= solid.max[2] + 1e-5
     )), `opaque facade band ${index} protrudes beyond canonical collision`);
   }
+
+  renderer.dispose();
+});
+
+test('original map presentation is instanced, budgeted, and explicitly non-colliding', () => {
+  const { SceneRenderer } = loadRenderModule();
+  const renderer = makeBareRenderer(SceneRenderer);
+  renderer.map = { presentation: OSHIOI_PRESENTATION };
+  renderer.worldDressing = new THREE.Group();
+  renderer.world.add(renderer.worldDressing);
+
+  const group = renderer._buildOriginalMapPresentation();
+
+  assert.equal(group, renderer.originalMapPresentation);
+  assert.equal(group.name, 'original-map-presentation');
+  assert.equal(group.userData.authorship, 'original-kagariai');
+  assert.equal(group.userData.collision, false);
+  assert.equal(group.children.length, OSHIOI_PRESENTATION.layers.length);
+  assert.ok(group.children.every(child => child.isInstancedMesh));
+  assert.ok(group.children.every(child => child.userData.collision === false));
+  assert.equal(
+    group.children.reduce((sum, child) => sum + child.count, 0),
+    group.userData.instanceCount,
+  );
 
   renderer.dispose();
 });
@@ -604,12 +705,20 @@ test('map meshes render presentationSolids instead of an independent collision s
   renderer._buildMapMeshes();
 
   const gameplayBoxes = renderer.canonicalMapPresentation.children.filter(child =>
-    child.isMesh && child.geometry?.type === 'BoxGeometry');
+    child.isInstancedMesh && child.geometry?.type === 'BoxGeometry');
   assert.equal(gameplayBoxes.length, 1);
   assert.deepEqual(gameplayBoxes[0].geometry.parameters, {
-    width: 2, height: 3, depth: 4, widthSegments: 1, heightSegments: 1, depthSegments: 1,
+    width: 1, height: 1, depth: 1, widthSegments: 1, heightSegments: 1, depthSegments: 1,
   });
-  assert.deepEqual(gameplayBoxes[0].position.toArray(), [2, 3.5, 5]);
+  assert.equal(gameplayBoxes[0].count, 1);
+  const matrix = new THREE.Matrix4();
+  const position = new THREE.Vector3();
+  const quaternion = new THREE.Quaternion();
+  const scale = new THREE.Vector3();
+  gameplayBoxes[0].getMatrixAt(0, matrix);
+  matrix.decompose(position, quaternion, scale);
+  assert.deepEqual(position.toArray(), [2, 3.5, 5]);
+  assert.deepEqual(scale.toArray(), [2, 3, 4]);
 
   renderer.dispose();
 });

@@ -1,0 +1,107 @@
+{
+  "id": "zairu",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/zairu/concept/concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/zairu/concept/concept-green-v1.png"
+  },
+  "role": "frontline",
+  "cohort": "space diver",
+  "modelArchetype": "heavy anchor-knight",
+  "proportions": {
+    "heightM": 2.05,
+    "bodyRatio": "broad shoulders,short legs,heavy torso",
+    "notes": "Keep zairu proportions legible at gameplay distance; preserve the distinctive round helm with chain notch against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "round helm with chain notch",
+      "barrel chest and anchor harness",
+      "oversized anchor chain"
+    ],
+    "side": [
+      "broad shoulders,short legs,heavy torso profile",
+      "weighted gauntlets",
+      "sternal chain spool"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "orange alloy",
+      "hex": "#ef9d43",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "iron",
+      "hex": "#39434b",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "chain",
+      "hex": "#a8b0b5",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "round helm with chain notch"
+    ],
+    "torso": [
+      "barrel chest and anchor harness"
+    ],
+    "limbs": [
+      "oversized anchor chain",
+      "weighted gauntlets"
+    ],
+    "weapons": [
+      "chain anchor"
+    ],
+    "accessories": [
+      "sternal chain spool"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "anchored forward lunge",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "heavy landing",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The sternal chain spool overhang can inflate the collider if not separated.",
+    "Asymmetric oversized anchor chain needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 1,
+    "rationale": "zairu establishes the space diver cohort and exposes its sternal chain spool anchor early."
+  },
+  "status": "brief"
+}

@@ -1,0 +1,2013 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-01T03:37:57.805Z",
+  "sourceManifest": "outputs/audio-factory-20260801/manifests/aaa-wave-002.json",
+  "kind": "sound_effect",
+  "targetSamplePeakDb": -1,
+  "policy": "attenuation-only candidate mastering; raw provider files are immutable; sample-peak headroom is technical evidence, not a substitute for true-peak, loudness, creative, rights, or in-engine mix approval",
+  "admission": "candidate-only; mastered output is not part of the shipped Local DSP catalog",
+  "results": [
+    {
+      "id": "aaa.wave002.sfx.ambience.sea-spray-near.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/sea-spray-near-v001.mp3",
+      "inputSha256": "c9b83ca7ff1a631b8959e8dbf53cb42d862fa4c49efc179fa9a6d54eff00e083",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/sea-spray-near-v001.mp3",
+      "outputSha256": "25974c1d872176a9a587b03d935959b37dcdc94440f8aa17741aa2250902be96",
+      "bytes": 97846,
+      "sourceMetrics": {
+        "meanDb": -16.7,
+        "maxDb": -0.3
+      },
+      "gainDb": -1.05,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.3,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.sea-spray-far.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/sea-spray-far-v001.mp3",
+      "inputSha256": "49f27d301bd5d94b54d1af11bd4109e9404f5cb25620b28446847f3556fc5871",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/sea-spray-far-v001.mp3",
+      "outputSha256": "cade4222bd8c7baa4a2368a366ab826df45f4f9418390b4dd5ecf98f35d41adc",
+      "bytes": 121670,
+      "sourceMetrics": {
+        "meanDb": -20.3,
+        "maxDb": -4.8
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20.6,
+        "maxDb": -5.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.market-crowd-low.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/market-crowd-low-v001.mp3",
+      "inputSha256": "33cf290f92370803cc9dfdf18883099e9f668f02946a4fef500152726f96fda2",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/market-crowd-low-v001.mp3",
+      "outputSha256": "e45d3297af4df0c238b138e0377de1b5652f8f98541a51a461192613a2010a53",
+      "bytes": 121670,
+      "sourceMetrics": {
+        "meanDb": -17.5,
+        "maxDb": -3.7
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -17.8,
+        "maxDb": -4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.market-cloth-flap.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/market-cloth-flap-v001.mp3",
+      "inputSha256": "74a40fef78636c9bc23197fb401955eec64da8c3b693953dc4a2c41b735ccb2a",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/market-cloth-flap-v001.mp3",
+      "outputSha256": "cacf3bce0c85e115bc4d36c002bce1cfb5db21f5932b23f4cf498f0dff68e4c3",
+      "bytes": 85307,
+      "sourceMetrics": {
+        "meanDb": -16.9,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.5,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.lantern-wind.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/lantern-wind-v001.mp3",
+      "inputSha256": "faf66292342271c87710201ceddfa458b2a263d651b1bf23b17f4d4cb2fac378",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/lantern-wind-v001.mp3",
+      "outputSha256": "2e573eee07c2a30192708d7c6cd14cb44dd1727225512450b4e5e4c429f7ac5b",
+      "bytes": 73395,
+      "sourceMetrics": {
+        "meanDb": -23.5,
+        "maxDb": -4.4
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23.8,
+        "maxDb": -4.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.rain-on-stone.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/rain-on-stone-v001.mp3",
+      "inputSha256": "2d4869b09977688dd90704d8058c120175de341b2bbead7c8b9407ffeefdc53f",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/rain-on-stone-v001.mp3",
+      "outputSha256": "c9c8e6de2ce0c48d352b7529b9978c47c41299c659e087a69259ad77ed0f9868",
+      "bytes": 121670,
+      "sourceMetrics": {
+        "meanDb": -22.1,
+        "maxDb": -4.8
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22.3,
+        "maxDb": -4.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.rain-on-canvas.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/rain-on-canvas-v001.mp3",
+      "inputSha256": "5f04769c3ce7a28d7b188b600cb123d23cd1c86582250ca60a0788b2d44ad51e",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/rain-on-canvas-v001.mp3",
+      "outputSha256": "64a312dc887b4a1122d3be0b08a76e9a7a65a06ff27c68c89aec3cf7559cad00",
+      "bytes": 97846,
+      "sourceMetrics": {
+        "meanDb": -16.6,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.2,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.salt-mist-gust.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/salt-mist-gust-v001.mp3",
+      "inputSha256": "536719099993577d7187c7bdbff45d6d1bbde7aafdc7399173ee7be2a8369d82",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/salt-mist-gust-v001.mp3",
+      "outputSha256": "9bbd458ad332f53c9da2544cc1ddda36804a34d140dc8d14747de4265f1d8fe0",
+      "bytes": 63991,
+      "sourceMetrics": {
+        "meanDb": -19.6,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.3,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.harbor-bell-far.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/harbor-bell-far-v001.mp3",
+      "inputSha256": "af429f33090c8a0b6af8c4df6ab386e01fd24c695c0a3d411f378fb6ce1dc859",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/harbor-bell-far-v001.mp3",
+      "outputSha256": "70c81dafa68895ce7fa794296fa93e766450de84230fa829690a79d9230151b4",
+      "bytes": 97846,
+      "sourceMetrics": {
+        "meanDb": -22,
+        "maxDb": -0.3
+      },
+      "gainDb": -1.05,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23.3,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.shrine-water-trickle.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/shrine-water-trickle-v001.mp3",
+      "inputSha256": "8aceb2a03e97eaa3049cf46da21c7347c0c44ba042beebb9597383b543128f16",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/shrine-water-trickle-v001.mp3",
+      "outputSha256": "6528af2142cf659cfb842c6ebfd80f6454bed0bd42fd426cfde288fce772ec33",
+      "bytes": 121670,
+      "sourceMetrics": {
+        "meanDb": -37.8,
+        "maxDb": -7.9
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -38.1,
+        "maxDb": -8.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.courtyard-wind.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/courtyard-wind-v001.mp3",
+      "inputSha256": "ce7a870c2d9498a62528522931cfdb899b375353523400ff16afcce227bf769b",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/courtyard-wind-v001.mp3",
+      "outputSha256": "2fb5f810b0b198fd3833215f97bc4ef99044b619b952a7f8e579d8b8f39eab98",
+      "bytes": 97846,
+      "sourceMetrics": {
+        "meanDb": -12.7,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -14.2,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.algae-dock-bubbles.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/algae-dock-bubbles-v001.mp3",
+      "inputSha256": "5f1fd930e63aa1e2400a7b503178672a2c618a82bb1a60e84920328dc8cb16ed",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/algae-dock-bubbles-v001.mp3",
+      "outputSha256": "16925c9326b11d520d26615057bab8bb6683b17e297f316d42569f5ebcd8bbab",
+      "bytes": 73395,
+      "sourceMetrics": {
+        "meanDb": -18.1,
+        "maxDb": -0.3
+      },
+      "gainDb": -1.05,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19.4,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.tide-pool-foam.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/tide-pool-foam-v001.mp3",
+      "inputSha256": "e80d45e03b17a4d42bde84d69ca6435f7f49667ce399e5f9a44622bb277bff37",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/tide-pool-foam-v001.mp3",
+      "outputSha256": "c83ce3a3505667133f9fc1b5812c53777591904fb5a503be63ceae4771516d89",
+      "bytes": 97846,
+      "sourceMetrics": {
+        "meanDb": -16.6,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.3,
+        "maxDb": -1.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.storm-distant-rumble.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/storm-distant-rumble-v001.mp3",
+      "inputSha256": "bb60e9f180d83d3aebbcbb384500e5eed5c536749e91604950b1c6ace1897752",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/storm-distant-rumble-v001.mp3",
+      "outputSha256": "6acac36681d13a3849c90a1933dd980bbd0b62fb3573eb184e90218114253c16",
+      "bytes": 145493,
+      "sourceMetrics": {
+        "meanDb": -15.9,
+        "maxDb": -0.3
+      },
+      "gainDb": -1.05,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -17.2,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.sunlit-market-air.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/sunlit-market-air-v001.mp3",
+      "inputSha256": "2fa220689070277726a3e38b535ecb3c8db0bb0c3c5c79abdaf0d8ad1f793711",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/sunlit-market-air-v001.mp3",
+      "outputSha256": "d40d23079816414711150940f63ec904dc5f8ce591962d0cff47a2fa49f51063",
+      "bytes": 121670,
+      "sourceMetrics": {
+        "meanDb": -13.8,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -15.2,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.night-coast-insects.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/night-coast-insects-v001.mp3",
+      "inputSha256": "f6d8dc53830e16002c07ed9980cfd8f0cc52a3a85e2f3dac9f1746a556a4c6d9",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/night-coast-insects-v001.mp3",
+      "outputSha256": "0c775d7b775b067a4b78bd233245b93fbbb2419542be892ab8146581d4fbafeb",
+      "bytes": 121670,
+      "sourceMetrics": {
+        "meanDb": -15.4,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -16.8,
+        "maxDb": -1.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.rigging-creak.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/rigging-creak-v001.mp3",
+      "inputSha256": "7ddfd073926ad175ad4d6042147250672ec026b41eed3b715f356116589424ca",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/rigging-creak-v001.mp3",
+      "outputSha256": "3388d36186b7663104b647f17d8c168ec8c1a40305cccef4f5acb2183587fcc0",
+      "bytes": 97846,
+      "sourceMetrics": {
+        "meanDb": -28.9,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -30.4,
+        "maxDb": -1.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.awning-groan.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/awning-groan-v001.mp3",
+      "inputSha256": "ff317f0e95307fbea085147c48cca5c3111400a82a8adb7d8fe44ed286650502",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/awning-groan-v001.mp3",
+      "outputSha256": "eb304022043d0eb0610c97f80ab33be6ce0a378f3c35e327d32c28fb94388a20",
+      "bytes": 73395,
+      "sourceMetrics": {
+        "meanDb": -10.1,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -11.5,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.bronze-sign-sway.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/bronze-sign-sway-v001.mp3",
+      "inputSha256": "a155729112497dcbc04896bf93f7ab50a25439871113e1bd4091f70be22567e1",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/bronze-sign-sway-v001.mp3",
+      "outputSha256": "613ea340b705431890fcbc51775c336922d4042d8e5c5462ff1331b34a44dc0f",
+      "bytes": 73395,
+      "sourceMetrics": {
+        "meanDb": -20.5,
+        "maxDb": -4.8
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20.7,
+        "maxDb": -5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.far-combat-muffled.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/far-combat-muffled-v001.mp3",
+      "inputSha256": "ce442a4e86cf9b451df8fef0e3914ec925063b4216644da0f378931f7ee54cf0",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/far-combat-muffled-v001.mp3",
+      "outputSha256": "f6f623262f5c78ab926dd2a42e2abc6ddf15a11cf23b05e5f1d26e7b87932ab8",
+      "bytes": 121670,
+      "sourceMetrics": {
+        "meanDb": -17.9,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19.3,
+        "maxDb": -1.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.objective-zone-hum.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/objective-zone-hum-v001.mp3",
+      "inputSha256": "75b34da16231679d55a538d82d6cb88fa29714399edb387e110ea3a62766bd0a",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/objective-zone-hum-v001.mp3",
+      "outputSha256": "ae129e5ad65f6a577807dc1bc15c6c415e5a9aa0b6894bdebabb05b3d4893a25",
+      "bytes": 97846,
+      "sourceMetrics": {
+        "meanDb": -19.5,
+        "maxDb": -1.7
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19.7,
+        "maxDb": -2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.wind-canyon-low.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/wind-canyon-low-v001.mp3",
+      "inputSha256": "e0aa20acc6ac610211d52d46ca6dc23faaf21f86f04a03751439a2978d4f1170",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/wind-canyon-low-v001.mp3",
+      "outputSha256": "a45b8e339f2ceac5beacb6a59b18edd64c202057366640806844b8d37d0691c0",
+      "bytes": 97846,
+      "sourceMetrics": {
+        "meanDb": -10.6,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -12.1,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.drizzle-roof.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/drizzle-roof-v001.mp3",
+      "inputSha256": "8feb3ad6c3fbe6de1306a254b463eb97aee450fd0ca444ea6620ac498a5471e8",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/drizzle-roof-v001.mp3",
+      "outputSha256": "9303f2bd28f35c153f05fa7825ca35cc426953fabbf3f42b84c7b29f65f40806",
+      "bytes": 97846,
+      "sourceMetrics": {
+        "meanDb": -15,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -16.5,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.crowd-rise-nonverbal.v001",
+      "family": "ambience",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/crowd-rise-nonverbal-v001.mp3",
+      "inputSha256": "6554d87628f2bc482d4b91573c09179cc2ea568e8651928fa8eb3b833f48f8e4",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/crowd-rise-nonverbal-v001.mp3",
+      "outputSha256": "d62cb0642b242439ca0344e2fad4d85b43667062ca89c8c949228796c91ea90b",
+      "bytes": 97846,
+      "sourceMetrics": {
+        "meanDb": -18.8,
+        "maxDb": -0.4
+      },
+      "gainDb": -0.95,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.stone-step-light.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/stone-step-light-v001.mp3",
+      "inputSha256": "4a5c97c7718e4d80e624f6c2aaec667bd6289c4d062684b102e07c34e3210beb",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/stone-step-light-v001.mp3",
+      "outputSha256": "cac850131235644b78b071dcb170a96d43d55443e8750915303fbe9bb6b98f30",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -26.4,
+        "maxDb": -3.3
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -26.6,
+        "maxDb": -3.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.stone-step-heavy.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/stone-step-heavy-v001.mp3",
+      "inputSha256": "51edd0aabe3b41537818217e1b7e9094f0b58785dbcaeb9621a3e8d03dc84d80",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/stone-step-heavy-v001.mp3",
+      "outputSha256": "9c93d4385d6c24fc96ae2fd6f87598a8012bb3231e6c48079a2648c465d5e139",
+      "bytes": 18852,
+      "sourceMetrics": {
+        "meanDb": -29,
+        "maxDb": -11.2
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -29.3,
+        "maxDb": -11.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.ceramic-pickup.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/ceramic-pickup-v001.mp3",
+      "inputSha256": "c3b7e6e16df83fed2c6cf79985f383ef275492d293e072d6da7523800f1d39fa",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/ceramic-pickup-v001.mp3",
+      "outputSha256": "d29d11405fd0c7bd803dce698187183bc5cb5eb67c81a3c264e9fe5158949b99",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -19.8,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.2,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.ceramic-setdown.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/ceramic-setdown-v001.mp3",
+      "inputSha256": "425e8b85e3f7b6c04d84e7d8d444f052d6a29db2fd9a23c3c12fa5a1dde69dc7",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/ceramic-setdown-v001.mp3",
+      "outputSha256": "84f3d673566fbfb09c8287593106fa72915e2e8d8e325d88818f448b8bf402f2",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -18.1,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19.5,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.bronze-latch.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/bronze-latch-v001.mp3",
+      "inputSha256": "061bd4c1ec4b6817cdd4f81f23149fb8f5e4218b55420ca1624474842ea10023",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/bronze-latch-v001.mp3",
+      "outputSha256": "bafac892c15972d20a14f203dc06923c55ab5d947a116346fd7baf28671d54e1",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -25.4,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -27,
+        "maxDb": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.rope-pull.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/rope-pull-v001.mp3",
+      "inputSha256": "0db265e27d9350964a8d30a650f6e91c4effe9c6a9b6580545999c45ee38c995",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/rope-pull-v001.mp3",
+      "outputSha256": "77e220d57e34d95ac0d44812875992a9bba7f5dcec6907fb64fbcd2d4f225c70",
+      "bytes": 27629,
+      "sourceMetrics": {
+        "meanDb": -24.9,
+        "maxDb": -2.7
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25,
+        "maxDb": -2.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.wood-crate-set.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/wood-crate-set-v001.mp3",
+      "inputSha256": "b37781592bd224a17484d26c2d502fa5e08e64e47e90714476cb0397726efba2",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/wood-crate-set-v001.mp3",
+      "outputSha256": "c5e766b2720cb6eeff3ae2398b6ca98037cf46597c4a9299d68f5439677f138e",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -20,
+        "maxDb": -2.5
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20.3,
+        "maxDb": -2.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.saltwater-splash-small.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/saltwater-splash-small-v001.mp3",
+      "inputSha256": "cb45659cc97725ddc24f76b33130b5c3ab126a0825ba0031ca9052bfe5fcaa36",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/saltwater-splash-small-v001.mp3",
+      "outputSha256": "d449e19f8a3745da4513b9e0847b1e850059f567d543efb54901396d856529f0",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -27.5,
+        "maxDb": -5.7
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -27.8,
+        "maxDb": -5.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.sand-scrape.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/sand-scrape-v001.mp3",
+      "inputSha256": "43a10bc10943356e94998958b007f1dc6be1979d6b0d9f40389dba4b17e8ce8d",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/sand-scrape-v001.mp3",
+      "outputSha256": "fe70b5c3e3cbd24d5da63d8c38aeadd949bfccadcf2f4188b1305a3da5d65591",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -16.7,
+        "maxDb": -1.7
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -16.9,
+        "maxDb": -2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.metal-ring-drop.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/metal-ring-drop-v001.mp3",
+      "inputSha256": "fecb4023061eeeda330db65b5371005b979b7c10dd57b2e51306341b035219c8",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/metal-ring-drop-v001.mp3",
+      "outputSha256": "69775f3d73791294a2e7e81f7cddeaff51a518629a89ef7c8bd5f0991324eac1",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -23.6,
+        "maxDb": -10.7
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23.8,
+        "maxDb": -11
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.cloth-fold.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/cloth-fold-v001.mp3",
+      "inputSha256": "5231b17691c9f0b51bcc8df089fbda183b57f707e4842465a9507316b3d694cf",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/cloth-fold-v001.mp3",
+      "outputSha256": "9d25dca150a6f6ec5d62784f2edd0f98b5e6e4fe104c5bc2b1b4d89b13eb086e",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -24.2,
+        "maxDb": -1.4
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24.4,
+        "maxDb": -1.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.glass-bead-tap.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/glass-bead-tap-v001.mp3",
+      "inputSha256": "732921d09cb5bb838e29b60d9902b66ec44da3582dc7b1b0e9a0fec2482b35e5",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/glass-bead-tap-v001.mp3",
+      "outputSha256": "524b2a527d895b2a49224f2c05166fa20c000a79fddbc62d6bea055c1bcd8948",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -28,
+        "maxDb": -0.9
+      },
+      "gainDb": -0.45,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -28.7,
+        "maxDb": -1.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.stone-impact-light.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/stone-impact-light-v001.mp3",
+      "inputSha256": "22baab8662e76b31274bd83af19b07dbf73990815a594beba4a9fa57c8895fad",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/stone-impact-light-v001.mp3",
+      "outputSha256": "be45c391ce6ae1478f55e86315f539994c8b3a284f224811346765f69339a940",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -25,
+        "maxDb": -3.1
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25.2,
+        "maxDb": -3.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.stone-impact-heavy.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/stone-impact-heavy-v001.mp3",
+      "inputSha256": "9831d04ac983e9c203c60b478e524e2e2d477a4ca64f11ff29fc7699641701a6",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/stone-impact-heavy-v001.mp3",
+      "outputSha256": "95e3a46bbd8ccafbabccc3836633cbfbab058d387c0dcd03d114a8397cab683e",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -23.3,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24.8,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.ceramic-break-small.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/ceramic-break-small-v001.mp3",
+      "inputSha256": "310f5eac50e72256f2e359241b8bfa3139b9e2edac44b6d6d51725a949ae1863",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/ceramic-break-small-v001.mp3",
+      "outputSha256": "838bf520e83e0a09c72fac8be43d9f197d1bda5001ec9273e641fe3e24946c26",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -18,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19.5,
+        "maxDb": -0.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.chest-lid-wood.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/chest-lid-wood-v001.mp3",
+      "inputSha256": "f20a19fd3175245d00474c8e908d0aabd732196ddd46c071b5283fe14eb61f66",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/chest-lid-wood-v001.mp3",
+      "outputSha256": "5fc43fadccc853e59b1a76cd1f5a79b625dbabd8bb7e1ad0580ffb561e7ecd7f",
+      "bytes": 30137,
+      "sourceMetrics": {
+        "meanDb": -23.1,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24.6,
+        "maxDb": -1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.gate-hinge-salt.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/gate-hinge-salt-v001.mp3",
+      "inputSha256": "0063143ca2d06e23035a592a7bb37d305bc4b321799c5e09b5bb32754d80a36c",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/gate-hinge-salt-v001.mp3",
+      "outputSha256": "7f6fbcd8288444563d6013b2876ce22167c1b0700975db9b13bca85462cfc54b",
+      "bytes": 32017,
+      "sourceMetrics": {
+        "meanDb": -17.9,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19.5,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.water-bucket-lift.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/water-bucket-lift-v001.mp3",
+      "inputSha256": "20c170fdf601d2471b6e5a517b25c2dbd66e8fc63e5b4f5f508e7927738c8a63",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/water-bucket-lift-v001.mp3",
+      "outputSha256": "e2fc1c6812f6aff9967bcc12023f75a3960b7b0e1b9f1fdf30360ddc464d1ce5",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -18.1,
+        "maxDb": 0
+      },
+      "gainDb": -2.1,
+      "encodingPasses": 2,
+      "masteredMetrics": {
+        "meanDb": -20.4,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.shell-crunch-light.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/shell-crunch-light-v001.mp3",
+      "inputSha256": "f56c4d810bf76e9caeaa00bf25923f88b5a53486a8cd3dfbc0b1974b85ed475a",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/shell-crunch-light-v001.mp3",
+      "outputSha256": "b5dadb6f7df0cf8c4e7e9bf9ec7dd63d7a63724f4b879ef77d27513152d5aeb7",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -23,
+        "maxDb": -2.6
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23.3,
+        "maxDb": -3.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.bronze-chain-set.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/bronze-chain-set-v001.mp3",
+      "inputSha256": "5bd504162895d2dfa4015308e7e445a0171548d006994949b55e5e86466bf2f8",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/bronze-chain-set-v001.mp3",
+      "outputSha256": "24df788adc7b100e694479ee0c5178a3c7b67a396b5fe27886b9ae0fb8ece5fb",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -21.2,
+        "maxDb": -10.5
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.4,
+        "maxDb": -10.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.wet-wood-drag.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/wet-wood-drag-v001.mp3",
+      "inputSha256": "457bea58f560e32fd98d0e264a3c330c74319b51f2ef59344b6629f3ea21308d",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/wet-wood-drag-v001.mp3",
+      "outputSha256": "9b06003862a08f40cbdcbddff05891fb47850c6a13796d5f351f9e929d3ca333",
+      "bytes": 30137,
+      "sourceMetrics": {
+        "meanDb": -19.2,
+        "maxDb": -1.4
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19.5,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.sandbag-drop.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/sandbag-drop-v001.mp3",
+      "inputSha256": "b1986d96b60f8e747c6add3d6b2e5c43003d4aff82976f2f3515b62361357e15",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/sandbag-drop-v001.mp3",
+      "outputSha256": "68e73bc6c6a5cda3882b3a43ef239fd389fa7de3dcd208926e8f42584e8861b4",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -20.2,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.7,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.bronze-bowl-rub.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/bronze-bowl-rub-v001.mp3",
+      "inputSha256": "cadfdfbaeeb464fed8e4e509326c79ab9bb3b1f5e73c3d5eb718bb9f7ba1ed0a",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/bronze-bowl-rub-v001.mp3",
+      "outputSha256": "7cfee0a377a638a36533d9d6584a85d222e7942f20a77f2560253e40bbb5cbe7",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -22.7,
+        "maxDb": -2.7
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23,
+        "maxDb": -2.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.tile-fragment-slide.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/tile-fragment-slide-v001.mp3",
+      "inputSha256": "b45d2b420b01b3f372f1b1e078aeba5afd036085176b8e264d2a392cb3a99b8e",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/tile-fragment-slide-v001.mp3",
+      "outputSha256": "e0337b68e0abf803f75b3b857ca5cadffe3895771384f3dbb03653a2ab758948",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -17.7,
+        "maxDb": -0.7
+      },
+      "gainDb": -0.65,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.6,
+        "maxDb": -1.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.footstep-stone-close.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/footstep-stone-close-v001.mp3",
+      "inputSha256": "f6f45489412f5642e5d01025bec7a9b73fe297eb070a73c6a6e14e4ed46f3db8",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/footstep-stone-close-v001.mp3",
+      "outputSha256": "72f871bdb393381d9cd64f480130b7127cc9de066d24ff82d73b2f91273fee67",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -13.9,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -15.4,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.footstep-wood-close.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/footstep-wood-close-v001.mp3",
+      "inputSha256": "061d8478e3c6d21a7bee9585522f1f89120c8c8200c4be43817aadf51e1cf7c8",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/footstep-wood-close-v001.mp3",
+      "outputSha256": "d41c3ac877d93af64342d575104cbf13f6e5d1c9d9f037349a2e78e8a57fde20",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -23.1,
+        "maxDb": -0.9
+      },
+      "gainDb": -0.45,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23.8,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.footstep-sand-close.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/footstep-sand-close-v001.mp3",
+      "inputSha256": "aa0e61766d445c95a3ceecadca5bff9012d688e30d704d3dc71f9e744d27a2a2",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/footstep-sand-close-v001.mp3",
+      "outputSha256": "1fb53a56683bc1ae422383396c8faf0f9f3847af991b85db70478d03c54ddf9f",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -22.4,
+        "maxDb": -3.6
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22.6,
+        "maxDb": -3.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.footstep-metal-close.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/footstep-metal-close-v001.mp3",
+      "inputSha256": "0bb9345a33e5214ec719f6572c6d953b85a3e5681ab3fa45ef7c1485f3c5371a",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/footstep-metal-close-v001.mp3",
+      "outputSha256": "3672223977ea3bd20a3fd7b85474070576be9c21cba5c061efe4f77ffc693d4c",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -14.9,
+        "maxDb": -4.6
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -15.2,
+        "maxDb": -4.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.footstep-wet-stone.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/footstep-wet-stone-v001.mp3",
+      "inputSha256": "00279898bfaffe6a0b51a15c1fd025d48563c47b44908e0bc600ce666db45a30",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/footstep-wet-stone-v001.mp3",
+      "outputSha256": "81c43cca002fb5a742f3d8ff42be0c7122627feb61836e507139b120f525a8c8",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -28.6,
+        "maxDb": -0.6
+      },
+      "gainDb": -0.75,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -29.6,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.sprint-burst-stone.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/sprint-burst-stone-v001.mp3",
+      "inputSha256": "7329f1cc3a70b5e00ad92cde3751a15e410f407520e99c7a359ddf257b9dff24",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/sprint-burst-stone-v001.mp3",
+      "outputSha256": "bdbb96957e9cd210c9d1e6f1f3472d615b1a100b69a62e437cfdaef9521e6bc9",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -15.8,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -17.4,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.landing-light.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/landing-light-v001.mp3",
+      "inputSha256": "99297c006e58da319997686fae8f7be559f6304c47d23f45317839a92bcdaca7",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/landing-light-v001.mp3",
+      "outputSha256": "72956d129cbd3e4c74580f41530f358132e308ae18bc503810a2f9fc9b7d7115",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -24.2,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25.8,
+        "maxDb": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.landing-heavy.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/landing-heavy-v001.mp3",
+      "inputSha256": "84ca65d831f1559f2c2a54706c75215222b140b8066d41c0ad728493841a3a13",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/landing-heavy-v001.mp3",
+      "outputSha256": "007d2eea8320a96a71e59212525efd4aee3825861658976a2e098644bcaecac2",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -19.9,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.5,
+        "maxDb": -1.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.slide-stop-sand.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/slide-stop-sand-v001.mp3",
+      "inputSha256": "dd51f56234df5e923e15df8a886a3988d3f3a76fdd819557ac37f9ba9b525af7",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/slide-stop-sand-v001.mp3",
+      "outputSha256": "19c4b5030cf6ab55b2b60bac51fd9550b5e9e1d2282391e32ede6615a28d7f91",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -11.5,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -13.1,
+        "maxDb": -1.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.jump-takeoff.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/jump-takeoff-v001.mp3",
+      "inputSha256": "777a6d5fdba2e658cb445ded71267c5a737fa9c65e61175f600472f76d49809a",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/jump-takeoff-v001.mp3",
+      "outputSha256": "54d50102e045733c9da21f347330db9f585d8c1163357e10a8bdbb5c2251c667",
+      "bytes": 18852,
+      "sourceMetrics": {
+        "meanDb": -16.8,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.3,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.mantle-wood-edge.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/mantle-wood-edge-v001.mp3",
+      "inputSha256": "f6daf6a36fef9d1670827099244c6fad88f038d66a4a506c761159552464f12e",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/mantle-wood-edge-v001.mp3",
+      "outputSha256": "1447104d6109dfe5efad9210f7bc50bb8a031affcf097550de3ecabc51a6f810",
+      "bytes": 30137,
+      "sourceMetrics": {
+        "meanDb": -11.5,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -12.9,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.dodge-snap.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/dodge-snap-v001.mp3",
+      "inputSha256": "85b533dab4fdda7c16067ddf5502e222ac451274ec33ba7498ad20e82e300940",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/dodge-snap-v001.mp3",
+      "outputSha256": "17e68016cb0f7679891f8fd2d8e1c7366aa96e8d1f331de403d5f081b640eb62",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -13.6,
+        "maxDb": -0.9
+      },
+      "gainDb": -0.45,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -14.3,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.crouch-shift.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/crouch-shift-v001.mp3",
+      "inputSha256": "069291987b836dc5f3f080352ae67809f73fc0928379e0fa8c297a49ba112bd9",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/crouch-shift-v001.mp3",
+      "outputSha256": "3d3f2ab0ac0b57aaca90e01161d6fa20ec66b655bfefb6051aebf7acddb14b24",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -20.4,
+        "maxDb": -0.3
+      },
+      "gainDb": -1.05,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.8,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.gear-swivel.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/gear-swivel-v001.mp3",
+      "inputSha256": "2e8d1c983c92a9ef336e442850c1e61b449223e015d8407ca06d68355a361321",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/gear-swivel-v001.mp3",
+      "outputSha256": "c5a24cd2da681dd6587e379b2ca94b1ec7180b87272f6a9894ea99a2471c7b90",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -23.3,
+        "maxDb": -1.1
+      },
+      "gainDb": -0.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23.8,
+        "maxDb": -1.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.rope-climb-pull.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/rope-climb-pull-v001.mp3",
+      "inputSha256": "5032532e77e3adde908930cfeef809630131d33138a360ec3443ff2f6b4ce12c",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/rope-climb-pull-v001.mp3",
+      "outputSha256": "2de8d21117a0bff4149238a2966e605b2eb0006bf616b0b0c764f3354fa781ef",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -14.9,
+        "maxDb": 0
+      },
+      "gainDb": -1.9000000000000001,
+      "encodingPasses": 2,
+      "masteredMetrics": {
+        "meanDb": -17.1,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.water-wade-step.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/water-wade-step-v001.mp3",
+      "inputSha256": "40d4209632950dc38b39455e62c288fb5ca206d15a981ef49c94db290e2ade55",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/water-wade-step-v001.mp3",
+      "outputSha256": "9069a6e70b155696f84659e2fb3e9675794d95666115c87c067749ff5c9485e5",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -19.9,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.4,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.far-footstep-stone.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/far-footstep-stone-v001.mp3",
+      "inputSha256": "bba783167e2e152da95b9c8b62a78be3dd0d92b606430b39cad2115b7a514481",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/far-footstep-stone-v001.mp3",
+      "outputSha256": "ca4576b77933fef21b053f2d468862088106bdf59a45d91fcaf5d0ead37332ac",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -16.2,
+        "maxDb": -0.9
+      },
+      "gainDb": -0.45,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -16.9,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.far-landing.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/far-landing-v001.mp3",
+      "inputSha256": "7f189e3fb06119f87796a7a4d14f74feefe99b71d6e47647ba827edcd565aa5f",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/far-landing-v001.mp3",
+      "outputSha256": "ece17a03f5cc379720302fb0cd8cee2d0e8af991b5ffede3f1f5a89566737080",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -30.5,
+        "maxDb": -10.3
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -30.7,
+        "maxDb": -10.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.breath-exertion-nonverbal.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/breath-exertion-nonverbal-v001.mp3",
+      "inputSha256": "17b7ce443acc8b1a5428866a76d95a81d2038a5b7de45031acab511963003594",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/breath-exertion-nonverbal-v001.mp3",
+      "outputSha256": "dc9e48dd9d4e189c46fd8942a4e3d1d9c0897af3caffc2abb9fcb829c051ebfb",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -17.1,
+        "maxDb": -0.5
+      },
+      "gainDb": -0.85,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.2,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.stop-turn-stone.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/stop-turn-stone-v001.mp3",
+      "inputSha256": "8fd46586b3834eb09511d0d35b14645c498b390990289c788fc683a2f44b80d9",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/stop-turn-stone-v001.mp3",
+      "outputSha256": "ff5c0ae44be3f94981dbef39f96a871880fb9e1cafad251914e7d25507005c11",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -21.4,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22.9,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.zone-enter-friendly.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/zone-enter-friendly-v001.mp3",
+      "inputSha256": "c13306f64d4ecead912672e2961cbfcdb6f7f0baa8ecb168d99853ef4fd4cb2c",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/zone-enter-friendly-v001.mp3",
+      "outputSha256": "c88ea93c30d4c9b1a307fafe94ba3d3e6c1246b5d37e529362fd034c65d0ac4c",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -14.9,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -16.3,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.zone-enter-enemy.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/zone-enter-enemy-v001.mp3",
+      "inputSha256": "de5889daa20eae4c75de06035f8c9c8f61c5a0b1dfb9cd4c72fd13695f0f83fc",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/zone-enter-enemy-v001.mp3",
+      "outputSha256": "b46d2bf8b5401b00fe19127c55af88340cc839cf3350ea3f37de8bdaaba31339",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -12.7,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -14.1,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.capture-tick-friendly.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/capture-tick-friendly-v001.mp3",
+      "inputSha256": "d47e9fea46f3fdec680905df37132a90f1e5df093f343d118e4f64d8c0246d5f",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/capture-tick-friendly-v001.mp3",
+      "outputSha256": "fd0fc884857b629a33f07d1ab5c306a24d7b3b828dcca2963eedd007d8ea1613",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -20.8,
+        "maxDb": -1.2
+      },
+      "gainDb": -0.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.2,
+        "maxDb": -1.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.capture-tick-enemy.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/capture-tick-enemy-v001.mp3",
+      "inputSha256": "40f2f5a3dd0251263ac5cd0ded9ba5e87403c09a59d78c4fbbb62febd84728f7",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/capture-tick-enemy-v001.mp3",
+      "outputSha256": "44fd7ca4a10a0cb36401087b2fd4a07a324f8483e95e349a913dca95eb215260",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -20.7,
+        "maxDb": -0.4
+      },
+      "gainDb": -0.95,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.9,
+        "maxDb": -1.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.capture-complete.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/capture-complete-v001.mp3",
+      "inputSha256": "e57cdc06dbe726ae1df89746c8cee9a7d65404dbd1e8ffbff551a04afb8de7de",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/capture-complete-v001.mp3",
+      "outputSha256": "34034dc6f30cd865c35363550332abc30996d14a1f499c44e78c91676be4cd55",
+      "bytes": 27629,
+      "sourceMetrics": {
+        "meanDb": -20.2,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.6,
+        "maxDb": -1.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.objective-contested.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/objective-contested-v001.mp3",
+      "inputSha256": "bf0fcf0dd278ff8d36a38d2d6b883c2a9a44eaebf1890e02f28b798d8964517d",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/objective-contested-v001.mp3",
+      "outputSha256": "3b6ed721cf74314c9a98f1bb60125bcb5dd232880c58b5782982d131756ef3d0",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -18.1,
+        "maxDb": -6.1
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.3,
+        "maxDb": -6.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.round-start.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/round-start-v001.mp3",
+      "inputSha256": "28bac32c105bbf865913c07afd083d09635227c761f15bea432862748731961b",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/round-start-v001.mp3",
+      "outputSha256": "ec4dc7b61e521496d2d81d370b3a43a76ff7cb19b240a1039209befbb036e768",
+      "bytes": 27629,
+      "sourceMetrics": {
+        "meanDb": -17.5,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.round-end.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/round-end-v001.mp3",
+      "inputSha256": "a6e8280ac2cda0fe7d109ff67288948d12b1d327f119429923f03e0f67cead14",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/round-end-v001.mp3",
+      "outputSha256": "5ec31cf07756de6ebd259532e06a318fe6b00f1031ec4cccd34fc9a31b983291",
+      "bytes": 27629,
+      "sourceMetrics": {
+        "meanDb": -15.8,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -17.4,
+        "maxDb": -1.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.victory-confirm.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/victory-confirm-v001.mp3",
+      "inputSha256": "c492f6a13c18d66bd981f93d1dfd4a6e26f00e37efdea5c129483c9be98c6832",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/victory-confirm-v001.mp3",
+      "outputSha256": "8967c772fb71e82ec47f04030bc91b66214927813bd1511b0f9294e60eb33d23",
+      "bytes": 30137,
+      "sourceMetrics": {
+        "meanDb": -20.2,
+        "maxDb": -2.5
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20.4,
+        "maxDb": -2.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.defeat-confirm.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/defeat-confirm-v001.mp3",
+      "inputSha256": "bfdfd6a4bc4354dbedbfeb51c7e850fac833cecf56562a1e0dfa1099d288cff3",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/defeat-confirm-v001.mp3",
+      "outputSha256": "298660cfdb1aec9bdc5b71b8d2b5a2ce83995fb5ca11ae2db6647d056e05820a",
+      "bytes": 30137,
+      "sourceMetrics": {
+        "meanDb": -20.3,
+        "maxDb": -3.4
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20.6,
+        "maxDb": -3.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.respawn-ready.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/respawn-ready-v001.mp3",
+      "inputSha256": "055b5329e644467f1132f03dc935faeea906ee8fbd247aa33aba197ecfe4d8f0",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/respawn-ready-v001.mp3",
+      "outputSha256": "7fb7437c713dd3384fdce545af73006672aa41040b4bef8ee787c15f98dee664",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -17.1,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.6,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.ping-soft.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/ping-soft-v001.mp3",
+      "inputSha256": "fa07b803d62a92b715a025513e0649bd5d3220972aeb0e9d6cb69d87bc523e17",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/ping-soft-v001.mp3",
+      "outputSha256": "70b3a7a0996e011bc8fb8e97fca8cbfaf8cf2e8e09cd35b71d41413ba2e618c7",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -26.8,
+        "maxDb": -11.1
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -27,
+        "maxDb": -12.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.ping-urgent.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/ping-urgent-v001.mp3",
+      "inputSha256": "9728bbac8ab780651b004f20d60b1ab370c6a5dfe28760b4460b9393f0775fe7",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/ping-urgent-v001.mp3",
+      "outputSha256": "6a216f3fa4ea0afae2390210006270228b96041e249ae0a6feb7525a929994c9",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -17.2,
+        "maxDb": -3.2
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -17.4,
+        "maxDb": -3.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.timer-warning.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/timer-warning-v001.mp3",
+      "inputSha256": "f7a3097d83fe6012d2c6c1d5f6f797659a37392410a213412e35a36300669d6a",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/timer-warning-v001.mp3",
+      "outputSha256": "c5178aaef9307061d5ae316fee4a6454acabd7b4a08ecf972bc6e5168c72818e",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -16.5,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.2,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.objective-lost.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/objective-lost-v001.mp3",
+      "inputSha256": "e87fa69788a8aae310c9d14bc015a26004a2c8fee295aa1b5b1e0bc30b8e2d93",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/objective-lost-v001.mp3",
+      "outputSha256": "ae8f8e43004e7dbff2d4f3f89dbf5f6d33ed78de263591d86b197aee46dc62f5",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -20.2,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.6,
+        "maxDb": -1.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.interact-confirm-cancel.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/interact-confirm-cancel-v001.mp3",
+      "inputSha256": "960c631ad3b4aec92b1b7687b407c2674eb73feb612c9b5c0546632ed62d0709",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/interact-confirm-cancel-v001.mp3",
+      "outputSha256": "426da6dfb092bfc8b08cbc09b3fd9477d37cb8dd7beecfdc91c0cc9bf8608e27",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -27.5,
+        "maxDb": -4.9
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -27.8,
+        "maxDb": -5.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.water-burst-near.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/water-burst-near-v001.mp3",
+      "inputSha256": "8475a4e955078a149733bf37a1fdf23f524aa99f7eaad849ae36bf39c9e7896d",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/water-burst-near-v001.mp3",
+      "outputSha256": "978a024973885062d76b811cea622ccbbcb4f71673c36b89cf0f0dded1541b3f",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -25.1,
+        "maxDb": -1.7
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25.3,
+        "maxDb": -1.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.water-burst-far.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/water-burst-far-v001.mp3",
+      "inputSha256": "704c611e4a20b848f942f26fb282892cee0cc6e86ecaecdb6493a00af553d4bf",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/water-burst-far-v001.mp3",
+      "outputSha256": "3000dc0baef2e13cce54585df0897c212a55ccd391c113e1af8466ec58a5c344",
+      "bytes": 27629,
+      "sourceMetrics": {
+        "meanDb": -33.9,
+        "maxDb": -13.4
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -34.2,
+        "maxDb": -13.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.stone-shield-form.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/stone-shield-form-v001.mp3",
+      "inputSha256": "52a4a391c6e9ff04a5057a6a6bb01530b6bcd69409ebc540c47c08dace2edecd",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/stone-shield-form-v001.mp3",
+      "outputSha256": "445296427ae1512eb64ba2aa5fed55f99e23032b88e20a850ecd770afaf814fb",
+      "bytes": 32017,
+      "sourceMetrics": {
+        "meanDb": -19.7,
+        "maxDb": -2.8
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20,
+        "maxDb": -3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.stone-shield-hit.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/stone-shield-hit-v001.mp3",
+      "inputSha256": "a6a5f9907b935a65c686cfb7236d19766395a674d373dd6dc05f989a6f305aa0",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/stone-shield-hit-v001.mp3",
+      "outputSha256": "b47a7a65ca53755cf6b1d6989a2e142c9aaf83176b998b22661c4efdb4023f4a",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -22.5,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24.1,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.bronze-resonance.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/bronze-resonance-v001.mp3",
+      "inputSha256": "e553b1557a99ed3bbb43385cb58a365afe5761a82c284c4f692ff2326320e53b",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/bronze-resonance-v001.mp3",
+      "outputSha256": "d858c0f756e836391d662a97b1137809f5b6752e2b4861a14d2d9c8f0b6b1007",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -19.8,
+        "maxDb": -3.3
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20,
+        "maxDb": -3.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.sea-glass-shimmer.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/sea-glass-shimmer-v001.mp3",
+      "inputSha256": "7de779d1e098e2561df0aa6f0ee7839be78102111c6c448228f7e56b5529745e",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/sea-glass-shimmer-v001.mp3",
+      "outputSha256": "f4b43eeeae1722ebb6bf96b2f5f72aab14f5f1be0e47eadb50860a82d056ba53",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -21.1,
+        "maxDb": -4.9
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.3,
+        "maxDb": -5.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.sand-plume.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/sand-plume-v001.mp3",
+      "inputSha256": "acac9442cb5e8c87414940cfad1e0d2337a9ba31d957be99a21315edbb4ab551",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/sand-plume-v001.mp3",
+      "outputSha256": "ea103857e65e3fcd99b4b2862089a32e2eb415554abfccd565323b2fff6641c9",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -19.6,
+        "maxDb": -1.3
+      },
+      "gainDb": -0.05,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20,
+        "maxDb": -2.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.barrier-hit-near.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/barrier-hit-near-v001.mp3",
+      "inputSha256": "6c7f42c0237c3f6e64959fa94273d5dd26a487b867271e519e15464973817a7a",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/barrier-hit-near-v001.mp3",
+      "outputSha256": "dea58b348ccbee890a3463b74bf468908567ece7b45f21495deef2e37e340a3c",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -22.5,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24.1,
+        "maxDb": -1.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.barrier-hit-far.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/barrier-hit-far-v001.mp3",
+      "inputSha256": "9889ce5606e0b161a121869359f7333e9421051c9be99864d92ab376ed249db2",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/barrier-hit-far-v001.mp3",
+      "outputSha256": "7411607ae9199462de855bb726d678c8d6d0becccf2b2bda7db3eeb4490631b5",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -25.4,
+        "maxDb": -8.7
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25.6,
+        "maxDb": -9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.heal-pulse.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/heal-pulse-v001.mp3",
+      "inputSha256": "b30c2c44f9f0253e995eb9277167b350f64f803e70cad7dc368f24d1fadce92e",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/heal-pulse-v001.mp3",
+      "outputSha256": "fb6d8aa6c0014eeaa6cd9af12fa7295ae2e0a746b296d0e5344c40d09379803c",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -8.5,
+        "maxDb": -0.7
+      },
+      "gainDb": -0.65,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -9.4,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.dash-snap.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/dash-snap-v001.mp3",
+      "inputSha256": "6bc70594b7fc9349301b2ce87e073023f9412563c87d5f7321fe0aea4fb76629",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/dash-snap-v001.mp3",
+      "outputSha256": "fef2a3ad16de0e8ac34e6ad768639af0febfb9c4729c95443f859812186c5beb",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -25.8,
+        "maxDb": -6.9
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -26,
+        "maxDb": -7.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.scan-pulse.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/scan-pulse-v001.mp3",
+      "inputSha256": "672c5459c5fde10466f179e55223d01e05ab7b3cb6285f35fa2436e73a9dad3d",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/scan-pulse-v001.mp3",
+      "outputSha256": "dde095298d60007d1bbd64fc85068b501088bec9d9547459f56c369fa92912fb",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -19.2,
+        "maxDb": -3.4
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19.5,
+        "maxDb": -3.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.anchor-chain.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/anchor-chain-v001.mp3",
+      "inputSha256": "c59cae1582d9b6c9f26d4dbef85edb7aedc18be4e215d6f3e63eb8db651267b2",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/anchor-chain-v001.mp3",
+      "outputSha256": "9588e1298fe033ad7ef1d9cf4594dac9168c2734a0f2ad58dbf91348460d5159",
+      "bytes": 30137,
+      "sourceMetrics": {
+        "meanDb": -19.3,
+        "maxDb": -6.2
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19.5,
+        "maxDb": -6.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.suppression-hit.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/suppression-hit-v001.mp3",
+      "inputSha256": "5519361f71b46273ae03fd3bcc48e2b09c799fbf53260ebb36749e6e97d5d6bb",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/suppression-hit-v001.mp3",
+      "outputSha256": "c1b38c729d758c5d2538c79cba3e9772df72c15a1bcf9ecd9ffcefcf5c0d9036",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -22.6,
+        "maxDb": -2.4
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22.8,
+        "maxDb": -2.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.ultimate-charge.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/ultimate-charge-v001.mp3",
+      "inputSha256": "0881e058b7b622bc4540499d99a2406e746372a0869fe06d2364774dc0f72db9",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/ultimate-charge-v001.mp3",
+      "outputSha256": "19cdc2d91a8e03392393b19e2432ea1e728e8c0ff2e6840d3043233a1da14d48",
+      "bytes": 32017,
+      "sourceMetrics": {
+        "meanDb": -16.4,
+        "maxDb": -0.6
+      },
+      "gainDb": -0.75,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -17.5,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.ultimate-release.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/ultimate-release-v001.mp3",
+      "inputSha256": "27f29f4e698935ed99256bffa7f3522d84360a93a5ba0ac311682289af36ac17",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/mastered/sfx/ultimate-release-v001.mp3",
+      "outputSha256": "5793f4b91d97a7a193faff4c3ca622db1dcd0859c6252e213bdbb47d9645feed",
+      "bytes": 37033,
+      "sourceMetrics": {
+        "meanDb": -27.4,
+        "maxDb": -9.4
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -27.7,
+        "maxDb": -9.6
+      },
+      "status": "mastered"
+    }
+  ],
+  "mastered": 100,
+  "failed": 0
+}

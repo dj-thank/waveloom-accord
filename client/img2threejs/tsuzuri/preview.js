@@ -1,0 +1,6 @@
+import * as THREE from '/vendor/three.module.js';
+import { createTsuzuriPlayableHeroModel } from './createTsuzuriModel.js';
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0x241d25); const camera = new THREE.PerspectiveCamera(32, innerWidth / innerHeight, 0.1, 100); camera.position.set(3, 2.2, 5); camera.lookAt(0, 1.35, 0);
+const renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setSize(innerWidth, innerHeight); renderer.shadowMap.enabled = true; document.body.appendChild(renderer.domElement); scene.add(new THREE.HemisphereLight(0xfff4dc, 0x302437, 1.9)); const key = new THREE.DirectionalLight(0xffd9a0, 3); key.position.set(-3, 6, 4); key.castShadow = true; scene.add(key);
+const hero = createTsuzuriPlayableHeroModel(); scene.add(hero); const floor = new THREE.Mesh(new THREE.CircleGeometry(4, 48), new THREE.MeshStandardMaterial({ color: 0x493949, roughness: 1 })); floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor); addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
+function frame(t) { hero.rotation.y = Math.sin(t * 0.00025) * 0.24; renderer.render(scene, camera); requestAnimationFrame(frame); } requestAnimationFrame(frame);

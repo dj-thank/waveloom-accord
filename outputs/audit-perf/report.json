@@ -1,0 +1,22 @@
+[
+  {
+    "view": "network",
+    "applied": true,
+    "file": "outputs/audit-perf/network.png"
+  },
+  {
+    "view": "site-kado",
+    "applied": true,
+    "file": "outputs/audit-perf/site-kado.png"
+  },
+  {
+    "view": "site-ami",
+    "applied": true,
+    "file": "outputs/audit-perf/site-ami.png"
+  },
+  {
+    "view": "aerial",
+    "applied": true,
+    "file": "outputs/audit-perf/aerial.png"
+  }
+]

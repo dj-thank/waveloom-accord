@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { World } from '../shared/sim/sim.js';
 import { buildMap } from '../shared/data/map_oshioi.js';
 import { BotController } from '../server/bots.js';
-import { makeRng } from '../shared/sim/rng.js';
+import { makeBotRng, scheduleBotThinkOrder } from '../server/bot_fairness.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -13,17 +13,19 @@ const mode = JSON.parse(fs.readFileSync(path.join(ROOT, 'shared/data/mode_shiour
 const combat = JSON.parse(fs.readFileSync(path.join(ROOT, 'shared/data/combat.json'), 'utf8'));
 
 const world = new World(buildMap(), mode, combat, 20260713);
-const rng = makeRng(99);
-const bots = [];
+const botPlayers = [];
 for (let i = 0; i < 10; i++) {
   const pl = world.addPlayer('bot' + i, true, i % 2);
-  bots.push(new BotController(world, pl, rng));
+  botPlayers.push(pl);
 }
+const bots = botPlayers.map(player => (
+  new BotController(world, player, makeBotRng(world.seed, player, botPlayers))
+));
 console.log('sides:', world.flow.sides);
 
 let nextReport = 0;
 while (world.flow.state !== 'MATCH_END' && world.t < 200) {
-  for (const bc of bots) bc.think(world.dt);
+  for (const bc of scheduleBotThinkOrder(bots, world.tickCount)) bc.think(world.dt);
   world.tick();
   world.drainEvents();
   if (world.t >= nextReport) {

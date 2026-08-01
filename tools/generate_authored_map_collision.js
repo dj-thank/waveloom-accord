@@ -1,16 +1,21 @@
 #!/usr/bin/env node
 // Deterministic, offline collision inspection/generation for the checked-in GLB.
 import { createHash } from 'node:crypto';
-import { readFile } from 'node:fs/promises';
+import { readFile, rename, writeFile } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { AUTHORED_COLLISION_MANIFEST } from '../shared/data/map_oshioi_authored_collision.js';
-import { AUTHORED_MAP_TRANSFORM, buildMap } from '../shared/data/map_oshioi.js';
+import {
+  AUTHORED_COLLISION_PROTECTED_ROUTES,
+  AUTHORED_MAP_TRANSFORM,
+  buildMap,
+} from '../shared/data/map_oshioi.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const GLB_PATH = path.join(ROOT, 'client', 'assets', 'chicken_gun_fruzer_mine.glb');
+const MANIFEST_PATH = path.join(ROOT, 'shared', 'data', 'map_oshioi_authored_collision.js');
 const EXPECTED_ASSET_SHA256 = 'DC9017A5F1D875B7CB45C00183E158491FAE042F6A33CE8EC42FCA8D9CA2E597';
 const SCHEMA_VERSION = 1;
 const QUANTIZE_DIGITS = 6;
@@ -75,7 +80,7 @@ function protectedFixtures(map) {
   for (const pickup of map.pickups) {
     fixtures.push({ id: `pickup:${pickup.id}`, pos: pickup.pos, radius: PLAYER_RADIUS_M, height: PLAYER_HEIGHT_M });
   }
-  for (const [route, points] of Object.entries(map.routes)) {
+  for (const [route, points] of Object.entries(AUTHORED_COLLISION_PROTECTED_ROUTES)) {
     for (let index = 0; index < points.length; index++) {
       fixtures.push({ id: `route:${route}:${index}`, pos: points[index], radius: 0.55, height: PLAYER_HEIGHT_M });
       if (index === 0) continue;
@@ -226,7 +231,15 @@ export async function generateCollisionManifest() {
 
   const map = buildMap();
   const fixtures = protectedFixtures(map);
-  const canonical = map.solids.filter(solid => solid.provenance?.kind !== 'authored-glb');
+  // This manifest audits the historical decorative GLB against the original
+  // 92 x 68 m reference courtyard, not against later competitive expansions.
+  // Keep that evidence byte-stable even though the live five-site map removes
+  // the two reference side walls to open its east/west connectors.
+  const canonical = map.solids.filter(solid => solid.id?.startsWith('canonical-'));
+  canonical.push(
+    { id: 'canonical-002-wall', min: [-47, -34, 0], max: [-46, 34, 10], tag: 'wall' },
+    { id: 'canonical-003-wall', min: [46, -34, 0], max: [47, 34, 10], tag: 'wall' },
+  );
   const meshes = [];
   scene.traverse(object => { if (object.isMesh) meshes.push(object); });
   const associations = gltf.parser.associations;
@@ -367,6 +380,13 @@ async function main(args) {
   const manifest = await generateCollisionManifest();
   if (args.includes('--stdout')) {
     process.stdout.write(renderManifestModule(manifest));
+    return;
+  }
+  if (args.includes('--write')) {
+    const temporaryPath = `${MANIFEST_PATH}.tmp-${process.pid}`;
+    await writeFile(temporaryPath, renderManifestModule(manifest), 'utf8');
+    await rename(temporaryPath, MANIFEST_PATH);
+    console.log(`wrote authored collision manifest ${manifest.manifestHash}`);
     return;
   }
   if (args.includes('--check')) {

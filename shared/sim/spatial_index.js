@@ -91,6 +91,16 @@ export class SpatialIndex {
     }
   }
 
+  invalidate() {
+    this.source = null;
+    this.sourceLength = -1;
+    this.mode = 'linear';
+    this.buckets = new Map();
+    this.overflow = [];
+    this.seen = new Uint32Array(0);
+    this.stamp = 0;
+  }
+
   all() {
     return this.source;
   }

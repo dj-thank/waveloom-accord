@@ -1,0 +1,52 @@
+{
+  "capturedAt": "2026-08-01T00:33:00+09:00",
+  "target": "Coastal Tide Marker 01",
+  "surface": "Codex In-app Browser",
+  "url": "http://127.0.0.1:8765/work/asset-rush/aaa-v1-pilot/img2threejs/prop-tide-marker-01/preview.html",
+  "cacheBust": "20260801-2",
+  "candidateOnly": true,
+  "collision": "none",
+  "webgl": true,
+  "asset": {
+    "triangles": 464,
+    "drawCalls": 2
+  },
+  "browserFrame": {
+    "drawCalls": 3,
+    "triangles": 528,
+    "points": 0,
+    "lines": 0,
+    "interpretation": "2 asset meshes plus 1 floor mesh; lights are not draw calls"
+  },
+  "views": [
+    {
+      "name": "front",
+      "firstFrameAtMs": 73,
+      "pngPath": "outputs/aaa_tide_marker_browser_evidence_20260801/front.png",
+      "screenshotBytes": 25085,
+      "screenshotSha256": "0008554782b6db705137285a7c3d9d66e00a8a909fa8369dc9b5fc2c512d5122"
+    },
+    {
+      "name": "three-quarter",
+      "firstFrameAtMs": 65,
+      "pngPath": "outputs/aaa_tide_marker_browser_evidence_20260801/three-quarter.png",
+      "screenshotBytes": 21200,
+      "screenshotSha256": "95e93e2618410caa8ceab19820b553fdb18903bcf34cbd6894e46c4167413a34"
+    },
+    {
+      "name": "rear",
+      "firstFrameAtMs": 77,
+      "pngPath": "outputs/aaa_tide_marker_browser_evidence_20260801/rear.png",
+      "screenshotBytes": 20528,
+      "screenshotSha256": "1b1eda87b3e633d19a742aab9d8b31376ab9c021273bd55d4b009367c1fc7476"
+    }
+  ],
+  "verdict": "BROWSER_RENDER_PASS_CANDIDATE_ONLY",
+  "notProven": [
+    "Tier-1 silhouette/semantic acceptance",
+    "AI-vision comparison threshold",
+    "map runtime admission",
+    "collision and cover policy",
+    "human art-direction approval"
+  ]
+}

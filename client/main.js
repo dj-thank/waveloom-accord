@@ -24,14 +24,20 @@ import {
   resolveAbilityAttemptFeedback,
 } from '/client/presentation.js';
 import {
-  resolvePredictionMovementConfig, resolveSnapshotGrounded, retirePendingInputs,
+  canIssueInputSequence, resolvePredictionMovementConfig, resolveSnapshotGrounded, retirePendingInputs,
 } from '/client/prediction.js';
 import { buildCombatGuidance } from '/client/combat_guidance.js';
 import { CombatAudio } from '/client/combat_audio.js';
-import { HEROES, HERO_BY_ID, DEFAULT_HERO_ID, ROLE_NAMES } from '/shared/data/heroes.js';
+import { normalizeObjectivePresentation } from '/client/objective_presentation.js';
+import {
+  formatMissingCapabilities,
+  formatRuntimeCompositionPolicy,
+  heroCapabilityContribution,
+  validateRuntimeRosterContract,
+} from '/client/runtime_composition.js';
+import { HEROES, HERO_BY_ID, DEFAULT_HERO_ID } from '/shared/data/heroes.js';
 import { getActionAsset, getHeroAsset, getWeaponAsset } from '/shared/data/hero_assets.js';
 import { createVerifiedObjectUrl } from '/client/runtime_asset_integrity.js';
-import { ROLE_SLOTS } from '/shared/rules/team_composition.js';
 
 const FIXED_DT = 1 / 63;               // PROTOCOL.md: サーバーと同一の固定ステップ
 const NAME_KEY = 'kagariai_name';
@@ -124,6 +130,8 @@ let myTeam = 0;
 let mode = null;        // welcome.mode
 let combat = null;      // welcome.combat
 let MV = null;          // combat.movement
+let runtimeCompositionPolicy = null; // welcome.roster.runtimeCompositionPolicy
+let runtimeRosterHeroes = new Map(); // server-advertised capability metadata
 
 let pred = null;        // 予測移動状態（shared/sim/movement.js の state）
 let pending = [];       // 未ACK入力（seq付き）
@@ -219,7 +227,7 @@ const joinTitle = document.getElementById('joinTitle');
 const roleRule = document.getElementById('roleRule');
 const mapStatus = document.getElementById('mapStatus');
 nameInput.value = localStorage.getItem(NAME_KEY) || '見習いの篝手';
-roleRule.textContent = `固定編成：${compositionLabel()}`;
+roleRule.textContent = compositionLabel();
 const updateMapStatus = (status, detail = {}) => {
   if (status === 'loaded' && detail.displayMode === 'verified-reference-hidden') {
     mapStatus.textContent = `${detail.title || '提供3Dマップ'} 検証済み（参照専用・表示OFF）`;
@@ -271,25 +279,23 @@ async function applyConceptAtlas(element, heroId) {
   }
 }
 
-function compositionLabel(slots = mode?.roleSlots || ROLE_SLOTS) {
-  return ROLE_ORDER.map(role => `${ROLE_NAMES[role] || role} ${slots[role] || 0}`).join(' ／ ');
+function compositionLabel(policy = runtimeCompositionPolicy) {
+  return formatRuntimeCompositionPolicy(policy);
+}
+
+function heroTeamFunctions(hero) {
+  const advertised = runtimeRosterHeroes.get(hero?.id)?.teamFunctions;
+  return Array.isArray(advertised) ? advertised : (hero?.teamFunctions || []);
 }
 
 function renderHeroRoster() {
   const fragment = document.createDocumentFragment();
-  const teamPlayers = latest?.players?.filter(player => player.team === myTeam) || [];
-  const humanRoleCounts = Object.fromEntries(ROLE_ORDER.map(role => [
-    role, teamPlayers.filter(player => !player.bot && player.role === role).length,
-  ]));
-  const currentRole = teamPlayers.find(player => player.id === myId)?.role || null;
-  const roleSlots = mode?.roleSlots || ROLE_SLOTS;
   for (const role of ROLE_ORDER) {
     const heroes = HEROES.filter(hero => hero.role === role);
     const section = makeElement('section', 'roleGroup');
     section.setAttribute('aria-labelledby', `role-${role}`);
     section.style.setProperty('--role-color', heroes[0]?.color || '#35d5e8');
-    const slotText = heroPickerContext === 'setup' ? ` ／ 枠 ${humanRoleCounts[role] || 0}/${roleSlots[role] || 0}` : '';
-    const heading = makeElement('h2', 'roleHeading', `${heroes[0]?.roleLabel || role}（${heroes.length}人${slotText}）`);
+    const heading = makeElement('h2', 'roleHeading', `${heroes[0]?.roleLabel || role}（${heroes.length}人）`);
     heading.id = `role-${role}`;
     const grid = makeElement('div', 'roleHeroGrid');
     for (const hero of heroes) {
@@ -297,19 +303,9 @@ function renderHeroRoster() {
       option.type = 'button';
       option.dataset.heroId = hero.id;
       option.setAttribute('aria-pressed', 'false');
-      const roleSelectable = isHeroRoleSelectable(
-        heroPickerContext,
-        role,
-        currentRole,
-        humanRoleCounts[role] || 0,
-        roleSlots[role] || 0,
-      );
+      const roleSelectable = isHeroRoleSelectable(heroPickerContext);
       option.disabled = !roleSelectable;
-      if (!roleSelectable) {
-        option.title = heroPickerContext === 'respawn'
-          ? '戦闘中の復帰変更は同じロール内に限られます'
-          : 'このロールの人間枠は埋まっています';
-      }
+      const contribution = heroCapabilityContribution(heroTeamFunctions(hero));
       option.style.setProperty('--hero-color', hero.color);
       const art = makeElement('span', 'heroOptionArt');
       art.setAttribute('aria-hidden', 'true');
@@ -318,6 +314,7 @@ function renderHeroRoster() {
         art,
         makeElement('span', 'heroOptionName', hero.name),
         makeElement('span', 'heroOptionType', `${hero.subtype} ／ HP ${hero.maxHp}`),
+        makeElement('span', 'heroOptionMeta heroCapability', contribution.label),
         makeElement('span', 'heroOptionMeta', `武器: ${hero.weapon.displayName}`),
         makeElement('span', 'heroOptionMeta', `パッシブ: ${hero.passive.name}`),
       );
@@ -368,6 +365,7 @@ function renderHeroDetail(hero) {
     art,
     makeElement('div', 'detailName', hero.name),
     makeElement('div', 'detailRole', `${hero.roleLabel} ／ ${hero.subtype}`),
+    makeElement('p', 'detailSummary heroCapability', heroCapabilityContribution(heroTeamFunctions(hero)).label),
     makeElement('p', 'detailSummary', `${hero.subtype}の${hero.roleLabel}。最大体力 ${hero.maxHp}、移動倍率 ${hero.moveSpeedMult.toFixed(2)}。`),
   );
   const details = makeElement('dl');
@@ -462,8 +460,8 @@ function openHeroPicker(context) {
   joinTitle.textContent = context === 'respawn' ? '復帰キャラクター選択' : 'キャラクター変更';
   joinBtn.textContent = context === 'respawn' ? '次の復帰に確定' : '変更を確定';
   joinStatus.textContent = context === 'respawn'
-    ? '復帰待機中です。同じロール内から選択してください。'
-    : '準備中です。固定編成の空き枠内で変更できます。';
+    ? '復帰待機中です。別ロールは空いているBotとヒーローを交換し、固定1/2/2と継続回復役をサーバーが維持します。'
+    : '準備中です。別ロールは空いているBotとヒーローを交換し、固定1/2/2と継続回復役をサーバーが維持します。';
   joinOverlay.style.display = 'flex';
   renderHeroRoster();
   const currentHeroId = latest?.players.find(player => player.id === myId)?.heroId;
@@ -526,10 +524,20 @@ document.getElementById('restartBtn').addEventListener('click', () => net.sendRe
 
 net.onWelcome = (msg) => {
   const rejoin = joined; // 再試合時は welcome が再送される（idが変わる）
+  const rosterContract = validateRuntimeRosterContract(msg.roster);
+  if (!rosterContract.ok) {
+    protocolMismatchMessage = 'サーバーの固定1/2/2・継続回復契約を確認できません。ページを更新してください。';
+    joinStatus.textContent = protocolMismatchMessage;
+    joinBtn.disabled = true;
+    net.ws?.close(1002, 'unsupported roster contract');
+    return;
+  }
+  runtimeCompositionPolicy = rosterContract.policy;
+  runtimeRosterHeroes = new Map(msg.roster.heroes.map(hero => [hero.id, hero]));
   myId = msg.id;
   myTeam = msg.team;
   mode = msg.mode;
-  roleRule.textContent = `固定編成：${compositionLabel(mode?.roleSlots)}`;
+  roleRule.textContent = compositionLabel();
   combat = msg.combat;
   MV = combat.movement;
   if (msg.heroId && HERO_BY_ID[msg.heroId]) selectHeroForPicker(msg.heroId);
@@ -573,7 +581,7 @@ net.onServerError = (msg) => {
 net.onSelectResult = (msg) => {
   joinBtn.disabled = false;
   if (!msg.ok) {
-    const message = selectionErrorMessage(msg.code);
+    const message = selectionErrorMessage(msg);
     joinStatus.textContent = message;
     if (joined) hud.toast(message);
     return;
@@ -600,20 +608,30 @@ net.onClose = () => {
   joinBtn.disabled = Boolean(protocolMismatchMessage);
 };
 
-function selectionErrorMessage(code) {
+function selectionErrorMessage(msg) {
+  const code = typeof msg === 'string' ? msg : msg?.code;
+  if (code === 'team_capability_required') {
+    return formatMissingCapabilities(msg?.missingCapabilities);
+  }
   return ({
+    role_full: 'そのロールは満員です。空いている同ロールのBotがいる時だけ変更できます。',
+    role_slots_required: '1タンク・2DPS・2サポートの固定編成を保つ必要があります。',
+    sustain_support_required: '各チームには、継続回復を担当できるサポートが最低1人必要です。',
     not_joined: '参加が完了していないため変更できません。',
     invalid_hero: 'そのキャラクターは選択できません。',
-    role_full: `そのロールの枠は埋まっています。固定編成（${compositionLabel()}）の別枠を選んでください。`,
-    role_change_locked: '戦闘中はロールを跨ぐ変更ができません。次の準備時間に変更してください。',
     selection_locked: '現在はキャラクターを変更できません。復帰後または次の準備時間に選択してください。',
   })[code] || 'キャラクター変更が拒否されました。';
 }
 
 function serverErrorMessage(msg) {
+  if (msg?.code === 'team_capability_required') {
+    return formatMissingCapabilities(msg.missingCapabilities);
+  }
   const localized = ({
+    role_full: 'そのロールは両チームで満員です。別のロールを選んでください。',
+    role_slots_required: '固定1タンク・2DPS・2サポートの編成を保てません。別のヒーローを選んでください。',
+    sustain_support_required: 'その選択では継続回復役がいなくなります。別のヒーローを選んでください。',
     already_joined: 'すでに参加済みです。', server_full: 'サーバーが満員です。',
-    role_full: '選択したロールは両チームで満員です。別のロールを選んでください。',
     invalid_message: 'サーバーへ送信した内容が不正です。', invalid_input: '入力が受理されませんでした。',
     stale_input: '古い入力が破棄されました。',
   })[msg?.code];
@@ -622,13 +640,18 @@ function serverErrorMessage(msg) {
 
 // ---- スナップショット受信 ----
 net.onSnap = (snap, events) => {
+  // Flashpoint deliberately projects no scalar objective while it changes
+  // sites. Normalize the authoritative five-site envelope before any legacy
+  // HUD or renderer consumer reads it, and fail closed on malformed state.
+  snap = normalizeObjectivePresentation(snap, map);
   const now = performance.now();
   snapBuf.push({ at: now, snap });
   if (snapBuf.length > 64) snapBuf.shift();
   latest = snap;
   latestAt = now;
 
-  if ((snap.objective.ot || snap.objective.suddenDeath) && snap.objective.otPenaltyStartT >= 0) {
+  if (snap.objective && (snap.objective.ot || snap.objective.suddenDeath)
+    && snap.objective.otPenaltyStartT >= 0) {
     otPenaltyStartT = snap.objective.otPenaltyStartT;
   }
 
@@ -760,13 +783,24 @@ function handleEvents(events, snap) {
         hud.toast(`${relTeam(e.owner)}が潮井を奪還！`);
         break;
       case 'obj_overtime_start':
-        otPenaltyStartT = e.t ?? snap.objective.time;
+        otPenaltyStartT = e.t ?? snap.objective?.time ?? 0;
         showTransient('延長戦', '占有陣の勝利目前 — 猶予が尽きる前に奪還せよ', 3000);
         break;
       case 'sudden_death':
-        if (otPenaltyStartT < 0) otPenaltyStartT = snap.objective.time;
+        if (otPenaltyStartT < 0) otPenaltyStartT = snap.objective?.time ?? 0;
         showTransient('サドンデス', '甕が同値 — 次に確保した陣が取得', 3200);
         break;
+      case 'flashpoint_site_completed':
+        hud.toast(`${relTeam(e.winner)}が拠点を確保`);
+        break;
+      case 'flashpoint_transition_started':
+        showTransient('潮路転換', '次の制圧地点へ移動', 2500);
+        break;
+      case 'flashpoint_site_activated': {
+        const site = map.objectives?.find(point => point.id === e.siteId);
+        showTransient(site?.shortName || e.siteId || '次の拠点', '制圧開始', 2200);
+        break;
+      }
       case 'round_active':
         showTransient('潮井開放', '', 2000);
         break;
@@ -846,7 +880,18 @@ function buildHudView(now) {
   const dts = (now - latestAt) / 1000;
   const st = s.match.state;
   const stateT = s.match.stateT + dts;
-  const objTime = s.objective.time + (st === 'ACTIVE' ? dts : 0);
+  // A Flashpoint transition has no active capture volume. Keep legacy HUD
+  // fields neutral rather than inventing a stale point from the previous site.
+  const objective = s.objective || {
+    sealed: true,
+    owner: -1,
+    pot: [0, 0],
+    gauge: [0, 0],
+    ot: { active: false },
+    suddenDeath: false,
+    time: 0,
+  };
+  const objTime = objective.time + (st === 'ACTIVE' && s.objective ? dts : 0);
   const me = s.players.find(p => p.id === myId);
   const en = 1 - myTeam;
 
@@ -854,9 +899,9 @@ function buildHudView(now) {
   for (const p of s.players) {
     if (p.onPoint && p.alive) (p.team === myTeam ? countAlly++ : countEnemy++);
   }
-  const ownerRel = s.objective.owner < 0 ? 'none' : (s.objective.owner === myTeam ? 'ally' : 'enemy');
+  const ownerRel = objective.owner < 0 ? 'none' : (objective.owner === myTeam ? 'ally' : 'enemy');
 
-  const penalty = resolveRespawnPenalty(s.objective, mode, objTime, otPenaltyStartT);
+  const penalty = resolveRespawnPenalty(objective, mode, objTime, otPenaltyStartT);
   const hero = HERO_BY_ID[me?.heroId] || HERO_BY_ID[selectedHeroId];
   const weapon = hero?.weapon || combat?.trainingWeapon || {};
   const rawMaxAmmo = me?.maxAmmo;
@@ -886,21 +931,22 @@ function buildHudView(now) {
     scoreAlly: s.match.score[myTeam],
     scoreEnemy: s.match.score[en],
     sideAlly: s.match.sides[myTeam],
-    potAlly: s.objective.pot[myTeam],
-    potEnemy: s.objective.pot[en],
-    gaugeAlly: s.objective.gauge[myTeam],
-    gaugeEnemy: s.objective.gauge[en],
+    potAlly: objective.pot[myTeam],
+    potEnemy: objective.pot[en],
+    gaugeAlly: objective.gauge[myTeam],
+    gaugeEnemy: objective.gauge[en],
     owner: ownerRel,
-    sealed: s.objective.sealed,
+    sealed: objective.sealed,
     contested: countAlly > 0 && countEnemy > 0,
     countAlly, countEnemy,
-    ot: s.objective.ot,
-    suddenDeath: s.objective.suddenDeath,
+    ot: objective.ot,
+    suddenDeath: objective.suddenDeath,
     penalty,
     heroId: me?.heroId || hero?.id || selectedHeroId,
     heroName: me?.heroName || hero?.name || '未選択',
     role: me?.role || hero?.role || '',
     roleLabel: me?.roleLabel || hero?.roleLabel || me?.role || '',
+    teamFunctions: Array.isArray(me?.teamFunctions) ? me.teamFunctions : heroTeamFunctions(hero),
     weaponName: me?.weaponName || weapon.displayName || '武器',
     weaponTrait: describeWeaponTrait(weapon),
     hp: me ? me.hp : 0,
@@ -980,6 +1026,10 @@ function updateBanner(now, view) {
   if (!view) { hud.hideBanner(); return; }
   if (view.state === 'SETUP') {
     hud.setBanner('準備', `開戦まで ${Math.ceil(view.setupLeft)} 秒`);
+  } else if (latest.flashpoint?.lifecycle === 'transition') {
+    const pending = map.objectives?.find(point => point.id === latest.pendingObjectiveId);
+    const remaining = Math.max(0, Number(latest.flashpoint.transitionRemainingSec) || 0);
+    hud.setBanner('潮路転換', `${pending?.shortName || '次の拠点'}まで ${Math.ceil(remaining)} 秒`);
   } else if (view.state === 'ROUND_END') {
     hud.setBanner('ラウンド取得', roundEndSub);
   } else if (view.state === 'MATCH_END') {
@@ -1021,6 +1071,10 @@ function frame(now) {
     acc += dt;
     while (acc >= FIXED_DT) {
       acc -= FIXED_DT;
+      // The server owns the 32-command reorder window.  Do not let a local
+      // render or server-tick hitch manufacture a permanently out-of-window
+      // stream; hold here until the next authoritative ACK/retired snapshot.
+      if (!canIssueInputSequence(seq, me)) continue;
       const currentWeapon = weaponFor(me);
       // reload可否は入力順を保持したserverが権威判定する。
       const inp = input.buildInput(++seq, net.interpMs(), true, FIXED_DT);
@@ -1069,9 +1123,14 @@ function frame(now) {
       barriers: latest.barriers || [],
       projectiles: latest.projectiles || [],
     }, myTeam);
+    const activeDefinition = latest.activeObjectiveId
+      ? map.objectives?.find(point => point.id === latest.activeObjectiveId) || null
+      : null;
     renderer.updateObjective({
-      sealed: latest.objective.sealed,
-      owner: latest.objective.owner,
+      active: Boolean(latest.objective && activeDefinition),
+      definition: activeDefinition,
+      sealed: latest.objective?.sealed ?? true,
+      owner: latest.objective?.owner ?? -1,
       myTeam,
       contested: countContested(latest),
       tSec: nowSec,

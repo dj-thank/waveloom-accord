@@ -496,6 +496,40 @@ export class Collider {
     return this.dynamic.length ? this.solids.concat(this.dynamic) : this.solids;
   }
 
+  // Navigation needs a static-only local view. Keep collision diagnostics tied
+  // to the collision query paths below rather than recording this public read.
+  staticSolidsInAabb(minX, minY, maxX, maxY) {
+    this._staticIndex.update(this.solids);
+    const finiteQuery = [minX, minY, maxX, maxY].every(Number.isFinite);
+    if (finiteQuery) {
+      if (minX > maxX) [minX, maxX] = [maxX, minX];
+      if (minY > maxY) [minY, maxY] = [maxY, minY];
+    }
+    const candidates = this._staticIndex.queryAabb(minX, minY, maxX, maxY);
+    if (!finiteQuery) return candidates;
+
+    return candidates.filter(solid => {
+      const bounds = [solid?.min?.[0], solid?.min?.[1], solid?.max?.[0], solid?.max?.[1]];
+      // SpatialIndex sends malformed source bounds through its overflow path.
+      // Leave those candidates fail-open so this broadphase read preserves the
+      // legacy narrow-phase behaviour instead of silently dropping geometry.
+      if (!bounds.every(Number.isFinite) ||
+        solid.min[0] > solid.max[0] || solid.min[1] > solid.max[1]) return true;
+      return solid.max[0] >= minX
+        && solid.min[0] <= maxX
+        && solid.max[1] >= minY
+        && solid.min[1] <= maxY;
+    });
+  }
+
+ // Static AABBs are immutable during a match. Authoring or tooling that edits
+ // an existing `solids` array in place must call this once after the batch so
+  // its grid is rebuilt once without adding per-query full scans.
+  refreshStaticGeometry() {
+    this._staticIndex.invalidate();
+    this._staticIndex.update(this.solids);
+  }
+
   _recordCandidates(kind, staticCandidates) {
     const candidates = this.dynamic.length
       ? staticCandidates.concat(this.dynamic)

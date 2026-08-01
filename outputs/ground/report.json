@@ -1,0 +1,12 @@
+[
+  {
+    "view": "network",
+    "applied": true,
+    "file": "outputs/ground/network.png"
+  },
+  {
+    "view": "spawn",
+    "applied": true,
+    "file": "outputs/ground/spawn.png"
+  }
+]

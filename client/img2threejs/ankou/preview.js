@@ -1,0 +1,10 @@
+import * as THREE from '/vendor/three.module.js';
+import { createAnkouPlayableHeroModel } from './createAnkouModel.js';
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0x101827);
+const camera = new THREE.PerspectiveCamera(32, innerWidth / innerHeight, 0.1, 100);
+const renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setSize(innerWidth, innerHeight); renderer.shadowMap.enabled = true; document.body.appendChild(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xcce8ff, 0x152238, 1.8)); const key = new THREE.DirectionalLight(0xffe1b0, 3); key.position.set(-3, 6, 4); key.castShadow = true; scene.add(key);
+const hero = createAnkouPlayableHeroModel(); scene.add(hero); const floor = new THREE.Mesh(new THREE.CircleGeometry(4, 48), new THREE.MeshStandardMaterial({ color: 0x23344a, roughness: 1 })); floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+const bounds = new THREE.Box3().setFromObject(hero); const center = bounds.getCenter(new THREE.Vector3()); const size = bounds.getSize(new THREE.Vector3()); const radius = size.length() * 0.5; camera.position.set(radius * 0.9, center.y + radius * 0.18, center.z + radius * 2.7); camera.near = Math.max(0.01, radius * 0.01); camera.far = radius * 20; camera.lookAt(center);
+addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
+function frame(t) { hero.rotation.y = Math.sin(t * 0.00025) * 0.24; renderer.render(scene, camera); requestAnimationFrame(frame); } requestAnimationFrame(frame);

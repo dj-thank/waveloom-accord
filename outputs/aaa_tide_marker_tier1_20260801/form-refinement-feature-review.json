@@ -1,0 +1,18 @@
+[
+  {
+    "id": "tide-marker-course-and-band-rhythm",
+    "score": 0.86,
+    "threshold": 0.8,
+    "tier": "critical",
+    "result": "pass",
+    "notes": "The expanded course profiles close the unintended gaps while retaining individual seam breaks; the two bronze bands remain continuous around the circumference."
+  },
+  {
+    "id": "tide-marker-inset-and-bezel",
+    "score": 0.80,
+    "threshold": 0.72,
+    "tier": "important",
+    "result": "pass",
+    "notes": "The reduced bezel/dome scale is closer to the reference inset, with the dome physically seated against the upper band."
+  }
+]

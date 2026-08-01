@@ -1,8 +1,9 @@
 export const DEFAULT_ULT_ECONOMY = Object.freeze({
   gaugeMax: 100,
-  damagePerGauge: 50,
-  healingPerGauge: 40,
-  passiveGaugePerSec: 2,
+  damagePerGauge: 80,
+  healingPerGauge: 64,
+  passiveGaugePerSec: 1.25,
+  passiveCombatGraceSec: 8,
   carryoverMult: 0.5,
   interruptRefundPct: 0.5,
 });

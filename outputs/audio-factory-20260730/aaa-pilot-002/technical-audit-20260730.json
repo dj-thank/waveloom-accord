@@ -1,0 +1,324 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-29T19:37:31.438Z",
+  "manifest": "outputs/audio-factory-20260730/manifests/aaa-pilot-002.json",
+  "root": "outputs/audio-factory-20260730/aaa-pilot-002",
+  "assets": 24,
+  "passed": 24,
+  "failed": 0,
+  "admission": "candidate-only; technical QC does not grant rights, mixing, gameplay, or human visual/audio-quality approval",
+  "results": [
+    {
+      "id": "aaa.pilot002.sfx.ui-confirm.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ui-confirm-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.ui-cancel.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ui-cancel-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.ui-focus.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ui-focus-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.ui-hit-confirm.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ui-hit-confirm-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.ui-damage-taken.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ui-damage-taken-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.objective-capture-start.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/objective-capture-start-v001.mp3",
+      "bytes": 34525,
+      "technical": {
+        "durationSec": 1.36,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.objective-capture-tick.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/objective-capture-tick-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.objective-contested.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/objective-contested-v001.mp3",
+      "bytes": 30137,
+      "technical": {
+        "durationSec": 1.2,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.objective-transition.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/objective-transition-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-stone-footstep.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-stone-footstep-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-wood-footstep.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-wood-footstep-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-ceramic-footstep.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-ceramic-footstep-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-wet-stone-footstep.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-wet-stone-footstep-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-stone-jump.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-stone-jump-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-stone-land.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-stone-land-v001.mp3",
+      "bytes": 15717,
+      "technical": {
+        "durationSec": 0.6,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-cloth-sprint.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-cloth-sprint-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.ambient-coastal-wind.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ambient-coastal-wind-v001.mp3",
+      "bytes": 289689,
+      "technical": {
+        "durationSec": 12,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.ambient-canal-water.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ambient-canal-water-v001.mp3",
+      "bytes": 289689,
+      "technical": {
+        "durationSec": 12,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.ambient-market-canopy.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ambient-market-canopy-v001.mp3",
+      "bytes": 289689,
+      "technical": {
+        "durationSec": 12,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.ambient-rooftop-canvas.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ambient-rooftop-canvas-v001.mp3",
+      "bytes": 289689,
+      "technical": {
+        "durationSec": 12,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.foley-rope-creak.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/foley-rope-creak-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.foley-lantern-bronze-tap.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/foley-lantern-bronze-tap-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.foley-ceramic-vessel-set.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/foley-ceramic-vessel-set-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.pilot002.sfx.foley-canal-drip.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/foley-canal-drip-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    }
+  ]
+}

@@ -11,6 +11,8 @@ import { clone as cloneSkeleton } from 'three/addons/utils/SkeletonUtils.js';
 import { pushBounded, ReusableEffectPool } from '/client/bounded_pool.js';
 import { PerformanceBudget, copyRendererInfo } from '/client/performance_budget.js';
 import { HERO_RIG_ANIMATIONS, HERO_RIG_ASSET } from '/shared/data/character_assets.js';
+import { CHARACTER_MODEL_ASSETS_BY_HERO_ID, getRuntimeEligibleCharacterModelAsset } from '/shared/data/character_model_assets.js';
+import { createCharacterModelProvider, getCharacterModelMetadata } from '/client/img2threejs/runtime/index.js';
 import { HERO_BY_ID } from '/shared/data/heroes.js';
 import { verifyAuthoredAssetIdentity } from '/shared/data/map_oshioi.js';
 import { weaponMuzzlePosition } from '/shared/sim/combat.js';
@@ -232,8 +234,11 @@ export class SceneRenderer {
     this.performanceBudget = new PerformanceBudget();
 
     this.scene = new THREE.Scene();
+    // 空と霧は「寒色は1色だけ」（原則4）の担い手。ただし 5拠点全景（network 視点）で
+    // 遠景都市 farShell が霧に溶けて明度差のない灰色の帯になり、暖寒が反転していた。
+    // 霧を空より明るい暖色寄りの薄膜にして、遠景が「後退するが暖かい」ようにする。
     this.scene.background = new THREE.Color(0x9bcbd8);
-    this.scene.fog = new THREE.FogExp2(0xa9d0d5, 0.0042);
+    this.scene.fog = new THREE.FogExp2(0xc4d3cb, 0.0038);
 
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.08, 500);
     this.camera.rotation.order = 'YXZ';
@@ -298,6 +303,9 @@ export class SceneRenderer {
     this._motionQuery?.addEventListener?.('change', this._onMotionChange);
     this._heroRigTemplate = null;
     this._heroRigAnimations = [];
+    this._characterModelProvider = createCharacterModelProvider({
+      manifest: CHARACTER_MODEL_ASSETS_BY_HERO_ID,
+    });
     this._heroRigAssetLoad = this._loadHeroRigAsset();
 
     // マズルフラッシュ光
@@ -398,12 +406,15 @@ export class SceneRenderer {
     this.world.add(canonicalMapPresentation);
     this.canonicalMapPresentation = canonicalMapPresentation;
     const mats = {};
+    const presentation = this.map.presentation || {};
+    const surfaceColors = presentation.surfaceColors || {};
     const properties = {
       ground: { roughness: 0.92, metalness: 0, variation: 0.18, repeat: 16 },
       cover: { roughness: 0.34, metalness: 0.62, variation: 0.1, repeat: 6 },
       tower: { roughness: 0.64, metalness: 0.08, variation: 0.12, repeat: 8 },
     };
-    for (const [tag, color] of Object.entries(TAG_COLORS)) {
+    for (const [tag, fallbackColor] of Object.entries(TAG_COLORS)) {
+      const color = Number.isFinite(surfaceColors[tag]) ? surfaceColors[tag] : fallbackColor;
       const settings = properties[tag] || { roughness: 0.78, metalness: 0.04, variation: 0.09, repeat: 8 };
       const texture = makeSurfaceTexture(color, settings.variation, tag.length * 977 + color, settings.repeat);
       this._surfaceTextures.push(texture);
@@ -411,35 +422,69 @@ export class SceneRenderer {
         color: 0xffffff, map: texture, roughness: settings.roughness, metalness: settings.metalness,
         emissive: color, emissiveIntensity: 0.075,
       });
+      mats[tag].userData.mapTint = color;
     }
     this._pbrMaterialLoad = this._loadGameplayPbrMaterials(mats);
     const edgePositions = [];
     const presentationSolids = Array.isArray(this.map.presentationSolids)
       ? this.map.presentationSolids
       : this.map.solids;
+    const batches = new Map();
     for (const b of presentationSolids) {
-      const mesh = this._boxMesh(b, mats[b.tag] || mats.solid);
-      mesh.receiveShadow = true;
-      mesh.castShadow = b.tag !== 'ground';
-      canonicalMapPresentation.add(mesh);
+      const tag = mats[b.tag] ? b.tag : 'solid';
+      if (!batches.has(tag)) batches.set(tag, []);
+      batches.get(tag).push(b);
       if (b.tag === 'cover' || b.tag === 'tower') {
-        // 輪郭線（グレーボックスの視認性向上）を1本のLineSegmentsへ統合
-        const eg = new THREE.EdgesGeometry(mesh.geometry);
-        const arr = eg.attributes.position.array;
-        const [cx, cy, cz] = [mesh.position.x, mesh.position.y, mesh.position.z];
-        for (let i = 0; i < arr.length; i += 3) {
-          edgePositions.push(arr[i] + cx, arr[i + 1] + cy, arr[i + 2] + cz);
+        const [x0, y0, z0] = b.min;
+        const [x1, y1, z1] = b.max;
+        for (const [[ax, ay, az], [bx, by, bz]] of [
+          [[x0, y0, z0], [x1, y0, z0]], [[x1, y0, z0], [x1, y1, z0]],
+          [[x1, y1, z0], [x0, y1, z0]], [[x0, y1, z0], [x0, y0, z0]],
+          [[x0, y0, z1], [x1, y0, z1]], [[x1, y0, z1], [x1, y1, z1]],
+          [[x1, y1, z1], [x0, y1, z1]], [[x0, y1, z1], [x0, y0, z1]],
+          [[x0, y0, z0], [x0, y0, z1]], [[x1, y0, z0], [x1, y0, z1]],
+          [[x1, y1, z0], [x1, y1, z1]], [[x0, y1, z0], [x0, y1, z1]],
+        ]) {
+          edgePositions.push(ax, ay, az, bx, by, bz);
         }
-        eg.dispose();
       }
     }
+    const dummy = new THREE.Object3D();
+    for (const [tag, solids] of batches) {
+      const geometry = new THREE.BoxGeometry(1, 1, 1);
+      const mesh = new THREE.InstancedMesh(geometry, mats[tag], solids.length);
+      mesh.name = `canonical-surface-${tag}`;
+      mesh.userData.collisionSource = 'map.solids';
+      mesh.userData.presentationSource = 'map.presentationSolids';
+      solids.forEach((solid, index) => {
+        const dx = solid.max[0] - solid.min[0];
+        const dy = solid.max[1] - solid.min[1];
+        const dz = solid.max[2] - solid.min[2];
+        dummy.position.set(
+          (solid.min[0] + solid.max[0]) / 2,
+          (solid.min[1] + solid.max[1]) / 2,
+          (solid.min[2] + solid.max[2]) / 2,
+        );
+        dummy.rotation.set(0, 0, 0);
+        dummy.scale.set(dx, dy, dz);
+        dummy.updateMatrix();
+        mesh.setMatrixAt(index, dummy.matrix);
+      });
+      mesh.instanceMatrix.needsUpdate = true;
+      mesh.receiveShadow = true;
+      mesh.castShadow = tag !== 'ground';
+      canonicalMapPresentation.add(mesh);
+    }
+    canonicalMapPresentation.userData.surfaceBatchCount = batches.size;
+    canonicalMapPresentation.userData.surfaceInstanceCount = presentationSolids.length;
     const edgeGeo = new THREE.BufferGeometry();
     edgeGeo.setAttribute('position', new THREE.Float32BufferAttribute(edgePositions, 3));
     canonicalMapPresentation.add(new THREE.LineSegments(edgeGeo,
       new THREE.LineBasicMaterial({ color: 0x776f65, transparent: true, opacity: 0.13 })));
 
     // 浅瀬の水面（視覚のみ・当たり判定なし）
-    const [x0, x1] = this.map.boundsM.x, [y0, y1] = this.map.boundsM.y;
+    const visualBounds = this.map.presentation?.visualBoundsM || this.map.boundsM;
+    const [x0, x1] = visualBounds.x, [y0, y1] = visualBounds.y;
     this.waterMaterial = new THREE.ShaderMaterial({
       transparent: true, depthWrite: false, side: THREE.DoubleSide,
       uniforms: {
@@ -504,6 +549,9 @@ export class SceneRenderer {
         material.map = diffuse;
         material.normalMap = normal;
         material.roughnessMap = roughness;
+        if (Number.isFinite(material.userData?.mapTint)) {
+          material.color.set(material.userData.mapTint).lerp(new THREE.Color(0xffffff), 0.46);
+        }
         material.roughness = 1;
         material.metalness = 0;
         material.needsUpdate = true;
@@ -681,8 +729,10 @@ export class SceneRenderer {
     }
 
     const frameGeometry = new THREE.BoxGeometry(1, 1, 1);
+    const palette = this.map.presentation?.palette || {};
     const frameMaterial = new THREE.MeshStandardMaterial({
-      color: 0x624637, roughness: 0.66, metalness: 0.2, emissive: 0x21130d, emissiveIntensity: 0.2,
+      color: palette.cedar ?? 0x624637, roughness: 0.66, metalness: 0.2,
+      emissive: 0x21130d, emissiveIntensity: 0.2,
       polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2,
     });
     const frames = new THREE.InstancedMesh(frameGeometry, frameMaterial, Math.max(1, frameTransforms.length));
@@ -705,7 +755,7 @@ export class SceneRenderer {
 
     const bandGeometry = new THREE.BoxGeometry(1, 1, 1);
     const bandMaterial = new THREE.MeshStandardMaterial({
-      color: 0x657b78, roughness: 0.72, metalness: 0.1,
+      color: palette.basalt ?? 0x657b78, roughness: 0.72, metalness: 0.1,
       emissive: 0x132221, emissiveIntensity: 0.16,
       polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2,
     });
@@ -736,7 +786,10 @@ export class SceneRenderer {
     facadePanels.name = 'facade-panels';
     facadePanels.userData.collision = false;
     facadePanels.userData.canonicalContained = true;
-    const facadeColors = [new THREE.Color(0xc2a77d), new THREE.Color(0x789b96), new THREE.Color(0xa97858)];
+    const configuredFacadeColors = this.map.presentation?.facadeColors;
+    const facadeColors = (Array.isArray(configuredFacadeColors) && configuredFacadeColors.length
+      ? configuredFacadeColors
+      : [0xc2a77d, 0x789b96, 0xa97858]).map(color => new THREE.Color(color));
     panelTransforms.forEach((transform, index) => {
       dummy.position.set(...transform.position);
       dummy.rotation.set(0, 0, 0);
@@ -753,7 +806,7 @@ export class SceneRenderer {
     dressing.add(facadePanels);
 
     const routeTransforms = [];
-    for (const route of Object.values(this.map.routes || {})) {
+    for (const [routeId, route] of Object.entries(this.map.routes || {})) {
       if (!Array.isArray(route)) continue;
       for (let index = 0; index < route.length; index += 2) {
         const point = safeVec3(route[index]);
@@ -763,13 +816,14 @@ export class SceneRenderer {
           routeTransforms.push({
             position: [point[0] * mirror, point[1] * mirror, point[2] + 0.025],
             rotationZ: yaw + (mirror < 0 ? Math.PI : 0),
+            color: this.map.presentation?.navigationColors?.[routeId] ?? 0x4a8790,
           });
         }
       }
     }
     const routeGeometry = new THREE.BoxGeometry(1.1, 0.34, 0.035);
     const routeMaterial = new THREE.MeshStandardMaterial({
-      color: 0x4a8790, emissive: 0x173e46, emissiveIntensity: 0.34, roughness: 0.58, metalness: 0.18,
+      color: 0xffffff, emissive: 0x173e46, emissiveIntensity: 0.34, roughness: 0.58, metalness: 0.18,
     });
     const routePaving = new THREE.InstancedMesh(routeGeometry, routeMaterial, Math.max(1, routeTransforms.length));
     routePaving.name = 'route-paving';
@@ -780,9 +834,11 @@ export class SceneRenderer {
       dummy.scale.set(1, 1, 1);
       dummy.updateMatrix();
       routePaving.setMatrixAt(index, dummy.matrix);
+      routePaving.setColorAt(index, new THREE.Color(transform.color));
     });
     routePaving.count = routeTransforms.length;
     routePaving.instanceMatrix.needsUpdate = true;
+    if (routePaving.instanceColor) routePaving.instanceColor.needsUpdate = true;
     routePaving.receiveShadow = true;
     dressing.add(routePaving);
 
@@ -807,8 +863,406 @@ export class SceneRenderer {
     beacon.position.set(center[0], center[1], 5.55);
     beacon.rotation.x = Math.PI / 2;
     landmark.add(beacon);
+
+    // The Tide Harp is explicitly holographic: it is a navigation landmark,
+    // never false physical cover. Three crossing original curves create a
+    // silhouette that stays readable from every lane without copying any
+    // reference architecture.
+    const harpMaterial = new THREE.MeshBasicMaterial({
+      color: palette.tideGlow ?? 0x76e6df,
+      transparent: true,
+      opacity: 0.42,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+    for (let index = 0; index < 3; index++) {
+      const angle = index * Math.PI / 3;
+      const dx = Math.cos(angle);
+      const dy = Math.sin(angle);
+      const px = -dy;
+      const py = dx;
+      const points = [
+        new THREE.Vector3(center[0] + px * 4.8, center[1] + py * 4.8, 3.1),
+        new THREE.Vector3(center[0] + px * 3.5 + dx * 1.2, center[1] + py * 3.5 + dy * 1.2, 9.5),
+        new THREE.Vector3(center[0], center[1], 23),
+        new THREE.Vector3(center[0] - px * 3.5 - dx * 1.2, center[1] - py * 3.5 - dy * 1.2, 9.5),
+        new THREE.Vector3(center[0] - px * 4.8, center[1] - py * 4.8, 3.1),
+      ];
+      const curve = new THREE.CatmullRomCurve3(points, false, 'centripetal');
+      const harp = new THREE.Mesh(new THREE.TubeGeometry(curve, 56, 0.065, 6, false), harpMaterial);
+      harp.name = `tide-harp-curve-${index + 1}`;
+      landmark.add(harp);
+    }
+    for (let index = 0; index < 5; index++) {
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(1.45 + index * 0.32, 0.035, 6, 48),
+        harpMaterial,
+      );
+      ring.position.set(center[0], center[1], 10.5 + index * 2.15);
+      ring.rotation.set(index * 0.08, index * 0.11, index * 0.32);
+      landmark.add(ring);
+    }
     dressing.add(landmark);
+    this._buildMountedMapHardware(dressing);
+    this._buildOriginalMapPresentation(dressing);
     return dressing;
+  }
+
+  _presentationGeometry(primitive) {
+    let geometry;
+    if (primitive === 'box') geometry = new THREE.BoxGeometry(1, 1, 1);
+    else if (primitive === 'chamferBox') {
+      const shape = new THREE.Shape();
+      const half = 0.46;
+      const radius = 0.075;
+      shape.moveTo(-half + radius, -half);
+      shape.lineTo(half - radius, -half);
+      shape.quadraticCurveTo(half, -half, half, -half + radius);
+      shape.lineTo(half, half - radius);
+      shape.quadraticCurveTo(half, half, half - radius, half);
+      shape.lineTo(-half + radius, half);
+      shape.quadraticCurveTo(-half, half, -half, half - radius);
+      shape.lineTo(-half, -half + radius);
+      shape.quadraticCurveTo(-half, -half, -half + radius, -half);
+      geometry = new THREE.ExtrudeGeometry(shape, {
+        depth: 0.92,
+        steps: 1,
+        bevelEnabled: true,
+        bevelSegments: 2,
+        bevelSize: 0.04,
+        bevelThickness: 0.04,
+      });
+      geometry.translate(0, 0, -0.46);
+    }
+    else if (primitive === 'cylinder') {
+      geometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 10, 1, false);
+      geometry.rotateX(Math.PI / 2);
+    } else if (primitive === 'hipRoof') {
+      geometry = new THREE.CylinderGeometry(0.18, 0.5, 1, 4, 1, false);
+      geometry.rotateX(Math.PI / 2);
+      geometry.rotateZ(Math.PI / 4);
+    } else if (primitive === 'barrelRoof') {
+      const positions = [];
+      const indices = [];
+      const segments = 12;
+      for (let index = 0; index <= segments; index++) {
+        const angle = index * Math.PI / segments;
+        const y = Math.cos(angle) * 0.5;
+        const z = Math.sin(angle) - 0.5;
+        positions.push(-0.5, y, z, 0.5, y, z);
+      }
+      for (let index = 0; index < segments; index++) {
+        const a = index * 2;
+        const b = a + 1;
+        const c = a + 2;
+        const d = a + 3;
+        indices.push(a, b, c, b, d, c);
+      }
+      const leftCenter = positions.length / 3;
+      positions.push(-0.5, 0, -0.5);
+      const rightCenter = positions.length / 3;
+      positions.push(0.5, 0, -0.5);
+      for (let index = 0; index < segments; index++) {
+        indices.push(leftCenter, (index + 1) * 2, index * 2);
+        indices.push(rightCenter, index * 2 + 1, (index + 1) * 2 + 1);
+      }
+      indices.push(0, 1, segments * 2, 1, segments * 2 + 1, segments * 2);
+      geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geometry.setIndex(indices);
+      geometry.computeVertexNormals();
+    } else if (primitive === 'sawRoof') {
+      const p = {
+        lbf: [-0.5, -0.5, -0.5], lbb: [-0.5, 0.5, -0.5],
+        rbf: [0.5, -0.5, -0.5], rbb: [0.5, 0.5, -0.5],
+        lr: [-0.5, 0, 0.5], rr: [0.5, 0, 0.5],
+      };
+      const positions = [
+        ...p.lbf, ...p.rbf, ...p.rr, ...p.lr,
+        ...p.lr, ...p.rr, ...p.rbb, ...p.lbb,
+        ...p.lbf, ...p.lr, ...p.lbb,
+        ...p.rbf, ...p.rbb, ...p.rr,
+        ...p.lbf, ...p.lbb, ...p.rbb, ...p.rbf,
+      ];
+      const indices = [
+        0, 1, 2, 0, 2, 3,
+        4, 5, 6, 4, 6, 7,
+        8, 9, 10,
+        11, 12, 13,
+        14, 15, 16, 14, 16, 17,
+      ];
+      geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geometry.setIndex(indices);
+      geometry.computeVertexNormals();
+    } else if (primitive === 'dodeca') geometry = new THREE.DodecahedronGeometry(0.5, 1);
+    else if (primitive === 'dodecaLow') geometry = new THREE.DodecahedronGeometry(0.5, 0);
+    else if (primitive === 'sphere') geometry = new THREE.SphereGeometry(0.5, 10, 8);
+    else if (primitive === 'plane') geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
+    // ---- 建築ボキャブラリー ----
+    // 既存10種はすべて凸の塊で、開口も曲面も作れなかった。参照画像の密度は
+    // 「直線の壁体 + 曲線の屋根と開口」で成り立っているため、開口を持つ壁と
+    // ドーム・列柱・格子・尖塔を足す。
+    // 規約: 形状は XY 平面に描き Y を高さとして押し出し、最後に rotateX(PI/2) で
+    // 立ち上げる。これで scale [sx,sy,sz] が [幅, 奥行, 高さ] に対応する。
+    else if (primitive === 'archWall' || primitive === 'archGate') {
+      const pointed = primitive === 'archGate';
+      const shape = new THREE.Shape();
+      shape.moveTo(-0.5, -0.5);
+      shape.lineTo(0.5, -0.5);
+      shape.lineTo(0.5, 0.5);
+      shape.lineTo(-0.5, 0.5);
+      shape.closePath();
+      const hole = new THREE.Path();
+      const halfWidth = 0.29;
+      const springLine = 0.02;
+      hole.moveTo(-halfWidth, -0.5);
+      hole.lineTo(-halfWidth, springLine);
+      if (pointed) {
+        // 尖頭アーチ: 頂点で折れるので水平の庇と対比が出る
+        hole.lineTo(0, 0.42);
+        hole.lineTo(halfWidth, springLine);
+      } else {
+        hole.absarc(0, springLine, halfWidth, Math.PI, 0, true);
+      }
+      hole.lineTo(halfWidth, -0.5);
+      hole.closePath();
+      shape.holes.push(hole);
+      geometry = new THREE.ExtrudeGeometry(shape, {
+        depth: 1, steps: 1, bevelEnabled: true,
+        bevelSegments: 1, bevelSize: 0.015, bevelThickness: 0.015, curveSegments: 10,
+      });
+      geometry.translate(0, 0, -0.5);
+      geometry.rotateX(Math.PI / 2);
+    }
+    else if (primitive === 'lattice') {
+      const shape = new THREE.Shape();
+      shape.moveTo(-0.5, -0.5);
+      shape.lineTo(0.5, -0.5);
+      shape.lineTo(0.5, 0.5);
+      shape.lineTo(-0.5, 0.5);
+      shape.closePath();
+      const cells = 4;
+      const bar = 0.035;
+      const cell = (1 - bar * (cells + 1)) / cells;
+      for (let row = 0; row < cells; row++) {
+        for (let column = 0; column < cells; column++) {
+          const x0 = -0.5 + bar + column * (cell + bar);
+          const y0 = -0.5 + bar + row * (cell + bar);
+          const hole = new THREE.Path();
+          hole.moveTo(x0, y0);
+          hole.lineTo(x0 + cell, y0);
+          hole.lineTo(x0 + cell, y0 + cell);
+          hole.lineTo(x0, y0 + cell);
+          hole.closePath();
+          shape.holes.push(hole);
+        }
+      }
+      geometry = new THREE.ExtrudeGeometry(shape, {
+        depth: 1, steps: 1, bevelEnabled: false, curveSegments: 2,
+      });
+      geometry.translate(0, 0, -0.5);
+      geometry.rotateX(Math.PI / 2);
+    }
+    else if (primitive === 'colonnade') {
+      // 列柱: 1つのジオメトリに複数の柱断面を入れ、ドローコールを増やさない
+      const columns = 5;
+      const shapes = [];
+      const pitch = 1 / columns;
+      for (let index = 0; index < columns; index++) {
+        const cx = -0.5 + pitch * (index + 0.5);
+        const radius = pitch * 0.3;
+        const shape = new THREE.Shape();
+        shape.absarc(cx, 0, radius, 0, Math.PI * 2, false);
+        shapes.push(shape);
+      }
+      geometry = new THREE.ExtrudeGeometry(shapes, {
+        depth: 1, steps: 1, bevelEnabled: false, curveSegments: 8,
+      });
+      geometry.translate(0, 0, -0.5);
+      geometry.rotateX(-Math.PI / 2);
+    }
+    else if (primitive === 'dome') {
+      geometry = new THREE.SphereGeometry(0.5, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2);
+      geometry.scale(1, 2, 1);
+      geometry.rotateX(Math.PI / 2);
+      geometry.translate(0, 0, -0.5);
+    }
+    else if (primitive === 'spire') {
+      geometry = new THREE.ConeGeometry(0.5, 1, 8, 1);
+      geometry.rotateX(Math.PI / 2);
+    }
+    else if (primitive === 'terrace') {
+      // 段丘の縁: 上面が細く下面が広い、角を丸めた台
+      geometry = new THREE.CylinderGeometry(0.42, 0.5, 1, 12, 1);
+      geometry.rotateX(Math.PI / 2);
+    }
+    else throw new TypeError(`Unsupported map presentation primitive: ${primitive}`);
+    return geometry;
+  }
+
+  _buildMountedMapHardware(dressing = this.worldDressing) {
+    if (!dressing) return null;
+    const solids = (this.map.presentationSolids || this.map.solids || [])
+      .filter(solid => ['wall', 'spawnwall', 'tower', 'cover'].includes(solid.tag));
+    const group = new THREE.Group();
+    group.name = 'map-mounted-hardware';
+    group.userData.collision = false;
+    group.userData.canonicalContained = true;
+    group.userData.source = 'map.presentationSolids';
+    const palette = this.map.presentation?.palette || {};
+    const material = new THREE.MeshStandardMaterial({
+      color: palette.copper ?? 0xb98249,
+      roughness: 0.4,
+      metalness: 0.72,
+      emissive: 0x1e1109,
+      emissiveIntensity: 0.12,
+    });
+    const rings = [];
+    const pipes = [];
+    for (const solid of solids) {
+      const dx = solid.max[0] - solid.min[0];
+      const dy = solid.max[1] - solid.min[1];
+      const dz = solid.max[2] - solid.min[2];
+      if (dz < 1.1 || Math.min(dx, dy) < 0.16) continue;
+      const cx = (solid.min[0] + solid.max[0]) / 2;
+      const cy = (solid.min[1] + solid.max[1]) / 2;
+      const cz = (solid.min[2] + solid.max[2]) / 2;
+      const longX = dx >= dy;
+      const ringRadius = Math.max(0.18, Math.min(0.48, Math.min(longX ? dx : dy, dz) * 0.26));
+      if (longX) {
+        const inset = Math.min(0.1, dy * 0.42);
+        rings.push({ position: [cx, solid.min[1] + inset, cz], rotation: [Math.PI / 2, 0, 0], scale: ringRadius });
+        rings.push({ position: [cx, solid.max[1] - inset, cz], rotation: [Math.PI / 2, 0, 0], scale: ringRadius });
+        if (dx >= 3.5) {
+          pipes.push({ position: [solid.min[0] + dx * 0.2, solid.min[1] + inset, cz], height: dz * 0.72 });
+          pipes.push({ position: [solid.max[0] - dx * 0.2, solid.max[1] - inset, cz], height: dz * 0.72 });
+        }
+      } else {
+        const inset = Math.min(0.1, dx * 0.42);
+        rings.push({ position: [solid.min[0] + inset, cy, cz], rotation: [0, Math.PI / 2, 0], scale: ringRadius });
+        rings.push({ position: [solid.max[0] - inset, cy, cz], rotation: [0, Math.PI / 2, 0], scale: ringRadius });
+        if (dy >= 3.5) {
+          pipes.push({ position: [solid.min[0] + inset, solid.min[1] + dy * 0.2, cz], height: dz * 0.72 });
+          pipes.push({ position: [solid.max[0] - inset, solid.max[1] - dy * 0.2, cz], height: dz * 0.72 });
+        }
+      }
+    }
+
+    const dummy = new THREE.Object3D();
+    // 直径1m未満の係船環に 320tri/個 は過剰で、326インスタンスで全三角形の36%
+    // (104,320tri) を占めていた。半径方向 8→4、周方向 20→10 で 320→80tri に落とした。
+    // その後インスタンスが 1,710 個へ増え、80tri/個 でも 136,800tri（シーン全体の
+    // 16.8%）を占める最大の単独消費者になったので、さらに 4→3 / 10→8 で 48tri へ。
+    // 管の断面（太さ0.075m＝画面上1px未満）と環の丸みは全10視点で判別できない。
+    const ringGeometry = new THREE.TorusGeometry(0.5, 0.075, 3, 8);
+    const ringMesh = new THREE.InstancedMesh(ringGeometry, material, Math.max(1, rings.length));
+    ringMesh.name = 'mounted-mooring-rings';
+    rings.forEach((entry, index) => {
+      dummy.position.set(...entry.position);
+      dummy.rotation.set(...entry.rotation);
+      dummy.scale.setScalar(entry.scale / 0.5);
+      dummy.updateMatrix();
+      ringMesh.setMatrixAt(index, dummy.matrix);
+    });
+    ringMesh.count = rings.length;
+    ringMesh.instanceMatrix.needsUpdate = true;
+    ringMesh.castShadow = false;
+    group.add(ringMesh);
+
+    // 潮管は両端が建物面に埋まるので蓋は一度も見えない。openEnded にして
+    // 8→6 分割にすると 32tri → 12tri。太さ0.075mでは分割数の差は視認できない。
+    const pipeGeometry = new THREE.CylinderGeometry(0.075, 0.075, 1, 6, 1, true);
+    pipeGeometry.rotateX(Math.PI / 2);
+    const pipeMesh = new THREE.InstancedMesh(pipeGeometry, material, Math.max(1, pipes.length));
+    pipeMesh.name = 'mounted-tide-pipes';
+    pipes.forEach((entry, index) => {
+      dummy.position.set(...entry.position);
+      dummy.rotation.set(0, 0, 0);
+      dummy.scale.set(1, 1, entry.height);
+      dummy.updateMatrix();
+      pipeMesh.setMatrixAt(index, dummy.matrix);
+    });
+    pipeMesh.count = pipes.length;
+    pipeMesh.instanceMatrix.needsUpdate = true;
+    pipeMesh.castShadow = false;
+    group.add(pipeMesh);
+
+    dressing.add(group);
+    this.mountedMapHardware = group;
+    return group;
+  }
+
+  _presentationMaterial(definition = {}) {
+    const options = {
+      color: definition.color ?? 0xffffff,
+      transparent: definition.transparent === true,
+      opacity: finiteNumber(definition.opacity, 1),
+      depthWrite: definition.transparent !== true,
+      side: definition.side === 'double' ? THREE.DoubleSide : THREE.FrontSide,
+    };
+    if (definition.blending === 'additive') options.blending = THREE.AdditiveBlending;
+    if (definition.type === 'basic') return new THREE.MeshBasicMaterial(options);
+    return new THREE.MeshStandardMaterial({
+      ...options,
+      roughness: finiteNumber(definition.roughness, 0.75),
+      metalness: finiteNumber(definition.metalness, 0),
+      emissive: definition.emissive ?? 0x000000,
+      emissiveIntensity: finiteNumber(definition.emissiveIntensity, 0),
+    });
+  }
+
+  _buildOriginalMapPresentation(dressing = this.worldDressing) {
+    const presentation = this.map.presentation;
+    if (!presentation || !Array.isArray(presentation.layers) || !dressing) return null;
+    const budget = presentation.performanceBudget || {};
+    const instanceCount = presentation.layers.reduce(
+      (sum, layer) => sum + (Array.isArray(layer.transforms) ? layer.transforms.length : 0), 0,
+    );
+    if ((Number.isFinite(budget.maxPresentationDrawCalls)
+        && presentation.layers.length > budget.maxPresentationDrawCalls)
+      || (Number.isFinite(budget.maxPresentationInstances)
+        && instanceCount > budget.maxPresentationInstances)) {
+      console.warn('[map] original presentation exceeds its declared instance budget');
+      return null;
+    }
+
+    const group = new THREE.Group();
+    group.name = 'original-map-presentation';
+    group.userData.presentationId = presentation.id;
+    group.userData.authorship = presentation.authorship?.origin || 'unknown';
+    group.userData.referencePolicy = presentation.authorship?.referencePolicy || 'unspecified';
+    group.userData.collision = false;
+    group.userData.collisionRule = 'opaque-instances-outside-playable-bounds';
+    group.userData.drawCallBudget = budget.maxPresentationDrawCalls;
+    group.userData.instanceCount = instanceCount;
+    const dummy = new THREE.Object3D();
+
+    for (const layer of presentation.layers) {
+      const transforms = Array.isArray(layer.transforms) ? layer.transforms : [];
+      if (!transforms.length) continue;
+      const geometry = this._presentationGeometry(layer.primitive);
+      const material = this._presentationMaterial(presentation.materials?.[layer.material]);
+      const instances = new THREE.InstancedMesh(geometry, material, transforms.length);
+      instances.name = `original-map-${layer.id}`;
+      instances.userData.collision = false;
+      instances.userData.semantics = layer.semantics;
+      instances.userData.source = `map.presentation.layers.${layer.id}`;
+      transforms.forEach((transform, index) => {
+        dummy.position.set(...safeVec3(transform.position));
+        dummy.rotation.set(...safeVec3(transform.rotation));
+        dummy.scale.set(...safeVec3(transform.scale, [1, 1, 1]));
+        dummy.updateMatrix();
+        instances.setMatrixAt(index, dummy.matrix);
+      });
+      instances.instanceMatrix.needsUpdate = true;
+      instances.castShadow = layer.castShadow === true;
+      instances.receiveShadow = layer.receiveShadow === true;
+      group.add(instances);
+    }
+    dressing.add(group);
+    this.originalMapPresentation = group;
+    return group;
   }
 
   _setAuthoredMapStatus(status, detail = {}) {
@@ -954,6 +1408,8 @@ export class SceneRenderer {
 
   _buildObjective() {
     const { center, radiusM, heightM } = this.map.objective;
+    this._objectiveRadiusM = radiusM;
+    this._objectiveHeightM = heightM;
     this.objMat = new THREE.MeshBasicMaterial({
       color: OBJ_SEALED, transparent: true, opacity: 0.16, side: THREE.DoubleSide, depthWrite: false,
     });
@@ -969,6 +1425,17 @@ export class SceneRenderer {
     const ring = new THREE.Mesh(new THREE.RingGeometry(radiusM - 0.6, radiusM, 56), this.objRingMat);
     ring.position.set(center[0], center[1], center[2] + 0.06);
     this.world.add(ring);
+    this.objRing = ring;
+    this._objectiveDefinitionId = this.map.objective?.id ?? center.slice(0, 3).join(':');
+  }
+
+  _setObjectiveDefinition(definition) {
+    const center = definition?.center;
+    if (!Array.isArray(center) || center.length < 3 || !center.slice(0, 3).every(Number.isFinite)) return;
+    const [x, y, z] = center;
+    this.objCyl.position.set(x, y, z + this._objectiveHeightM / 2);
+    this.objRing.position.set(x, y, z + 0.06);
+    this._objectiveDefinitionId = definition.id ?? `${x}:${y}:${z}`;
   }
 
   _buildPickups() {
@@ -1530,8 +1997,19 @@ export class SceneRenderer {
   }
 
   // objective 表示更新（毎フレーム）
-  // view: { sealed, owner(-1/0/1), myTeam, contested, tSec }
+  // view: { active, definition, sealed, owner(-1/0/1), myTeam, contested, tSec }
   updateObjective(view = {}) {
+    const active = view.active !== false;
+    this.objCyl.visible = active;
+    this.objRing.visible = active;
+    if (!active) return;
+    const definition = view.definition || this.map.objective;
+    const definitionId = definition?.id ?? (Array.isArray(definition?.center)
+      ? definition.center.slice(0, 3).join(':')
+      : null);
+    if (definition && this._objectiveDefinitionId !== definitionId) {
+      this._setObjectiveDefinition(definition);
+    }
     let color;
     if (view.sealed) color = OBJ_SEALED;
     else if (view.owner < 0) color = OBJ_NEUTRAL;
@@ -1725,6 +2203,7 @@ export class SceneRenderer {
       silhouetteSignature: `${silhouette.body}|${silhouette.head}|${silhouette.accessory}`,
       rig: 'articulated',
       authoredRig: 'pending',
+      characterModel: 'fallback',
     };
 
     this.world.add(group);
@@ -1737,13 +2216,138 @@ export class SceneRenderer {
       castActive: false, hasSnapshot: false,
       grounded: true, crouch: false, pitch: 0, deathAge: Number.POSITIVE_INFINITY, wasAlive: true,
       ownedGeometries, ownedMaterials,
+      characterModelState: 'fallback',
+      disposed: false,
     };
     this._poseVisual(visual, false);
+    this._startCharacterModelLoad(visual);
     this._attachAuthoredHeroRig(visual);
     return visual;
   }
 
+  _startCharacterModelLoad(visual) {
+    const entry = getRuntimeEligibleCharacterModelAsset(visual?.heroId);
+    if (!visual || !entry) return false;
+    const provider = this._characterModelProvider || createCharacterModelProvider({
+      manifest: CHARACTER_MODEL_ASSETS_BY_HERO_ID,
+    });
+    this._characterModelProvider = provider;
+    visual.characterModelState = 'loading';
+    visual.group.userData.characterModel = 'loading';
+    const load = Promise.resolve()
+      .then(() => provider.instantiate(visual.heroId, {
+        castShadow: true,
+        receiveShadow: true,
+      }))
+      .then((root) => {
+        if (this._disposed || visual.disposed) {
+          disposeObjectResources(root);
+          return false;
+        }
+        return this._mountCharacterModel(visual, root, entry);
+      })
+      .catch((error) => {
+        if (!this._disposed && !visual.disposed) {
+          console.warn(`[character-model] ${visual.heroId} fallback: ${error?.message || error}`);
+          visual.characterModelState = 'fallback';
+          visual.group.userData.characterModel = 'fallback';
+          visual.fallbackRig.visible = true;
+          visual.accessoryGroup.visible = true;
+          this._attachAuthoredHeroRig(visual);
+        }
+        return false;
+      });
+    visual.characterModelLoad = load;
+    return true;
+  }
+
+  _mountCharacterModel(visual, root, entry) {
+    root.updateMatrixWorld(true);
+    const bounds = new THREE.Box3().setFromObject(root);
+    const sourceHeight = bounds.max.y - bounds.min.y;
+    if (!Number.isFinite(sourceHeight) || sourceHeight < 0.1) {
+      disposeObjectResources(root);
+      throw new Error('accepted character model has invalid bounds');
+    }
+    root.position.y -= bounds.min.y;
+    root.updateMatrixWorld(true);
+
+    const teamTint = new THREE.Color(visual.color || ALLY_COLOR);
+    const seenMaterials = new Set();
+    root.traverse((object) => {
+      if (!object.isMesh && !object.isSkinnedMesh) return;
+      object.castShadow = true;
+      object.receiveShadow = true;
+      const materials = Array.isArray(object.material) ? object.material : [object.material];
+      for (const material of materials) {
+        if (!material || seenMaterials.has(material)) continue;
+        seenMaterials.add(material);
+        if (material.emissive?.lerp) {
+          material.emissive.lerp(teamTint, 0.16);
+          material.emissiveIntensity = Math.max(0.08, finiteNumber(material.emissiveIntensity, 0));
+        }
+      }
+    });
+
+    const normalized = new THREE.Group();
+    normalized.name = 'img2threejs-y-up-normalized';
+    normalized.scale.setScalar(1.7 / sourceHeight);
+    normalized.add(root);
+    const mount = new THREE.Group();
+    mount.name = `img2threejs-${visual.heroId}`;
+    mount.rotation.x = Math.PI / 2;
+    mount.userData.heroId = visual.heroId;
+    mount.userData.assetStatus = entry.status;
+    mount.userData.collision = false;
+    mount.add(normalized);
+    visual.group.add(mount);
+
+    const metadata = getCharacterModelMetadata(root);
+    const pivots = {};
+    const baseRotations = {};
+    for (const [semantic, objectName] of Object.entries(metadata.pivots || {})) {
+      const pivot = root.getObjectByName(objectName);
+      if (!pivot) continue;
+      pivots[semantic] = pivot;
+      baseRotations[semantic] = pivot.rotation.clone();
+    }
+    visual.characterModelRoot = root;
+    visual.characterModelMount = mount;
+    visual.characterModelPivots = pivots;
+    visual.characterModelBaseRotations = baseRotations;
+    visual.characterModelState = 'accepted';
+    visual.group.userData.characterModel = 'accepted';
+    visual.group.userData.characterModelHeroId = visual.heroId;
+    visual.fallbackRig.visible = false;
+    visual.accessoryGroup.visible = false;
+    if (visual.authoredRig) visual.authoredRig.visible = false;
+    if (typeof document !== 'undefined') document.documentElement.dataset.characterModels = 'active';
+    this._poseVisual(visual, visual.crouch);
+    return true;
+  }
+
+  _syncCharacterModelPose(visual) {
+    const pivots = visual?.characterModelPivots;
+    const base = visual?.characterModelBaseRotations;
+    if (!pivots || !base) return;
+    const applyX = (name, delta) => {
+      const pivot = pivots[name];
+      const rest = base[name];
+      if (!pivot || !rest) return;
+      pivot.rotation.set(rest.x + finiteNumber(delta, 0), rest.y, rest.z);
+    };
+    applyX('head', visual.joints.head.rotation.y);
+    applyX('torso', visual.joints.spine.rotation.y);
+    applyX('leftShoulder', -visual.joints.leftShoulder.rotation.y * 0.3);
+    applyX('rightShoulder', -visual.joints.rightShoulder.rotation.y * 0.3);
+    applyX('leftArm', -visual.joints.leftShoulder.rotation.y);
+    applyX('rightArm', -visual.joints.rightShoulder.rotation.y);
+    applyX('leftLeg', -visual.joints.leftHip.rotation.y);
+    applyX('rightLeg', -visual.joints.rightHip.rotation.y);
+  }
+
   _attachAuthoredHeroRig(visual) {
+    if (visual?.characterModelState === 'loading' || visual?.characterModelState === 'accepted') return false;
     if (!visual || visual.authoredRig || !this._heroRigTemplate) return false;
     const model = cloneSkeleton(this._heroRigTemplate);
     if (!model) return false;
@@ -2007,6 +2611,10 @@ export class SceneRenderer {
       const widthScale = r / 0.4;
       v.authoredRig.scale.set(widthScale, widthScale, bh / 1.7);
     }
+    if (v.characterModelMount) {
+      const widthScale = r / 0.4;
+      v.characterModelMount.scale.set(widthScale, widthScale, bh / 1.7);
+    }
   }
 
   // players: [{id, name, team, pos:[x,y,z], yaw, crouch, hp, alive}] （自分は除外済み）
@@ -2170,6 +2778,8 @@ export class SceneRenderer {
       const deathBlend = state === 'death' ? Math.min(1, visual.deathAge / 0.48) : 0;
       visual.fallbackRig.rotation.y = -deathBlend * Math.PI / 2;
       if (visual.authoredRig) visual.authoredRig.rotation.y = -deathBlend * Math.PI / 2;
+      if (visual.characterModelMount) visual.characterModelMount.rotation.y = -deathBlend * Math.PI / 2;
+      this._syncCharacterModelPose(visual);
       const triggerRevision = attackActive ? visual.actionRevision : null;
       this._selectAuthoredAnimation(visual, state, false, triggerRevision);
       visual.mixer?.update?.(reduced ? 0 : delta * Math.max(0.8, Math.min(1.35, speed / 4 || 1)));
@@ -2178,8 +2788,10 @@ export class SceneRenderer {
   }
 
   _disposeVisual(v) {
+    v.disposed = true;
     this.world.remove(v.group);
     v.mixer?.stopAllAction?.();
+    if (v.characterModelRoot) disposeObjectResources(v.characterModelRoot);
     v.nameTex?.dispose?.();
     v.nameMat?.dispose?.();
     for (const geometry of new Set(v.ownedGeometries || [])) geometry.dispose?.();
@@ -2284,6 +2896,7 @@ export class SceneRenderer {
     for (const mesh of this.doorMeshes || []) addRoot(mesh);
 
     for (const visual of this.playerVisuals?.values?.() || []) {
+      visual.disposed = true;
       addRoot(visual?.group || visual);
       for (const geometry of visual?.ownedGeometries || []) collectResourceValue(geometry, registry);
       for (const material of visual?.ownedMaterials || []) collectResourceValue(material, registry);
@@ -2342,7 +2955,10 @@ export class SceneRenderer {
     this.authoredMap = null;
     this._heroRigTemplate = null;
     this._heroRigAnimations = [];
+    this._characterModelProvider?.clearCache?.();
+    this._characterModelProvider = null;
     this.canonicalMapPresentation = null;
+    this.originalMapPresentation = null;
     this.worldDressing = null;
     this.water = null;
     this.waterMaterial = null;

@@ -128,13 +128,13 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
     "sourceVertexCount": 508122,
     "sourceTriangleCount": 231700,
     "selectedMeshCount": 133,
-    "selectedVertexCount": 296740,
-    "selectedTriangleCount": 126190,
+    "selectedVertexCount": 295274,
+    "selectedTriangleCount": 125758,
     "proxyCount": 133,
-    "selectedVertexRatio": 0.583994,
+    "selectedVertexRatio": 0.581108,
     "selectedProxyCoverageWithin0_25M": 1,
-    "authoredVertexCoverageWithin0_25M": 0.762789,
-    "canonicalPlusAuthoredVertexCoverageWithin0_25M": 0.95296,
+    "authoredVertexCoverageWithin0_25M": 0.766658,
+    "canonicalPlusAuthoredVertexCoverageWithin0_25M": 0.953312,
     "inPlayfieldVertexCount": 488502,
     "exclusionCounts": {
       "track-detail": 146,
@@ -962,6 +962,35 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "proxyCount": 1
     },
     {
+      "sourceNode": 183,
+      "sourceMesh": 89,
+      "name": "SM_Env_Mine_Entrance_Blocked_01__1__PolygonWesternFrontier_Texture_01_A_0",
+      "meshHash": "28D2332FA8F14D674859DC50C51C43F76CB0955EDB319006EDC28653FD39F881",
+      "sceneMatrix": [
+        0.003613,
+        0,
+        0,
+        0,
+        0,
+        0.003613,
+        0,
+        0,
+        0,
+        0,
+        0.003613,
+        0,
+        4.331383,
+        3.091725,
+        -7.054505,
+        1
+      ],
+      "ruleId": "mine-blocker",
+      "vertexCount": 824,
+      "triangleCount": 504,
+      "proxyStart": 28,
+      "proxyCount": 1
+    },
+    {
       "sourceNode": 193,
       "sourceMesh": 94,
       "name": "SM_Env_RockTall_03__11__PolygonWesternFrontier_Texture_01_A_0",
@@ -987,7 +1016,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 754,
       "triangleCount": 289,
-      "proxyStart": 28,
+      "proxyStart": 29,
       "proxyCount": 1
     },
     {
@@ -1016,7 +1045,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2260,
       "triangleCount": 934,
-      "proxyStart": 29,
+      "proxyStart": 30,
       "proxyCount": 1
     },
     {
@@ -1045,7 +1074,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 1400,
       "triangleCount": 500,
-      "proxyStart": 30,
+      "proxyStart": 31,
       "proxyCount": 1
     },
     {
@@ -1074,7 +1103,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 31,
+      "proxyStart": 32,
       "proxyCount": 1
     },
     {
@@ -1103,7 +1132,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 1170,
       "triangleCount": 490,
-      "proxyStart": 32,
+      "proxyStart": 33,
       "proxyCount": 1
     },
     {
@@ -1132,7 +1161,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 33,
+      "proxyStart": 34,
       "proxyCount": 1
     },
     {
@@ -1161,7 +1190,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 1913,
       "triangleCount": 739,
-      "proxyStart": 34,
+      "proxyStart": 35,
       "proxyCount": 1
     },
     {
@@ -1190,7 +1219,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 35,
+      "proxyStart": 36,
       "proxyCount": 1
     },
     {
@@ -1219,7 +1248,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 1913,
       "triangleCount": 739,
-      "proxyStart": 36,
+      "proxyStart": 37,
       "proxyCount": 1
     },
     {
@@ -1248,7 +1277,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 785,
       "triangleCount": 307,
-      "proxyStart": 37,
+      "proxyStart": 38,
       "proxyCount": 1
     },
     {
@@ -1277,7 +1306,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 1400,
       "triangleCount": 500,
-      "proxyStart": 38,
+      "proxyStart": 39,
       "proxyCount": 1
     },
     {
@@ -1306,7 +1335,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 39,
+      "proxyStart": 40,
       "proxyCount": 1
     },
     {
@@ -1335,7 +1364,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 3375,
       "triangleCount": 1200,
-      "proxyStart": 40,
+      "proxyStart": 41,
       "proxyCount": 1
     },
     {
@@ -1364,7 +1393,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 1138,
       "triangleCount": 497,
-      "proxyStart": 41,
+      "proxyStart": 42,
       "proxyCount": 1
     },
     {
@@ -1393,7 +1422,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "building-shell",
       "vertexCount": 3997,
       "triangleCount": 2184,
-      "proxyStart": 42,
+      "proxyStart": 43,
       "proxyCount": 1
     },
     {
@@ -1422,7 +1451,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 43,
+      "proxyStart": 44,
       "proxyCount": 1
     },
     {
@@ -1451,7 +1480,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 754,
       "triangleCount": 289,
-      "proxyStart": 44,
+      "proxyStart": 45,
       "proxyCount": 1
     },
     {
@@ -1480,7 +1509,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 45,
+      "proxyStart": 46,
       "proxyCount": 1
     },
     {
@@ -1509,7 +1538,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 46,
+      "proxyStart": 47,
       "proxyCount": 1
     },
     {
@@ -1538,7 +1567,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 3375,
       "triangleCount": 1200,
-      "proxyStart": 47,
+      "proxyStart": 48,
       "proxyCount": 1
     },
     {
@@ -1567,35 +1596,6 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 3375,
       "triangleCount": 1200,
-      "proxyStart": 48,
-      "proxyCount": 1
-    },
-    {
-      "sourceNode": 341,
-      "sourceMesh": 168,
-      "name": "SM_Env_Quarry_Wall_Straight_03__2__PolygonWesternFrontier_Texture_01_A_0",
-      "meshHash": "E5FA405AE4A9B52E7144BB52A1E22CFCC734810A8DF275B2457184E9D3923304",
-      "sceneMatrix": [
-        0.003116,
-        0,
-        0.001829,
-        0,
-        0,
-        0.004275,
-        0,
-        0,
-        -0.001829,
-        0,
-        0.003116,
-        0,
-        7.755268,
-        2.979715,
-        -6.076407,
-        1
-      ],
-      "ruleId": "quarry-wall",
-      "vertexCount": 1170,
-      "triangleCount": 490,
       "proxyStart": 49,
       "proxyCount": 1
     },
@@ -1774,6 +1774,35 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "proxyCount": 1
     },
     {
+      "sourceNode": 403,
+      "sourceMesh": 199,
+      "name": "SM_Env_Quarry_Wall_Straight_03__9__PolygonWesternFrontier_Texture_01_A_0",
+      "meshHash": "BA1A1EEE6A1F750602535A983A1996DACD29FA5533AE02FDD52C112789171D30",
+      "sceneMatrix": [
+        0.003177,
+        -0.000083,
+        0.001718,
+        0,
+        0.000013,
+        0.004232,
+        0.00018,
+        0,
+        -0.00172,
+        -0.00013,
+        0.003175,
+        0,
+        2.104192,
+        3.015847,
+        -7.962508,
+        1
+      ],
+      "ruleId": "quarry-wall",
+      "vertexCount": 1170,
+      "triangleCount": 490,
+      "proxyStart": 56,
+      "proxyCount": 1
+    },
+    {
       "sourceNode": 405,
       "sourceMesh": 200,
       "name": "SM_Env_Quarry_Wall_Straight_02__2__PolygonWesternFrontier_Texture_01_A_0",
@@ -1799,7 +1828,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2260,
       "triangleCount": 934,
-      "proxyStart": 56,
+      "proxyStart": 57,
       "proxyCount": 1
     },
     {
@@ -1828,7 +1857,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 57,
+      "proxyStart": 58,
       "proxyCount": 1
     },
     {
@@ -1857,7 +1886,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "building-shell",
       "vertexCount": 14892,
       "triangleCount": 8278,
-      "proxyStart": 58,
+      "proxyStart": 59,
       "proxyCount": 1
     },
     {
@@ -1886,7 +1915,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "building-shell",
       "vertexCount": 2535,
       "triangleCount": 1472,
-      "proxyStart": 59,
+      "proxyStart": 60,
       "proxyCount": 1
     },
     {
@@ -1915,7 +1944,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 1170,
       "triangleCount": 490,
-      "proxyStart": 60,
+      "proxyStart": 61,
       "proxyCount": 1
     },
     {
@@ -1944,7 +1973,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 61,
+      "proxyStart": 62,
       "proxyCount": 1
     },
     {
@@ -1973,7 +2002,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2155,
       "triangleCount": 916,
-      "proxyStart": 62,
+      "proxyStart": 63,
       "proxyCount": 1
     },
     {
@@ -2002,7 +2031,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 3964,
       "triangleCount": 1580,
-      "proxyStart": 63,
+      "proxyStart": 64,
       "proxyCount": 1
     },
     {
@@ -2031,7 +2060,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 786,
       "triangleCount": 295,
-      "proxyStart": 64,
+      "proxyStart": 65,
       "proxyCount": 1
     },
     {
@@ -2060,7 +2089,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 1170,
       "triangleCount": 490,
-      "proxyStart": 65,
+      "proxyStart": 66,
       "proxyCount": 1
     },
     {
@@ -2089,7 +2118,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 3375,
       "triangleCount": 1200,
-      "proxyStart": 66,
+      "proxyStart": 67,
       "proxyCount": 1
     },
     {
@@ -2118,7 +2147,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2155,
       "triangleCount": 916,
-      "proxyStart": 67,
+      "proxyStart": 68,
       "proxyCount": 1
     },
     {
@@ -2147,7 +2176,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 1400,
       "triangleCount": 500,
-      "proxyStart": 68,
+      "proxyStart": 69,
       "proxyCount": 1
     },
     {
@@ -2176,7 +2205,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 69,
+      "proxyStart": 70,
       "proxyCount": 1
     },
     {
@@ -2205,7 +2234,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 3964,
       "triangleCount": 1580,
-      "proxyStart": 70,
+      "proxyStart": 71,
       "proxyCount": 1
     },
     {
@@ -2234,7 +2263,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 754,
       "triangleCount": 289,
-      "proxyStart": 71,
+      "proxyStart": 72,
       "proxyCount": 1
     },
     {
@@ -2263,7 +2292,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 1170,
       "triangleCount": 490,
-      "proxyStart": 72,
+      "proxyStart": 73,
       "proxyCount": 1
     },
     {
@@ -2292,7 +2321,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 3375,
       "triangleCount": 1200,
-      "proxyStart": 73,
+      "proxyStart": 74,
       "proxyCount": 1
     },
     {
@@ -2321,7 +2350,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 754,
       "triangleCount": 289,
-      "proxyStart": 74,
+      "proxyStart": 75,
       "proxyCount": 1
     },
     {
@@ -2350,7 +2379,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 1170,
       "triangleCount": 490,
-      "proxyStart": 75,
+      "proxyStart": 76,
       "proxyCount": 1
     },
     {
@@ -2379,7 +2408,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 3375,
       "triangleCount": 1200,
-      "proxyStart": 76,
+      "proxyStart": 77,
       "proxyCount": 1
     },
     {
@@ -2408,7 +2437,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 77,
+      "proxyStart": 78,
       "proxyCount": 1
     },
     {
@@ -2437,7 +2466,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 78,
+      "proxyStart": 79,
       "proxyCount": 1
     },
     {
@@ -2466,7 +2495,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 1138,
       "triangleCount": 497,
-      "proxyStart": 79,
+      "proxyStart": 80,
       "proxyCount": 1
     },
     {
@@ -2495,7 +2524,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "building-shell",
       "vertexCount": 8617,
       "triangleCount": 4750,
-      "proxyStart": 80,
+      "proxyStart": 81,
       "proxyCount": 1
     },
     {
@@ -2524,7 +2553,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2290,
       "triangleCount": 936,
-      "proxyStart": 81,
+      "proxyStart": 82,
       "proxyCount": 1
     },
     {
@@ -2553,7 +2582,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 754,
       "triangleCount": 289,
-      "proxyStart": 82,
+      "proxyStart": 83,
       "proxyCount": 1
     },
     {
@@ -2582,7 +2611,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 83,
+      "proxyStart": 84,
       "proxyCount": 1
     },
     {
@@ -2611,7 +2640,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "building-shell",
       "vertexCount": 3997,
       "triangleCount": 2184,
-      "proxyStart": 84,
+      "proxyStart": 85,
       "proxyCount": 1
     },
     {
@@ -2640,7 +2669,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 785,
       "triangleCount": 307,
-      "proxyStart": 85,
+      "proxyStart": 86,
       "proxyCount": 1
     },
     {
@@ -2669,7 +2698,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 1552,
       "triangleCount": 642,
-      "proxyStart": 86,
+      "proxyStart": 87,
       "proxyCount": 1
     },
     {
@@ -2698,7 +2727,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 3964,
       "triangleCount": 1580,
-      "proxyStart": 87,
+      "proxyStart": 88,
       "proxyCount": 1
     },
     {
@@ -2727,7 +2756,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 88,
+      "proxyStart": 89,
       "proxyCount": 1
     },
     {
@@ -2756,7 +2785,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2290,
       "triangleCount": 936,
-      "proxyStart": 89,
+      "proxyStart": 90,
       "proxyCount": 1
     },
     {
@@ -2785,7 +2814,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2283,
       "triangleCount": 936,
-      "proxyStart": 90,
+      "proxyStart": 91,
       "proxyCount": 1
     },
     {
@@ -2814,7 +2843,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 91,
+      "proxyStart": 92,
       "proxyCount": 1
     },
     {
@@ -2843,7 +2872,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 3964,
       "triangleCount": 1580,
-      "proxyStart": 92,
+      "proxyStart": 93,
       "proxyCount": 1
     },
     {
@@ -2872,7 +2901,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 1400,
       "triangleCount": 500,
-      "proxyStart": 93,
+      "proxyStart": 94,
       "proxyCount": 1
     },
     {
@@ -2901,7 +2930,7 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "natural-cover",
       "vertexCount": 1400,
       "triangleCount": 500,
-      "proxyStart": 94,
+      "proxyStart": 95,
       "proxyCount": 1
     },
     {
@@ -2930,35 +2959,6 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       "ruleId": "quarry-wall",
       "vertexCount": 2261,
       "triangleCount": 930,
-      "proxyStart": 95,
-      "proxyCount": 1
-    },
-    {
-      "sourceNode": 677,
-      "sourceMesh": 336,
-      "name": "SM_Env_Quarry_Wall_Curved_02__6__PolygonWesternFrontier_Texture_01_A_0",
-      "meshHash": "7A519418C2CFB9141C246CA8A6653ACB735CB1FD1BB62554B2F4445D08438B7F",
-      "sceneMatrix": [
-        0.001878,
-        0,
-        0.004307,
-        0,
-        0,
-        0.003613,
-        0,
-        0,
-        -0.003312,
-        0,
-        0.001444,
-        0,
-        8.051556,
-        1.429643,
-        -3.062981,
-        1
-      ],
-      "ruleId": "quarry-wall",
-      "vertexCount": 2290,
-      "triangleCount": 936,
       "proxyStart": 96,
       "proxyCount": 1
     },
@@ -4542,6 +4542,25 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
     },
     {
       "min": [
+        3.744404,
+        6.953337,
+        3.177229
+      ],
+      "max": [
+        4.956382,
+        7.095597,
+        4.050925
+      ],
+      "tag": "authored-blocker",
+      "provenance": {
+        "kind": "authored-glb",
+        "sourceNode": 183,
+        "sourceMesh": 89,
+        "ruleId": "mine-blocker"
+      }
+    },
+    {
+      "min": [
         -12.045571,
         -15.598526,
         1.158656
@@ -4941,25 +4960,6 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
     },
     {
       "min": [
-        6.272013,
-        4.738586,
-        2.629071
-      ],
-      "max": [
-        9.415141,
-        7.54344,
-        4.833234
-      ],
-      "tag": "authored-wall",
-      "provenance": {
-        "kind": "authored-glb",
-        "sourceNode": 341,
-        "sourceMesh": 168,
-        "ruleId": "quarry-wall"
-      }
-    },
-    {
-      "min": [
         -12.986016,
         -8.650403,
         1.222475
@@ -5069,6 +5069,25 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
         "kind": "authored-glb",
         "sourceNode": 377,
         "sourceMesh": 186,
+        "ruleId": "quarry-wall"
+      }
+    },
+    {
+      "min": [
+        0.618272,
+        6.659571,
+        2.612602
+      ],
+      "max": [
+        3.763918,
+        9.332032,
+        4.860585
+      ],
+      "tag": "authored-wall",
+      "provenance": {
+        "kind": "authored-glb",
+        "sourceNode": 403,
+        "sourceMesh": 199,
         "ruleId": "quarry-wall"
       }
     },
@@ -5834,25 +5853,6 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
     },
     {
       "min": [
-        6.094444,
-        -0.465905,
-        1.129398
-      ],
-      "max": [
-        9.885628,
-        6.7214,
-        3.02298
-      ],
-      "tag": "authored-wall",
-      "provenance": {
-        "kind": "authored-glb",
-        "sourceNode": 677,
-        "sourceMesh": 336,
-        "ruleId": "quarry-wall"
-      }
-    },
-    {
-      "min": [
         -10.99449,
         -6.780002,
         -0.335748
@@ -6536,5 +6536,5 @@ export const AUTHORED_COLLISION_MANIFEST = deepFreeze({
       }
     }
   ],
-  "manifestHash": "D4D471A28169A82C20D34D47E7DEBA99C271268646737BD3E93A0C6292D95219"
+  "manifestHash": "66EB52BB76C0926CFCB1DB4B5E343C067F8C8B6F2294869BE393EDE4573BBC29"
 });

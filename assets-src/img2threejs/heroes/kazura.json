@@ -1,0 +1,107 @@
+{
+  "id": "kazura",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/kazura/concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/kazura/concept-green-v1.png"
+  },
+  "role": "support",
+  "cohort": "healing redirect",
+  "modelArchetype": "vined forest guardian",
+  "proportions": {
+    "heightM": 1.86,
+    "bodyRatio": "stocky roots,wide stance,branch shoulders",
+    "notes": "Keep kazura proportions legible at gameplay distance; preserve the distinctive leaf mask and vine crown against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "leaf mask and vine crown",
+      "woven bark cuirass",
+      "tendril forearms"
+    ],
+    "side": [
+      "stocky roots,wide stance,branch shoulders profile",
+      "rooted feet",
+      "back growths"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "green",
+      "hex": "#679653",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "bark",
+      "hex": "#59412e",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "moss",
+      "hex": "#b2c98a",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "leaf mask and vine crown"
+    ],
+    "torso": [
+      "woven bark cuirass"
+    ],
+    "limbs": [
+      "tendril forearms",
+      "rooted feet"
+    ],
+    "weapons": [
+      "vine staff"
+    ],
+    "accessories": [
+      "back growths"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "grounded planting gait",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "root and redirect",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The back growths overhang can inflate the collider if not separated.",
+    "Asymmetric tendril forearms needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 18,
+    "rationale": "kazura establishes the healing redirect cohort and exposes its back growths anchor early."
+  },
+  "status": "brief"
+}

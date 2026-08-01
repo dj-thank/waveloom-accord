@@ -227,8 +227,18 @@ test('joinとSETUP中のselectにheroIdを含め、サーバーerrorを通知す
     net.rttEma = 1000;
     assert.equal(net.interpMs(), 220, 'サーバー許容上限と同じ220msに制限する');
 
-    ws.onmessage({ data: JSON.stringify({ t: 'error', message: 'その篝手は選べません' }) });
-    assert.deepEqual(rejected, { t: 'error', message: 'その篝手は選べません' });
+    ws.onmessage({ data: JSON.stringify({
+      t: 'error', code: 'role_full', role: 'damage',
+    }) });
+    assert.deepEqual(rejected, {
+      t: 'error', code: 'role_full', role: 'damage',
+    });
+    ws.onmessage({ data: JSON.stringify({
+      t: 'select_result', ok: false, code: 'role_full', role: 'support',
+    }) });
+    assert.deepEqual(selection, {
+      t: 'select_result', ok: false, code: 'role_full', role: 'support',
+    });
     ws.onmessage({ data: JSON.stringify({ t: 'select_result', ok: true, heroId: 'koyomi' }) });
     assert.deepEqual(selection, { t: 'select_result', ok: true, heroId: 'koyomi' });
   } finally {
@@ -255,12 +265,18 @@ test('キャラクター選択と戦闘HUDの公開DOM・通信契約を備え�
     'damageIndicator', 'respawnContext', 'respawnHeroBtn', 'gamepadSensNumber',
     'tacticalPrompt', 'tacticalPromptLabel', 'tacticalPromptText',
     'hudDetailToggle', 'settingsToggle',
+    'touchControls', 'touchMoveGuide', 'touchActionGrid', 'touchFire', 'touchAbility1',
+    'touchAbility2', 'touchSecondary', 'touchUlt', 'touchJump', 'touchReload', 'touchCrouch',
   ]) {
     assert.match(html, new RegExp(`id="${id}"`), `#${id} が必要`);
   }
   assert.match(html, /id="joinStatus"[^>]+role="status"[^>]+aria-live="polite"/);
   assert.match(html, /@media\s*\(max-width:\s*600px\)/);
   assert.match(html, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
+  assert.match(html, /@media\s*\(pointer:\s*coarse\)/);
+  assert.match(html, /data-touch-action="fire"/);
+  assert.match(html, /data-touch-action="ability1"/);
+  assert.match(html, /touch-action:\s*none/);
   assert.match(html, /id="sensNumber"[^>]+type="number"[^>]+min="1"[^>]+max="200"[^>]+step="0\.1"/);
   assert.match(html, /id="gamepadSensNumber"[^>]+type="number"[^>]+min="0\.1"[^>]+max="20"[^>]+step="0\.1"/);
   assert.match(html, /id="respawnHeroBtn"[^>]+type="button"[^>]+hidden/);
@@ -273,6 +289,8 @@ test('キャラクター選択と戦闘HUDの公開DOM・通信契約を備え�
   assert.match(html, /body\.hud-expanded\s+#hudDetailToggle\s*\{[^}]*top:\s*4px/);
   assert.match(html, /body\.hud-expanded\s+#lockHint\s*\{[^}]*bottom:\s*min\(45dvh,\s*390px\)/);
   assert.match(html, /body:not\(\.hud-expanded\)\s+\.abilityEffect/);
+  assert.match(html, /id="respawnContext"[^>]*>[^<]*固定1\/2\/2/);
+  assert.match(html, /id="roleRule"[^>]*>固定1\/2\/2・継続回復契約を読み込み中/);
 
   assert.match(main, /import\s*\{[^}]*HEROES[^}]*DEFAULT_HERO_ID[^}]*\}\s*from\s*['"]\/shared\/data\/heroes\.js['"]/);
   assert.match(main, /buildCombatGuidance/);
@@ -295,6 +313,14 @@ test('キャラクター選択と戦闘HUDの公開DOM・通信契約を備え�
   assert.match(main, /hud\.damagePulse\(direction\)/);
   assert.match(main, /resolveHeroSelectionContext/);
   assert.match(main, /isHeroRoleSelectable/);
+  assert.match(main, /validateRuntimeRosterContract\(msg\.roster\)/);
+  assert.match(main, /runtimeCompositionPolicy\s*=\s*rosterContract\.policy/);
+  assert.match(main, /heroCapabilityContribution\(heroTeamFunctions\(hero\)\)/);
+  assert.match(main, /formatMissingCapabilities\(msg\?\.missingCapabilities\)/);
+  assert.match(main, /teamFunctions:\s*Array\.isArray\(me\?\.teamFunctions\)/);
+  assert.doesNotMatch(main, /humanRoleCounts|roleSlots\[role\]/);
+  assert.match(main, /固定1\/2\/2/);
+  assert.match(main, /role_full/);
   assert.match(main, /buildAbilityHudModel/);
   assert.match(main, /resolveAbilityAttemptFeedback/);
   assert.match(main, /setGamepadLookSensitivity/);

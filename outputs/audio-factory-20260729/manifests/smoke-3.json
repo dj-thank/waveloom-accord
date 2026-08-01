@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "purpose": "ElevenLabs execution smoke: original candidate audio only; not admitted to the shipped local-DSP asset catalog.",
+  "rightsReview": "pending_human_review",
+  "assets": [
+    {
+      "id": "smoke.music.oshioi.controlpoint.instrumental.v001",
+      "kind": "music",
+      "endpoint": "/v1/music?output_format=mp3_48000_192",
+      "output": "generated/music/oshioi-controlpoint-instrumental-v001.mp3",
+      "request": {
+        "model_id": "music_v2",
+        "prompt": "Original instrumental competitive-game control-point music for a sunlit fictional coastal stone city. Twelve seconds, 108 BPM feel, restrained hand percussion, low bowed strings, warm brass breath, ceramic chimes, distant sea-wind texture, a unique three-note rising motif, spacious gameplay mix with clear 1 to 4 kHz room for SFX, clean ending. No vocals, no lyrics, no artist references, no existing melody, no trailer bombast, no excessive sub-bass.",
+        "music_length_ms": 12000,
+        "force_instrumental": true,
+        "sign_with_c2pa": true
+      },
+      "requestHash": "798524758b62676db4ea2d171f1f621e6d1c9276c8228d379052a20e0782567d",
+      "sha256": "5eceb80974e0b857a7fcdfa2ba7652189a7e7c73c7897d1354b76a42f56e6c45",
+      "bytes": 305261,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": "13zoCiGvSDnOpOAlRLG3",
+      "characterCost": null,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T04:55:50.256Z"
+    },
+    {
+      "id": "smoke.sfx.original-energy-rifle.v001",
+      "kind": "sound_effect",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/original-energy-rifle-v001.mp3",
+      "request": {
+        "text": "Original fictional competitive-game energy carbine primary-fire one-shot: compact ceramic and brass mechanism snap followed by a tight luminous plasma crack, close first-person perspective, 1.1 seconds, dry courtyard reflection only, strong readable transient, controlled low end. No speech, no music, no real weapon brand, no recognizable existing game sound, no clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.1,
+        "prompt_influence": 0.72,
+        "loop": false
+      },
+      "requestHash": "149995a7a8c9000cbe5d5b30c5dae50f4d3d2d7c474d315d36ab6dfc8e3b948b",
+      "sha256": "c2b7228d7a20eebab0772ff71f3ae054ca1e48ba8a2679081a49913d63a2512b",
+      "bytes": 27629,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": null,
+      "characterCost": 12,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T04:55:52.118Z"
+    },
+    {
+      "id": "smoke.voice.ja-objective-announcer.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade Japanese-capable smoke candidate; not a cloned or imitated person"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-objective-announcer-v001.mp3",
+      "request": {
+        "text": "拠点を確保しました。次の地点へ向かってください。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "f96831e654b5774e66d0521c45e80a7d664342cf6a446accb067e4d52459d72e",
+      "sha256": "597a49c7ef89dfd119222d689e42432a8b07e9cfd093a88a35cca6cc69d5fbbe",
+      "bytes": 101608,
+      "contentType": "audio/mpeg",
+      "requestId": "UbTP6o7g1I5STbTWEo4Y",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 13,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T04:55:56.552Z"
+    }
+  ]
+}

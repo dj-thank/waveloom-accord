@@ -11,7 +11,7 @@
     "gravityMps2": 22.0,
     "jumpVelMps": 7.0,
     "stepUpM": 0.55,
-    "stepDownM": 0.3,
+    "stepDownM": 0.55,
     "capsuleRadiusM": 0.4,
     "standHeightM": 1.7,
     "crouchHeightM": 1.2,
@@ -20,7 +20,13 @@
   },
   "health": {
     "trainingBodyHp": 250,
-    "respawnFullHeal": true
+    "respawnFullHeal": true,
+    "rolePassives": {
+      "support": {
+        "delayAfterDamageSec": 2.5,
+        "selfHealPerSec": 20
+      }
+    }
   },
   "trainingWeapon": {
     "id": "wpn_training_lantern_rifle",
@@ -41,9 +47,10 @@
   "lagComp": { "maxRewindSec": 0.22, "historySec": 0.5 },
   "ultimateEconomy": {
     "gaugeMax": 100,
-    "damagePerGauge": 50,
-    "healingPerGauge": 40,
-    "passiveGaugePerSec": 2,
+    "damagePerGauge": 80,
+    "healingPerGauge": 64,
+    "passiveGaugePerSec": 1.25,
+    "passiveCombatGraceSec": 8,
     "carryoverMult": 0.5,
     "interruptRefundPct": 0.5
   },

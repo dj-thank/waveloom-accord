@@ -28,7 +28,15 @@ export class Net {
 
   connect(name, heroId) {
     const proto = location.protocol === 'https:' ? 'wss://' : 'ws://';
-    const ws = new WebSocket(proto + location.host);
+    // Tailscale Serve and other reverse proxies may mount the game below a
+    // path (for example /kagariai) while keeping the same static asset root.
+    // Preserve that path for the WebSocket handshake; root deployments still
+    // use the protocol's historical `/` endpoint.
+    const pathname = typeof location.pathname === 'string' ? location.pathname : '/';
+    const websocketPath = pathname === '/'
+      ? '/'
+      : `${pathname.replace(/\/+$/, '')}/`;
+    const ws = new WebSocket(`${proto}${location.host}${websocketPath}`);
     this.ws = ws;
     this._protocolRejected = false;
     ws.onopen = () => {

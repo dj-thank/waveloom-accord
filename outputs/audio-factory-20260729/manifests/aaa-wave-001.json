@@ -1,0 +1,834 @@
+{
+  "schemaVersion": 1,
+  "purpose": "AAA wave 001: original candidate music and Japanese operations voice. Candidate-only; never replaces the Local DSP contract before rights, gameplay, mix, and human quality approval.",
+  "rightsReview": "pending_human_review",
+  "generationPolicy": {
+    "originalOnly": true,
+    "forbidden": [
+      "artist references",
+      "existing melodies",
+      "real-person imitation",
+      "voice cloning",
+      "real weapon brands"
+    ],
+    "admission": "candidate-only"
+  },
+  "assets": [
+    {
+      "id": "aaa.wave001.music.oshioi-main-menu.v001",
+      "kind": "music",
+      "endpoint": "/v1/music?output_format=mp3_48000_192",
+      "output": "generated/music/oshioi-main-menu-v001.mp3",
+      "request": {
+        "model_id": "music_v2",
+        "prompt": "Original instrumental main-menu theme for a fictional competitive coastal stone-city game. 96 BPM feel, weathered hand percussion, low strings, warm horn breaths, ceramic chimes, sea wind, and a unique four-note ascending identity. Elegant and inviting, restrained dynamics, clean ending, generous 1 to 4 kHz space for UI. No vocals, no lyrics, no artist references, no existing melody, no trailer braams.",
+        "music_length_ms": 24000,
+        "force_instrumental": true,
+        "sign_with_c2pa": true
+      },
+      "requestHash": "633ecc54b21e22e20440433df60eb57516a58d53de33cd9a5d28007264efe3e1",
+      "sha256": "cc4f0bd2221f9d5a31267907e5a9a27dcfd549708a1af74f26558b9aaa205656",
+      "bytes": 593261,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": "SNhMhRACvf7hVmGwuxW7",
+      "characterCost": null,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:11.797Z"
+    },
+    {
+      "id": "aaa.wave001.music.match-setup-briefing.v001",
+      "kind": "music",
+      "endpoint": "/v1/music?output_format=mp3_48000_192",
+      "output": "generated/music/match-setup-briefing-v001.mp3",
+      "request": {
+        "model_id": "music_v2",
+        "prompt": "Original instrumental pre-match briefing cue for a fictional competitive game. 104 BPM feel, quiet frame drum pulse, muted plucked strings, brass swells, ceramic clicks, and calm ocean air. Intentional, tactical, and hopeful; it should support spoken team instructions. No vocals, no lyrics, no artist references, no recognizable melody, no excessive bass.",
+        "music_length_ms": 22000,
+        "force_instrumental": true,
+        "sign_with_c2pa": true
+      },
+      "requestHash": "0787008fea65f10516b261dd04127d4c7281bf0fd432228f8f8013af9fcbe76c",
+      "sha256": "e17651c49aecf03d9f5c1fcd19e699b2810c7e2698a145bd77450cfbe23a3957",
+      "bytes": 545453,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": "km2FKm0vNXDktP03QWfq",
+      "characterCost": null,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:09.113Z"
+    },
+    {
+      "id": "aaa.wave001.music.controlpoint-neutral-tension.v001",
+      "kind": "music",
+      "endpoint": "/v1/music?output_format=mp3_48000_192",
+      "output": "generated/music/controlpoint-neutral-tension-v001.mp3",
+      "request": {
+        "model_id": "music_v2",
+        "prompt": "Original instrumental neutral control-point gameplay loop for a fictional sunlit coastal arena. 108 BPM feel, dry hand percussion, tense bowed strings, distant brass, stone mallet rhythm, and sparse ceramic chimes. Controlled pressure without panic, seamless-feeling cadence and clean ending. No vocals, no lyrics, no artist references, no existing melody.",
+        "music_length_ms": 26000,
+        "force_instrumental": true,
+        "sign_with_c2pa": true
+      },
+      "requestHash": "1104ed86e7f14716df893cc4a77335bb91bef371ec0c30ec9ef7d6af9625be3b",
+      "sha256": "e3e75ab498565efaa74e620f512b84fc7cd17c69cb72b7abdaaf11c6e5864fb2",
+      "bytes": 641645,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": "i2bASMZMjreTsepbIJAs",
+      "characterCost": null,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:18.942Z"
+    },
+    {
+      "id": "aaa.wave001.music.controlpoint-team0-push.v001",
+      "kind": "music",
+      "endpoint": "/v1/music?output_format=mp3_48000_192",
+      "output": "generated/music/controlpoint-team0-push-v001.mp3",
+      "request": {
+        "model_id": "music_v2",
+        "prompt": "Original instrumental allied push gameplay cue for a fictional coastal objective arena. 112 BPM feel, confident drum pulse, rising strings, warm brass answers, ceramic accents, and wind texture. Momentum with tactical clarity, moderate density, room for combat effects. No vocals, no lyrics, no artist references, no existing melody.",
+        "music_length_ms": 24000,
+        "force_instrumental": true,
+        "sign_with_c2pa": true
+      },
+      "requestHash": "2bedac2952e7368a026e3fb276bc785925c9cddd05e6f5ea973fcabaeb575f57",
+      "sha256": "ce3ce275bab3bac756635c00ef0c8575330ab709d2ae324ceebaafc9a37f150b",
+      "bytes": 593261,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": "AoXgBk1pnRtolmKxTz6t",
+      "characterCost": null,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:21.117Z"
+    },
+    {
+      "id": "aaa.wave001.music.controlpoint-team1-push.v001",
+      "kind": "music",
+      "endpoint": "/v1/music?output_format=mp3_48000_192",
+      "output": "generated/music/controlpoint-team1-push-v001.mp3",
+      "request": {
+        "model_id": "music_v2",
+        "prompt": "Original instrumental opposing push gameplay cue for a fictional coastal objective arena. 112 BPM feel, syncopated hand percussion, low strings, restrained brass stabs, ceramic textures, and sea wind. Urgent but readable, different original rhythmic identity from all other cues. No vocals, no lyrics, no artist references, no existing melody.",
+        "music_length_ms": 24000,
+        "force_instrumental": true,
+        "sign_with_c2pa": true
+      },
+      "requestHash": "2703a88c6838461d680fec552d346b95ee53c3518f144d96f934dedfe7048258",
+      "sha256": "3b29a051af4b405776f6b30b00818e3d61e470aafd6d8e076a0981f5c0df169b",
+      "bytes": 593261,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": "YP0Gq5ymyVFLUfR4J50w",
+      "characterCost": null,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:26.832Z"
+    },
+    {
+      "id": "aaa.wave001.music.flashpoint-transition.v001",
+      "kind": "music",
+      "endpoint": "/v1/music?output_format=mp3_48000_192",
+      "output": "generated/music/flashpoint-transition-v001.mp3",
+      "request": {
+        "model_id": "music_v2",
+        "prompt": "Original instrumental objective-rotation transition stinger for a fictional coastal stone city. 118 BPM feel, quick hand drum turn, ascending string figure, brass flare, ceramic sparkle, and a decisive but non-cinematic landing. It must leave room for UI confirmation. No vocals, no lyrics, no artist references, no existing melody.",
+        "music_length_ms": 18000,
+        "force_instrumental": true,
+        "sign_with_c2pa": true
+      },
+      "requestHash": "12c45019801bd3dcbb03976dbf05ec0c8a7d77f3e3f263c88030878c691824bc",
+      "sha256": "bca8cde9c3c020775c121c0e65fad9dec4d63677047cd2c6de08cfc234b5266e",
+      "bytes": 449261,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": "9gmsLYYtnyj0PEM0CPlY",
+      "characterCost": null,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:28.378Z"
+    },
+    {
+      "id": "aaa.wave001.music.sudden-death.v001",
+      "kind": "music",
+      "endpoint": "/v1/music?output_format=mp3_48000_192",
+      "output": "generated/music/sudden-death-v001.mp3",
+      "request": {
+        "model_id": "music_v2",
+        "prompt": "Original instrumental sudden-death gameplay cue for a fictional competitive arena. 122 BPM feel, tight dry percussion, pulsing low strings, distant brass breath, ceramic alarm motif, and wind against stone. High stakes without harsh noise or excessive sub-bass; clear combat mix. No vocals, no lyrics, no artist references, no existing melody.",
+        "music_length_ms": 20000,
+        "force_instrumental": true,
+        "sign_with_c2pa": true
+      },
+      "requestHash": "e0791eea39c8b4c9c8b524210f2850a8fb717878494236cbac334e810c1b33bc",
+      "sha256": "f567b683a357ddd4375a1d77396dff0f53e3250a777047a167857681c05fe5b4",
+      "bytes": 497645,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": "Lfy3EhTseMmxlM77qEZ5",
+      "characterCost": null,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:35.067Z"
+    },
+    {
+      "id": "aaa.wave001.music.victory-team0.v001",
+      "kind": "music",
+      "endpoint": "/v1/music?output_format=mp3_48000_192",
+      "output": "generated/music/victory-team0-v001.mp3",
+      "request": {
+        "model_id": "music_v2",
+        "prompt": "Original instrumental concise victory resolution for a fictional competitive coastal game. 100 BPM feel, warm brass, light drums, plucked strings, ceramic chimes, and sea air. Earned, bright, and dignified rather than bombastic. No vocals, no lyrics, no artist references, no existing melody.",
+        "music_length_ms": 16000,
+        "force_instrumental": true,
+        "sign_with_c2pa": true
+      },
+      "requestHash": "93624b118cae3d8ddb0cc8d7ad242cee3a115fef91955ff6860f53a48edf735e",
+      "sha256": "adee0d90bffb517586b831c9a5d4354ff4bf034fd1cccd78e1c462b7614ffab8",
+      "bytes": 401453,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": "UtnLFWE1cbh4rlqwT1T4",
+      "characterCost": null,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:35.345Z"
+    },
+    {
+      "id": "aaa.wave001.music.defeat-refocus.v001",
+      "kind": "music",
+      "endpoint": "/v1/music?output_format=mp3_48000_192",
+      "output": "generated/music/defeat-refocus-v001.mp3",
+      "request": {
+        "model_id": "music_v2",
+        "prompt": "Original instrumental concise defeat-and-refocus resolution for a fictional competitive coastal game. 88 BPM feel, muted strings, low warm brass, quiet ceramic taps, and a final hopeful lift. Reflective but never bleak. No vocals, no lyrics, no artist references, no existing melody.",
+        "music_length_ms": 16000,
+        "force_instrumental": true,
+        "sign_with_c2pa": true
+      },
+      "requestHash": "e8627caae1efb31e59d25270f17bb2d8750e640202ebd3723e91c54ba8c2c240",
+      "sha256": "b5f920064296de1f4245506bff9a8e455530415eb1b2535dffbfdaa81c38607b",
+      "bytes": 401453,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": "1oEePJFtf8c24CFUuLm9",
+      "characterCost": null,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:41.903Z"
+    },
+    {
+      "id": "aaa.wave001.music.north-lantern-rooftops.v001",
+      "kind": "music",
+      "endpoint": "/v1/music?output_format=mp3_48000_192",
+      "output": "generated/music/north-lantern-rooftops-v001.mp3",
+      "request": {
+        "model_id": "music_v2",
+        "prompt": "Original instrumental environmental gameplay cue for northern lantern rooftops in a fictional coastal stone city. 102 BPM feel, wooden clacks, hand drums, narrow brass phrases, ceramic bells, distant gull-free sea wind, and a unique climbing motif. No vocals, no lyrics, no artist references, no existing melody.",
+        "music_length_ms": 24000,
+        "force_instrumental": true,
+        "sign_with_c2pa": true
+      },
+      "requestHash": "a03c2ca61785b91f5889265aeff8939871592aad726ab2926c2926b164e36a08",
+      "sha256": "6b64ef4d715b0ca3f663eeded8a647103a684e06e7393da0da29171887c4ca66",
+      "bytes": 593261,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": "PsZaXGV5VCgXmcszmZDD",
+      "characterCost": null,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:44.062Z"
+    },
+    {
+      "id": "aaa.wave001.music.central-plaza.v001",
+      "kind": "music",
+      "endpoint": "/v1/music?output_format=mp3_48000_192",
+      "output": "generated/music/central-plaza-v001.mp3",
+      "request": {
+        "model_id": "music_v2",
+        "prompt": "Original instrumental environmental gameplay cue for a bright central plaza in a fictional coastal stone city. 106 BPM feel, open hand percussion, plucked strings, warm brass breaths, fountain-like ceramic rhythm, and spacious air. Focused, social, and combat-readable. No vocals, no lyrics, no artist references, no existing melody.",
+        "music_length_ms": 24000,
+        "force_instrumental": true,
+        "sign_with_c2pa": true
+      },
+      "requestHash": "4bc8827f9aea834911ca34b4f2c268e3f4e323dd8f7e646f8ad52571a0e20ff5",
+      "sha256": "d903bb5cb26bf6a9527c727b21498a746f9f546946b6589f9e6497160d37b3f7",
+      "bytes": 593261,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": "ZjLHiEzDVPPev6QWXNJ0",
+      "characterCost": null,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:50.135Z"
+    },
+    {
+      "id": "aaa.wave001.music.south-docks.v001",
+      "kind": "music",
+      "endpoint": "/v1/music?output_format=mp3_48000_192",
+      "output": "generated/music/south-docks-v001.mp3",
+      "request": {
+        "model_id": "music_v2",
+        "prompt": "Original instrumental environmental gameplay cue for southern docks in a fictional coastal stone city. 98 BPM feel, rope-like percussion, low bowed strings, weathered brass, ceramic knocks, and maritime wind texture without gull calls. Steady, grounded, and tactical. No vocals, no lyrics, no artist references, no existing melody.",
+        "music_length_ms": 24000,
+        "force_instrumental": true,
+        "sign_with_c2pa": true
+      },
+      "requestHash": "d20041c9c5a150fee0615c4f9ed71340a731632d601eb2987aee88c42ba548fd",
+      "sha256": "d783037023ea4eba6c92667a68ba7c3e52363706d76cc1a9acaa3cf26041d287",
+      "bytes": 593261,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": null,
+      "songId": "ZEMNeS5o8zhg2iImEmaf",
+      "characterCost": null,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:52.149Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-match-start.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-match-start-v001.mp3",
+      "request": {
+        "text": "試合を開始します。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "fd4840e3209254b631b0eb0ac52543d11e60a04c01e8e0161de270da872cac1a",
+      "sha256": "f747b4a517b713d11a6a1fb6712954631b050285aaf7877ec4c0d491ccccb780",
+      "bytes": 40795,
+      "contentType": "audio/mpeg",
+      "requestId": "RGWqn2rtXZAoTePE6y9u",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 5,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:51.272Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-reach-objective.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-reach-objective-v001.mp3",
+      "request": {
+        "text": "次の地点へ向かってください。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "58c28c64fbcf7a349007a84bd2a44cce807d10aba5ae1a1c363bae5793bd22d0",
+      "sha256": "b917c089c2cc848de9dc9b8558f56bd8250362a00a155d99be2e92fd7ecc8ed1",
+      "bytes": 60857,
+      "contentType": "audio/mpeg",
+      "requestId": "w0b6RRInsIc593t4y8be",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 8,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:52.232Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-capture-begin.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-capture-begin-v001.mp3",
+      "request": {
+        "text": "地点の制圧を開始します。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "b06dca3bb26623aa691b5842ab6e9d12e1d2d82ecebe0fc60d09bf69b0b3b164",
+      "sha256": "8280eb3fabb89f1d8fb9dd21e5d6cb656b857f0c72ad98a0c6d1adecfc635b9c",
+      "bytes": 55214,
+      "contentType": "audio/mpeg",
+      "requestId": "d8YX8m6LqUpvUjR2R3N6",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 7,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:53.092Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-capture-progress.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-capture-progress-v001.mp3",
+      "request": {
+        "text": "味方が地点を制圧中です。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "02e8cef1f8eca6ca7fd848258d01e7101dbadb15203a20a7da8fd257e4a56db0",
+      "sha256": "68850df7f6aedf958295ac7462b9d37fa0fe385d7380b0a704dd2ae0b8e8a9d8",
+      "bytes": 58349,
+      "contentType": "audio/mpeg",
+      "requestId": "HChSDEHUFl6AFXCB3Mno",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 7,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:53.220Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-capture-secured.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-capture-secured-v001.mp3",
+      "request": {
+        "text": "地点を確保しました。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "d7d8b72bd42f702be7d96df19c3e608cbcd8a72a3d6770b65f14c972bbfa0722",
+      "sha256": "a5e4d51cc4edb2b52ad65cdf9a50c567eae35e57b7eb1e30fbc85885ef446964",
+      "bytes": 42675,
+      "contentType": "audio/mpeg",
+      "requestId": "AQ62V3Un2jEa7D8aKoac",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 6,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:54.014Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-capture-contested.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-capture-contested-v001.mp3",
+      "request": {
+        "text": "敵が地点に侵入しました。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "5691fa50108edc986e9b8d33995bd11d7fdfac7afc954402aa0031df6da8df42",
+      "sha256": "59083d7ea238fce4afca016d9ef323c479fd3fb07a1c728c084885bad1d1c353",
+      "bytes": 56468,
+      "contentType": "audio/mpeg",
+      "requestId": "GU4t7n9WHeokqkSzGoyn",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 7,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:54.165Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-capture-lost.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-capture-lost-v001.mp3",
+      "request": {
+        "text": "地点を奪われました。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "454c08f8be2b9aeb51075462d4970ad64d35519de64e15d0d9b5b24ee9a22b75",
+      "sha256": "325e1ec8a273073cc98bd2fba42d35f0b25d26b94bb800150c284edfa1d522b4",
+      "bytes": 42675,
+      "contentType": "audio/mpeg",
+      "requestId": "2hfmmaMmQ9EqSsc2H2Gp",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 6,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:54.919Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-rotation-open.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-rotation-open-v001.mp3",
+      "request": {
+        "text": "次の地点が開放されました。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "035f7f79fa632bf5c543b3f159dce65f0436f7adf11c2db24ef0b467a1bc0803",
+      "sha256": "8d9b36a6282f3213e38c9729e506c3c02147c621ce5eb05a0c8ee6e91124e221",
+      "bytes": 59603,
+      "contentType": "audio/mpeg",
+      "requestId": "U4TACYW7UcUax1Pm4isv",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 7,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:55.136Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-rotation-warning.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-rotation-warning-v001.mp3",
+      "request": {
+        "text": "移動経路を確保してください。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "4d6ea4787e5b2c74b11a4ace7a48ee872dda494eb1c3bfaadee3b83fe98b7539",
+      "sha256": "e35fc19b026d8b4419a1d9d26c02079b61312b2efca70569833c9aa09503e186",
+      "bytes": 58349,
+      "contentType": "audio/mpeg",
+      "requestId": "OT7ywT1W4lDgpjPkYqxF",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 8,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:55.870Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-ally-down.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-ally-down-v001.mp3",
+      "request": {
+        "text": "味方が倒れました。立て直しましょう。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "7ca4a869f6e403624e4096d07cfe8ea7cd9d882756c9573ee73e5df7f266f4f8",
+      "sha256": "525dc72d3d2eae757fb815869cbfd366d1dcd6cf24fd15909fc490795df66321",
+      "bytes": 69634,
+      "contentType": "audio/mpeg",
+      "requestId": "irjmfMpWouPtikaHhc18",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 10,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:56.132Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-team-advantage.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-team-advantage-v001.mp3",
+      "request": {
+        "text": "この流れを維持してください。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "52ec944dac059a6b3d7e51f591205f74cbffd6703c9c5d731b8d0c0bb280e05a",
+      "sha256": "d1392d867b1866fe945ef708a252ece97b2cf6782f73055d2f40cf976371176b",
+      "bytes": 52706,
+      "contentType": "audio/mpeg",
+      "requestId": "kJOtCFQnZwEOqhrgyEkT",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 8,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:56.823Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-regroup.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-regroup-v001.mp3",
+      "request": {
+        "text": "味方と合流して、次の攻撃に備えます。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "a9a28e8c0c58afb1129823a37f792b6bcea64040a865f9f770be3aec3ab5dc87",
+      "sha256": "2128574d4bfad7e9b8cf2a9ac8e81af3815ec5ae4585a44bf832aa20470bd24b",
+      "bytes": 87188,
+      "contentType": "audio/mpeg",
+      "requestId": "KgLUqKViCILfXhqa8S5j",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 10,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:57.161Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-overtime.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-overtime-v001.mp3",
+      "request": {
+        "text": "延長戦です。地点から離れないでください。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "5bcc9cd6a7be28ce614d70dec0203d46d76c2f348b7c2a61b8919c9953f40bfb",
+      "sha256": "e5e21da03f36a152eb16717858c0fe3c8e734a6ab9310fb0cbd37c9d26226b5a",
+      "bytes": 82800,
+      "contentType": "audio/mpeg",
+      "requestId": "e968k4GAtTglmB0prF0S",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 11,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:57.841Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-sudden-death.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-sudden-death-v001.mp3",
+      "request": {
+        "text": "決着の瞬間です。集中してください。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "fa7163bdcc5258ab13c6ee1f3a23c0b56277461a8bea8a0a592e47ceff01c6ed",
+      "sha256": "4a02a5a237edf1c908765d060966d4a97254fb3bd1a114c99d2c28257372ad05",
+      "bytes": 76530,
+      "contentType": "audio/mpeg",
+      "requestId": "orpU8lm22Esaj0KJHChw",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 9,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:58.222Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-one-minute.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-one-minute-v001.mp3",
+      "request": {
+        "text": "残り一分です。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "1b45d05ed418c19206767a9094b5296a338f4fa35e0cd4b15d54d2e69fffd41f",
+      "sha256": "32ae11142aa214093c7daeafae777ac0cafe7101cd77dab5d3601847371c3caf",
+      "bytes": 37033,
+      "contentType": "audio/mpeg",
+      "requestId": "JhKUvsCR3zEJs00UMdND",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 4,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:58.723Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-thirty-seconds.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-thirty-seconds-v001.mp3",
+      "request": {
+        "text": "残り三十秒です。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "44fa41efe23f21c65ed226afc80f25c696cba5fc25a9057100ab92f318224778",
+      "sha256": "e0c0bce9ea6cf00dce6fca0ddac9376e491e6e62934735bd22ed7ae5783d2b37",
+      "bytes": 38287,
+      "contentType": "audio/mpeg",
+      "requestId": "Pb7ifWG2OFpGGYje5za2",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 4,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:59.152Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-ten-seconds.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-ten-seconds-v001.mp3",
+      "request": {
+        "text": "残り十秒です。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "7c228af2ec1584720b4a678b351f855919578e4b17826e1f87d62aa9018407dc",
+      "sha256": "e2a7533e58b935daac3d33fc1f31c01f26997524000359d67fc71eeb1be80b67",
+      "bytes": 38287,
+      "contentType": "audio/mpeg",
+      "requestId": "XvZx0RxR790UbKo99IY5",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 4,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:26:59.868Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-victory.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-victory-v001.mp3",
+      "request": {
+        "text": "勝利です。素晴らしい連携でした。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "6171d4b091713c62a63bfc9f157faac60013bfbba8219b37425f9caf4dbcecc0",
+      "sha256": "98fd95c2e0b851cc860c0547276c3f8cffa7dfcb4952f7da5ba8acdf58536e71",
+      "bytes": 65245,
+      "contentType": "audio/mpeg",
+      "requestId": "06KEvj24IxJsTeSBZqTu",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 9,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:27:00.131Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-defeat.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-defeat-v001.mp3",
+      "request": {
+        "text": "試合終了。次の戦いへ備えましょう。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "7ea366307d4ab2545569d287f3b8c02d01abce1480bd8e79d24ee4379d4aa794",
+      "sha256": "1ef8afe6d884ebbd0332a614be58da0a1178d895a7953fc6741ae321ed7d26b4",
+      "bytes": 79665,
+      "contentType": "audio/mpeg",
+      "requestId": "R8Qv4ulbHpxgaKaxpI6Q",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 9,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:27:00.869Z"
+    },
+    {
+      "id": "aaa.wave001.voice.ja-ops-rematch-ready.v001",
+      "kind": "text_to_speech",
+      "providerVoice": {
+        "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+        "category": "premade",
+        "selection": "provider-premade multilingual candidate; no clone, impersonation, or real-person likeness"
+      },
+      "endpoint": "/v1/text-to-speech/Xb7hH8MSUJpSbSDYk0k2?output_format=mp3_44100_192",
+      "output": "generated/voices/ja-ops-rematch-ready-v001.mp3",
+      "request": {
+        "text": "準備ができたら、次の試合へ進みます。",
+        "model_id": "eleven_multilingual_v2",
+        "language_code": "ja",
+        "apply_text_normalization": "auto"
+      },
+      "requestHash": "82d8d2a22d051a56a9bfe43585dcdbe0c28828a7fefc80bec8d1234c089db8f0",
+      "sha256": "22b2b2caf8eda076159ea11d241c4dda0f06b6667632b214c1bcddf17f9c8221",
+      "bytes": 74022,
+      "contentType": "audio/mpeg",
+      "requestId": "I57iOx1ojYCTHCsMyW0g",
+      "traceId": null,
+      "songId": null,
+      "characterCost": 10,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T05:27:01.165Z"
+    }
+  ]
+}

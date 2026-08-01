@@ -89,12 +89,11 @@ export function resolveHeroSelectionContext(joined, matchState, alive) {
   return null;
 }
 
-export function isHeroRoleSelectable(context, candidateRole, currentRole, roleCount = 0, roleLimit = 0) {
-  if (context === 'respawn') return !!currentRole && candidateRole === currentRole;
-  if (context === 'setup') {
-    return candidateRole === currentRole || Number(roleCount) < Number(roleLimit);
-  }
-  return context === 'join';
+export function isHeroRoleSelectable(context) {
+  // Runtime hero legality is server-authoritative and capability-based.  This
+  // helper only answers whether the picker is in a server-supported window;
+  // it must never recreate the bot/audit 1/2/2 rotation as a client lock.
+  return context === 'join' || context === 'setup' || context === 'respawn';
 }
 
 export function formatReloadStatus(reloading, remainingSec, progress) {

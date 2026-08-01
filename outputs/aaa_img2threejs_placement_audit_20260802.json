@@ -1,0 +1,630 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedFor": "2026-08-02",
+  "scope": "candidate placement probe only; no runtime registration, no collision, no map data mutation",
+  "limits": {
+    "xyToleranceM": 0.35,
+    "thinVerticalM": 0.8,
+    "bodyBandM": 2.2,
+    "capsuleRadiusM": 0.4,
+    "standHeightM": 1.7
+  },
+  "mapSolids": 1064,
+  "baselineUnsafeClusters": 0,
+  "placements": [
+    {
+      "id": "prop-market-awning-01",
+      "specPath": "work/asset-rush/aaa-v1-pilot/img2threejs/prop-market-awning-01/OBJECT_SCULPT_SPEC.json",
+      "specSha256": "A48E5ACCEEA356A570ACE378BE07C93CCEE5659A754A77D17E75A4FF3E6DCE86",
+      "anchor": {
+        "solidId": "canonical-076-wall",
+        "position": [
+          20,
+          26.3,
+          4
+        ],
+        "yawRad": 0
+      },
+      "policy": {
+        "undersideMinM": 2.2,
+        "standingFloorZ": 4,
+        "rationale": "north cloister outer balustrade; canopy hangs inside the wall footprint, not over the walkway"
+      },
+      "adoptionState": "candidate",
+      "runtimeAdmission": "NOT_RUNTIME_ADMITTED",
+      "positionResolution": "transform.position, falling back to the attachment localStart/localEnd midpoint in object space; the length axis of tube/curve-sweep parts is taken from the dominant attachment direction",
+      "partCount": 10,
+      "parts": [
+        {
+          "id": "awning-root",
+          "kind": "declared-envelope",
+          "colliderType": "none",
+          "x": [
+            18.6,
+            21.4
+          ],
+          "y": [
+            26.025,
+            26.575
+          ],
+          "z": [
+            4,
+            6.55
+          ],
+          "widestXY": 2.8
+        },
+        {
+          "id": "canopy-panel",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            18.6,
+            21.4
+          ],
+          "y": [
+            26.025,
+            26.575
+          ],
+          "z": [
+            5.99,
+            6.11
+          ],
+          "widestXY": 2.8
+        },
+        {
+          "id": "left-post",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            18.68,
+            18.82
+          ],
+          "y": [
+            26.23,
+            26.37
+          ],
+          "z": [
+            3.955,
+            6.405
+          ],
+          "widestXY": 0.14
+        },
+        {
+          "id": "right-post",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            21.18,
+            21.32
+          ],
+          "y": [
+            26.23,
+            26.37
+          ],
+          "z": [
+            3.955,
+            6.405
+          ],
+          "widestXY": 0.14
+        },
+        {
+          "id": "front-hem",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            18.675,
+            21.325
+          ],
+          "y": [
+            26.562,
+            26.598
+          ],
+          "z": [
+            5.962,
+            5.998
+          ],
+          "widestXY": 2.65
+        },
+        {
+          "id": "left-tension-ring",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            18.775,
+            18.925
+          ],
+          "y": [
+            26.591,
+            26.609
+          ],
+          "z": [
+            5.775,
+            5.925
+          ],
+          "widestXY": 0.15
+        },
+        {
+          "id": "right-tension-ring",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            21.075,
+            21.225
+          ],
+          "y": [
+            26.591,
+            26.609
+          ],
+          "z": [
+            5.775,
+            5.925
+          ],
+          "widestXY": 0.15
+        },
+        {
+          "id": "left-cord",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            18.838,
+            18.862
+          ],
+          "y": [
+            26.588,
+            26.612
+          ],
+          "z": [
+            5.5,
+            6.1
+          ],
+          "widestXY": 0.024
+        },
+        {
+          "id": "right-cord",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            21.138,
+            21.162
+          ],
+          "y": [
+            26.588,
+            26.612
+          ],
+          "z": [
+            5.5,
+            6.1
+          ],
+          "widestXY": 0.024
+        },
+        {
+          "id": "fastener-cluster",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            18.85,
+            21.15
+          ],
+          "y": [
+            26.575,
+            26.605
+          ],
+          "z": [
+            5.915,
+            5.945
+          ],
+          "widestXY": 2.3
+        }
+      ],
+      "hosts": [
+        {
+          "partId": "awning-root",
+          "hostId": "canonical-076-wall",
+          "hostTop": 7
+        },
+        {
+          "partId": "canopy-panel",
+          "hostId": "canonical-076-wall",
+          "hostTop": 7
+        },
+        {
+          "partId": "left-post",
+          "hostId": "canonical-076-wall",
+          "hostTop": 7
+        },
+        {
+          "partId": "right-post",
+          "hostId": "canonical-076-wall",
+          "hostTop": 7
+        },
+        {
+          "partId": "front-hem",
+          "hostId": "canonical-076-wall",
+          "hostTop": 7
+        },
+        {
+          "partId": "left-tension-ring",
+          "hostId": "canonical-076-wall",
+          "hostTop": 7
+        },
+        {
+          "partId": "right-tension-ring",
+          "hostId": "canonical-076-wall",
+          "hostTop": 7
+        },
+        {
+          "partId": "left-cord",
+          "hostId": "canonical-076-wall",
+          "hostTop": 7
+        },
+        {
+          "partId": "right-cord",
+          "hostId": "canonical-076-wall",
+          "hostTop": 7
+        },
+        {
+          "partId": "fastener-cluster",
+          "hostId": "canonical-076-wall",
+          "hostTop": 7
+        }
+      ],
+      "aboveHost": [],
+      "walkableIntrusions": [],
+      "routeClearance": {
+        "nearest": {
+          "distanceM": 10.395,
+          "routeId": "routes.cloister",
+          "partId": "awning-root",
+          "at": [
+            30.5,
+            21,
+            4
+          ]
+        },
+        "blocking": []
+      },
+      "clusters": {
+        "baseline": 0,
+        "withCandidate": 0,
+        "new": []
+      },
+      "metrics": {
+        "lowestAuthoredPartZ": 3.955,
+        "envelope": {
+          "x": [
+            18.6,
+            21.4
+          ],
+          "y": [
+            26.025,
+            26.612
+          ],
+          "z": [
+            3.955,
+            6.55
+          ]
+        },
+        "groundContactParts": 2,
+        "undersideClearanceM": 1.5,
+        "outsideWalkableFootprint": true
+      },
+      "findings": [
+        {
+          "rule": "underside-clearance",
+          "severity": "note",
+          "partId": null,
+          "measured": 1.5,
+          "limit": 2.2,
+          "detail": "declared 2.20m underside is not met by the authored geometry; this placement passes only because the whole envelope sits inside the host wall footprint, outside any standing player body band"
+        }
+      ],
+      "verdict": "PASS"
+    },
+    {
+      "id": "prop-roof-finial-01",
+      "specPath": "work/asset-rush/aaa-v1-pilot/img2threejs/prop-roof-finial-01/OBJECT_SCULPT_SPEC.json",
+      "specSha256": "3CAFEBCFC9A4065476A9B41A0D371A29AE65DC2FC8949D2A3B5CF619EE0E7FEA",
+      "anchor": {
+        "solidId": "flash-site-kado-mass-north",
+        "position": [
+          50,
+          -30,
+          11
+        ],
+        "yawRad": 0
+      },
+      "policy": {
+        "rimClearanceMinM": 0.25,
+        "rationale": "authored roof socket above the playable standing surface; no climb affordance"
+      },
+      "adoptionState": "candidate",
+      "runtimeAdmission": "NOT_RUNTIME_ADMITTED",
+      "positionResolution": "transform.position, falling back to the attachment localStart/localEnd midpoint in object space; the length axis of tube/curve-sweep parts is taken from the dominant attachment direction",
+      "partCount": 8,
+      "parts": [
+        {
+          "id": "finial-root",
+          "kind": "declared-envelope",
+          "colliderType": "none",
+          "x": [
+            49.575,
+            50.425
+          ],
+          "y": [
+            -30.425,
+            -29.575
+          ],
+          "z": [
+            11,
+            12.65
+          ],
+          "widestXY": 0.85
+        },
+        {
+          "id": "stone-collar",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            49.64,
+            50.36
+          ],
+          "y": [
+            -30.36,
+            -29.64
+          ],
+          "z": [
+            11.035,
+            11.585
+          ],
+          "widestXY": 0.72
+        },
+        {
+          "id": "bronze-cap",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            49.74,
+            50.26
+          ],
+          "y": [
+            -30.26,
+            -29.74
+          ],
+          "z": [
+            11.65,
+            11.91
+          ],
+          "widestXY": 0.52
+        },
+        {
+          "id": "left-fin",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            49.74,
+            49.94
+          ],
+          "y": [
+            -30.04,
+            -29.96
+          ],
+          "z": [
+            11.77,
+            12.35
+          ],
+          "widestXY": 0.2
+        },
+        {
+          "id": "right-fin",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            50.06,
+            50.26
+          ],
+          "y": [
+            -30.04,
+            -29.96
+          ],
+          "z": [
+            11.77,
+            12.35
+          ],
+          "widestXY": 0.2
+        },
+        {
+          "id": "sea-glass-bead",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            49.91,
+            50.09
+          ],
+          "y": [
+            -30.09,
+            -29.91
+          ],
+          "z": [
+            12.33,
+            12.51
+          ],
+          "widestXY": 0.18
+        },
+        {
+          "id": "socket-ring",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            49.7,
+            50.3
+          ],
+          "y": [
+            -30.017,
+            -29.983
+          ],
+          "z": [
+            10.78,
+            11.38
+          ],
+          "widestXY": 0.6
+        },
+        {
+          "id": "finial-fastener-cluster",
+          "kind": "authored-part",
+          "colliderType": "none",
+          "x": [
+            49.83,
+            50.17
+          ],
+          "y": [
+            -29.92,
+            -29.88
+          ],
+          "z": [
+            11.925,
+            11.955
+          ],
+          "widestXY": 0.34
+        }
+      ],
+      "hosts": [
+        {
+          "partId": "finial-root",
+          "hostId": "flash-site-kado-mass-north",
+          "hostTop": 11
+        },
+        {
+          "partId": "stone-collar",
+          "hostId": "flash-site-kado-mass-north",
+          "hostTop": 11
+        },
+        {
+          "partId": "bronze-cap",
+          "hostId": "flash-site-kado-mass-north",
+          "hostTop": 11
+        },
+        {
+          "partId": "left-fin",
+          "hostId": "flash-site-kado-mass-north",
+          "hostTop": 11
+        },
+        {
+          "partId": "right-fin",
+          "hostId": "flash-site-kado-mass-north",
+          "hostTop": 11
+        },
+        {
+          "partId": "sea-glass-bead",
+          "hostId": "flash-site-kado-mass-north",
+          "hostTop": 11
+        },
+        {
+          "partId": "socket-ring",
+          "hostId": "flash-site-kado-mass-north",
+          "hostTop": 11
+        },
+        {
+          "partId": "finial-fastener-cluster",
+          "hostId": "flash-site-kado-mass-north",
+          "hostTop": 11
+        }
+      ],
+      "aboveHost": [
+        {
+          "partId": "finial-root",
+          "partKind": "declared-envelope",
+          "risesM": 1.65,
+          "widestXY": 0.85
+        },
+        {
+          "partId": "stone-collar",
+          "partKind": "authored-part",
+          "risesM": 0.585,
+          "widestXY": 0.72
+        },
+        {
+          "partId": "bronze-cap",
+          "partKind": "authored-part",
+          "risesM": 0.91,
+          "widestXY": 0.52
+        },
+        {
+          "partId": "left-fin",
+          "partKind": "authored-part",
+          "risesM": 1.35,
+          "widestXY": 0.2
+        },
+        {
+          "partId": "right-fin",
+          "partKind": "authored-part",
+          "risesM": 1.35,
+          "widestXY": 0.2
+        },
+        {
+          "partId": "sea-glass-bead",
+          "partKind": "authored-part",
+          "risesM": 1.51,
+          "widestXY": 0.18
+        },
+        {
+          "partId": "socket-ring",
+          "partKind": "authored-part",
+          "risesM": 0.38,
+          "widestXY": 0.6
+        },
+        {
+          "partId": "finial-fastener-cluster",
+          "partKind": "authored-part",
+          "risesM": 0.955,
+          "widestXY": 0.34
+        }
+      ],
+      "walkableIntrusions": [],
+      "routeClearance": {
+        "nearest": {
+          "distanceM": null,
+          "routeId": null,
+          "partId": null,
+          "at": null
+        },
+        "blocking": []
+      },
+      "clusters": {
+        "baseline": 0,
+        "withCandidate": 0,
+        "new": []
+      },
+      "metrics": {
+        "lowestAuthoredPartZ": 10.78,
+        "envelope": {
+          "x": [
+            49.575,
+            50.425
+          ],
+          "y": [
+            -30.425,
+            -29.575
+          ],
+          "z": [
+            10.78,
+            12.65
+          ]
+        },
+        "rimClearanceM": 1.575
+      },
+      "findings": [
+        {
+          "rule": "thin-vertical",
+          "severity": "fail",
+          "partId": "finial-root",
+          "partKind": "declared-envelope",
+          "measured": 0.85,
+          "limit": 0.8,
+          "detail": "rises 1.65m above host flash-site-kado-mass-north but is 0.85m wide"
+        }
+      ],
+      "verdict": "FAIL"
+    }
+  ],
+  "verdict": "FAIL"
+}

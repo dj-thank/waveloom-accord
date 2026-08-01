@@ -1,0 +1,10 @@
+[
+  {
+    "id": "tide-marker-material-separation",
+    "score": 0.77,
+    "threshold": 0.75,
+    "tier": "critical",
+    "result": "pass",
+    "notes": "The browser render clearly separates pale dielectric stone, dark oxidized bronze, and muted green-gray sea glass. This is a separation gate only; it does not claim the reference's porous albedo, patina wear, or exact PBR response."
+  }
+]

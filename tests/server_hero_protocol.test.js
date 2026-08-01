@@ -2,9 +2,16 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { HERO_BY_ID, DEFAULT_HERO_ID } from '../shared/data/heroes.js';
+import { World } from '../shared/sim/sim.js';
+import { buildMap } from '../shared/data/map_oshioi.js';
+import { COMBAT, MODE } from './helpers.js';
+import {
+  ROLE_SLOTS, countRoles, validateRuntimeComposition, validateSustainComposition,
+} from '../shared/rules/team_composition.js';
 import {
   resolveHeroId, sanitizeInput, connectedTeamCounts, chooseJoinTeam, canSendSnapshot,
-  canSelectHero,
+  canSelectHero, applyHeroSelectionTransaction, planRuntimeBotFill, planRuntimeHeroSelection,
+  selectRuntimeClaimSlot,
 } from '../server/runtime.js';
 
 test('joinのheroIdは正典ロスターだけを許可し、不明値は既定heroへ戻す', () => {
@@ -133,4 +140,88 @@ test('hero変更はSETUP中またはACTIVEのrespawn待機中だけ許可する'
   assert.equal(canSelectHero('ACTIVE', true, true), false);
   assert.equal(canSelectHero('ROUND_END', false, true), false);
   assert.equal(canSelectHero('MATCH_END', false, true), false);
+});
+
+test('role swap applies the projected human and bot heroes atomically on the authoritative World', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 76);
+  const human = world.addPlayer('human', false, 0, 'asagi');
+  const frontlineBot = world.addPlayer('frontline bot', true, 0, 'zairu');
+  world.addPlayer('damage bot', true, 0, 'shirasagi');
+  world.addPlayer('sustain bot', true, 0, 'tsuzuri');
+  world.addPlayer('utility bot', true, 0, 'karakasa');
+
+  const result = applyHeroSelectionTransaction(world, human.id, 'baraga', frontlineBot.id);
+  assert.deepEqual(result, { ok: true });
+  assert.equal(human.heroId, 'baraga');
+  assert.equal(frontlineBot.heroId, 'asagi');
+
+  const roster = [...world.players.values()].map(player => ({
+    id: player.id,
+    team: player.team,
+    heroId: player.heroId,
+    role: HERO_BY_ID[player.heroId].role,
+    teamFunctions: HERO_BY_ID[player.heroId].teamFunctions,
+  }));
+  assert.deepEqual(countRoles(roster), ROLE_SLOTS);
+  assert.equal(validateSustainComposition(roster, [0]).ok, true);
+
+  const beforeHuman = human.heroId;
+  const beforeBot = frontlineBot.heroId;
+  const selectHero = world.selectHero.bind(world);
+  world.selectHero = (id, heroId) => id === human.id ? false : selectHero(id, heroId);
+  const failed = applyHeroSelectionTransaction(world, human.id, 'zairu', frontlineBot.id);
+  assert.deepEqual(failed, { ok: false, code: 'selection_locked' });
+  assert.equal(human.heroId, beforeHuman);
+  assert.equal(frontlineBot.heroId, beforeBot);
+});
+
+test('runtime cross-role selection projects a real bot swap and preserves 1/2/2', () => {
+  const roster = ['zairu', 'asagi', 'shirasagi', 'tsuzuri', 'karakasa']
+    .map((heroId, index) => ({
+      id: `player-${index}`,
+      heroId,
+      team: 0,
+      isBot: index !== 0,
+    }));
+
+  const result = planRuntimeHeroSelection(roster, 'player-0', 'botan');
+
+  assert.equal(result.ok, true);
+  assert.equal(result.swapPlayerId, 'player-1');
+  assert.equal(result.projected.find(player => player.id === 'player-0').heroId, 'botan');
+  assert.equal(result.projected.find(player => player.id === 'player-1').heroId, 'zairu');
+  assert.deepEqual(countRoles(result.projected), ROLE_SLOTS);
+  assert.equal(validateRuntimeComposition(result.projected).ok, true);
+});
+
+test('rematch bot fill restores the exact fixed slots around human selections', () => {
+  const occupied = ['zairu', 'asagi', 'tsuzuri']
+    .map((heroId, index) => ({ id: `human-${index}`, heroId, team: 0, isBot: false }));
+
+  const result = planRuntimeBotFill(0, 0, occupied);
+
+  assert.equal(result.ok, true);
+  assert.equal(result.botSlots.length, 2);
+  assert.equal(result.projected.length, 5);
+  assert.deepEqual(countRoles(result.projected), ROLE_SLOTS);
+  assert.equal(validateRuntimeComposition(result.projected).ok, true);
+});
+
+test('rematch bot fill fails closed when humans already violate a fixed role slot', () => {
+  const occupied = ['hokuchi', 'shirasagi', 'botan', 'tsuzuri']
+    .map((heroId, index) => ({ id: `human-${index}`, heroId, team: 0, isBot: false }));
+
+  const result = planRuntimeBotFill(0, 0, occupied);
+  assert.equal(result.ok, false);
+  assert.equal(result.code, 'role_slots_required');
+});
+
+test('join slot planning only claims a bot slot with the requested fixed role', () => {
+  const roster = ['zairu', 'asagi', 'shirasagi', 'tsuzuri', 'karakasa']
+    .map((heroId, index) => ({ id: `slot-${index}`, heroId, team: 0 }));
+
+  const result = selectRuntimeClaimSlot(roster, ['slot-0'], 'hokuchi');
+  assert.equal(result.ok, false);
+  assert.equal(result.code, 'role_full');
+  assert.equal(result.role, 'damage');
 });

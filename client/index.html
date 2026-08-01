@@ -19,7 +19,8 @@
     color: var(--c-text);
     user-select: none;
   }
-  #gl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; }
+  #gl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; touch-action: none; }
+  #touchControls { display: none; position: fixed; inset: 0; z-index: 15; pointer-events: none; }
 
   /* ---- HUD 全体 ---- */
   #hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
@@ -388,6 +389,7 @@
   .heroOptionName { display: block; font-size: 16px; font-weight: 800; }
   .heroOptionType { display: block; font-size: 10px; opacity: 0.74; }
   .heroOptionMeta { display: block; margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
+  .heroCapability { color: #ffd76e; font-weight: 800; letter-spacing: 0.02em; }
   .heroActionList { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 5px; }
   .heroActionList span { max-width: 100%; padding: 1px 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 9px; border-radius: 3px; background: rgba(0,0,0,0.2); }
   #heroDetail { min-height: 0; overflow: auto; padding: 14px; border: 1px solid var(--c-panel-line); border-radius: 8px; background: rgba(0,0,0,0.2); }
@@ -601,6 +603,39 @@
     body.hud-expanded #bottomPanel { max-height: 48dvh; }
   }
 
+  @media (pointer: coarse), (hover: none) {
+    #touchControls { display: block; }
+    #touchMoveGuide {
+      position: absolute; left: max(18px, env(safe-area-inset-left));
+      bottom: calc(var(--hud-bottom-gap) + 104px); width: 104px; height: 104px;
+      display: grid; place-items: center; border: 2px solid rgba(191,238,244,0.58); border-radius: 50%;
+      color: rgba(238,246,248,0.88); background: rgba(4,13,18,0.2); font-size: 11px; font-weight: 900;
+      letter-spacing: 0.12em; text-shadow: 0 1px 3px #000; pointer-events: none;
+    }
+    #touchActionGrid {
+      position: absolute; right: max(12px, env(safe-area-inset-right));
+      bottom: calc(var(--hud-bottom-gap) + 92px); display: grid;
+      grid-template-columns: repeat(3, 52px); grid-template-rows: repeat(3, 52px); gap: 7px;
+      pointer-events: auto;
+    }
+    .touchButton {
+      min-width: 0; min-height: 0; border: 1px solid rgba(210,245,248,0.72); border-radius: 50%;
+      color: #f4fdff; background: rgba(8,29,38,0.8); box-shadow: 0 3px 12px rgba(0,0,0,0.35);
+      font: inherit; font-size: 10px; font-weight: 900; touch-action: none; -webkit-tap-highlight-color: transparent;
+    }
+    .touchButton:active { transform: scale(0.94); background: rgba(53,213,232,0.86); color: #061318; }
+    #touchFire { grid-column: 3; grid-row: 2 / span 2; width: 64px; height: 64px; align-self: end; justify-self: end; background: rgba(128,49,29,0.86); border-color: rgba(255,198,166,0.82); }
+    #touchUlt { color: #322400; background: rgba(255,215,110,0.92); border-color: rgba(255,242,185,0.96); }
+    #touchJump { grid-column: 1; grid-row: 3; }
+  }
+
+  @media (pointer: coarse) and (max-width: 600px) {
+    #touchMoveGuide { bottom: calc(var(--hud-bottom-gap) + 88px); width: 88px; height: 88px; font-size: 9px; }
+    #touchActionGrid { bottom: calc(var(--hud-bottom-gap) + 78px); grid-template-columns: repeat(3, 46px); grid-template-rows: repeat(3, 46px); gap: 5px; }
+    .touchButton { font-size: 9px; }
+    #touchFire { width: 58px; height: 58px; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
@@ -705,7 +740,7 @@
       </div>
     </div>
     <section id="guidancePanel" aria-label="現在の役割と推奨行動" data-urgency="normal">
-      <div id="guidanceRolePurpose">ロールの責務を読み込み中</div>
+      <div id="guidanceRolePurpose">ロールと能力の責務を読み込み中</div>
       <div id="guidancePhase">灯見</div>
       <div id="guidanceInstruction">人数・遮蔽・クールダウンを確認する。</div>
       <ul id="guidanceChecklist"><li>味方と合流</li></ul>
@@ -716,7 +751,7 @@
     <div class="inner">
       <div id="deathTitle">復帰待機</div>
       <div id="respawnTxt">復帰まで --.- 秒</div>
-      <div id="respawnContext" hidden>次の復帰キャラクターを同じロール内で変更できます。</div>
+      <div id="respawnContext" hidden>次の復帰キャラクターを全ロールから選べます。別ロールはBot交換で固定1/2/2と継続回復役を維持します。</div>
       <button id="respawnHeroBtn" type="button" hidden>復帰キャラクターを変更</button>
     </div>
   </div>
@@ -763,11 +798,25 @@
   <div id="lockHint" class="panel">画面クリックでマウス操作、またはGamepad Startで操作再開。WASD / 左射撃 / 右サブ / Shift・E / Q ／ View: スコアボード。</div>
 </div>
 
+<div id="touchControls" aria-label="タッチ操作">
+  <div id="touchMoveGuide" aria-hidden="true">移動</div>
+  <div id="touchActionGrid" aria-label="タッチ戦闘操作">
+    <button id="touchAbility1" class="touchButton" type="button" data-touch-action="ability1" aria-label="能力1">能力1</button>
+    <button id="touchAbility2" class="touchButton" type="button" data-touch-action="ability2" aria-label="能力2">能力2</button>
+    <button id="touchUlt" class="touchButton" type="button" data-touch-action="ultimate" aria-label="必殺技">必殺</button>
+    <button id="touchSecondary" class="touchButton" type="button" data-touch-action="secondary" aria-label="サブ射撃">サブ</button>
+    <button id="touchReload" class="touchButton" type="button" data-touch-action="reload" aria-label="リロード">装填</button>
+    <button id="touchFire" class="touchButton" type="button" data-touch-action="fire" aria-label="射撃">射撃</button>
+    <button id="touchJump" class="touchButton" type="button" data-touch-action="jump" aria-label="ジャンプ">跳</button>
+    <button id="touchCrouch" class="touchButton" type="button" data-touch-action="crouch" aria-label="しゃがむ">屈</button>
+  </div>
+</div>
+
 <div id="joinOverlay" role="dialog" aria-modal="true" aria-labelledby="joinTitle">
   <div id="joinCard">
     <h1 id="joinTitle">篝合</h1>
     <div class="subtitle">モード「潮占」 — 潮汲み環礁ウルハ・大潮井（Production Candidate）</div>
-    <div id="roleRule">固定編成を読み込み中</div>
+    <div id="roleRule">固定1/2/2・継続回復契約を読み込み中</div>
     <div id="mapStatus" role="status" aria-live="polite">提供3Dマップを読み込み中…</div>
     <div id="joinControls">
       <label for="nameInput">参加名</label>

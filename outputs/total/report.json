@@ -1,0 +1,22 @@
+[
+  {
+    "view": "network",
+    "applied": true,
+    "file": "outputs/total/network.png"
+  },
+  {
+    "view": "objective",
+    "applied": true,
+    "file": "outputs/total/objective.png"
+  },
+  {
+    "view": "spawn",
+    "applied": true,
+    "file": "outputs/total/spawn.png"
+  },
+  {
+    "view": "site-mizuichi",
+    "applied": true,
+    "file": "outputs/total/site-mizuichi.png"
+  }
+]

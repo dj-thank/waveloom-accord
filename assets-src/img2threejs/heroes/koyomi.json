@@ -1,0 +1,107 @@
+{
+  "id": "koyomi",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/koyomi/koyomi-concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/koyomi/koyomi-concept-green-v1.png"
+  },
+  "role": "support",
+  "cohort": "tactical utility",
+  "modelArchetype": "clockwork chronicle mage",
+  "proportions": {
+    "heightM": 1.7,
+    "bodyRatio": "small torso,large mantle,balanced stance",
+    "notes": "Keep koyomi proportions legible at gameplay distance; preserve the distinctive clock dial face and side tabs against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "clock dial face and side tabs",
+      "scroll mantle around narrow core",
+      "ringed casting hands"
+    ],
+    "side": [
+      "small torso,large mantle,balanced stance profile",
+      "split robe hems",
+      "floating clock rings"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "lilac",
+      "hex": "#9b78c0",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "ink",
+      "hex": "#30253f",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "gold",
+      "hex": "#d9b36c",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "clock dial face and side tabs"
+    ],
+    "torso": [
+      "scroll mantle around narrow core"
+    ],
+    "limbs": [
+      "ringed casting hands",
+      "split robe hems"
+    ],
+    "weapons": [
+      "time scroll staff"
+    ],
+    "accessories": [
+      "floating clock rings"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "tempo sidestep",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "mark and blink",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The floating clock rings overhang can inflate the collider if not separated.",
+    "Asymmetric ringed casting hands needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 14,
+    "rationale": "koyomi establishes the tactical utility cohort and exposes its floating clock rings anchor early."
+  },
+  "status": "brief"
+}

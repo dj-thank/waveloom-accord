@@ -1,0 +1,10 @@
+[
+  {
+    "id": "tide-marker-material-separation",
+    "score": 0.79,
+    "threshold": 0.75,
+    "tier": "critical",
+    "result": "pass",
+    "notes": "The 14-segment irregularized courses and procedural macro/meso variation reduce the toy-like faceting while keeping stone, bronze, and sea glass in separate shader branches. The source's high-frequency pores and exact patina remain an approximation."
+  }
+]

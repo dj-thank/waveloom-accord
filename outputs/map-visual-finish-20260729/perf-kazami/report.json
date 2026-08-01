@@ -1,0 +1,74 @@
+{
+  "globalInfo": {
+    "instanceCount": 17497,
+    "layerCount": 110,
+    "siteCount": 5,
+    "mapId": "map_oshioi",
+    "presentationId": "oshioi-shiokagami-original-v1"
+  },
+  "report": [
+    {
+      "view": "site-kazami",
+      "stats": {
+        "snapshot": {
+          "quality": "high",
+          "profile": {
+            "dprCap": 1.75,
+            "shadows": true,
+            "shadowMapSize": 2048,
+            "particleBudget": 420,
+            "tracerBudget": 200,
+            "targetFrameMs": 16.7
+          },
+          "frameMs": {
+            "samples": 6,
+            "average": 30.566666666666606,
+            "p95": 50,
+            "p99": 50,
+            "max": 50
+          },
+          "pools": {
+            "particles": {
+              "active": 0,
+              "budget": 420,
+              "capacity": 420,
+              "peak": 0
+            },
+            "tracers": {
+              "active": 0,
+              "budget": 200,
+              "capacity": 200,
+              "peak": 0
+            }
+          },
+          "renderer": {
+            "memory": {
+              "geometries": 157,
+              "textures": 15
+            },
+            "render": {
+              "calls": 155,
+              "triangles": 502634,
+              "points": 0,
+              "lines": 3474,
+              "frame": 6
+            }
+          }
+        },
+        "rendererInfo": {
+          "memory": {
+            "geometries": 157,
+            "textures": 15
+          },
+          "render": {
+            "calls": 155,
+            "triangles": 502634,
+            "points": 0,
+            "lines": 3474,
+            "frame": 6
+          }
+        }
+      }
+    }
+  ]
+}

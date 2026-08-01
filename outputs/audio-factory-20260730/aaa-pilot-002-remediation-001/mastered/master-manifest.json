@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-29T19:42:49.935Z",
+  "sourceManifest": "outputs/audio-factory-20260730/manifests/aaa-pilot-002-remediation-001.json",
+  "kind": "sound_effect",
+  "targetSamplePeakDb": -1,
+  "policy": "attenuation-only candidate mastering; raw provider files are immutable; sample-peak headroom is technical evidence, not a substitute for true-peak, loudness, creative, rights, or in-engine mix approval",
+  "admission": "candidate-only; mastered output is not part of the shipped Local DSP catalog",
+  "results": [
+    {
+      "id": "aaa.pilot002.sfx.ambient-market-canopy.v002",
+      "family": "ambient",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002-remediation-001/generated/sfx/ambient-market-canopy-v002.mp3",
+      "inputSha256": "4cd3895fe232e13e7384b8568496379b4dcd9992f37e0939016b4bbee204d14b",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002-remediation-001/mastered/sfx/ambient-market-canopy-v002.mp3",
+      "outputSha256": "7ac4f6a33c3a567aa07b9bbf8a427a8c2610b5c38a433aebefe4ecedb6a60880",
+      "bytes": 289689,
+      "sourceMetrics": {
+        "meanDb": -40.9,
+        "maxDb": -10.5
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -41.3,
+        "maxDb": -10.8
+      },
+      "status": "mastered"
+    }
+  ],
+  "mastered": 1,
+  "failed": 0
+}

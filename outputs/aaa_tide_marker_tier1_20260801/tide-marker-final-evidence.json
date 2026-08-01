@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "capturedAt": "2026-08-01",
+  "candidateOnly": true,
+  "admission": "NOT_RUNTIME_ADMITTED",
+  "collision": "none",
+  "source": {
+    "reference": "work/asset-rush/aaa-v1-pilot/image-candidates/prop-tide-marker-01-v1.png",
+    "referenceSha256": "1A5B33A68A0A0A4C459C95FD203B7E408F8038C38AFD13E537963433EFDDA219",
+    "tier1Reference": "outputs/aaa_tide_marker_tier1_20260801/reference-front-silhouette.png",
+    "tier1ReferenceIs": "derived filled silhouette from the retained top-left reference crop; original reference remains the material/art source"
+  },
+  "browser": {
+    "webgl": true,
+    "assetTriangles": 1156,
+    "assetDrawCalls": 2,
+    "captureFrameTriangles": 1156,
+    "captureFrameDrawCalls": 2,
+    "floorHiddenForCapture": true,
+    "views": ["front", "three-quarter", "rear"],
+    "consoleExceptions": 0,
+    "telemetrySource": "work/asset-rush/aaa-v1-pilot/img2threejs/prop-tide-marker-01/tide-marker-preview.js"
+  },
+  "tier1": {
+    "passed": true,
+    "iou": 0.9123,
+    "aspectRatioDelta": 0.0081,
+    "scaleDelta": 0.0081,
+    "bilateralSymmetryError": 0.0235,
+    "colorDeltaMax": 14.95,
+    "renderHash": "c9126343e42215b2"
+  },
+  "multiAngle": {
+    "passed": true,
+    "referenceAreaFraction": 0.2252443,
+    "threeQuarterRatio": 1.001104,
+    "rearRatio": 1.039359,
+    "degenerate": false
+  },
+  "localImg2ThreeJsLedger": {
+    "passesCompleted": 8,
+    "passes": ["blockout", "structural-pass", "form-refinement", "material-pass", "surface-pass", "lighting-pass", "interaction-pass", "optimization-pass"],
+    "reviewType": "candidate self-review; not human AAA approval"
+  },
+  "sha256": {
+    "frontCandidate": "B426AF6B4C96E4B502724E64C16C1A0E6988A8C255536CF0DA34184B71AD645E",
+    "frontCandidateSquare": "C9126343E42215B2363F901BA656A16EBB146903055EA7AB2352488FD4D9989D",
+    "threeQuarterCandidate": "D2AA7199462EE3891F6CCDAF624527534AA0013C051F261B9B8976415F4B5B64",
+    "rearCandidate": "FDA1A4F6E803735E8E680C03C09CBAEEEB9BF3A0573101E009494A20DEAB5D28",
+    "rawReferenceFront": "23FA6EC70AB02DB923799C9D8679B7D96B77CEA42C86A59E195D66A2B979A5A5",
+    "tier1ReferenceSilhouette": "F3AE9C54190475B651D180715FAA99C2A2FE06DA8D3966B00A099B5C0AC2B46F"
+  },
+  "openGates": [
+    "human art-direction review",
+    "AI-vision review if required by the release owner",
+    "map placement and collision safety proposal",
+    "integrated runtime performance",
+    "runtime registration and release approval"
+  ]
+}

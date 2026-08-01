@@ -1,0 +1,12 @@
+[
+  {
+    "view": "network",
+    "applied": true,
+    "file": "outputs/loop1/network.png"
+  },
+  {
+    "view": "site-mizuichi",
+    "applied": true,
+    "file": "outputs/loop1/site-mizuichi.png"
+  }
+]

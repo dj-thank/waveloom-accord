@@ -1,0 +1,18 @@
+[
+  {
+    "id": "tide-marker-course-and-band-rhythm",
+    "score": 0.84,
+    "threshold": 0.8,
+    "tier": "critical",
+    "result": "pass",
+    "notes": "Four discrete stone courses and two continuous restraint bands are visibly separated, with profile overlap preventing floating pieces. The bands are currently simplified dark bronze rather than reference-patina detailed."
+  },
+  {
+    "id": "tide-marker-inset-and-bezel",
+    "score": 0.78,
+    "threshold": 0.72,
+    "tier": "important",
+    "result": "pass",
+    "notes": "A single non-emissive convex sea-glass inset sits inside a bronze torus bezel on the upper band; its convexity is authored geometry, not an emissive gameplay cue."
+  }
+]

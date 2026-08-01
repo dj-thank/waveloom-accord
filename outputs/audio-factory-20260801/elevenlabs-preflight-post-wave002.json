@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-08-01T03:39:25.043Z",
+  "apiKeyPresent": true,
+  "modelListing": {
+    "availableModels": 8,
+    "requiredTts": [
+      {
+        "modelId": "eleven_multilingual_v2",
+        "listed": true,
+        "canDoTextToSpeech": true,
+        "concurrencyGroup": "standard"
+      }
+    ]
+  },
+  "endpointCapabilityBoundary": "Music and sound-effect availability is not inferred from /v1/models; prove each with a bounded endpoint-specific candidate wave and record its response metadata.",
+  "subscription": {
+    "access": "available",
+    "status": "active",
+    "creditsUsed": 9153,
+    "creditLimit": 121005,
+    "creditsRemaining": 111852,
+    "overageEnabled": false
+  },
+  "admission": "preflight-only; no candidate is admitted to runtime, distribution, or human approval by this record"
+}

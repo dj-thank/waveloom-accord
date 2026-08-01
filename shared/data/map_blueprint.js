@@ -89,6 +89,69 @@ function clonePoint(point, label) {
   return vector(point, 3, label);
 }
 
+function cloneData(value) {
+  if (Array.isArray(value)) return value.map(cloneData);
+  if (!value || typeof value !== 'object') return value;
+  return Object.fromEntries(Object.entries(value).map(([key, child]) => [key, cloneData(child)]));
+}
+
+function cloneObjective(objective, label, { requireId = false } = {}) {
+  invariant(objective && typeof objective === 'object' && !Array.isArray(objective), `${label} must be an object`);
+  const id = objective.id == null ? undefined : String(objective.id);
+  if (requireId) invariant(id?.trim(), `${label}.id is required`);
+  const radiusM = finiteNumber(objective.radiusM, `${label}.radiusM`);
+  const heightM = finiteNumber(objective.heightM, `${label}.heightM`);
+  invariant(radiusM > 0, `${label}.radiusM must be positive`);
+  invariant(heightM > 0, `${label}.heightM must be positive`);
+  return {
+    ...cloneData(objective),
+    ...(id === undefined ? {} : { id }),
+    center: clonePoint(objective.center, `${label}.center`),
+    radiusM,
+    heightM,
+  };
+}
+
+function cloneObjectives(objectives, flashpoint) {
+  if (objectives == null) return undefined;
+  invariant(Array.isArray(objectives) && objectives.length > 0, 'objectives must contain entries');
+  const cloned = objectives.map((objective, index) => (
+    cloneObjective(objective, `objectives[${index}]`, { requireId: true })
+  ));
+  const ids = new Set();
+  for (const objective of cloned) {
+    invariant(!ids.has(objective.id), `duplicate objective id ${objective.id}`);
+    ids.add(objective.id);
+  }
+
+  const declaredSiteCount = flashpoint?.layout?.siteCount;
+  if (declaredSiteCount != null) {
+    invariant(
+      Number.isSafeInteger(declaredSiteCount) && declaredSiteCount > 0,
+      'flashpoint.layout.siteCount must be a positive integer',
+    );
+    invariant(
+      cloned.length === declaredSiteCount,
+      `objectives must match flashpoint.layout.siteCount (${declaredSiteCount})`,
+    );
+  }
+  const flashpointSites = flashpoint?.sites;
+  if (flashpointSites != null) {
+    invariant(Array.isArray(flashpointSites), 'flashpoint.sites must be an array');
+    const flashpointIds = flashpointSites.map((site, index) => {
+      invariant(site && typeof site === 'object', `flashpoint.sites[${index}] must be an object`);
+      invariant(typeof site.id === 'string' && site.id.trim(), `flashpoint.sites[${index}].id is required`);
+      return site.id;
+    });
+    invariant(
+      flashpointIds.length === cloned.length
+        && flashpointIds.every((id, index) => id === cloned[index].id),
+      'objectives must preserve the ordered flashpoint.sites IDs',
+    );
+  }
+  return cloned;
+}
+
 function cloneRoutes(routes = {}) {
   invariant(routes && typeof routes === 'object' && !Array.isArray(routes), 'routes must be an object');
   return Object.fromEntries(Object.entries(routes).map(([id, points]) => {
@@ -137,6 +200,8 @@ export function compileMapBlueprint(blueprint) {
     invariant(decoration.collision === false, `decoration ${decoration.id || index} must set collision:false`);
     return { ...decoration, collision: false };
   });
+  const flashpoint = blueprint.flashpoint == null ? undefined : cloneData(blueprint.flashpoint);
+  const objectives = cloneObjectives(blueprint.objectives, flashpoint);
 
   return {
     ...blueprint,
@@ -148,12 +213,11 @@ export function compileMapBlueprint(blueprint) {
       ...door,
       id: door.id || `setup-door-${index + 1}`,
     })),
-    objective: blueprint.objective ? {
-      ...blueprint.objective,
-      center: clonePoint(blueprint.objective.center, 'objective.center'),
-      radiusM: finiteNumber(blueprint.objective.radiusM, 'objective.radiusM'),
-      heightM: finiteNumber(blueprint.objective.heightM, 'objective.heightM'),
-    } : undefined,
+    objective: blueprint.objective
+      ? cloneObjective(blueprint.objective, 'objective')
+      : undefined,
+    objectives,
+    flashpoint,
     spawns: cloneSpawns(blueprint.spawns),
     routes: cloneRoutes(blueprint.routes),
     pickups: (blueprint.pickups || []).map((pickup, index) => ({

@@ -1,0 +1,108 @@
+{
+  "id": "tsuzuri",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/tsuzuri/tsuzuri-concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/tsuzuri/tsuzuri-concept-green-v1.png"
+  },
+  "role": "support",
+  "cohort": "high output healer",
+  "modelArchetype": "needlework shrine medic",
+  "proportions": {
+    "heightM": 1.72,
+    "bodyRatio": "upright slim body,wide sleeves,light feet",
+    "notes": "Keep tsuzuri proportions legible at gameplay distance; preserve the distinctive needle crown and calm mask against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "needle crown and calm mask",
+      "layered robe with chest spool",
+      "long sleeve hands"
+    ],
+    "side": [
+      "upright slim body,wide sleeves,light feet profile",
+      "soft sandals",
+      "thread spool"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "gold",
+      "hex": "#e3b34e",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "ivory",
+      "hex": "#f4ead0",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "red thread",
+      "hex": "#b84e4e",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "needle crown and calm mask"
+    ],
+    "torso": [
+      "layered robe with chest spool"
+    ],
+    "limbs": [
+      "long sleeve hands",
+      "soft sandals"
+    ],
+    "weapons": [
+      "healing needle fan"
+    ],
+    "accessories": [
+      "thread spool"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "gentle glide",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "channel heal",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The thread spool overhang can inflate the collider if not separated.",
+    "Asymmetric long sleeve hands needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 13,
+    "rationale": "tsuzuri establishes the high output healer cohort and exposes its thread spool anchor early."
+  },
+  "status": "brief"
+}
+

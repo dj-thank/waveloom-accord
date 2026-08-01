@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  canIssueInputSequence,
   resolvePredictionMovementConfig,
   resolveSnapshotGrounded,
   resolveSnapshotMoveSpeedMultiplier,
@@ -15,6 +16,18 @@ test('prediction drops both applied ACKs and explicitly retired input', () => {
   assert.deepEqual(retirePendingInputs(pending, { ack: 1, retired: 3 }), [{ seq: 4 }]);
   assert.deepEqual(retirePendingInputs(pending, { ack: 2 }), [{ seq: 3 }, { seq: 4 }]);
   assert.deepEqual(pending, [{ seq: 1 }, { seq: 2 }, { seq: 3 }, { seq: 4 }]);
+});
+
+test('client holds its input sequence below the server reorder window while snapshots stall', () => {
+  const stalled = { ack: 0, retired: 0 };
+  assert.equal(canIssueInputSequence(0, stalled), true);
+  assert.equal(canIssueInputSequence(23, stalled), true);
+  assert.equal(canIssueInputSequence(24, stalled), false);
+
+  const recovered = { ack: 20, retired: 20 };
+  assert.equal(canIssueInputSequence(43, recovered), true);
+  assert.equal(canIssueInputSequence(44, recovered), false);
+  assert.equal(canIssueInputSequence(100, { ack: null, retired: 99 }), true);
 });
 
 test('snapshotのgrounded booleanは位置推定より優先する', () => {

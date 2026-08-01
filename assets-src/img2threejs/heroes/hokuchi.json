@@ -1,0 +1,108 @@
+{
+  "id": "hokuchi",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/hokuchi/hokuchi-concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/hokuchi/hokuchi-concept-green-v1.png"
+  },
+  "role": "damage",
+  "cohort": "close striker",
+  "modelArchetype": "ember street fighter",
+  "proportions": {
+    "heightM": 1.78,
+    "bodyRatio": "compact muscular chest,forward lean,large hands",
+    "notes": "Keep hokuchi proportions legible at gameplay distance; preserve the distinctive ember mask with cheek vents against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "ember mask with cheek vents",
+      "sleeveless wrapped torso",
+      "padded striking forearms"
+    ],
+    "side": [
+      "compact muscular chest,forward lean,large hands profile",
+      "charred shin wraps",
+      "fuel canister"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "red",
+      "hex": "#db5537",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "coal",
+      "hex": "#272425",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "amber",
+      "hex": "#f6aa45",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "ember mask with cheek vents"
+    ],
+    "torso": [
+      "sleeveless wrapped torso"
+    ],
+    "limbs": [
+      "padded striking forearms",
+      "charred shin wraps"
+    ],
+    "weapons": [
+      "oil torch gauntlet"
+    ],
+    "accessories": [
+      "fuel canister"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "short explosive sprint",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "ignite punch",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The fuel canister overhang can inflate the collider if not separated.",
+    "Asymmetric padded striking forearms needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 10,
+    "rationale": "hokuchi establishes the close striker cohort and exposes its fuel canister anchor early."
+  },
+  "status": "brief"
+}
+

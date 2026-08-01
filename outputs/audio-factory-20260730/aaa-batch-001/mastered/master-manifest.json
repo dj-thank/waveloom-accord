@@ -1,0 +1,2013 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-29T19:50:52.796Z",
+  "sourceManifest": "outputs/audio-factory-20260730/manifests/aaa-batch-001.json",
+  "kind": "sound_effect",
+  "targetSamplePeakDb": -1,
+  "policy": "attenuation-only candidate mastering; raw provider files are immutable; sample-peak headroom is technical evidence, not a substitute for true-peak, loudness, creative, rights, or in-engine mix approval",
+  "admission": "candidate-only; mastered output is not part of the shipped Local DSP catalog",
+  "results": [
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.primary-fire-near.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-primary-fire-near-v001.mp3",
+      "inputSha256": "bd4dffad6c77729f7e67962078f2462107866f46eed8d8014e38960a201df927",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-primary-fire-near-v001.mp3",
+      "outputSha256": "d42eb5fb8ff04a5e48ca3e072e81a27711af848d78159f89967524b0cbb75f0f",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -22.6,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24.1,
+        "maxDb": -1.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.primary-fire-mid.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-primary-fire-mid-v001.mp3",
+      "inputSha256": "598ce173956e8513fe1aceabe26454b67daaed010b0078a2be44fde707102d3b",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-primary-fire-mid-v001.mp3",
+      "outputSha256": "e555da6ba39189198c4842f476a90590553d48bc7b0c0f5ec78a18929d1c61e3",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -19.1,
+        "maxDb": 0
+      },
+      "gainDb": -2,
+      "encodingPasses": 2,
+      "masteredMetrics": {
+        "meanDb": -21.5,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.primary-fire-far.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-primary-fire-far-v001.mp3",
+      "inputSha256": "b2a33da8e19ee3f022e0618b572f16a6f28dbafc08df5b65672b39027aa635eb",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-primary-fire-far-v001.mp3",
+      "outputSha256": "f8d39279d7dd28aa24867e689cdb2868ed6750d5e62c6c7dd420b2eb6d050ed4",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -19.6,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.3,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.reload.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-reload-v001.mp3",
+      "inputSha256": "ea6dc61499523789c4a36191d4de64fdcc491558377ff75d3b85d5290c161822",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-reload-v001.mp3",
+      "outputSha256": "f39a91c8210211333a9b02d1353cb26f5ded5189060c0424a5b201d490892c3f",
+      "bytes": 30137,
+      "sourceMetrics": {
+        "meanDb": -19.6,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.2,
+        "maxDb": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.dry-fire.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-dry-fire-v001.mp3",
+      "inputSha256": "b2f544b0b88f24b9e81501a4b109123b5eeb7cc78832a2cbe1e2ea317d738ff9",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-dry-fire-v001.mp3",
+      "outputSha256": "0ef7937c09dcb34532a3479f537c2fe7f6cc064620621deaed2ad2216f18fb39",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -20.5,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22.1,
+        "maxDb": -1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.impact-stone.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-impact-stone-v001.mp3",
+      "inputSha256": "445a583efd83b37ce093a4f14c246f302f7e4079fa620c9011a4d46bbc400ba1",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-impact-stone-v001.mp3",
+      "outputSha256": "20ba490d485e2252041c26d99e62ac2d9daa9a7809c9b0efa9bfdd3417b8f21e",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -20.3,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.9,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.impact-metal.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-impact-metal-v001.mp3",
+      "inputSha256": "abbb25bad36d7bb31423471ae5186b81e4191db4ec24398f06482341c50f77de",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-impact-metal-v001.mp3",
+      "outputSha256": "799a9b3d747634b1515bbbfd322362965a181705c05c750f846465f20eea5434",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -17.3,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.9,
+        "maxDb": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.charge.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-charge-v001.mp3",
+      "inputSha256": "18a6848692cc0e38a815eb81c299a4bed7a1da9a1418c7e62c483d065561f633",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-charge-v001.mp3",
+      "outputSha256": "b3291ba6ecdbf50f959bb1aba23e8c049b2755940e78803f2edeb3c132920c9a",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -25.9,
+        "maxDb": -3.6
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -26.1,
+        "maxDb": -3.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.overheat.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-overheat-v001.mp3",
+      "inputSha256": "2670c437d1d04cb09176ae06bb9c497fa0fd4771a3a7ca5eb2aba34e01cab97d",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-overheat-v001.mp3",
+      "outputSha256": "e78e176ef33f72712784e360e4d85afb2a3c2f26254e304857acaee4e5f0e93c",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -19.2,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20.7,
+        "maxDb": -1.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.equip.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-equip-v001.mp3",
+      "inputSha256": "7956a2d76e3f00be7ca995e6cff9288e9c66efd227bce06762567872c714a8b7",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-equip-v001.mp3",
+      "outputSha256": "587c19b9d5bdce6fe7c0b12a0a7233a4b30b22cb416ad7a5418628115a3e7d18",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -41.5,
+        "maxDb": -18.2
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -42,
+        "maxDb": -18.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.primary-fire-near.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-primary-fire-near-v001.mp3",
+      "inputSha256": "a0a043ad5fe927d70b6724deb3890d6c9232c00cb3086079b74041298f52878a",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-primary-fire-near-v001.mp3",
+      "outputSha256": "9381bfaa5744cbc1459f045545eb12f65df69d26d540682b04cb592aed69f38f",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -25.2,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -26.6,
+        "maxDb": -2.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.primary-fire-mid.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-primary-fire-mid-v001.mp3",
+      "inputSha256": "cbfa2983d71694ba1bc19d9c014f1f1d51be03d22ad03812973c36033317df44",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-primary-fire-mid-v001.mp3",
+      "outputSha256": "a8499be9ad95cc2628b088cdbffc5e05f16d5742daa2b033845be1edd5d4f629",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -24.4,
+        "maxDb": 0
+      },
+      "gainDb": -1.9000000000000001,
+      "encodingPasses": 2,
+      "masteredMetrics": {
+        "meanDb": -26.5,
+        "maxDb": -1.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.primary-fire-far.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-primary-fire-far-v001.mp3",
+      "inputSha256": "980cc9a28f0347dbb75d1d72faecee37973df95160387034f6996f25db90e8b5",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-primary-fire-far-v001.mp3",
+      "outputSha256": "845e264a0eb826c635c43584c0b5e6529e08e58ae1eda4c8800582d0cce6433f",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -24.8,
+        "maxDb": -9.8
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25,
+        "maxDb": -9.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.reload.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-reload-v001.mp3",
+      "inputSha256": "22b64512683c2dc649be6f18bc861518a71b979b639b5dd5f15ab11ec1f8531d",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-reload-v001.mp3",
+      "outputSha256": "5d15ef104a68f6b33a8fc1eaf939c0d300304dc1d648454fed336be4cd5c1680",
+      "bytes": 30137,
+      "sourceMetrics": {
+        "meanDb": -24,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25.6,
+        "maxDb": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.dry-fire.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-dry-fire-v001.mp3",
+      "inputSha256": "ec0882256f6f7049e40deadc0e84edf12dfbbea90a37286d2af22f2e9c4fa420",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-dry-fire-v001.mp3",
+      "outputSha256": "048be11ffb130de21ae77e05a0728abd4e970ff5566116feb88f9755364c1845",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -27,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -28.6,
+        "maxDb": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.impact-stone.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-impact-stone-v001.mp3",
+      "inputSha256": "263a74e28b5a94d1ef808a5470e061dea2d6650bb2bbf60c24a210070c68078d",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-impact-stone-v001.mp3",
+      "outputSha256": "52f03ebc15f5dedb7efd20b1a03117a540293d127a4fbfb9bf25177fafba45b4",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -39.5,
+        "maxDb": -22.9
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -39.7,
+        "maxDb": -23
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.impact-metal.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-impact-metal-v001.mp3",
+      "inputSha256": "1e09baa56e1a65bb085e0f3ef5ddee45ae59c943e7e7ae82f6d1d1ec23def79f",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-impact-metal-v001.mp3",
+      "outputSha256": "8bf50db9fed832ddc742d542c28042459766b1e02fa0d455b0569ed9de5ae1f1",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -12.3,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -13.9,
+        "maxDb": -1.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.charge.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-charge-v001.mp3",
+      "inputSha256": "4a3f867c2892cc1fe07f8fca1e57a299eb0a639f8817a37b4542f7e92819850a",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-charge-v001.mp3",
+      "outputSha256": "534918f3c4d379257a58400017d7a6a60bf2f7535484b64e579d291eb107cbba",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -17.6,
+        "maxDb": -1.8
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -17.8,
+        "maxDb": -2.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.overheat.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-overheat-v001.mp3",
+      "inputSha256": "dbc0ec0f1a61a492d8ecc3914e30ec312b2ee5a7967076dc19f927cf487a914b",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-overheat-v001.mp3",
+      "outputSha256": "680d08cf871941d4f9fa3a4131d29fab85fdc0b46a17a542d5196ec8f140c308",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -27.8,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -29.4,
+        "maxDb": -1.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.equip.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-equip-v001.mp3",
+      "inputSha256": "ecfaf05a9e2e0857422c80864a759b3b37c6413598a999b88d5b9f9978740c67",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-equip-v001.mp3",
+      "outputSha256": "861d9c0e4d6ff0e94339212e38b9fabe3b8b1ffc9ae8c47351ad301aaf44f678",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -22.4,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24,
+        "maxDb": -1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.primary-fire-near.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-primary-fire-near-v001.mp3",
+      "inputSha256": "3757da538fc028166b0578e5f2646124db217f429181403f42b471d27c4f31a9",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-primary-fire-near-v001.mp3",
+      "outputSha256": "63d2baab6a056d4adb81c3d8348810fa94972e9268832535f486c87cc5706d01",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -25.2,
+        "maxDb": -8.2
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25.5,
+        "maxDb": -8.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.primary-fire-mid.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-primary-fire-mid-v001.mp3",
+      "inputSha256": "474f34134edd928e06546122f0f842c3c5a5c776b99de86acd46048d140be1ab",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-primary-fire-mid-v001.mp3",
+      "outputSha256": "e256b1ad761b94cd785e2d1311ab036097350da651760b5d366bb8989a8371f9",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -23,
+        "maxDb": -6.3
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23.2,
+        "maxDb": -6.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.primary-fire-far.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-primary-fire-far-v001.mp3",
+      "inputSha256": "66850d2752aca3191b15c0f4869ff5bc2f0bf8fe9e820d9c7acc3bd76938eac2",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-primary-fire-far-v001.mp3",
+      "outputSha256": "ff568faa5bd1fa3623279ab7e30d2374f0d13089b04a84af79dbba154a330f78",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -26.3,
+        "maxDb": -1
+      },
+      "gainDb": -0.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -26.9,
+        "maxDb": -1.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.reload.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-reload-v001.mp3",
+      "inputSha256": "41eefaa4fc1483eccaed06ebfecd2fed6997c390028ba422b43a3dfacb59f6fe",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-reload-v001.mp3",
+      "outputSha256": "7f5505f884ff8c024b0372711296355cc61dcfaa47e6899aea0ebbb60b03ffdd",
+      "bytes": 30137,
+      "sourceMetrics": {
+        "meanDb": -22.5,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.dry-fire.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-dry-fire-v001.mp3",
+      "inputSha256": "0e073c681d99d868b96192efac0ea08e8a33531cf56dfdf0a17fbecc7c15c289",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-dry-fire-v001.mp3",
+      "outputSha256": "e0ae5ad1a7ed6914890994b5cae7c69f2549041539046eb972bf464ba9a22cd6",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -26.6,
+        "maxDb": -5.6
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -26.9,
+        "maxDb": -5.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.impact-stone.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-impact-stone-v001.mp3",
+      "inputSha256": "dc2089c64250ee04892712830c13a9c9d5723963ceb548ebb6aaa4f14165bff9",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-impact-stone-v001.mp3",
+      "outputSha256": "e092abef8378179511b17815318295982fdf6cdd5a695f9c4865db6ad3169e0f",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -23.9,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25.5,
+        "maxDb": -1.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.impact-metal.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-impact-metal-v001.mp3",
+      "inputSha256": "bd7cc949e5c2573145a3bea44d1b9c06a22d11afc863a7ee2a00a438c3bf76c3",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-impact-metal-v001.mp3",
+      "outputSha256": "c2533ca99f303106342c8ca14ead5cfccb205b7f348529f86d2a6422f2a13436",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -20.3,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.9,
+        "maxDb": -1.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.charge.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-charge-v001.mp3",
+      "inputSha256": "688d1b639452d6772c08c2f41b8ba31103d988e4806a74c9ab0cc66e169da7d8",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-charge-v001.mp3",
+      "outputSha256": "6a4d2b7dee7ac5c1ecc3ef94233f9e0bdd20b5653b6ce58f6a130e9ec63f8ab6",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -24.3,
+        "maxDb": -2.5
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24.5,
+        "maxDb": -2.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.overheat.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-overheat-v001.mp3",
+      "inputSha256": "bdcac13c11e6a3e963fd9cf8f6b40e037739c4a2d5b1a01ec3d1d5d130dcb24b",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-overheat-v001.mp3",
+      "outputSha256": "ba617da618b454e5a8c673882628e9fc4435904395fdb41f4cad62b3a50ae210",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -29,
+        "maxDb": -0.4
+      },
+      "gainDb": -0.95,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -30.4,
+        "maxDb": -2.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.equip.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-equip-v001.mp3",
+      "inputSha256": "2de12666d7782b075591d71556962a5e1513929a10d8ceea19e483feb9898ba6",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-equip-v001.mp3",
+      "outputSha256": "29489bcee6525890673b10c3f8baa0529d0063e0d5082d392bf41b9001ae3196",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -26.1,
+        "maxDb": -4.5
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -26.3,
+        "maxDb": -4.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.primary-fire-near.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-primary-fire-near-v001.mp3",
+      "inputSha256": "957073319af97af857fd7132879da3c51cb147248f3f10dd12953951ab757fdb",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-primary-fire-near-v001.mp3",
+      "outputSha256": "e94e586c69d441b07871a95e13878bd650cd1e5fd39757c8b3c735c2c3165d20",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -28.1,
+        "maxDb": -0.3
+      },
+      "gainDb": -1.05,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -29.5,
+        "maxDb": -1.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.primary-fire-mid.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-primary-fire-mid-v001.mp3",
+      "inputSha256": "0e57b5da20e070fef0089ea105c4a3d19d5fe1324cf49a9471dc5e30e6e19f61",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-primary-fire-mid-v001.mp3",
+      "outputSha256": "5331d3d16d53a6a166af0785750c2df3ec17104b7a57a4838df87bdab75c1499",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -27,
+        "maxDb": -2.9
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -27.1,
+        "maxDb": -2.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.primary-fire-far.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-primary-fire-far-v001.mp3",
+      "inputSha256": "307cfb0cc1a379e280f9696cc78fbd10db13e73a945fd7d6fd5528a7cf63a43f",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-primary-fire-far-v001.mp3",
+      "outputSha256": "e8a31458a6cbf005f181f164cc8f018f127d762b107b734f1950c1e67c09a6d4",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -29.9,
+        "maxDb": -14.3
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -30.2,
+        "maxDb": -14.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.reload.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-reload-v001.mp3",
+      "inputSha256": "480df0421490b73d6fe7ef7c57358f7f4fd7f455f5e9ce2fcf84035ce253c5b0",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-reload-v001.mp3",
+      "outputSha256": "2f910f2d97c0e2f12d29d758b190ff42539a9ad9522e6629ad8a049e2ffeb788",
+      "bytes": 30137,
+      "sourceMetrics": {
+        "meanDb": -23.4,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.dry-fire.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-dry-fire-v001.mp3",
+      "inputSha256": "52cffd57b5f2261b01639a1a9a885471cb680173db4ec9d38b0c46cee47c724f",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-dry-fire-v001.mp3",
+      "outputSha256": "c874c8593d206066170bb2ff96bb52e22cd6167a34e0cc576408a7daa202339b",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -21.5,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23.1,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.impact-stone.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-impact-stone-v001.mp3",
+      "inputSha256": "0de4c8a2f77ab19391411f3ffd809e6761de355fcd6b5607109d030b775e157d",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-impact-stone-v001.mp3",
+      "outputSha256": "1e2ba9d85cd3a5966413ad0de19ad22056e9676accb0dfe600b5e351aedad1f7",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -30.1,
+        "maxDb": -9.8
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -30.4,
+        "maxDb": -10
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.impact-metal.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-impact-metal-v001.mp3",
+      "inputSha256": "33d8ce893714aa077f4551f2c865309e526d821bd9cbe6f82ac8a3af22df64f1",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-impact-metal-v001.mp3",
+      "outputSha256": "c1ffc655bc7b97df5538efa27ddddb627cb2526daac4121db87886e7ba0de23c",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -27.7,
+        "maxDb": -14.3
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -27.9,
+        "maxDb": -14.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.charge.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-charge-v001.mp3",
+      "inputSha256": "ed06caeff4f9835ee4f258b6a21eda22947027fdac621d4a9de9545a64884f44",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-charge-v001.mp3",
+      "outputSha256": "bbd0c2081f88619a791ceef1b74b28f285d4c70b5e3d8bcdd92507d42875ec5d",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -17.9,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19.5,
+        "maxDb": -0.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.overheat.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-overheat-v001.mp3",
+      "inputSha256": "992b192ecf25fa0af28d32f3f19f53a12ea5e44127504331401ee7bda835d059",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-overheat-v001.mp3",
+      "outputSha256": "730ace9866a89090fb81d9de872eab3f5bf3ceb246dbc187c9b1d57d7099af12",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -21.3,
+        "maxDb": -0.5
+      },
+      "gainDb": -0.85,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22.4,
+        "maxDb": -1.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.equip.v001",
+      "family": "weapon",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-equip-v001.mp3",
+      "inputSha256": "c8093a280f3383f1db3e5983945ae3327d5615c9b6e4a026ebb0e9eda2276351",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-equip-v001.mp3",
+      "outputSha256": "1bebf46934cf21d5797acabfca9f671919ff03b5f09c782ed33188e5ffefc520",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -24,
+        "maxDb": -3
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24.2,
+        "maxDb": -3.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.asagi.scan-ripple.cast.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/asagi-scan-ripple-cast-v001.mp3",
+      "inputSha256": "92fe74cef47e15e20057dea66a3d51bfa0ff93106e1be9990243ab7d746eecc1",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-scan-ripple-cast-v001.mp3",
+      "outputSha256": "5555db082bbb86ef4841f26db3c888f0bc40a646227387feca13ba9fb59cb301",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -33.3,
+        "maxDb": -6.9
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -33.5,
+        "maxDb": -7.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.asagi.scan-ripple.travel.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/asagi-scan-ripple-travel-v001.mp3",
+      "inputSha256": "de568d97a9a0120b845cbac8d94c48e9c8f0a0fb3134e6dfc5b9b3f54f3f8343",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-scan-ripple-travel-v001.mp3",
+      "outputSha256": "61ef849d5b8145b6a2c2d3c405f1cb668877b2dbdefde6efaf36b93bfa1a333f",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -27.7,
+        "maxDb": -3.4
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -28,
+        "maxDb": -3.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.asagi.scan-ripple.impact.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/asagi-scan-ripple-impact-v001.mp3",
+      "inputSha256": "06de59da2ecfedc75ed4122780ff9caaacacdecd9a50d3d17091ffee742a227c",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-scan-ripple-impact-v001.mp3",
+      "outputSha256": "f99ec412273962f34006e2731db4e807fd8de036b707f3d6442b342bef95e50b",
+      "bytes": 18852,
+      "sourceMetrics": {
+        "meanDb": -20,
+        "maxDb": 0
+      },
+      "gainDb": -1.9000000000000001,
+      "encodingPasses": 2,
+      "masteredMetrics": {
+        "meanDb": -22.1,
+        "maxDb": -1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.asagi.scan-ripple.resolve.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/asagi-scan-ripple-resolve-v001.mp3",
+      "inputSha256": "fad5b655c34afc506940afa22c62dd91440b750d816b3e190cd914f68209bd68",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/asagi-scan-ripple-resolve-v001.mp3",
+      "outputSha256": "509c97177c6f8a41009943e0bab3742f507ce5e3f72b0d73decb1b3c0ba9f4c0",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -21,
+        "maxDb": -1.8
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.3,
+        "maxDb": -1.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hokuchi.heat-bastion.cast.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hokuchi-heat-bastion-cast-v001.mp3",
+      "inputSha256": "32a155ee5330cb36db0f33e57dac6a8eb57fcf92446b0ca1620fe22d21431876",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-heat-bastion-cast-v001.mp3",
+      "outputSha256": "3be4812cd5e161a700cb5a02866e0044745672dbcb7e6cb26c3e5bb459ead3e2",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -17.4,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19,
+        "maxDb": -1.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hokuchi.heat-bastion.travel.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hokuchi-heat-bastion-travel-v001.mp3",
+      "inputSha256": "ddd11906d7e4947911042280cc2ff67d48c216431b99f3d6dbc590d68ffb1237",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-heat-bastion-travel-v001.mp3",
+      "outputSha256": "5f32cb9b3d7ee7f265dcb49c46b717bbbb9ad130d533a08cacc15e0ba13d1dc7",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -22.2,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23.6,
+        "maxDb": -1.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hokuchi.heat-bastion.impact.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hokuchi-heat-bastion-impact-v001.mp3",
+      "inputSha256": "9ddd5959da57029ef8b250e9a960fcf08eb8a9ae5f2cbf08fec970c7ce717262",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-heat-bastion-impact-v001.mp3",
+      "outputSha256": "44823237df1eeb407873183a2778955a75ec505af849a79bde3eb9acfc9084b8",
+      "bytes": 18852,
+      "sourceMetrics": {
+        "meanDb": -17.4,
+        "maxDb": -1.4
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -17.7,
+        "maxDb": -1.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hokuchi.heat-bastion.resolve.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hokuchi-heat-bastion-resolve-v001.mp3",
+      "inputSha256": "72d096259956735b043cc86c8f58e9003dcedaa6029fdd073bca5ff31a46cc0e",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hokuchi-heat-bastion-resolve-v001.mp3",
+      "outputSha256": "7ec2c0b45e48a217609485f2cc84a51e0627af5ab8e9673f5f8d1101ea80bd9f",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -18.1,
+        "maxDb": -3.8
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.4,
+        "maxDb": -4.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.shirasagi.prism-step.cast.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/shirasagi-prism-step-cast-v001.mp3",
+      "inputSha256": "c8b15cdec94a6b157da3033d8edd932b4b116050c02902ebf558aaba0ae18f58",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-prism-step-cast-v001.mp3",
+      "outputSha256": "1f36f3b52f79efa19fce22104272275854f3dcfc42629189d658c95d60684ebf",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -16.8,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.4,
+        "maxDb": -1.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.shirasagi.prism-step.travel.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/shirasagi-prism-step-travel-v001.mp3",
+      "inputSha256": "a0269dfc27e8c8813b5ed06a6376b8ace5808ec41b546fbb2875ffc0433d5602",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-prism-step-travel-v001.mp3",
+      "outputSha256": "833569bbef87e251717857e1811a68c73fde10a9f4f35f886eb3a2a2796ad731",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -21.4,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22.9,
+        "maxDb": -1.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.shirasagi.prism-step.impact.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/shirasagi-prism-step-impact-v001.mp3",
+      "inputSha256": "14f6b12b0187fbd9b7ecb7ae18d70af753584802cfc969e084537f8349cb39d1",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-prism-step-impact-v001.mp3",
+      "outputSha256": "8a3f5cf40790ca246cb89901a6d52d61a96f4b6fd1d7c6c6c8f2285e009740e5",
+      "bytes": 18852,
+      "sourceMetrics": {
+        "meanDb": -18.1,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19.6,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.shirasagi.prism-step.resolve.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/shirasagi-prism-step-resolve-v001.mp3",
+      "inputSha256": "3da4c9a4625b2811c1652d4ff78623b43f6fd3be9e26dcfaaf5055bf9cffa200",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shirasagi-prism-step-resolve-v001.mp3",
+      "outputSha256": "4fd1adec5909e167fc05d8cfcd52f67709c6acd41ad007e55ff352be57a6f654",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -18.7,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20.3,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.ankou.tide-snare.cast.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/ankou-tide-snare-cast-v001.mp3",
+      "inputSha256": "859eede84efd127263bcf5624634bed1221fe90b222aa514f6818d5f94149436",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-tide-snare-cast-v001.mp3",
+      "outputSha256": "afc05aa6e9db5f86950a96cf5d9cba91f2f48889762e70a8fdca17f278bfabfd",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -27.7,
+        "maxDb": -6.7
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -28,
+        "maxDb": -6.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.ankou.tide-snare.travel.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/ankou-tide-snare-travel-v001.mp3",
+      "inputSha256": "d898a0eb790c2f3a182172ec18fe5371048244d325dbd466e91e8bc25b94e5e7",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-tide-snare-travel-v001.mp3",
+      "outputSha256": "3dc8813d73bfb53537c05beee3e3e6e236ea94b93adc2c4539dab37c12e0eca7",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -21.2,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22.8,
+        "maxDb": -1.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.ankou.tide-snare.impact.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/ankou-tide-snare-impact-v001.mp3",
+      "inputSha256": "86cd02118150a8b2dd1870e4286a7ee8735d03170d2e0c52117b36ad63220c0b",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-tide-snare-impact-v001.mp3",
+      "outputSha256": "3cbd6414ef248725a13ee0baf3485a1c0edaa895533d4b58f65ccedf9b76c56e",
+      "bytes": 18852,
+      "sourceMetrics": {
+        "meanDb": -20.6,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22.2,
+        "maxDb": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.ankou.tide-snare.resolve.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/ankou-tide-snare-resolve-v001.mp3",
+      "inputSha256": "8c7dce21c92b6c8f0d382725c0fe7dd70d4e4f6e135bae4f580eeeb72ea10a85",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ankou-tide-snare-resolve-v001.mp3",
+      "outputSha256": "d1495c2a2badb8ab6030975193a3a3e312becbf9129561bf2f4d88a1f28f5910",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -20.9,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22.4,
+        "maxDb": -1.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hibari.wind-lift.cast.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hibari-wind-lift-cast-v001.mp3",
+      "inputSha256": "4306a0b01e9dc0e25d459d70b0cf06a28c1684b83fbc43ef2dc377a3a7ba9758",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hibari-wind-lift-cast-v001.mp3",
+      "outputSha256": "88aa50b7a884ead962fae0f4fa2dee8051daeed30b061499ea9e7d5c00a25d72",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -25.5,
+        "maxDb": -8.5
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25.8,
+        "maxDb": -8.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hibari.wind-lift.travel.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hibari-wind-lift-travel-v001.mp3",
+      "inputSha256": "65d3daab2100aa8c486e27d146f7e143581e2ac822d6a836be2ae4f8d0cf9556",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hibari-wind-lift-travel-v001.mp3",
+      "outputSha256": "fac311f953966719d03092a61893430a22008aa9f34c7ff3db75945af094ea17",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -22.9,
+        "maxDb": -0.4
+      },
+      "gainDb": -0.95,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24.1,
+        "maxDb": -1.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hibari.wind-lift.impact.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hibari-wind-lift-impact-v001.mp3",
+      "inputSha256": "df47052fcacaf480697745694cf4ffe7af80b41828105788c748f235ab2d819b",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hibari-wind-lift-impact-v001.mp3",
+      "outputSha256": "fa70776a090805c50f3204b672c2e49d433ba3393cc78e9ed9b00a946c080d1c",
+      "bytes": 18852,
+      "sourceMetrics": {
+        "meanDb": -32.4,
+        "maxDb": -9.2
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -32.6,
+        "maxDb": -9.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hibari.wind-lift.resolve.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hibari-wind-lift-resolve-v001.mp3",
+      "inputSha256": "0adb4c23600a560f0e968b49913450f4fe278bf08b5498e2c044e0c2ce1ed309",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hibari-wind-lift-resolve-v001.mp3",
+      "outputSha256": "75819e8e71ccb332730c3904237510d05204ff049bd5e3a05b20cb75448b966e",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -28.3,
+        "maxDb": -7.3
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -28.6,
+        "maxDb": -7.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.tsuzuri.thread-bind.cast.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/tsuzuri-thread-bind-cast-v001.mp3",
+      "inputSha256": "899c60f9ebb5e38dfcf95fd242f516275b5b0742f7f96ef461b961aa0b18f307",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/tsuzuri-thread-bind-cast-v001.mp3",
+      "outputSha256": "b182dcd943cdf2f97df66d2b307c330753a4e153d93daf852ef50a3b5f229f55",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -26.4,
+        "maxDb": -2.6
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -26.7,
+        "maxDb": -2.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.tsuzuri.thread-bind.travel.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/tsuzuri-thread-bind-travel-v001.mp3",
+      "inputSha256": "deb4d5c4f0a2a2c8c7ebc9ce45445a768866584164a23afaecfd0aa9db70aa72",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/tsuzuri-thread-bind-travel-v001.mp3",
+      "outputSha256": "794350e83b450dfb7a078c1b44d716d0dd4fcbf939fdd85859fe499b71e14d93",
+      "bytes": 20733,
+      "sourceMetrics": {
+        "meanDb": -20.4,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22,
+        "maxDb": -1.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.tsuzuri.thread-bind.impact.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/tsuzuri-thread-bind-impact-v001.mp3",
+      "inputSha256": "b9ea7079e1505b1c045e54719ba10ef385c5169d0126e177a75499a6f3791bb6",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/tsuzuri-thread-bind-impact-v001.mp3",
+      "outputSha256": "5eb62b362410cde21d4758d4864c14fb2d59ddbdaee01ef81066db0451094f52",
+      "bytes": 18852,
+      "sourceMetrics": {
+        "meanDb": -22.2,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23.8,
+        "maxDb": -1.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.tsuzuri.thread-bind.resolve.v001",
+      "family": "ability",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/tsuzuri-thread-bind-resolve-v001.mp3",
+      "inputSha256": "5b748dd1d1b9e8f2dd39c1cb10b21858c6984c4535e50d70b01cf0a1dfbd6f16",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/tsuzuri-thread-bind-resolve-v001.mp3",
+      "outputSha256": "b197a06bdbd73a002cf0b6cbb89e46e7bc41741c8a70fec4b0925665caf9554b",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -12.1,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -13.8,
+        "maxDb": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.confirm.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/confirm-v001.mp3",
+      "inputSha256": "7a816a14a008aa2b1bd7e0bfcacd654beb8e8693d7744a337cc23c82657b1ca9",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/confirm-v001.mp3",
+      "outputSha256": "daf3393f5d4b3ad71799b95942a76032124096a1ab4ec41f4214291f830c2090",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -24.5,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -26.1,
+        "maxDb": -1.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.cancel.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/cancel-v001.mp3",
+      "inputSha256": "52d96df29a0d523d5d9708eec87444dca0ef9f9a7d17226541708c573ec10d35",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/cancel-v001.mp3",
+      "outputSha256": "0eaa42a3b60910457ba053155b8a62972800fc70e9d3284365890a96803ced81",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -17.4,
+        "maxDb": -4.1
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -17.6,
+        "maxDb": -4.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.focus.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/focus-v001.mp3",
+      "inputSha256": "d9a75d905f58c451cebe6ada860963beb9238def3fcff6e17467452fe145069e",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/focus-v001.mp3",
+      "outputSha256": "19b6f56a07aac8cd8d85e02d1557c1bddf7d53c53e54c76dd12b469444f7f57d",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -22.6,
+        "maxDb": -4.1
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22.8,
+        "maxDb": -4.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.hit-confirm.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/hit-confirm-v001.mp3",
+      "inputSha256": "4e4565ae356b4dfab941d41e1afbaa2ccfb060cadc082c4088d5666af69d4c08",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/hit-confirm-v001.mp3",
+      "outputSha256": "11a7a03ddcee5aa8bf1e56bc62898598c2188db218a0f09eef14f0ff678a79d3",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -26.5,
+        "maxDb": 0
+      },
+      "gainDb": -2.3,
+      "encodingPasses": 2,
+      "masteredMetrics": {
+        "meanDb": -28.9,
+        "maxDb": -2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.critical-confirm.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/critical-confirm-v001.mp3",
+      "inputSha256": "860954d20e1fcab590f10ae776294fae74493b97c4e576790751e85f696e23ec",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/critical-confirm-v001.mp3",
+      "outputSha256": "fd29ca244a91d14a4d0a1e7b6f553e6d7cc9cae5f1f7dfc4102fbaef74ff8842",
+      "bytes": 15717,
+      "sourceMetrics": {
+        "meanDb": -22.6,
+        "maxDb": -1.1
+      },
+      "gainDb": -0.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23.1,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.damage-taken.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/damage-taken-v001.mp3",
+      "inputSha256": "03d494240bef899ef7adf483cdbd3309e0774b92544a05707f231134b9d0be6c",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/damage-taken-v001.mp3",
+      "outputSha256": "e876d9e3451bd33c933e00e454c2b16e6c0460df101ec5c054cefe491bd7fc8e",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -39.6,
+        "maxDb": -20.8
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -39.8,
+        "maxDb": -20.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.low-health.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/low-health-v001.mp3",
+      "inputSha256": "4bfa5c8369fad7d8005aa4964640e25a00c4c6b5e3b00e2b34131cc8d6aa6051",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/low-health-v001.mp3",
+      "outputSha256": "bdbcd9fbe02589960027680971c0678428e588644edd837c995c4ad4fbfb0279",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -14.7,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -16.2,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.heal-received.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/heal-received-v001.mp3",
+      "inputSha256": "d22fdc9d97785a2cf52368b1d79efa702806a5a721d57e5cb991f127ac769f78",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/heal-received-v001.mp3",
+      "outputSha256": "5c01eea6c3c9d7dc2c0e48b6818980c7f17bc0fce016c9946a97f95749adbc11",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -30.6,
+        "maxDb": -10.6
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -30.8,
+        "maxDb": -10.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.ally-ping.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/ally-ping-v001.mp3",
+      "inputSha256": "c46b8906633805c163b7a567b8514befbb2d78daae786f2bcb55578ab62a4728",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ally-ping-v001.mp3",
+      "outputSha256": "b165b396edf57504a12cfb78272af45189d77c178d29ae350eec206bb84c76f4",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -5.2,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -6.8,
+        "maxDb": -1.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.enemy-ping.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/enemy-ping-v001.mp3",
+      "inputSha256": "42a077c6b33de3a5b24735d1cf30c1e683131da4266b25cb85224fa6936c8697",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/enemy-ping-v001.mp3",
+      "outputSha256": "4a809fed1b2c106236f3955ecc7aa256d9b482a3bca9e1629a6a6035e9e26688",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -20.6,
+        "maxDb": -3.4
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20.9,
+        "maxDb": -3.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.menu-open.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/menu-open-v001.mp3",
+      "inputSha256": "0fd6d888f60e18d8f36b1cd5b7b764767efb44b12a08f053c814aaa1de327363",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/menu-open-v001.mp3",
+      "outputSha256": "db45963dbe703abced7053e2a43e33b0b7d4bcf01aede5ef4cdc87d5c43af911",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -22.3,
+        "maxDb": -5.1
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22.5,
+        "maxDb": -5.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.menu-close.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/menu-close-v001.mp3",
+      "inputSha256": "f676df2ec505e1fcc358f42f5ea6a90840f547a2874c6f4507042063c6f15c84",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/menu-close-v001.mp3",
+      "outputSha256": "041525edd6189bfdbc5faddf6c22d42d9105fa20a98bbf85ba7ccf8021e17494",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -21,
+        "maxDb": -2.5
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.2,
+        "maxDb": -2.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.cooldown-ready.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/cooldown-ready-v001.mp3",
+      "inputSha256": "8b2c35016969885d240521ac94addd775f473129f740985d7a01ec3046f2550e",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/cooldown-ready-v001.mp3",
+      "outputSha256": "eb1ad7cea6f0512aea1940c68f663bd638ec3a3a17625cce85da02dbf74c2e7a",
+      "bytes": 15717,
+      "sourceMetrics": {
+        "meanDb": -21.4,
+        "maxDb": -1.7
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.7,
+        "maxDb": -2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.ability-blocked.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/ability-blocked-v001.mp3",
+      "inputSha256": "360485bb8f40d1b160433c82c1cb67c08f170fbd7eec42ed8a97b5891c312f46",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/ability-blocked-v001.mp3",
+      "outputSha256": "aab856e835aac706e86188d2de9b7f8b324c50b2ccaadbbb8675832b8cf0b7c6",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -19.2,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20.7,
+        "maxDb": -1.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.respawn-ready.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/respawn-ready-v001.mp3",
+      "inputSha256": "7080563ff9971b7396161d446ea3fd72065ba4b73b16a7ba3196015f09986a6f",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/respawn-ready-v001.mp3",
+      "outputSha256": "6b1978d21197f878e650b7f339b2975aaa49b83f8e8c83016ce8c2bb3ee2ce7f",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -33.7,
+        "maxDb": -19.1
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -34,
+        "maxDb": -19.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.scoreboard-open.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/scoreboard-open-v001.mp3",
+      "inputSha256": "f2d2fd8740ffef5d032300e93e222e54595bd3f1e5b552be95137ea025ad0e42",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/scoreboard-open-v001.mp3",
+      "outputSha256": "407b991c4441de4e24f8d0d1bd049d309c16065fa831fcbf89f1f254e5bd4be1",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -18.7,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20.4,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.scoreboard-close.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/scoreboard-close-v001.mp3",
+      "inputSha256": "87b45c938e2509588f8e8f6b86b80a6fbb52d28ab98fd7e94a6707be515caac8",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/scoreboard-close-v001.mp3",
+      "outputSha256": "d7e0544a7158a89bdbce10c9d66fcfdec6179f5080f5650aa608e1e057c6f6d9",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -26.8,
+        "maxDb": -8
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -26.9,
+        "maxDb": -8.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.objective-route.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/objective-route-v001.mp3",
+      "inputSha256": "eb8b7ca772e37832c0b57c1636113e0d516189348e4c2ca35ce83b6f938529a5",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/objective-route-v001.mp3",
+      "outputSha256": "ad8ffff3c9cb70f0a404c382595d4f815cccf4845443edd018afc227d7550426",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -49.3,
+        "maxDb": -25
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -49.5,
+        "maxDb": -25.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.party-ready.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/party-ready-v001.mp3",
+      "inputSha256": "9d421b47710243045cef0a6834a9cdd6289ec58e420632442bb6cc926a07c4ee",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/party-ready-v001.mp3",
+      "outputSha256": "18bc694d6314f06c8e3af8c4c3ae8b35e2a1e3452a50c926730a9f427349e74b",
+      "bytes": 15717,
+      "sourceMetrics": {
+        "meanDb": -25.1,
+        "maxDb": -7.1
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25.3,
+        "maxDb": -7.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.error.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/error-v001.mp3",
+      "inputSha256": "4f790b1681f7fe042a526ce1429906bf73cb005925c38a2ca0e04e2b555cce2d",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/error-v001.mp3",
+      "outputSha256": "40c3efbbd6e36301cc8a24d6045116aca48c28f8bffc1ff02828ce843b528d14",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -17.8,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -19.4,
+        "maxDb": -1.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.unlock.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/unlock-v001.mp3",
+      "inputSha256": "d5ef349f46aff98a934120bdd7ecf630cd1ac61cbdaa9463b305cee1a5249cb2",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/unlock-v001.mp3",
+      "outputSha256": "ac004ad646551ec2262f37aee23da255e29492c1a6d7678263402d8bad193e62",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -21,
+        "maxDb": -0.7
+      },
+      "gainDb": -0.65,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -22.1,
+        "maxDb": -2.3
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.capture-start.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/capture-start-v001.mp3",
+      "inputSha256": "735ac5c6d648a90b9c8c538edc5f4ea42e7079e885cefc982d29e14db764b4a0",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/capture-start-v001.mp3",
+      "outputSha256": "b5f51d309f5259b48fb8574710a4ba3026f2257d50fa596e4efb613974e66d36",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -21.6,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23.2,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.capture-tick.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/capture-tick-v001.mp3",
+      "inputSha256": "f6b329076650c463a809aa727873559d94a31fb0788f43fcadacc85a177b05ba",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/capture-tick-v001.mp3",
+      "outputSha256": "319f127218755394f11189577992d1276920d787bd9643a67afe91e75df47f61",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -19.6,
+        "maxDb": -0.4
+      },
+      "gainDb": -0.95,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20.8,
+        "maxDb": -1.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.contested.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/contested-v001.mp3",
+      "inputSha256": "55e2ac98fa2a88e2b43a3898316d9e5a4b443b8bb9a85aaf8c1c6b567bf8c6b7",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/contested-v001.mp3",
+      "outputSha256": "71bd906e0ff0c28d697f574da0613a1abc1cd7d03251a27846f3d328f5e31768",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -23.2,
+        "maxDb": -6.8
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -23.5,
+        "maxDb": -7.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.lead-change.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/lead-change-v001.mp3",
+      "inputSha256": "9abae34c7051d1614f4db087d343bb475ba67b8c7f60b246343552f94375bc67",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/lead-change-v001.mp3",
+      "outputSha256": "bff40577e37418721074d8d62000d71a0042cc33560043a7240d14c2696109a6",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -23.5,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25.1,
+        "maxDb": -1.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.transition.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/transition-v001.mp3",
+      "inputSha256": "eecd3b38b6520e0b0a6bf02223e21a70b1d3542fc286accd0d60bff520b94136",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/transition-v001.mp3",
+      "outputSha256": "280a8a07fe9ade7e3a50bacdbe9bfaf1509d06988a8c9ca9801fbe1862966c7d",
+      "bytes": 22613,
+      "sourceMetrics": {
+        "meanDb": -23,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24.4,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.secured.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/secured-v001.mp3",
+      "inputSha256": "587526b50534793f673e6ff31fa4c5c316619fb4dd3d50dcbe8da6742de23918",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/secured-v001.mp3",
+      "outputSha256": "0915b2625885c4f9209c6b7da90859d02fc22b68a146023a387f02f8377db7ff",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -25.6,
+        "maxDb": -4.9
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -25.9,
+        "maxDb": -5.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.round-end.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/round-end-v001.mp3",
+      "inputSha256": "c25103cac80c86539d5fd8c4173576d9a8ef46418eaea7f85a8f7e388f1f9049",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/round-end-v001.mp3",
+      "outputSha256": "b8e06d7f50e861fbe7c77fed40dd75e2feefec1e468f30132b1f677c2eb16dbb",
+      "bytes": 30137,
+      "sourceMetrics": {
+        "meanDb": -34.9,
+        "maxDb": -17.7
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -35.2,
+        "maxDb": -18
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.stone-step-heavy.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/stone-step-heavy-v001.mp3",
+      "inputSha256": "ab2bc338794f23a1ba22e3f071b6bea75c61b550bca1d5209e48184390bb81d6",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/stone-step-heavy-v001.mp3",
+      "outputSha256": "16435cbad10ee1ab4e5343760ac9a7e3ae8e8d720daccd3cdd0b67eae05bdd6f",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -21.6,
+        "maxDb": -4.8
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.9,
+        "maxDb": -5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.wood-step.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/wood-step-v001.mp3",
+      "inputSha256": "8e997ecb720a044d0fa80c965eb72153edb923457158b6720d0c07fa2753f874",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/wood-step-v001.mp3",
+      "outputSha256": "1759a3de6efbe0b43db69ec643b3c5dbf93d1a8ad2e9498c1d04e12df11ce14b",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -20.2,
+        "maxDb": -0.2
+      },
+      "gainDb": -1.15,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -21.6,
+        "maxDb": -1.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.bronze-step.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/bronze-step-v001.mp3",
+      "inputSha256": "5d918f09f84bca6d6546c1af4d370a3e79a5c0ceffce017b6a51acf196d6605b",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/bronze-step-v001.mp3",
+      "outputSha256": "d1b6f25e26b0f6b9c81635276c8b58364a04961339e0b08d9a63fceb9ed7b5b0",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -30.6,
+        "maxDb": -9.3
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -30.9,
+        "maxDb": -9.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.tile-step.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/tile-step-v001.mp3",
+      "inputSha256": "c5902f69c6971688d13aaf1926253a037d80d1eeb57fdcb7d5cc9f24e220e6d9",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/tile-step-v001.mp3",
+      "outputSha256": "17942689b0b938d2341cdd1177fb1c141304acc8a17073ef609be38c0a911c0b",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -28.9,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -30.5,
+        "maxDb": -1.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.shallow-water-step.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/shallow-water-step-v001.mp3",
+      "inputSha256": "2330412d113ce26dc595132215399a318aee6fdf29b8f0ad6590021106d35e59",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/shallow-water-step-v001.mp3",
+      "outputSha256": "e812421776b624284799d3044d4f6f026a81e4193967256d9a5334094fb6aaee",
+      "bytes": 13836,
+      "sourceMetrics": {
+        "meanDb": -24.2,
+        "maxDb": -4.5
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24.5,
+        "maxDb": -4.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.jump.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/jump-v001.mp3",
+      "inputSha256": "3a9ef60dab54e7bae966b29ff86951cada00cd30be2305b324436ac1b6d6eb78",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/jump-v001.mp3",
+      "outputSha256": "486b60b3c71882ba262bb0b93cc9f81cbede505666a54d2e15dab911725f4ce2",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -16.6,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -18.2,
+        "maxDb": -1.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.land.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/land-v001.mp3",
+      "inputSha256": "c9ebf0a1f562eb9dcef6e4d2ec1e556a13d6c7e2e9bdabf2669ef1c95be02dd0",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/land-v001.mp3",
+      "outputSha256": "988b2be23d3a9b2fa1857d0d7f274d3345a3d068d5b64da88b50dc2cc671a8da",
+      "bytes": 15717,
+      "sourceMetrics": {
+        "meanDb": -18.4,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -20,
+        "maxDb": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.slide-stop.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/slide-stop-v001.mp3",
+      "inputSha256": "a7da301153724b22ad35d19101b9b0206e648a34ab507bb43800c3cba642f2ab",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/mastered/sfx/slide-stop-v001.mp3",
+      "outputSha256": "437bc0d65ed721dd055eb74aa8c9719f70f19215a4bba72809f8ad0a04fd963d",
+      "bytes": 16971,
+      "sourceMetrics": {
+        "meanDb": -24.5,
+        "maxDb": -6.7
+      },
+      "gainDb": 0,
+      "encodingPasses": 1,
+      "masteredMetrics": {
+        "meanDb": -24.8,
+        "maxDb": -6.8
+      },
+      "status": "mastered"
+    }
+  ],
+  "mastered": 100,
+  "failed": 0
+}

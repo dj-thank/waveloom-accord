@@ -1,0 +1,32 @@
+[
+  {
+    "view": "objective",
+    "applied": true,
+    "file": "outputs/veg/objective.png"
+  },
+  {
+    "view": "orbit",
+    "applied": true,
+    "file": "outputs/veg/orbit.png"
+  },
+  {
+    "view": "aerial",
+    "applied": true,
+    "file": "outputs/veg/aerial.png"
+  },
+  {
+    "view": "network",
+    "applied": true,
+    "file": "outputs/veg/network.png"
+  },
+  {
+    "view": "site-mizuichi",
+    "applied": true,
+    "file": "outputs/veg/site-mizuichi.png"
+  },
+  {
+    "view": "spawn",
+    "applied": true,
+    "file": "outputs/veg/spawn.png"
+  }
+]

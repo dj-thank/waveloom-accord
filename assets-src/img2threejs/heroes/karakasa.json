@@ -1,0 +1,108 @@
+{
+  "id": "karakasa",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/karakasa/karakasa-concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/karakasa/karakasa-concept-green-v1.png"
+  },
+  "role": "support",
+  "cohort": "guard escort",
+  "modelArchetype": "umbrella ward sentinel",
+  "proportions": {
+    "heightM": 1.76,
+    "bodyRatio": "round canopy,slender shaft,stable feet",
+    "notes": "Keep karakasa proportions legible at gameplay distance; preserve the distinctive single-eye umbrella hood against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "single-eye umbrella hood",
+      "raincoat torso under canopy",
+      "one arm extended to grip"
+    ],
+    "side": [
+      "round canopy,slender shaft,stable feet profile",
+      "rubberized boots",
+      "strap buckles"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "red",
+      "hex": "#d55454",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "charcoal",
+      "hex": "#292b33",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "paper white",
+      "hex": "#f0e7d5",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "single-eye umbrella hood"
+    ],
+    "torso": [
+      "raincoat torso under canopy"
+    ],
+    "limbs": [
+      "one arm extended to grip",
+      "rubberized boots"
+    ],
+    "weapons": [
+      "ward umbrella"
+    ],
+    "accessories": [
+      "strap buckles"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "careful guarded walk",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "raise ward",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The strap buckles overhang can inflate the collider if not separated.",
+    "Asymmetric one arm extended to grip needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 15,
+    "rationale": "karakasa establishes the guard escort cohort and exposes its strap buckles anchor early."
+  },
+  "status": "brief"
+}
+

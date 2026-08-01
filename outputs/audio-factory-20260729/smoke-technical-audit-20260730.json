@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-29T19:37:31.646Z",
+  "manifest": "outputs/audio-factory-20260729/manifests/smoke-3.json",
+  "root": "outputs/audio-factory-20260729",
+  "assets": 3,
+  "passed": 3,
+  "failed": 0,
+  "admission": "candidate-only; technical QC does not grant rights, mixing, gameplay, or human visual/audio-quality approval",
+  "results": [
+    {
+      "id": "smoke.music.oshioi.controlpoint.instrumental.v001",
+      "kind": "music",
+      "output": "outputs/audio-factory-20260729/generated/music/oshioi-controlpoint-instrumental-v001.mp3",
+      "bytes": 305261,
+      "technical": {
+        "durationSec": 12.024,
+        "codec": "mp3",
+        "sampleRate": 48000,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "smoke.sfx.original-energy-rifle.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260729/generated/sfx/original-energy-rifle-v001.mp3",
+      "bytes": 27629,
+      "technical": {
+        "durationSec": 1.08,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "smoke.voice.ja-objective-announcer.v001",
+      "kind": "text_to_speech",
+      "output": "outputs/audio-factory-20260729/generated/voices/ja-objective-announcer-v001.mp3",
+      "bytes": 101608,
+      "technical": {
+        "durationSec": 4.179592,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 1
+      },
+      "failures": []
+    }
+  ]
+}

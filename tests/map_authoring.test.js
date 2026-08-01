@@ -51,3 +51,70 @@ test('descending stairs omit the zero-volume terminal slice instead of creating 
   assert.ok(map.solids.every(solid => solid.min.every((value, axis) => value < solid.max[axis])));
   assert.deepEqual(map.presentationSolids, map.solids);
 });
+
+test('flashpoint objectives are validated and cloned as an ordered SSOT', () => {
+  const objectives = Array.from({ length: 5 }, (_, index) => ({
+    id: `site-${index + 1}`,
+    center: [index - 2, index * 0.5, 0],
+    radiusM: 7,
+    heightM: 5,
+  }));
+  const flashpoint = {
+    layout: { siteCount: 5 },
+    sites: objectives.map(objective => ({ ...objective })),
+  };
+  const map = compileMapBlueprint({
+    id: 'flashpoint_fixture',
+    displayName: 'Flashpoint fixture',
+    boundsM: { x: [-10, 10], y: [-10, 10] },
+    geometry: [],
+    objective: objectives[0],
+    objectives,
+    flashpoint,
+    spawns: {},
+    routes: {},
+  });
+
+  assert.deepEqual(map.objectives.map(objective => objective.id), [
+    'site-1', 'site-2', 'site-3', 'site-4', 'site-5',
+  ]);
+  assert.notEqual(map.objectives, objectives);
+  assert.notEqual(map.objectives[0], objectives[0]);
+  assert.notEqual(map.flashpoint, flashpoint);
+  objectives[0].center[0] = 99;
+  flashpoint.sites[0].center[0] = 99;
+  assert.equal(map.objectives[0].center[0], -2);
+  assert.equal(map.flashpoint.sites[0].center[0], -2);
+});
+
+test('flashpoint objective cardinality, identity, and dimensions fail closed', () => {
+  const base = {
+    id: 'invalid_flashpoint_fixture',
+    displayName: 'Invalid Flashpoint fixture',
+    boundsM: { x: [-10, 10], y: [-10, 10] },
+    geometry: [],
+    spawns: {},
+    routes: {},
+  };
+  const sites = Array.from({ length: 5 }, (_, index) => ({
+    id: `site-${index + 1}`,
+    center: [index, 0, 0],
+    radiusM: 7,
+    heightM: 5,
+  }));
+
+  assert.throws(() => compileMapBlueprint({
+    ...base,
+    flashpoint: { layout: { siteCount: 5 }, sites },
+    objectives: sites.slice(0, 4),
+  }), /siteCount/);
+  assert.throws(() => compileMapBlueprint({
+    ...base,
+    flashpoint: { layout: { siteCount: 5 }, sites },
+    objectives: sites.map((site, index) => ({ ...site, id: index === 4 ? 'site-1' : site.id })),
+  }), /duplicate objective id/);
+  assert.throws(() => compileMapBlueprint({
+    ...base,
+    objectives: sites.map((site, index) => ({ ...site, radiusM: index === 2 ? 0 : site.radiusM })),
+  }), /radiusM must be positive/);
+});

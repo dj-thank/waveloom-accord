@@ -1,0 +1,1312 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-01T03:37:36.450Z",
+  "manifest": "outputs/audio-factory-20260801/manifests/aaa-wave-002.json",
+  "root": "outputs/audio-factory-20260801/aaa-wave-002",
+  "assets": 100,
+  "passed": 100,
+  "failed": 0,
+  "admission": "candidate-only; technical QC does not grant rights, mixing, gameplay, or human visual/audio-quality approval",
+  "results": [
+    {
+      "id": "aaa.wave002.sfx.ambience.sea-spray-near.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/sea-spray-near-v001.mp3",
+      "bytes": 97846,
+      "technical": {
+        "durationSec": 4,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.sea-spray-far.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/sea-spray-far-v001.mp3",
+      "bytes": 121670,
+      "technical": {
+        "durationSec": 5,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.market-crowd-low.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/market-crowd-low-v001.mp3",
+      "bytes": 121670,
+      "technical": {
+        "durationSec": 5,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.market-cloth-flap.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/market-cloth-flap-v001.mp3",
+      "bytes": 85307,
+      "technical": {
+        "durationSec": 3.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.lantern-wind.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/lantern-wind-v001.mp3",
+      "bytes": 73395,
+      "technical": {
+        "durationSec": 3,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.rain-on-stone.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/rain-on-stone-v001.mp3",
+      "bytes": 121670,
+      "technical": {
+        "durationSec": 5,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.rain-on-canvas.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/rain-on-canvas-v001.mp3",
+      "bytes": 97846,
+      "technical": {
+        "durationSec": 4,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.salt-mist-gust.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/salt-mist-gust-v001.mp3",
+      "bytes": 63991,
+      "technical": {
+        "durationSec": 2.61,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.harbor-bell-far.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/harbor-bell-far-v001.mp3",
+      "bytes": 97846,
+      "technical": {
+        "durationSec": 4,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.shrine-water-trickle.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/shrine-water-trickle-v001.mp3",
+      "bytes": 121670,
+      "technical": {
+        "durationSec": 5,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.courtyard-wind.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/courtyard-wind-v001.mp3",
+      "bytes": 97846,
+      "technical": {
+        "durationSec": 4,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.algae-dock-bubbles.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/algae-dock-bubbles-v001.mp3",
+      "bytes": 73395,
+      "technical": {
+        "durationSec": 3,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.tide-pool-foam.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/tide-pool-foam-v001.mp3",
+      "bytes": 97846,
+      "technical": {
+        "durationSec": 4,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.storm-distant-rumble.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/storm-distant-rumble-v001.mp3",
+      "bytes": 145493,
+      "technical": {
+        "durationSec": 6,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.sunlit-market-air.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/sunlit-market-air-v001.mp3",
+      "bytes": 121670,
+      "technical": {
+        "durationSec": 5,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.night-coast-insects.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/night-coast-insects-v001.mp3",
+      "bytes": 121670,
+      "technical": {
+        "durationSec": 5,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.rigging-creak.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/rigging-creak-v001.mp3",
+      "bytes": 97846,
+      "technical": {
+        "durationSec": 4,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.awning-groan.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/awning-groan-v001.mp3",
+      "bytes": 73395,
+      "technical": {
+        "durationSec": 3,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.bronze-sign-sway.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/bronze-sign-sway-v001.mp3",
+      "bytes": 73395,
+      "technical": {
+        "durationSec": 3,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.far-combat-muffled.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/far-combat-muffled-v001.mp3",
+      "bytes": 121670,
+      "technical": {
+        "durationSec": 5,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.objective-zone-hum.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/objective-zone-hum-v001.mp3",
+      "bytes": 97846,
+      "technical": {
+        "durationSec": 4,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.wind-canyon-low.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/wind-canyon-low-v001.mp3",
+      "bytes": 97846,
+      "technical": {
+        "durationSec": 4,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.drizzle-roof.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/drizzle-roof-v001.mp3",
+      "bytes": 97846,
+      "technical": {
+        "durationSec": 4,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ambience.crowd-rise-nonverbal.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ambience/crowd-rise-nonverbal-v001.mp3",
+      "bytes": 97846,
+      "technical": {
+        "durationSec": 4,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.stone-step-light.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/stone-step-light-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.stone-step-heavy.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/stone-step-heavy-v001.mp3",
+      "bytes": 18852,
+      "technical": {
+        "durationSec": 0.72,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.ceramic-pickup.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/ceramic-pickup-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.ceramic-setdown.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/ceramic-setdown-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.bronze-latch.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/bronze-latch-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.rope-pull.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/rope-pull-v001.mp3",
+      "bytes": 27629,
+      "technical": {
+        "durationSec": 1.08,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.wood-crate-set.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/wood-crate-set-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.saltwater-splash-small.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/saltwater-splash-small-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.sand-scrape.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/sand-scrape-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.metal-ring-drop.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/metal-ring-drop-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.cloth-fold.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/cloth-fold-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.glass-bead-tap.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/glass-bead-tap-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.stone-impact-light.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/stone-impact-light-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.stone-impact-heavy.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/stone-impact-heavy-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.ceramic-break-small.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/ceramic-break-small-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.chest-lid-wood.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/chest-lid-wood-v001.mp3",
+      "bytes": 30137,
+      "technical": {
+        "durationSec": 1.2,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.gate-hinge-salt.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/gate-hinge-salt-v001.mp3",
+      "bytes": 32017,
+      "technical": {
+        "durationSec": 1.28,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.water-bucket-lift.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/water-bucket-lift-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.shell-crunch-light.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/shell-crunch-light-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.bronze-chain-set.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/bronze-chain-set-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.wet-wood-drag.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/wet-wood-drag-v001.mp3",
+      "bytes": 30137,
+      "technical": {
+        "durationSec": 1.2,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.sandbag-drop.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/sandbag-drop-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.bronze-bowl-rub.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/bronze-bowl-rub-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.foley.tile-fragment-slide.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/foley/tile-fragment-slide-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.footstep-stone-close.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/footstep-stone-close-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.footstep-wood-close.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/footstep-wood-close-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.footstep-sand-close.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/footstep-sand-close-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.footstep-metal-close.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/footstep-metal-close-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.footstep-wet-stone.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/footstep-wet-stone-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.sprint-burst-stone.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/sprint-burst-stone-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.landing-light.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/landing-light-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.landing-heavy.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/landing-heavy-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.slide-stop-sand.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/slide-stop-sand-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.jump-takeoff.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/jump-takeoff-v001.mp3",
+      "bytes": 18852,
+      "technical": {
+        "durationSec": 0.72,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.mantle-wood-edge.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/mantle-wood-edge-v001.mp3",
+      "bytes": 30137,
+      "technical": {
+        "durationSec": 1.2,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.dodge-snap.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/dodge-snap-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.crouch-shift.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/crouch-shift-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.gear-swivel.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/gear-swivel-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.rope-climb-pull.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/rope-climb-pull-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.water-wade-step.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/water-wade-step-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.far-footstep-stone.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/far-footstep-stone-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.far-landing.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/far-landing-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.breath-exertion-nonverbal.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/breath-exertion-nonverbal-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.movement.stop-turn-stone.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/movement/stop-turn-stone-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.zone-enter-friendly.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/zone-enter-friendly-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.zone-enter-enemy.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/zone-enter-enemy-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.capture-tick-friendly.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/capture-tick-friendly-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.capture-tick-enemy.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/capture-tick-enemy-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.capture-complete.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/capture-complete-v001.mp3",
+      "bytes": 27629,
+      "technical": {
+        "durationSec": 1.08,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.objective-contested.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/objective-contested-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.round-start.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/round-start-v001.mp3",
+      "bytes": 27629,
+      "technical": {
+        "durationSec": 1.08,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.round-end.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/round-end-v001.mp3",
+      "bytes": 27629,
+      "technical": {
+        "durationSec": 1.08,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.victory-confirm.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/victory-confirm-v001.mp3",
+      "bytes": 30137,
+      "technical": {
+        "durationSec": 1.2,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.defeat-confirm.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/defeat-confirm-v001.mp3",
+      "bytes": 30137,
+      "technical": {
+        "durationSec": 1.2,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.respawn-ready.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/respawn-ready-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.ping-soft.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/ping-soft-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.ping-urgent.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/ping-urgent-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.timer-warning.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/timer-warning-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.objective-lost.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/objective-lost-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.objective.interact-confirm-cancel.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/objective/interact-confirm-cancel-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.water-burst-near.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/water-burst-near-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.water-burst-far.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/water-burst-far-v001.mp3",
+      "bytes": 27629,
+      "technical": {
+        "durationSec": 1.08,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.stone-shield-form.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/stone-shield-form-v001.mp3",
+      "bytes": 32017,
+      "technical": {
+        "durationSec": 1.28,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.stone-shield-hit.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/stone-shield-hit-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.bronze-resonance.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/bronze-resonance-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.sea-glass-shimmer.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/sea-glass-shimmer-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.sand-plume.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/sand-plume-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.barrier-hit-near.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/barrier-hit-near-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.barrier-hit-far.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/barrier-hit-far-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.heal-pulse.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/heal-pulse-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.dash-snap.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/dash-snap-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.scan-pulse.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/scan-pulse-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.anchor-chain.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/anchor-chain-v001.mp3",
+      "bytes": 30137,
+      "technical": {
+        "durationSec": 1.2,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.suppression-hit.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/suppression-hit-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.ultimate-charge.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/ultimate-charge-v001.mp3",
+      "bytes": 32017,
+      "technical": {
+        "durationSec": 1.28,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.wave002.sfx.ability.ultimate-release.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260801/aaa-wave-002/generated/wave002/ability/ultimate-release-v001.mp3",
+      "bytes": 37033,
+      "technical": {
+        "durationSec": 1.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    }
+  ]
+}

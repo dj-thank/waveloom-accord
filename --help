@@ -1,0 +1,2521 @@
+{
+  "schemaVersion": 1,
+  "wave": "aaa-batch-001",
+  "purpose": "First 100-slot candidate-only AAA SFX batch: weapon vocabulary, abilities, UI, objectives, and movement. It does not replace the Local DSP runtime contract before technical, competitive, creative, rights, and human approval.",
+  "executionBudget": {
+    "maxAssets": 100,
+    "maxEstimatedCredits": 2842
+  },
+  "provider": {
+    "name": "ElevenLabs",
+    "endpoint": "/v1/sound-generation",
+    "modelId": "eleven_text_to_sound_v2",
+    "outputFormat": "mp3_44100_192"
+  },
+  "humanApproval": {
+    "status": "user-authorized-2026-07-30",
+    "scope": "candidate generation only; runtime admission remains separately gated"
+  },
+  "assets": [
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.primary-fire-near.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "asagi:primary-fire-near",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/asagi-primary-fire-near-v001.mp3",
+      "estimatedCredits": 22,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.55,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional precision survey carbine: a ceramic bolt and brass iris followed by a narrow luminous crack; close first-person fire, dry courtyard reflection, readable 2 to 5 kHz transient; 0.55 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.55,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.primary-fire-mid.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "asagi:primary-fire-mid",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/asagi-primary-fire-mid-v001.mp3",
+      "estimatedCredits": 28,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.7,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional precision survey carbine: a ceramic bolt and brass iris followed by a narrow luminous crack; mid-distance fire, softened transient and small stone reflection; 0.7 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.7,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.primary-fire-far.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "asagi:primary-fire-far",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/asagi-primary-fire-far-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional precision survey carbine: a ceramic bolt and brass iris followed by a narrow luminous crack; far-distance fire, compact distant identity without low-end boom; 0.8 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.reload.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "asagi:reload",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/asagi-reload-v001.mp3",
+      "estimatedCredits": 48,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 1.2,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional precision survey carbine: a ceramic bolt and brass iris followed by a narrow luminous crack; tactical reload mechanism, two clear hand-scale mechanical stages; 1.2 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.2,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.dry-fire.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "asagi:dry-fire",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/asagi-dry-fire-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional precision survey carbine: a ceramic bolt and brass iris followed by a narrow luminous crack; empty trigger response, small inert mechanism click, clearly non-damaging; 0.5 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.impact-stone.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "asagi:impact-stone",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/asagi-impact-stone-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional precision survey carbine: a ceramic bolt and brass iris followed by a narrow luminous crack; projectile impact on rough sun-warmed stone, sharp material response; 0.65 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.impact-metal.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "asagi:impact-metal",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/asagi-impact-metal-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional precision survey carbine: a ceramic bolt and brass iris followed by a narrow luminous crack; projectile impact on weathered bronze, compact metallic body without ringing; 0.65 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.charge.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "asagi:charge",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/asagi-charge-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional precision survey carbine: a ceramic bolt and brass iris followed by a narrow luminous crack; short charge-up, controlled rising energy with no alarm-like siren; 0.8 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.overheat.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "asagi:overheat",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/asagi-overheat-v001.mp3",
+      "estimatedCredits": 40,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 1,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional precision survey carbine: a ceramic bolt and brass iris followed by a narrow luminous crack; brief thermal release, ceramic vent and warm pressure decay; 1 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.equip.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "asagi:equip",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/asagi-equip-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional precision survey carbine: a ceramic bolt and brass iris followed by a narrow luminous crack; quick ready action, one compact secure mechanism lock; 0.5 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.primary-fire-near.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "hokuchi:primary-fire-near",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/hokuchi-primary-fire-near-v001.mp3",
+      "estimatedCredits": 22,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.55,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional close-range pressure scatterer: a compact copper pressure pulse and coarse stone-dust snap; close first-person fire, dry courtyard reflection, readable 2 to 5 kHz transient; 0.55 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.55,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.primary-fire-mid.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "hokuchi:primary-fire-mid",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/hokuchi-primary-fire-mid-v001.mp3",
+      "estimatedCredits": 28,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.7,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional close-range pressure scatterer: a compact copper pressure pulse and coarse stone-dust snap; mid-distance fire, softened transient and small stone reflection; 0.7 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.7,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.primary-fire-far.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "hokuchi:primary-fire-far",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/hokuchi-primary-fire-far-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional close-range pressure scatterer: a compact copper pressure pulse and coarse stone-dust snap; far-distance fire, compact distant identity without low-end boom; 0.8 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.reload.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "hokuchi:reload",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/hokuchi-reload-v001.mp3",
+      "estimatedCredits": 48,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 1.2,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional close-range pressure scatterer: a compact copper pressure pulse and coarse stone-dust snap; tactical reload mechanism, two clear hand-scale mechanical stages; 1.2 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.2,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.dry-fire.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "hokuchi:dry-fire",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/hokuchi-dry-fire-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional close-range pressure scatterer: a compact copper pressure pulse and coarse stone-dust snap; empty trigger response, small inert mechanism click, clearly non-damaging; 0.5 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.impact-stone.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "hokuchi:impact-stone",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/hokuchi-impact-stone-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional close-range pressure scatterer: a compact copper pressure pulse and coarse stone-dust snap; projectile impact on rough sun-warmed stone, sharp material response; 0.65 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.impact-metal.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "hokuchi:impact-metal",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/hokuchi-impact-metal-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional close-range pressure scatterer: a compact copper pressure pulse and coarse stone-dust snap; projectile impact on weathered bronze, compact metallic body without ringing; 0.65 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.charge.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "hokuchi:charge",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/hokuchi-charge-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional close-range pressure scatterer: a compact copper pressure pulse and coarse stone-dust snap; short charge-up, controlled rising energy with no alarm-like siren; 0.8 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.overheat.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "hokuchi:overheat",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/hokuchi-overheat-v001.mp3",
+      "estimatedCredits": 40,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 1,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional close-range pressure scatterer: a compact copper pressure pulse and coarse stone-dust snap; brief thermal release, ceramic vent and warm pressure decay; 1 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.equip.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "hokuchi:equip",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/hokuchi-equip-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional close-range pressure scatterer: a compact copper pressure pulse and coarse stone-dust snap; quick ready action, one compact secure mechanism lock; 0.5 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.primary-fire-near.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "shirasagi:primary-fire-near",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/shirasagi-primary-fire-near-v001.mp3",
+      "estimatedCredits": 22,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.55,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional crystal needle projector: a faceted sea-glass ignition and a tight high-energy thread; close first-person fire, dry courtyard reflection, readable 2 to 5 kHz transient; 0.55 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.55,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.primary-fire-mid.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "shirasagi:primary-fire-mid",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/shirasagi-primary-fire-mid-v001.mp3",
+      "estimatedCredits": 28,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.7,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional crystal needle projector: a faceted sea-glass ignition and a tight high-energy thread; mid-distance fire, softened transient and small stone reflection; 0.7 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.7,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.primary-fire-far.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "shirasagi:primary-fire-far",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/shirasagi-primary-fire-far-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional crystal needle projector: a faceted sea-glass ignition and a tight high-energy thread; far-distance fire, compact distant identity without low-end boom; 0.8 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.reload.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "shirasagi:reload",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/shirasagi-reload-v001.mp3",
+      "estimatedCredits": 48,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 1.2,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional crystal needle projector: a faceted sea-glass ignition and a tight high-energy thread; tactical reload mechanism, two clear hand-scale mechanical stages; 1.2 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.2,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.dry-fire.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "shirasagi:dry-fire",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/shirasagi-dry-fire-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional crystal needle projector: a faceted sea-glass ignition and a tight high-energy thread; empty trigger response, small inert mechanism click, clearly non-damaging; 0.5 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.impact-stone.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "shirasagi:impact-stone",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/shirasagi-impact-stone-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional crystal needle projector: a faceted sea-glass ignition and a tight high-energy thread; projectile impact on rough sun-warmed stone, sharp material response; 0.65 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.impact-metal.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "shirasagi:impact-metal",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/shirasagi-impact-metal-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional crystal needle projector: a faceted sea-glass ignition and a tight high-energy thread; projectile impact on weathered bronze, compact metallic body without ringing; 0.65 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.charge.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "shirasagi:charge",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/shirasagi-charge-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional crystal needle projector: a faceted sea-glass ignition and a tight high-energy thread; short charge-up, controlled rising energy with no alarm-like siren; 0.8 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.overheat.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "shirasagi:overheat",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/shirasagi-overheat-v001.mp3",
+      "estimatedCredits": 40,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 1,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional crystal needle projector: a faceted sea-glass ignition and a tight high-energy thread; brief thermal release, ceramic vent and warm pressure decay; 1 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.equip.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "shirasagi:equip",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/shirasagi-equip-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional crystal needle projector: a faceted sea-glass ignition and a tight high-energy thread; quick ready action, one compact secure mechanism lock; 0.5 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.primary-fire-near.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "ankou:primary-fire-near",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/ankou-primary-fire-near-v001.mp3",
+      "estimatedCredits": 22,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.55,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional tide-lure launcher: a wet bronze chamber turn and a focused water-pressure impulse; close first-person fire, dry courtyard reflection, readable 2 to 5 kHz transient; 0.55 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.55,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.primary-fire-mid.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "ankou:primary-fire-mid",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/ankou-primary-fire-mid-v001.mp3",
+      "estimatedCredits": 28,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.7,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional tide-lure launcher: a wet bronze chamber turn and a focused water-pressure impulse; mid-distance fire, softened transient and small stone reflection; 0.7 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.7,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.primary-fire-far.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "ankou:primary-fire-far",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/ankou-primary-fire-far-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional tide-lure launcher: a wet bronze chamber turn and a focused water-pressure impulse; far-distance fire, compact distant identity without low-end boom; 0.8 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.reload.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "ankou:reload",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/ankou-reload-v001.mp3",
+      "estimatedCredits": 48,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 1.2,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional tide-lure launcher: a wet bronze chamber turn and a focused water-pressure impulse; tactical reload mechanism, two clear hand-scale mechanical stages; 1.2 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.2,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.dry-fire.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "ankou:dry-fire",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/ankou-dry-fire-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional tide-lure launcher: a wet bronze chamber turn and a focused water-pressure impulse; empty trigger response, small inert mechanism click, clearly non-damaging; 0.5 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.impact-stone.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "ankou:impact-stone",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/ankou-impact-stone-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional tide-lure launcher: a wet bronze chamber turn and a focused water-pressure impulse; projectile impact on rough sun-warmed stone, sharp material response; 0.65 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.impact-metal.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "ankou:impact-metal",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/ankou-impact-metal-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional tide-lure launcher: a wet bronze chamber turn and a focused water-pressure impulse; projectile impact on weathered bronze, compact metallic body without ringing; 0.65 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.charge.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "ankou:charge",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/ankou-charge-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional tide-lure launcher: a wet bronze chamber turn and a focused water-pressure impulse; short charge-up, controlled rising energy with no alarm-like siren; 0.8 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.overheat.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "ankou:overheat",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/ankou-overheat-v001.mp3",
+      "estimatedCredits": 40,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 1,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional tide-lure launcher: a wet bronze chamber turn and a focused water-pressure impulse; brief thermal release, ceramic vent and warm pressure decay; 1 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.equip.v001",
+      "kind": "sound_effect",
+      "family": "weapon",
+      "role": "ankou:equip",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/weapons/ankou-equip-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay weapon one-shot for a fictional tide-lure launcher: a wet bronze chamber turn and a focused water-pressure impulse; quick ready action, one compact secure mechanism lock; 0.5 seconds. Original competitive-game mix with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.74,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.asagi.scan-ripple.cast.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "asagi.scan-ripple:cast",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/asagi-scan-ripple-cast-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a measured ceramic pulse that maps open air; cast event, clear start cue with a focused midrange identity; 0.65 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.asagi.scan-ripple.travel.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "asagi.scan-ripple:travel",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/asagi-scan-ripple-travel-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a measured ceramic pulse that maps open air; travel event, short motion cue with directional air and no impact; 0.8 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.asagi.scan-ripple.impact.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "asagi.scan-ripple:impact",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/asagi-scan-ripple-impact-v001.mp3",
+      "estimatedCredits": 30,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.75,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a measured ceramic pulse that maps open air; impact event, compact arrival cue with distinct material contact; 0.75 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.75,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.asagi.scan-ripple.resolve.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "asagi.scan-ripple:resolve",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/asagi-scan-ripple-resolve-v001.mp3",
+      "estimatedCredits": 36,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.9,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a measured ceramic pulse that maps open air; resolve event, brief utility completion cue, calm rather than explosive; 0.9 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.9,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hokuchi.heat-bastion.cast.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "hokuchi.heat-bastion:cast",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/hokuchi-heat-bastion-cast-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a warm bronze pressure field; cast event, clear start cue with a focused midrange identity; 0.65 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hokuchi.heat-bastion.travel.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "hokuchi.heat-bastion:travel",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/hokuchi-heat-bastion-travel-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a warm bronze pressure field; travel event, short motion cue with directional air and no impact; 0.8 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hokuchi.heat-bastion.impact.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "hokuchi.heat-bastion:impact",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/hokuchi-heat-bastion-impact-v001.mp3",
+      "estimatedCredits": 30,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.75,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a warm bronze pressure field; impact event, compact arrival cue with distinct material contact; 0.75 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.75,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hokuchi.heat-bastion.resolve.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "hokuchi.heat-bastion:resolve",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/hokuchi-heat-bastion-resolve-v001.mp3",
+      "estimatedCredits": 36,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.9,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a warm bronze pressure field; resolve event, brief utility completion cue, calm rather than explosive; 0.9 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.9,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.shirasagi.prism-step.cast.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "shirasagi.prism-step:cast",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/shirasagi-prism-step-cast-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a refracted sea-glass directional burst; cast event, clear start cue with a focused midrange identity; 0.65 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.shirasagi.prism-step.travel.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "shirasagi.prism-step:travel",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/shirasagi-prism-step-travel-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a refracted sea-glass directional burst; travel event, short motion cue with directional air and no impact; 0.8 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.shirasagi.prism-step.impact.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "shirasagi.prism-step:impact",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/shirasagi-prism-step-impact-v001.mp3",
+      "estimatedCredits": 30,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.75,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a refracted sea-glass directional burst; impact event, compact arrival cue with distinct material contact; 0.75 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.75,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.shirasagi.prism-step.resolve.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "shirasagi.prism-step:resolve",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/shirasagi-prism-step-resolve-v001.mp3",
+      "estimatedCredits": 36,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.9,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a refracted sea-glass directional burst; resolve event, brief utility completion cue, calm rather than explosive; 0.9 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.9,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.ankou.tide-snare.cast.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "ankou.tide-snare:cast",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/ankou-tide-snare-cast-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a tightened water ribbon around a stone anchor; cast event, clear start cue with a focused midrange identity; 0.65 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.ankou.tide-snare.travel.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "ankou.tide-snare:travel",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/ankou-tide-snare-travel-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a tightened water ribbon around a stone anchor; travel event, short motion cue with directional air and no impact; 0.8 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.ankou.tide-snare.impact.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "ankou.tide-snare:impact",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/ankou-tide-snare-impact-v001.mp3",
+      "estimatedCredits": 30,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.75,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a tightened water ribbon around a stone anchor; impact event, compact arrival cue with distinct material contact; 0.75 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.75,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.ankou.tide-snare.resolve.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "ankou.tide-snare:resolve",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/ankou-tide-snare-resolve-v001.mp3",
+      "estimatedCredits": 36,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.9,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a tightened water ribbon around a stone anchor; resolve event, brief utility completion cue, calm rather than explosive; 0.9 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.9,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hibari.wind-lift.cast.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "hibari.wind-lift:cast",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/hibari-wind-lift-cast-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a light canvas-and-air vertical gust; cast event, clear start cue with a focused midrange identity; 0.65 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hibari.wind-lift.travel.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "hibari.wind-lift:travel",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/hibari-wind-lift-travel-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a light canvas-and-air vertical gust; travel event, short motion cue with directional air and no impact; 0.8 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hibari.wind-lift.impact.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "hibari.wind-lift:impact",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/hibari-wind-lift-impact-v001.mp3",
+      "estimatedCredits": 30,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.75,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a light canvas-and-air vertical gust; impact event, compact arrival cue with distinct material contact; 0.75 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.75,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hibari.wind-lift.resolve.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "hibari.wind-lift:resolve",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/hibari-wind-lift-resolve-v001.mp3",
+      "estimatedCredits": 36,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.9,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a light canvas-and-air vertical gust; resolve event, brief utility completion cue, calm rather than explosive; 0.9 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.9,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.tsuzuri.thread-bind.cast.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "tsuzuri.thread-bind:cast",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/tsuzuri-thread-bind-cast-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a taut woven cord energy weave; cast event, clear start cue with a focused midrange identity; 0.65 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.tsuzuri.thread-bind.travel.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "tsuzuri.thread-bind:travel",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/tsuzuri-thread-bind-travel-v001.mp3",
+      "estimatedCredits": 32,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.8,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a taut woven cord energy weave; travel event, short motion cue with directional air and no impact; 0.8 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.8,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.tsuzuri.thread-bind.impact.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "tsuzuri.thread-bind:impact",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/tsuzuri-thread-bind-impact-v001.mp3",
+      "estimatedCredits": 30,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.75,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a taut woven cord energy weave; impact event, compact arrival cue with distinct material contact; 0.75 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.75,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.tsuzuri.thread-bind.resolve.v001",
+      "kind": "sound_effect",
+      "family": "ability",
+      "role": "tsuzuri.thread-bind:resolve",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/abilities/tsuzuri-thread-bind-resolve-v001.mp3",
+      "estimatedCredits": 36,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.9,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay ability one-shot for a fictional coastal competitive game: a taut woven cord energy weave; resolve event, brief utility completion cue, calm rather than explosive; 0.9 seconds; readable against combat with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.9,
+        "prompt_influence": 0.73,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.confirm.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:confirm",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/confirm-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a small ceramic click and warm brass pin, positive but restrained; close interface perspective, 0.5 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.cancel.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:cancel",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/cancel-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a soft descending sea-glass tap, distinct from confirmation; close interface perspective, 0.5 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.focus.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:focus",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/focus-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a tiny polished tile tick with nearly no bass; close interface perspective, 0.5 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.hit-confirm.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:hit-confirm",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/hit-confirm-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a precise luminous ceramic snap, concise and readable; close interface perspective, 0.5 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.critical-confirm.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:critical-confirm",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/critical-confirm-v001.mp3",
+      "estimatedCredits": 24,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.6,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: two tightly spaced brass-and-glass accents, important but non-painful; close interface perspective, 0.6 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.6,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.damage-taken.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:damage-taken",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/damage-taken-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a muted bronze knock and dry air pulse, urgent but not a siren; close interface perspective, 0.5 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.low-health.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:low-health",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/low-health-v001.mp3",
+      "estimatedCredits": 28,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.7,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a sparse low ceramic pulse with large breathing space; close interface perspective, 0.7 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.7,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.heal-received.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:heal-received",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/heal-received-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a warm water-and-glass lift, restorative and not musical; close interface perspective, 0.65 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.ally-ping.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:ally-ping",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/ally-ping-v001.mp3",
+      "estimatedCredits": 22,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.55,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a rounded ceramic marker, neutral and cooperative; close interface perspective, 0.55 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.55,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.enemy-ping.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:enemy-ping",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/enemy-ping-v001.mp3",
+      "estimatedCredits": 22,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.55,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a sharper bronze marker, clearly different from ally ping; close interface perspective, 0.55 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.55,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.menu-open.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:menu-open",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/menu-open-v001.mp3",
+      "estimatedCredits": 22,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.55,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a small stone drawer open and air lift; close interface perspective, 0.55 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.55,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.menu-close.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:menu-close",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/menu-close-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a soft stone drawer settle; close interface perspective, 0.5 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.cooldown-ready.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:cooldown-ready",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/cooldown-ready-v001.mp3",
+      "estimatedCredits": 24,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.6,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a clean ceramic completion pulse; close interface perspective, 0.6 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.6,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.ability-blocked.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:ability-blocked",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/ability-blocked-v001.mp3",
+      "estimatedCredits": 22,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.55,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a dry crossed-brass tick, informative not harsh; close interface perspective, 0.55 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.55,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.respawn-ready.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:respawn-ready",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/respawn-ready-v001.mp3",
+      "estimatedCredits": 28,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.7,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a calm rising stone-and-air cue; close interface perspective, 0.7 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.7,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.scoreboard-open.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:scoreboard-open",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/scoreboard-open-v001.mp3",
+      "estimatedCredits": 22,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.55,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a light parchment-and-ceramic unfold; close interface perspective, 0.55 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.55,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.scoreboard-close.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:scoreboard-close",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/scoreboard-close-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a compact parchment fold; close interface perspective, 0.5 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.objective-route.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:objective-route",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/objective-route-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a focused two-step ceramic navigation marker; close interface perspective, 0.65 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.party-ready.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:party-ready",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/party-ready-v001.mp3",
+      "estimatedCredits": 24,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.6,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a short warm brass-and-glass acknowledgement; close interface perspective, 0.6 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.6,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.error.v001",
+      "kind": "sound_effect",
+      "family": "ui",
+      "role": "ui:error",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ui/error-v001.mp3",
+      "estimatedCredits": 22,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.55,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay UI one-shot for a fictional coastal stone city: a dry low ceramic denial tick, clear and non-alarming; close interface perspective, 0.55 seconds, concise frequency separation for a competitive mix. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.55,
+        "prompt_influence": 0.7,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.unlock.v001",
+      "kind": "sound_effect",
+      "family": "objective",
+      "role": "objective:unlock",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/objective/unlock-v001.mp3",
+      "estimatedCredits": 36,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.9,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay objective one-shot for a fictional competitive coastal arena: a sealed stone marker opens with a restrained brass lift; open-plaza perspective, 0.9 seconds, intelligible over combat with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.9,
+        "prompt_influence": 0.75,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.capture-start.v001",
+      "kind": "sound_effect",
+      "family": "objective",
+      "role": "objective:capture-start",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/objective/capture-start-v001.mp3",
+      "estimatedCredits": 40,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 1,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay objective one-shot for a fictional competitive coastal arena: three measured ceramic markers establish a new control action; open-plaza perspective, 1 seconds, intelligible over combat with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1,
+        "prompt_influence": 0.75,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.capture-tick.v001",
+      "kind": "sound_effect",
+      "family": "objective",
+      "role": "objective:capture-tick",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/objective/capture-tick-v001.mp3",
+      "estimatedCredits": 22,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.55,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay objective one-shot for a fictional competitive coastal arena: one stable ceramic pulse that communicates progress; open-plaza perspective, 0.55 seconds, intelligible over combat with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.55,
+        "prompt_influence": 0.75,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.contested.v001",
+      "kind": "sound_effect",
+      "family": "objective",
+      "role": "objective:contested",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/objective/contested-v001.mp3",
+      "estimatedCredits": 40,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 1,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay objective one-shot for a fictional competitive coastal arena: staggered low ceramic knocks and tense wind-chime scrape, urgent but not a siren; open-plaza perspective, 1 seconds, intelligible over combat with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1,
+        "prompt_influence": 0.75,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.lead-change.v001",
+      "kind": "sound_effect",
+      "family": "objective",
+      "role": "objective:lead-change",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/objective/lead-change-v001.mp3",
+      "estimatedCredits": 36,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.9,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay objective one-shot for a fictional competitive coastal arena: a concise bronze pivot and rising ceramic response; open-plaza perspective, 0.9 seconds, intelligible over combat with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.9,
+        "prompt_influence": 0.75,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.transition.v001",
+      "kind": "sound_effect",
+      "family": "objective",
+      "role": "objective:transition",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/objective/transition-v001.mp3",
+      "estimatedCredits": 36,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.9,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay objective one-shot for a fictional competitive coastal arena: a fast stone mallet turn and airy brass cue; open-plaza perspective, 0.9 seconds, intelligible over combat with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.9,
+        "prompt_influence": 0.75,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.secured.v001",
+      "kind": "sound_effect",
+      "family": "objective",
+      "role": "objective:secured",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/objective/secured-v001.mp3",
+      "estimatedCredits": 40,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 1,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay objective one-shot for a fictional competitive coastal arena: a grounded stone anchor settles into a warm glass resolution; open-plaza perspective, 1 seconds, intelligible over combat with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1,
+        "prompt_influence": 0.75,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.round-end.v001",
+      "kind": "sound_effect",
+      "family": "objective",
+      "role": "objective:round-end",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/objective/round-end-v001.mp3",
+      "estimatedCredits": 48,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 1.2,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay objective one-shot for a fictional competitive coastal arena: a dignified ceramic-and-brass landing with space for voice-over; open-plaza perspective, 1.2 seconds, intelligible over combat with controlled low end. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 1.2,
+        "prompt_influence": 0.75,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.stone-step-heavy.v001",
+      "kind": "sound_effect",
+      "family": "movement",
+      "role": "movement:stone-step-heavy",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/movement/stone-step-heavy-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay movement one-shot for a fictional coastal arena: one heavy boot step on rough sun-warmed stone, dry heel-to-toe texture; close third-person perspective, 0.5 seconds, distinct surface identity with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.68,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.wood-step.v001",
+      "kind": "sound_effect",
+      "family": "movement",
+      "role": "movement:wood-step",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/movement/wood-step-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay movement one-shot for a fictional coastal arena: one boot step on weathered dock wood, compact hollow grain; close third-person perspective, 0.5 seconds, distinct surface identity with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.68,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.bronze-step.v001",
+      "kind": "sound_effect",
+      "family": "movement",
+      "role": "movement:bronze-step",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/movement/bronze-step-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay movement one-shot for a fictional coastal arena: one boot step on aged bronze grating, controlled metallic weight; close third-person perspective, 0.5 seconds, distinct surface identity with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.68,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.tile-step.v001",
+      "kind": "sound_effect",
+      "family": "movement",
+      "role": "movement:tile-step",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/movement/tile-step-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay movement one-shot for a fictional coastal arena: one boot step on small glazed ceramic tile, crisp but not brittle; close third-person perspective, 0.5 seconds, distinct surface identity with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.68,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.shallow-water-step.v001",
+      "kind": "sound_effect",
+      "family": "movement",
+      "role": "movement:shallow-water-step",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/movement/shallow-water-step-v001.mp3",
+      "estimatedCredits": 22,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.55,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay movement one-shot for a fictional coastal arena: one boot step through a thin canal edge, compact water displacement; close third-person perspective, 0.55 seconds, distinct surface identity with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.55,
+        "prompt_influence": 0.68,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.jump.v001",
+      "kind": "sound_effect",
+      "family": "movement",
+      "role": "movement:jump",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/movement/jump-v001.mp3",
+      "estimatedCredits": 20,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.5,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay movement one-shot for a fictional coastal arena: an athletic launch from stone, short sole scrape and airy lift; close third-person perspective, 0.5 seconds, distinct surface identity with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.5,
+        "prompt_influence": 0.68,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.land.v001",
+      "kind": "sound_effect",
+      "family": "movement",
+      "role": "movement:land",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/movement/land-v001.mp3",
+      "estimatedCredits": 24,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.6,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay movement one-shot for a fictional coastal arena: an athletic controlled landing on stone, compact impact and cloth shift; close third-person perspective, 0.6 seconds, distinct surface identity with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.6,
+        "prompt_influence": 0.68,
+        "loop": false
+      }
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.slide-stop.v001",
+      "kind": "sound_effect",
+      "family": "movement",
+      "role": "movement:slide-stop",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/movement/slide-stop-v001.mp3",
+      "estimatedCredits": 26,
+      "candidateStatus": "pending_technical_qc",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, song, or brand reference",
+      "qc": {
+        "durationSeconds": 0.65,
+        "loop": false,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo"
+      },
+      "request": {
+        "text": "Gameplay movement one-shot for a fictional coastal arena: a short tactical slide stop on stone grit, controlled friction tail; close third-person perspective, 0.65 seconds, distinct surface identity with restrained bass. No speech, music, real person, existing IP, artist, song, or brand reference. No clipping.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 0.65,
+        "prompt_influence": 0.68,
+        "loop": false
+      }
+    }
+  ]
+}

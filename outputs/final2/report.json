@@ -1,0 +1,22 @@
+[
+  {
+    "view": "network",
+    "applied": true,
+    "file": "outputs/final2/network.png"
+  },
+  {
+    "view": "aerial",
+    "applied": true,
+    "file": "outputs/final2/aerial.png"
+  },
+  {
+    "view": "objective",
+    "applied": true,
+    "file": "outputs/final2/objective.png"
+  },
+  {
+    "view": "site-kado",
+    "applied": true,
+    "file": "outputs/final2/site-kado.png"
+  }
+]

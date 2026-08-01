@@ -1,0 +1,70 @@
+{
+  "box": {
+    "tri": 12,
+    "verts": 24
+  },
+  "chamferBox": {
+    "tri": 620,
+    "verts": 1860
+  },
+  "cylinder": {
+    "tri": 40,
+    "verts": 64
+  },
+  "hipRoof": {
+    "tri": 16,
+    "verts": 28
+  },
+  "barrelRoof": {
+    "tri": 50,
+    "verts": 28
+  },
+  "sawRoof": {
+    "tri": 8,
+    "verts": 18
+  },
+  "dodeca": {
+    "tri": 144,
+    "verts": 432
+  },
+  "dodecaLow": {
+    "tri": 36,
+    "verts": 108
+  },
+  "sphere": {
+    "tri": 140,
+    "verts": 99
+  },
+  "plane": {
+    "tri": 2,
+    "verts": 4
+  },
+  "archWall": {
+    "tri": 218,
+    "verts": 654
+  },
+  "archGate": {
+    "tri": 68,
+    "verts": 204
+  },
+  "lattice": {
+    "tri": 284,
+    "verts": 852
+  },
+  "colonnade": {
+    "tri": 320,
+    "verts": 960
+  },
+  "dome": {
+    "tri": 240,
+    "verts": 153
+  },
+  "spire": {
+    "tri": 24,
+    "verts": 35
+  },
+  "terrace": {
+    "tri": 48,
+    "verts": 76
+  }
+}

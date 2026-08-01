@@ -1,6 +1,11 @@
 import {
   PROTOCOL_VERSION, LAG_COMPENSATION_POLICY,
 } from '../shared/protocol.js';
+import { HERO_BY_ID } from '../shared/data/heroes.js';
+import {
+  projectHeroSelection, RUNTIME_COMPOSITION_POLICY, validateRuntimeComposition,
+} from '../shared/rules/team_composition.js';
+import { competitiveBotFillSlots } from '../shared/rules/bot_roster.js';
 
 export { PROTOCOL_VERSION, LAG_COMPENSATION_POLICY };
 export const WS_CONNECTION_LIMIT = 32;
@@ -311,4 +316,186 @@ export function canSendSnapshot(socket, maxBufferedBytes) {
 export function canSelectHero(matchState, isAlive, isRespawnPending) {
   return matchState === 'SETUP'
     || (matchState === 'ACTIVE' && !isAlive && isRespawnPending);
+}
+
+function chooseSubsets(values, count, start = 0, prefix = [], output = []) {
+  if (prefix.length === count) {
+    output.push([...prefix]);
+    return output;
+  }
+  for (let index = start; index <= values.length - (count - prefix.length); index++) {
+    prefix.push(values[index]);
+    chooseSubsets(values, count, index + 1, prefix, output);
+    prefix.pop();
+  }
+  return output;
+}
+
+export function planRuntimeBotFill(matchIndex, team, occupiedPlayers = []) {
+  if (!Number.isInteger(team) || (team !== 0 && team !== 1)) {
+    return { ok: false, code: 'invalid_team', missingCapabilities: [] };
+  }
+  const occupied = [];
+  for (const player of Array.isArray(occupiedPlayers) ? occupiedPlayers : []) {
+    const hero = typeof player?.heroId === 'string' && Object.hasOwn(HERO_BY_ID, player.heroId)
+      ? HERO_BY_ID[player.heroId]
+      : null;
+    if (!hero) return { ok: false, code: 'invalid_hero', missingCapabilities: [] };
+    if (player.team !== undefined && player.team !== team) {
+      return { ok: false, code: 'invalid_team', missingCapabilities: [] };
+    }
+    occupied.push({
+      ...player,
+      team,
+      heroId: hero.id,
+      role: hero.role,
+      teamFunctions: hero.teamFunctions,
+    });
+  }
+  const needed = RUNTIME_COMPOSITION_POLICY.teamSize - occupied.length;
+  if (needed < 0) {
+    return { ok: false, code: 'team_size_mismatch', missingCapabilities: [] };
+  }
+  let botSlots;
+  try {
+    // This is the same roster projection used by a bot-only match. A rematch
+    // cannot invent a separate role-open fill policy around retained humans.
+    botSlots = competitiveBotFillSlots(matchIndex, team, occupied);
+  } catch {
+    return { ok: false, code: 'role_slots_required', missingCapabilities: [] };
+  }
+  if (botSlots.length !== needed) {
+    return { ok: false, code: 'role_slots_required', missingCapabilities: [] };
+  }
+  const projected = [
+    ...occupied,
+    ...botSlots.map((slot, index) => {
+      const hero = HERO_BY_ID[slot.heroId];
+      return {
+        id: `runtime-bot-${team}-${index}`,
+        team,
+        isBot: true,
+        heroId: hero.id,
+        role: hero.role,
+        teamFunctions: hero.teamFunctions,
+      };
+    }),
+  ];
+  const validation = validateRuntimeComposition(projected);
+  if (!validation.ok) {
+    return { ok: false, code: validation.code, missingCapabilities: [] };
+  }
+  return {
+    ok: true,
+    botSlots: botSlots.map(slot => ({ ...slot })),
+    projected,
+    missingCapabilities: [],
+  };
+}
+
+export function planRuntimeHeroSelection(players, playerId, targetHeroId) {
+  if (typeof targetHeroId !== 'string' || !Object.hasOwn(HERO_BY_ID, targetHeroId)) {
+    return { ok: false, code: 'invalid_hero', missingCapabilities: [] };
+  }
+  const roster = [];
+  for (const player of Array.isArray(players) ? players : []) {
+    const hero = typeof player?.heroId === 'string' && Object.hasOwn(HERO_BY_ID, player.heroId)
+      ? HERO_BY_ID[player.heroId]
+      : null;
+    if (!hero) return { ok: false, code: 'invalid_hero', missingCapabilities: [] };
+    roster.push({
+      ...player,
+      heroId: hero.id,
+      role: hero.role,
+      teamFunctions: hero.teamFunctions,
+    });
+  }
+  const player = roster.find(candidate => candidate.id === playerId);
+  if (!player) {
+    return { ok: false, code: 'player_not_found', missingCapabilities: [] };
+  }
+  const targetHero = HERO_BY_ID[targetHeroId];
+  const swapCandidates = player.role === targetHero.role
+    ? [null]
+    : roster
+      .filter(candidate => candidate.id !== player.id && candidate.isBot && candidate.role === targetHero.role)
+      .sort((left, right) => String(left.id).localeCompare(String(right.id)))
+      .map(candidate => candidate.id);
+  if (swapCandidates.length === 0) {
+    return { ok: false, code: 'role_full', role: targetHero.role, missingCapabilities: [] };
+  }
+  const candidates = swapCandidates.map(swapPlayerId => {
+    const projected = projectHeroSelection(roster, playerId, targetHero, swapPlayerId);
+    return { swapPlayerId, projected, validation: validateRuntimeComposition(projected) };
+  });
+  const viable = candidates.find(candidate => candidate.validation.ok);
+  if (viable) {
+    return {
+      ...viable.validation,
+      projected: viable.projected,
+      swapPlayerId: viable.swapPlayerId,
+      missingCapabilities: [],
+    };
+  }
+  const failure = candidates[0];
+  return {
+    ...failure.validation,
+    projected: failure.projected,
+    swapPlayerId: failure.swapPlayerId,
+    missingCapabilities: [],
+  };
+}
+
+export function selectRuntimeClaimSlot(players, candidateSlotIds, targetHeroId) {
+  const targetHero = typeof targetHeroId === 'string' ? HERO_BY_ID[targetHeroId] : null;
+  if (!targetHero) return { ok: false, code: 'invalid_hero', missingCapabilities: [] };
+  const roster = Array.isArray(players) ? players.filter(Boolean) : [];
+  const roleMatchedSlots = (Array.isArray(candidateSlotIds) ? candidateSlotIds : [])
+    .filter(slotId => {
+      const slot = roster.find(player => player.id === slotId);
+      return HERO_BY_ID[slot?.heroId]?.role === targetHero.role;
+    });
+  if (roleMatchedSlots.length === 0) {
+    return { ok: false, code: 'role_full', role: targetHero.role, missingCapabilities: [] };
+  }
+  const plans = roleMatchedSlots.map(slotId => ({
+    slotId,
+    plan: planRuntimeHeroSelection(roster, slotId, targetHeroId),
+  }));
+  const viable = plans.find(candidate => candidate.plan.ok);
+  if (viable) return { ...viable.plan, slotId: viable.slotId };
+  const failure = plans[0]?.plan;
+  return {
+    ok: false,
+    code: failure?.code || 'slot_unavailable',
+    ...(failure?.role ? { role: failure.role } : {}),
+    missingCapabilities: failure?.missingCapabilities || [],
+  };
+}
+
+// Runtime composition uses this without a swap. The optional swap remains for
+// legacy callers; if used, commit the bot side first and roll it back when the
+// human selection cannot be applied.
+export function applyHeroSelectionTransaction(world, playerId, targetHeroId, swapPlayerId = null) {
+  const player = world?.players?.get?.(playerId);
+  if (!player || typeof world?.selectHero !== 'function') {
+    return { ok: false, code: 'selection_locked' };
+  }
+  let swapPlayer = null;
+  let swapHeroId = null;
+  if (swapPlayerId) {
+    swapPlayer = world.players.get(swapPlayerId);
+    if (!swapPlayer || !swapPlayer.isBot || swapPlayer.team !== player.team) {
+      return { ok: false, code: 'role_full' };
+    }
+    swapHeroId = swapPlayer.heroId;
+    if (!world.selectHero(swapPlayer.id, player.heroId)) {
+      return { ok: false, code: 'role_full' };
+    }
+  }
+  if (world.selectHero(player.id, targetHeroId)) return { ok: true };
+  if (swapPlayer && !world.selectHero(swapPlayer.id, swapHeroId)) {
+    return { ok: false, code: 'selection_rollback_failed' };
+  }
+  return { ok: false, code: 'selection_locked' };
 }

@@ -1,0 +1,108 @@
+{
+  "id": "botan",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/botan/botan-concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/botan/botan-concept-green-v1.png"
+  },
+  "role": "damage",
+  "cohort": "area controller",
+  "modelArchetype": "artillery flower mech",
+  "proportions": {
+    "heightM": 1.88,
+    "bodyRatio": "round core,flared hips,stable tripod",
+    "notes": "Keep botan proportions legible at gameplay distance; preserve the distinctive petal crown around optic against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "petal crown around optic",
+      "cylindrical shell torso",
+      "recoil braced arms"
+    ],
+    "side": [
+      "round core,flared hips,stable tripod profile",
+      "wide planted legs",
+      "petal heat fins"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "pink",
+      "hex": "#d75e8e",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "cream",
+      "hex": "#f3c4cf",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "gunmetal",
+      "hex": "#4e5660",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "petal crown around optic"
+    ],
+    "torso": [
+      "cylindrical shell torso"
+    ],
+    "limbs": [
+      "recoil braced arms",
+      "wide planted legs"
+    ],
+    "weapons": [
+      "multi-shot cannon"
+    ],
+    "accessories": [
+      "petal heat fins"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "pivoting artillery walk",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "deploy and fire",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The petal heat fins overhang can inflate the collider if not separated.",
+    "Asymmetric recoil braced arms needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 11,
+    "rationale": "botan establishes the area controller cohort and exposes its petal heat fins anchor early."
+  },
+  "status": "brief"
+}
+

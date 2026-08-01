@@ -11,6 +11,12 @@ const DEFAULT_INPUT_DT = 1 / 63;
 const DEFAULT_GAMEPAD_LOOK_SENSITIVITY = 0.045 / DEFAULT_INPUT_DT;
 const GAMEPAD_LOOK_SENSITIVITY_MIN = 0.1;
 const GAMEPAD_LOOK_SENSITIVITY_MAX = 20;
+const TOUCH_MOVE_RADIUS_PX = 72;
+const TOUCH_LOOK_RADIANS_PER_PIXEL = 0.004;
+const TOUCH_MOVE_ZONE_FRACTION = 0.48;
+const TOUCH_ACTIONS = new Set([
+  'jump', 'crouch', 'fire', 'secondary', 'ability1', 'ability2', 'ultimate', 'reload',
+]);
 const ACTION_LATCH_BITS = Object.freeze({
   jump: 1 << 0,
   fire: 1 << 1,
@@ -34,6 +40,7 @@ export class InputManager {
     this.locked = false;
     this.fallbackLocked = false;
     this.gamepadCaptured = false;
+    this.touchCaptured = false;
     this._enabled = false; // join完了後に有効化
     this.uiBlocked = false;
 
@@ -51,6 +58,11 @@ export class InputManager {
     this.gamepadReloadNeedsRelease = false;
     this.reloadPending = false;
     this.pendingActionBits = 0;
+    this.touchMove = null;
+    this.touchLook = null;
+    this.touchActionTouches = new Map();
+    this.touchHeld = Object.create(null);
+    this.suppressPointerLockUntil = 0;
     this.pointerLockRequestId = 0;
     this.pointerLockAttempt = null;
 
@@ -73,7 +85,7 @@ export class InputManager {
 
   get sensitivity() { return this.sensValue * 0.0001; }
 
-  get captured() { return this.locked || this.gamepadCaptured; }
+  get captured() { return this.locked || this.gamepadCaptured || this.touchCaptured; }
 
   get enabled() { return this._enabled; }
 
@@ -165,6 +177,7 @@ export class InputManager {
     if (document.pointerLockElement === this.canvas) document.exitPointerLock?.();
     this._setLocked(false);
     this._setGamepadCaptured(false);
+    this._setTouchCaptured(false);
     this.gamepadStartNeedsRelease = true;
   }
 
@@ -198,6 +211,22 @@ export class InputManager {
     if (wasCaptured !== this.captured) this.cb.onCaptureChange?.(this.captured);
   }
 
+  _setTouchCaptured(next) {
+    const value = !!next;
+    if (this.touchCaptured === value) return;
+    const wasCaptured = this.captured;
+    this.touchCaptured = value;
+    if (!value) this._clearTouchState();
+    if (wasCaptured !== this.captured) this.cb.onCaptureChange?.(this.captured);
+  }
+
+  _clearTouchState() {
+    this.touchMove = null;
+    this.touchLook = null;
+    this.touchActionTouches.clear();
+    this.touchHeld = Object.create(null);
+  }
+
   _clearActions() {
     this.keys.clear();
     this.fireHeld = false;
@@ -208,6 +237,7 @@ export class InputManager {
     this.gamepadReloadNeedsRelease = true;
     this.reloadPending = false;
     this.pendingActionBits = 0;
+    this._clearTouchState();
     this.cb.onScoreboard?.(false);
   }
 
@@ -239,12 +269,194 @@ export class InputManager {
     return this._canRequestLock() && this.locked;
   }
 
+  _isTouchGameplayActive() {
+    return this._canRequestLock() && this.touchCaptured;
+  }
+
   _canRequestLock() {
     return this.enabled && !this.uiBlocked && document.visibilityState !== 'hidden';
   }
 
+  _touchPoint(touch) {
+    const rect = this.canvas.getBoundingClientRect?.() || {};
+    const left = Number(rect.left) || 0;
+    const top = Number(rect.top) || 0;
+    const width = Number(rect.width) || Number(this.canvas.clientWidth) || 1;
+    const height = Number(rect.height) || Number(this.canvas.clientHeight) || 1;
+    return {
+      x: Math.max(0, Math.min(width, (Number(touch?.clientX) || 0) - left)),
+      y: Math.max(0, Math.min(height, (Number(touch?.clientY) || 0) - top)),
+      width,
+      height,
+    };
+  }
+
+  _refreshTouchHeld() {
+    const next = Object.create(null);
+    for (const action of this.touchActionTouches.values()) next[action] = true;
+    this.touchHeld = next;
+  }
+
+  _touchActionFromTarget(target) {
+    const control = target?.closest?.('[data-touch-action]') || target;
+    const action = control?.dataset?.touchAction;
+    return TOUCH_ACTIONS.has(action) ? action : null;
+  }
+
+  _beginTouchAction(action, touch) {
+    if (!action || !touch || !this._canRequestLock()) return false;
+    const identifier = touch.identifier;
+    if (!Number.isFinite(identifier)) return false;
+    const wasHeld = !!this.touchHeld[action];
+    this.touchActionTouches.set(identifier, action);
+    this._refreshTouchHeld();
+    if (action === 'reload') this.reloadPending = true;
+    else if (action !== 'crouch' && !wasHeld) this._latchAction(action);
+    this.suppressPointerLockUntil = Date.now() + 750;
+    this._setTouchCaptured(true);
+    return true;
+  }
+
+  _beginTouchGesture(touch) {
+    if (!touch || !this._canRequestLock()) return false;
+    const identifier = touch.identifier;
+    if (!Number.isFinite(identifier)) return false;
+    const point = this._touchPoint(touch);
+    if (!this.touchMove && point.x <= point.width * TOUCH_MOVE_ZONE_FRACTION) {
+      this.touchMove = {
+        identifier,
+        originX: point.x,
+        originY: point.y,
+        moveX: 0,
+        moveY: 0,
+      };
+    } else if (!this.touchLook && point.x > point.width * TOUCH_MOVE_ZONE_FRACTION) {
+      this.touchLook = { identifier, lastX: point.x, lastY: point.y };
+    } else {
+      return false;
+    }
+    this.suppressPointerLockUntil = Date.now() + 750;
+    this._setTouchCaptured(true);
+    return true;
+  }
+
+  _updateTouchGesture(touch) {
+    if (!touch || !this._isTouchGameplayActive()) return false;
+    const identifier = touch.identifier;
+    const point = this._touchPoint(touch);
+    if (this.touchMove?.identifier === identifier) {
+      let moveX = (point.x - this.touchMove.originX) / TOUCH_MOVE_RADIUS_PX;
+      let moveY = (this.touchMove.originY - point.y) / TOUCH_MOVE_RADIUS_PX;
+      const magnitude = Math.hypot(moveX, moveY);
+      if (magnitude > 1) {
+        moveX /= magnitude;
+        moveY /= magnitude;
+      }
+      this.touchMove.moveX = moveX;
+      this.touchMove.moveY = moveY;
+      return true;
+    }
+    if (this.touchLook?.identifier === identifier) {
+      const movementX = point.x - this.touchLook.lastX;
+      const movementY = point.y - this.touchLook.lastY;
+      this.touchLook.lastX = point.x;
+      this.touchLook.lastY = point.y;
+      this.yaw -= movementX * TOUCH_LOOK_RADIANS_PER_PIXEL;
+      this.pitch = Math.max(-PITCH_LIMIT, Math.min(PITCH_LIMIT,
+        this.pitch - movementY * TOUCH_LOOK_RADIANS_PER_PIXEL));
+      if (this.yaw > Math.PI * 2 || this.yaw < -Math.PI * 2) {
+        this.yaw = Math.atan2(Math.sin(this.yaw), Math.cos(this.yaw));
+      }
+      return true;
+    }
+    return false;
+  }
+
+  _endTouch(identifier) {
+    let changed = false;
+    if (this.touchMove?.identifier === identifier) {
+      this.touchMove = null;
+      changed = true;
+    }
+    if (this.touchLook?.identifier === identifier) {
+      this.touchLook = null;
+      changed = true;
+    }
+    if (this.touchActionTouches.delete(identifier)) {
+      this._refreshTouchHeld();
+      changed = true;
+    }
+    if (changed && !this.touchMove && !this.touchLook && this.touchActionTouches.size === 0) {
+      this._setTouchCaptured(false);
+    }
+    return changed;
+  }
+
+  _touchInput() {
+    const moveX = this.touchMove?.moveX || 0;
+    const moveY = this.touchMove?.moveY || 0;
+    return {
+      moveX,
+      moveY,
+      f: moveY > 0,
+      b: moveY < 0,
+      l: moveX < 0,
+      r: moveX > 0,
+      jump: !!this.touchHeld.jump,
+      crouch: !!this.touchHeld.crouch,
+      fire: !!this.touchHeld.fire,
+      secondary: !!this.touchHeld.secondary,
+      ability1: !!this.touchHeld.ability1,
+      ability2: !!this.touchHeld.ability2,
+      ultimate: !!this.touchHeld.ultimate,
+    };
+  }
+
   _bind() {
-    this.canvas.addEventListener('click', () => this.requestLock());
+    this.canvas.addEventListener('click', () => {
+      if (Date.now() >= this.suppressPointerLockUntil) this.requestLock();
+    });
+    this.canvas.addEventListener('touchstart', (event) => {
+      let handled = false;
+      for (const touch of Array.from(event.changedTouches || [])) {
+        handled = this._beginTouchGesture(touch) || handled;
+      }
+      if (handled) event.preventDefault?.();
+    }, { passive: false });
+    this.canvas.addEventListener('touchmove', (event) => {
+      let handled = false;
+      for (const touch of Array.from(event.changedTouches || [])) {
+        handled = this._updateTouchGesture(touch) || handled;
+      }
+      if (handled) event.preventDefault?.();
+    }, { passive: false });
+    const endCanvasTouch = event => {
+      let handled = false;
+      for (const touch of Array.from(event.changedTouches || [])) {
+        handled = this._endTouch(touch.identifier) || handled;
+      }
+      if (handled) event.preventDefault?.();
+    };
+    this.canvas.addEventListener('touchend', endCanvasTouch, { passive: false });
+    this.canvas.addEventListener('touchcancel', endCanvasTouch, { passive: false });
+    document.addEventListener('touchstart', (event) => {
+      const action = this._touchActionFromTarget(event.target);
+      if (!action) return;
+      let handled = false;
+      for (const touch of Array.from(event.changedTouches || [])) {
+        handled = this._beginTouchAction(action, touch) || handled;
+      }
+      if (handled) event.preventDefault?.();
+    }, { passive: false });
+    const endDocumentTouch = event => {
+      let handled = false;
+      for (const touch of Array.from(event.changedTouches || [])) {
+        handled = this._endTouch(touch.identifier) || handled;
+      }
+      if (handled) event.preventDefault?.();
+    };
+    document.addEventListener('touchend', endDocumentTouch, { passive: false });
+    document.addEventListener('touchcancel', endDocumentTouch, { passive: false });
 
     document.addEventListener('pointerlockchange', () => {
       const nativeLocked = document.pointerLockElement === this.canvas;
@@ -299,7 +511,7 @@ export class InputManager {
       if (e.button === 2) this.secondaryHeld = false;
     });
     this.canvas.addEventListener('contextmenu', (e) => {
-      if (this.locked) e.preventDefault();
+      if (this.locked || this.touchCaptured) e.preventDefault();
     });
 
     document.addEventListener('keydown', (e) => {
@@ -346,10 +558,18 @@ export class InputManager {
     const k = this.keys;
     const keyboardActive = this._isPointerGameplayActive();
     const pad = this._pollGamepad(inputDt, gamepad);
+    const touch = this._isTouchGameplayActive()
+      ? this._touchInput()
+      : {
+        moveX: 0, moveY: 0,
+        f: false, b: false, l: false, r: false,
+        jump: false, crouch: false, fire: false, secondary: false,
+        ability1: false, ability2: false, ultimate: false,
+      };
     let moveX = (keyboardActive && k.has('KeyD') ? 1 : 0)
-      - (keyboardActive && k.has('KeyA') ? 1 : 0) + pad.moveX;
+      - (keyboardActive && k.has('KeyA') ? 1 : 0) + pad.moveX + touch.moveX;
     let moveY = (keyboardActive && k.has('KeyW') ? 1 : 0)
-      - (keyboardActive && k.has('KeyS') ? 1 : 0) + pad.moveY;
+      - (keyboardActive && k.has('KeyS') ? 1 : 0) + pad.moveY + touch.moveY;
     const moveMagnitude = Math.hypot(moveX, moveY);
     if (moveMagnitude > 1) {
       moveX /= moveMagnitude;
@@ -362,22 +582,22 @@ export class InputManager {
     const pendingActions = this.pendingActionBits;
     this.pendingActionBits = 0;
     return {
-      f: (keyboardActive && k.has('KeyW')) || pad.f,
-      b: (keyboardActive && k.has('KeyS')) || pad.b,
-      l: (keyboardActive && k.has('KeyA')) || pad.l,
-      r: (keyboardActive && k.has('KeyD')) || pad.r,
+      f: (keyboardActive && k.has('KeyW')) || pad.f || touch.f,
+      b: (keyboardActive && k.has('KeyS')) || pad.b || touch.b,
+      l: (keyboardActive && k.has('KeyA')) || pad.l || touch.l,
+      r: (keyboardActive && k.has('KeyD')) || pad.r || touch.r,
       moveX,
       moveY,
-      jump: (keyboardActive && k.has('Space')) || pad.jump || !!(pendingActions & ACTION_LATCH_BITS.jump),
-      crouch: (keyboardActive && (k.has('ControlLeft') || k.has('ControlRight') || k.has('KeyC'))) || pad.crouch,
-      fire: (keyboardActive && this.fireHeld) || pad.fire || !!(pendingActions & ACTION_LATCH_BITS.fire),
-      secondary: (keyboardActive && this.secondaryHeld) || pad.secondary || !!(pendingActions & ACTION_LATCH_BITS.secondary),
+      jump: (keyboardActive && k.has('Space')) || pad.jump || touch.jump || !!(pendingActions & ACTION_LATCH_BITS.jump),
+      crouch: (keyboardActive && (k.has('ControlLeft') || k.has('ControlRight') || k.has('KeyC'))) || pad.crouch || touch.crouch,
+      fire: (keyboardActive && this.fireHeld) || pad.fire || touch.fire || !!(pendingActions & ACTION_LATCH_BITS.fire),
+      secondary: (keyboardActive && this.secondaryHeld) || pad.secondary || touch.secondary || !!(pendingActions & ACTION_LATCH_BITS.secondary),
       ability1: (keyboardActive && (k.has('ShiftLeft') || k.has('ShiftRight'))) || pad.ability1
-        || !!(pendingActions & ACTION_LATCH_BITS.ability1),
+        || touch.ability1 || !!(pendingActions & ACTION_LATCH_BITS.ability1),
       ability2: (keyboardActive && k.has('KeyE')) || pad.ability2
-        || !!(pendingActions & ACTION_LATCH_BITS.ability2),
+        || touch.ability2 || !!(pendingActions & ACTION_LATCH_BITS.ability2),
       ultimate: (keyboardActive && k.has('KeyQ')) || pad.ultimate
-        || !!(pendingActions & ACTION_LATCH_BITS.ultimate),
+        || touch.ultimate || !!(pendingActions & ACTION_LATCH_BITS.ultimate),
       reload,
       yaw: this.yaw,
       pitch: this.pitch,

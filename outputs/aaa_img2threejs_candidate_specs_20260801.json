@@ -1,0 +1,37 @@
+{
+  "generatedAt": "2026-08-01T03:26:31.905Z",
+  "validator": "validate_sculpt_spec.py --strict-quality",
+  "policy": "strict spec PASS is not browser/render/runtime admission",
+  "results": [
+    {
+      "assetId": "prop-market-awning-01",
+      "spec": "work/asset-rush/aaa-v1-pilot/img2threejs/prop-market-awning-01/OBJECT_SCULPT_SPEC.json",
+      "sha256": "A48E5ACCEEA356A570ACE378BE07C93CCEE5659A754A77D17E75A4FF3E6DCE86",
+      "exitCode": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "summary": {
+        "targetName": "Market Awning 01",
+        "suitability": "conditional",
+        "components": 10,
+        "materials": 3
+      }
+    },
+    {
+      "assetId": "prop-roof-finial-01",
+      "spec": "work/asset-rush/aaa-v1-pilot/img2threejs/prop-roof-finial-01/OBJECT_SCULPT_SPEC.json",
+      "sha256": "3CAFEBCFC9A4065476A9B41A0D371A29AE65DC2FC8949D2A3B5CF619EE0E7FEA",
+      "exitCode": 0,
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "summary": {
+        "targetName": "Roof Finial 01",
+        "suitability": "conditional",
+        "components": 8,
+        "materials": 3
+      }
+    }
+  ]
+}

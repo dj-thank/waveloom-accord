@@ -1,0 +1,17 @@
+[
+  {
+    "view": "network",
+    "applied": true,
+    "file": "outputs/views4/network.png"
+  },
+  {
+    "view": "aerial",
+    "applied": true,
+    "file": "outputs/views4/aerial.png"
+  },
+  {
+    "view": "spawn",
+    "applied": true,
+    "file": "outputs/views4/spawn.png"
+  }
+]

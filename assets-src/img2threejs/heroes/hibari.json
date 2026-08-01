@@ -1,0 +1,107 @@
+{
+  "id": "hibari",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/hibari/concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/hibari/concept-green-v1.png"
+  },
+  "role": "support",
+  "cohort": "mobile sustain",
+  "modelArchetype": "swift messenger bird",
+  "proportions": {
+    "heightM": 1.78,
+    "bodyRatio": "light frame,long legs,winged shoulders",
+    "notes": "Keep hibari proportions legible at gameplay distance; preserve the distinctive sparrow hood with crest against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "sparrow hood with crest",
+      "short courier tunic",
+      "feathered sleeves"
+    ],
+    "side": [
+      "light frame,long legs,winged shoulders profile",
+      "spring boots",
+      "travel pennants"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "amber",
+      "hex": "#e9a94c",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "cream",
+      "hex": "#f6e1ae",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "teal",
+      "hex": "#5b9ca3",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "sparrow hood with crest"
+    ],
+    "torso": [
+      "short courier tunic"
+    ],
+    "limbs": [
+      "feathered sleeves",
+      "spring boots"
+    ],
+    "weapons": [
+      "signal fan"
+    ],
+    "accessories": [
+      "travel pennants"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "fast hopping run",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "dash heal",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The travel pennants overhang can inflate the collider if not separated.",
+    "Asymmetric feathered sleeves needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 17,
+    "rationale": "hibari establishes the mobile sustain cohort and exposes its travel pennants anchor early."
+  },
+  "status": "brief"
+}

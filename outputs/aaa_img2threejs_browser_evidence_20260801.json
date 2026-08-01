@@ -1,0 +1,120 @@
+{
+  "generatedAt": "2026-08-01T03:12:52.860Z",
+  "browser": {
+    "engine": "Google Chrome via Playwright",
+    "webgl": true,
+    "consoleErrors": 0,
+    "viewport": [
+      1280,
+      720
+    ],
+    "captureMode": "capture=1"
+  },
+  "policy": "browser-render candidate evidence only; no Tier-1, map safety, human AAA, or runtime admission is implied",
+  "assets": [
+    {
+      "assetId": "prop-market-awning-01",
+      "preview": "work/asset-rush/aaa-v1-pilot/img2threejs/prop-market-awning-01/preview.html",
+      "metrics": {
+        "assetTriangles": 820,
+        "assetDrawCalls": 3,
+        "triangleBudget": 1400,
+        "drawCallBudget": 3,
+        "collision": "none",
+        "candidateOnly": true,
+        "undersideMeters": 2.2,
+        "safetyAudit": "required"
+      },
+      "screenshots": [
+        {
+          "path": "outputs/aaa_market_awning_browser_20260801_front_neutral.png",
+          "view": "front",
+          "light": "neutral",
+          "width": 1280,
+          "height": 720,
+          "bytes": 26758,
+          "sha256": "9C4DD0C05B69DCB090A0E2213EA2EF2BA6D4F4EB642E689094B7D4559FF5FE0F"
+        },
+        {
+          "path": "outputs/aaa_market_awning_browser_20260801_three_quarter_reference.png",
+          "view": "three-quarter",
+          "light": "reference",
+          "width": 1280,
+          "height": 720,
+          "bytes": 32541,
+          "sha256": "63561BE978CA4DF4F4A8CC30FC380DDC7206C16AAE7FF2BFDBC46D5E84A24684"
+        },
+        {
+          "path": "outputs/aaa_market_awning_browser_20260801_rear_grazing.png",
+          "view": "rear",
+          "light": "grazing",
+          "width": 1280,
+          "height": 720,
+          "bytes": 21005,
+          "sha256": "37A3B7DE040A8A1E401EA6F5EA66A4D201A4D054E48BEFC023A0B54F82D03C24"
+        },
+        {
+          "path": "outputs/aaa_market_awning_browser_20260801_top_clearance_neutral.png",
+          "view": "top-clearance",
+          "light": "neutral",
+          "width": 1280,
+          "height": 720,
+          "bytes": 23611,
+          "sha256": "24B0DD6AB151D9A3B9786E7D619FB39AD80DA491DC2B9D3B2E6BD96A205E0E54"
+        }
+      ]
+    },
+    {
+      "assetId": "prop-roof-finial-01",
+      "preview": "work/asset-rush/aaa-v1-pilot/img2threejs/prop-roof-finial-01/preview.html",
+      "metrics": {
+        "assetTriangles": 808,
+        "assetDrawCalls": 2,
+        "triangleBudget": 900,
+        "drawCallBudget": 2,
+        "collision": "none",
+        "candidateOnly": true,
+        "roofClearanceMeters": 0.25,
+        "sightlineAudit": "required"
+      },
+      "screenshots": [
+        {
+          "path": "outputs/aaa_roof_finial_browser_20260801_front_neutral.png",
+          "view": "front",
+          "light": "neutral",
+          "width": 1280,
+          "height": 720,
+          "bytes": 42859,
+          "sha256": "838F756D382FA6528B7A462A4F45C1C815BCD0AA63AB734E7E2E8F9870EE32BD"
+        },
+        {
+          "path": "outputs/aaa_roof_finial_browser_20260801_three_quarter_reference.png",
+          "view": "three-quarter",
+          "light": "reference",
+          "width": 1280,
+          "height": 720,
+          "bytes": 42014,
+          "sha256": "F9E4301FEC3CADC86B9FADF5D4A6AA7FCA9EA9E556249A7E5BD4DD43C1A55EBE"
+        },
+        {
+          "path": "outputs/aaa_roof_finial_browser_20260801_rear_grazing.png",
+          "view": "rear",
+          "light": "grazing",
+          "width": 1280,
+          "height": 720,
+          "bytes": 32987,
+          "sha256": "419331213F47C7A1EF1F7836703DF6C6D34051D7AEF7955A2CB1E2F6414EA9F4"
+        },
+        {
+          "path": "outputs/aaa_roof_finial_browser_20260801_top_clearance_neutral.png",
+          "view": "top-clearance",
+          "light": "neutral",
+          "width": 1280,
+          "height": 720,
+          "bytes": 32543,
+          "sha256": "F87ECD811CBC03EC3BBCBB2BDE6F55BC9F2D7937610DB5A5B48C597A432C91D9"
+        }
+      ]
+    }
+  ]
+}

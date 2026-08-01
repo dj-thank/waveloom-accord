@@ -1,0 +1,1312 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-29T19:49:30.083Z",
+  "manifest": "outputs/audio-factory-20260730/manifests/aaa-batch-001.json",
+  "root": "outputs/audio-factory-20260730/aaa-batch-001",
+  "assets": 100,
+  "passed": 100,
+  "failed": 0,
+  "admission": "candidate-only; technical QC does not grant rights, mixing, gameplay, or human visual/audio-quality approval",
+  "results": [
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.primary-fire-near.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-primary-fire-near-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.primary-fire-mid.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-primary-fire-mid-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.primary-fire-far.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-primary-fire-far-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.reload.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-reload-v001.mp3",
+      "bytes": 30137,
+      "technical": {
+        "durationSec": 1.2,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.dry-fire.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-dry-fire-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.impact-stone.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-impact-stone-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.impact-metal.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-impact-metal-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.charge.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-charge-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.overheat.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-overheat-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.asagi.equip.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/asagi-equip-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.primary-fire-near.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-primary-fire-near-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.primary-fire-mid.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-primary-fire-mid-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.primary-fire-far.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-primary-fire-far-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.reload.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-reload-v001.mp3",
+      "bytes": 30137,
+      "technical": {
+        "durationSec": 1.2,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.dry-fire.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-dry-fire-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.impact-stone.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-impact-stone-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.impact-metal.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-impact-metal-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.charge.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-charge-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.overheat.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-overheat-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.hokuchi.equip.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/hokuchi-equip-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.primary-fire-near.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-primary-fire-near-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.primary-fire-mid.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-primary-fire-mid-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.primary-fire-far.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-primary-fire-far-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.reload.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-reload-v001.mp3",
+      "bytes": 30137,
+      "technical": {
+        "durationSec": 1.2,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.dry-fire.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-dry-fire-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.impact-stone.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-impact-stone-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.impact-metal.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-impact-metal-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.charge.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-charge-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.overheat.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-overheat-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.shirasagi.equip.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/shirasagi-equip-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.primary-fire-near.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-primary-fire-near-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.primary-fire-mid.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-primary-fire-mid-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.primary-fire-far.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-primary-fire-far-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.reload.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-reload-v001.mp3",
+      "bytes": 30137,
+      "technical": {
+        "durationSec": 1.2,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.dry-fire.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-dry-fire-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.impact-stone.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-impact-stone-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.impact-metal.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-impact-metal-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.charge.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-charge-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.overheat.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-overheat-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.weapon.ankou.equip.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/weapons/ankou-equip-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.asagi.scan-ripple.cast.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/asagi-scan-ripple-cast-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.asagi.scan-ripple.travel.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/asagi-scan-ripple-travel-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.asagi.scan-ripple.impact.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/asagi-scan-ripple-impact-v001.mp3",
+      "bytes": 18852,
+      "technical": {
+        "durationSec": 0.72,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.asagi.scan-ripple.resolve.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/asagi-scan-ripple-resolve-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hokuchi.heat-bastion.cast.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hokuchi-heat-bastion-cast-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hokuchi.heat-bastion.travel.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hokuchi-heat-bastion-travel-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hokuchi.heat-bastion.impact.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hokuchi-heat-bastion-impact-v001.mp3",
+      "bytes": 18852,
+      "technical": {
+        "durationSec": 0.72,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hokuchi.heat-bastion.resolve.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hokuchi-heat-bastion-resolve-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.shirasagi.prism-step.cast.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/shirasagi-prism-step-cast-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.shirasagi.prism-step.travel.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/shirasagi-prism-step-travel-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.shirasagi.prism-step.impact.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/shirasagi-prism-step-impact-v001.mp3",
+      "bytes": 18852,
+      "technical": {
+        "durationSec": 0.72,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.shirasagi.prism-step.resolve.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/shirasagi-prism-step-resolve-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.ankou.tide-snare.cast.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/ankou-tide-snare-cast-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.ankou.tide-snare.travel.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/ankou-tide-snare-travel-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.ankou.tide-snare.impact.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/ankou-tide-snare-impact-v001.mp3",
+      "bytes": 18852,
+      "technical": {
+        "durationSec": 0.72,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.ankou.tide-snare.resolve.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/ankou-tide-snare-resolve-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hibari.wind-lift.cast.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hibari-wind-lift-cast-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hibari.wind-lift.travel.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hibari-wind-lift-travel-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hibari.wind-lift.impact.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hibari-wind-lift-impact-v001.mp3",
+      "bytes": 18852,
+      "technical": {
+        "durationSec": 0.72,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.hibari.wind-lift.resolve.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/hibari-wind-lift-resolve-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.tsuzuri.thread-bind.cast.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/tsuzuri-thread-bind-cast-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.tsuzuri.thread-bind.travel.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/tsuzuri-thread-bind-travel-v001.mp3",
+      "bytes": 20733,
+      "technical": {
+        "durationSec": 0.8,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.tsuzuri.thread-bind.impact.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/tsuzuri-thread-bind-impact-v001.mp3",
+      "bytes": 18852,
+      "technical": {
+        "durationSec": 0.72,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ability.tsuzuri.thread-bind.resolve.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/abilities/tsuzuri-thread-bind-resolve-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.confirm.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/confirm-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.cancel.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/cancel-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.focus.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/focus-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.hit-confirm.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/hit-confirm-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.critical-confirm.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/critical-confirm-v001.mp3",
+      "bytes": 15717,
+      "technical": {
+        "durationSec": 0.6,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.damage-taken.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/damage-taken-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.low-health.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/low-health-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.heal-received.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/heal-received-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.ally-ping.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/ally-ping-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.enemy-ping.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/enemy-ping-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.menu-open.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/menu-open-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.menu-close.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/menu-close-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.cooldown-ready.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/cooldown-ready-v001.mp3",
+      "bytes": 15717,
+      "technical": {
+        "durationSec": 0.6,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.ability-blocked.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/ability-blocked-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.respawn-ready.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/respawn-ready-v001.mp3",
+      "bytes": 18225,
+      "technical": {
+        "durationSec": 0.680249,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.scoreboard-open.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/scoreboard-open-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.scoreboard-close.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/scoreboard-close-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.objective-route.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/objective-route-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.party-ready.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/party-ready-v001.mp3",
+      "bytes": 15717,
+      "technical": {
+        "durationSec": 0.6,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.ui.error.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/ui/error-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.unlock.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/unlock-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.capture-start.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/capture-start-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.capture-tick.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/capture-tick-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.contested.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/contested-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.lead-change.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/lead-change-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.transition.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/transition-v001.mp3",
+      "bytes": 22613,
+      "technical": {
+        "durationSec": 0.88,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.secured.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/secured-v001.mp3",
+      "bytes": 25748,
+      "technical": {
+        "durationSec": 1,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.objective.round-end.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/objective/round-end-v001.mp3",
+      "bytes": 30137,
+      "technical": {
+        "durationSec": 1.2,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.stone-step-heavy.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/stone-step-heavy-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.wood-step.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/wood-step-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.bronze-step.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/bronze-step-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.tile-step.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/tile-step-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.shallow-water-step.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/shallow-water-step-v001.mp3",
+      "bytes": 13836,
+      "technical": {
+        "durationSec": 0.52,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.jump.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/jump-v001.mp3",
+      "bytes": 13209,
+      "technical": {
+        "durationSec": 0.48,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.land.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/land-v001.mp3",
+      "bytes": 15717,
+      "technical": {
+        "durationSec": 0.6,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    },
+    {
+      "id": "aaa.batch001.sfx.movement.slide-stop.v001",
+      "kind": "sound_effect",
+      "output": "outputs/audio-factory-20260730/aaa-batch-001/generated/sfx/movement/slide-stop-v001.mp3",
+      "bytes": 16971,
+      "technical": {
+        "durationSec": 0.64,
+        "codec": "mp3",
+        "sampleRate": 44100,
+        "channels": 2
+      },
+      "failures": []
+    }
+  ]
+}

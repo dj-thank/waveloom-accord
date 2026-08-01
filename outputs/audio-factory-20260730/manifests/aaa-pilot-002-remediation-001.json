@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "wave": "aaa-pilot-002-remediation-001",
+  "purpose": "Candidate-only remediation for an under-audible ambient pilot result. The original v001 raw file remains immutable; this creates a separately traceable v002 comparison candidate.",
+  "executionBudget": {
+    "maxAssets": 1,
+    "maxEstimatedCredits": 480
+  },
+  "provider": {
+    "name": "ElevenLabs",
+    "endpoint": "/v1/sound-generation",
+    "modelId": "eleven_text_to_sound_v2",
+    "outputFormat": "mp3_44100_192"
+  },
+  "humanApproval": {
+    "status": "user-authorized-2026-07-30",
+    "scope": "candidate generation only; runtime admission remains separately gated"
+  },
+  "assets": [
+    {
+      "id": "aaa.pilot002.sfx.ambient-market-canopy.v002",
+      "kind": "sound_effect",
+      "family": "ambient",
+      "endpoint": "/v1/sound-generation?output_format=mp3_44100_192",
+      "output": "generated/sfx/ambient-market-canopy-v002.mp3",
+      "estimatedCredits": 480,
+      "candidateStatus": "pending_technical_qc",
+      "replacesCandidate": "aaa.pilot002.sfx.ambient-market-canopy.v001",
+      "remediationReason": "v001 was decodable but under-audible in the technical sample-peak scan (mean -49.8 dB, max -32.5 dB).",
+      "rights": "original fictional material only; no source audio, real-person voice, artist, existing-IP, or brand reference",
+      "qc": {
+        "durationSeconds": 12,
+        "loop": true,
+        "expectedCodec": "mp3",
+        "expectedSampleRate": 44100,
+        "expectedChannels": "mono-or-stereo",
+        "reviewQuestion": "Is this audible enough to establish a market canopy without masking combat cues?"
+      },
+      "request": {
+        "text": "Seamless gameplay ambience loop for a fictional sunlit stone-market lane: audible medium-density canvas movement, gentle ceramic handling, and steady open-air wind, 12 seconds, medium outdoor perspective. Keep a clear background presence but leave 1 to 5 kHz space for combat effects; no crowd speech, animals, music, real place reference, or clipping. No real person, existing IP, artist, song, or brand reference.",
+        "model_id": "eleven_text_to_sound_v2",
+        "duration_seconds": 12,
+        "prompt_influence": 0.78,
+        "loop": true
+      },
+      "requestHash": "d251f792ea9c33198f2c5d3a369321a28f88853aa0335bebacab43fdb6e71365",
+      "sha256": "4cd3895fe232e13e7384b8568496379b4dcd9992f37e0939016b4bbee204d14b",
+      "bytes": 289689,
+      "contentType": "audio/mpeg",
+      "requestId": null,
+      "traceId": "853687a0843ed5e839feb65d1902bff1",
+      "songId": null,
+      "characterCost": 132,
+      "httpStatus": 200,
+      "generatedAt": "2026-07-29T19:42:37.609Z"
+    }
+  ]
+}

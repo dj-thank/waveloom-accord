@@ -1,0 +1,88 @@
+{
+  "ok": true,
+  "url": "http://localhost:8899/client/map-preview.html",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "review": {
+    "readyState": "interactive",
+    "data": {
+      "authoredMap": "loading",
+      "heroRig": "verifying",
+      "mapPresentation": "ready"
+    },
+    "map": {
+      "mapId": "map_oshioi",
+      "presentationId": "oshioi-shiokagami-original-v1",
+      "instanceCount": 1193,
+      "layerCount": 57,
+      "performance": {
+        "quality": "high",
+        "profile": {
+          "dprCap": 1.75,
+          "shadows": true,
+          "shadowMapSize": 2048,
+          "particleBudget": 420,
+          "tracerBudget": 200,
+          "targetFrameMs": 16.7
+        },
+        "frameMs": {
+          "samples": 1,
+          "average": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "pools": {
+          "particles": {
+            "active": 0,
+            "budget": 420,
+            "capacity": 420,
+            "peak": 0
+          },
+          "tracers": {
+            "active": 0,
+            "budget": 200,
+            "capacity": 200,
+            "peak": 0
+          }
+        },
+        "renderer": {
+          "memory": {
+            "geometries": 96,
+            "textures": 9
+          },
+          "render": {
+            "calls": 86,
+            "triangles": 263356,
+            "points": 0,
+            "lines": 564,
+            "frame": 1
+          }
+        }
+      }
+    },
+    "contract": {
+      "valid": true,
+      "expectedHeroId": null,
+      "missingPivots": [],
+      "missingSockets": []
+    },
+    "hasCanvas": true
+  },
+  "exceptions": [],
+  "console": [],
+  "logs": [
+    {
+      "source": "network",
+      "level": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "timestamp": 1785164256845.384,
+      "url": "http://localhost:8899/favicon.ico",
+      "networkRequestId": "33392.38"
+    }
+  ],
+  "screenshot": "outputs/clad/overview.png",
+  "output": "outputs/clad/overview.json"
+}

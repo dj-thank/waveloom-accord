@@ -1,0 +1,107 @@
+{
+  "id": "shiomaneki",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/shiomaneki/concept/shiomaneki-concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/shiomaneki/concept/shiomaneki-concept-green-v1.png"
+  },
+  "role": "frontline",
+  "cohort": "wave charger",
+  "modelArchetype": "crustacean tide knight",
+  "proportions": {
+    "heightM": 1.95,
+    "bodyRatio": "wide crab stance,one claw dominant,low torso",
+    "notes": "Keep shiomaneki proportions legible at gameplay distance; preserve the distinctive crab brow with side eyes against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "crab brow with side eyes",
+      "segmented shell chest",
+      "large asymmetrical claw"
+    ],
+    "side": [
+      "wide crab stance,one claw dominant,low torso profile",
+      "splayed seawater feet",
+      "tide ribbons"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "sea blue",
+      "hex": "#397f9f",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "shell",
+      "hex": "#8aa9ac",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "foam",
+      "hex": "#dceef0",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "crab brow with side eyes"
+    ],
+    "torso": [
+      "segmented shell chest"
+    ],
+    "limbs": [
+      "large asymmetrical claw",
+      "splayed seawater feet"
+    ],
+    "weapons": [
+      "wave claw"
+    ],
+    "accessories": [
+      "tide ribbons"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "side-stepping crab gait",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "surge charge",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The tide ribbons overhang can inflate the collider if not separated.",
+    "Asymmetric large asymmetrical claw needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 6,
+    "rationale": "shiomaneki establishes the wave charger cohort and exposes its tide ribbons anchor early."
+  },
+  "status": "qa"
+}

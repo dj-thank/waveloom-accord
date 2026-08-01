@@ -16,10 +16,21 @@ import {
   makeAbilityState, tickAbilityState, processAbilityInputs, tickWorldAbilityEffects,
   movementMultiplier, outgoingDamageMultiplier, incomingDamageMultiplier, redirectStatus,
   barrierHit, deployableHit, snapshotZone, snapshotBarrier, storeHeal, applyStatus, interruptAbility,
+  tickHealingTrailEmitters,
 } from './abilities.js';
-import { spawnWeaponProjectile, tickProjectiles, snapshotProjectile } from './projectiles.js';
+import {
+  detonateWeaponProjectile,
+  spawnWeaponProjectile,
+  tickProjectiles,
+  snapshotProjectile,
+} from './projectiles.js';
 import { selectSafeSpawn } from './spawn.js';
-import { addGauge, gainFromDamage, gainFromHealing, gainFromPassive, carryoverGauge } from './ult_economy.js';
+import { addGauge, economyConfig, gainFromDamage, gainFromHealing, gainFromPassive, carryoverGauge } from './ult_economy.js';
+import {
+  advanceFlashpointObjectiveMode,
+  completeFlashpointSite,
+  createFlashpointObjectiveMode,
+} from './flashpoint_objective_mode.js';
 
 export const EMPTY_INPUT = Object.freeze({
   f: false, b: false, l: false, r: false, jump: false, crouch: false,
@@ -35,18 +46,109 @@ export const INPUT_REORDER_WAIT_MS = 32;
 export const SPAWN_PROTECTION_SEC = 1.25;
 const WEAPON_TRACE_EPSILON_M = 1e-5;
 
+function stableActionHash(seed, value) {
+  let hash = (0x811c9dc5 ^ (Number(seed) >>> 0)) >>> 0;
+  for (const character of String(value)) {
+    hash ^= character.codePointAt(0);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return hash >>> 0;
+}
+
+function logicalActorKey(player) {
+  // Competitive bot fixtures assign a mirror-stable logical slot. Prefer it
+  // for authoritative ordering so swapping physical team/index does not also
+  // swap who wins a same-tick race. Live human players use the fallback below.
+  const logicalActionSlot = String(player?.logicalActionSlot || '').trim();
+  if (logicalActionSlot) {
+    const hero = String(player?.heroId || 'training');
+    return `${logicalActionSlot}|hero:${hero}`;
+  }
+  const team = Number.isInteger(player?.team) ? player.team : 'none';
+  const hero = String(player?.heroId || 'training');
+  const name = String(player?.name || '');
+  const controller = player?.isBot ? 'bot' : 'human';
+  return `${team}|${hero}|${name}|${controller}`;
+}
+
+function compareLogicalActors(left, right, seed) {
+  const leftKey = logicalActorKey(left);
+  const rightKey = logicalActorKey(right);
+  const leftHash = stableActionHash(seed, leftKey);
+  const rightHash = stableActionHash(seed, rightKey);
+  if (leftHash !== rightHash) return leftHash - rightHash;
+  return leftKey < rightKey ? -1 : leftKey > rightKey ? 1 : 0;
+}
+
+function isFlashpointMode(mode) {
+  return mode?.id === 'mode_flashpoint'
+    || mode?.areaPolicy === 'five_site_flashpoint'
+    || mode?.map?.siteCount === 5;
+}
+
+function normalizeFlashpointMode(mode) {
+  if (!isFlashpointMode(mode)) return mode;
+  return {
+    ...mode,
+    setupSec: mode.setupSec ?? mode.match?.setupSec ?? 30,
+    resultSec: mode.resultSec ?? 5,
+    roundsToWin: mode.roundsToWin ?? 1,
+    maxRounds: mode.maxRounds ?? 1,
+    roundCapSec: mode.roundCapSec ?? mode.match?.siteCapSec ?? 480,
+    ultCarryoverMult: mode.ultCarryoverMult
+      ?? mode.continuity?.ultimateChargeMultiplier
+      ?? 1,
+  };
+}
+
+function cloneFlashpointValue(value) {
+  if (value == null || typeof value !== 'object') return value;
+  if (Array.isArray(value)) return value.map(cloneFlashpointValue);
+  return Object.fromEntries(
+    Object.entries(value).map(([key, child]) => [key, cloneFlashpointValue(child)]),
+  );
+}
+
+/**
+ * Produces one insertion-order-independent action schedule. Physical player
+ * ids are deliberately excluded; rotation gives every logical actor every
+ * priority over a full cycle.
+ */
+export function scheduleWorldActionOrder(players, tickIndex, seed = 0) {
+  const ordered = [...(players || [])].sort((left, right) => compareLogicalActors(left, right, seed));
+  if (ordered.length < 2) return ordered;
+  const offset = ((Math.trunc(Number(tickIndex) || 0) % ordered.length) + ordered.length)
+    % ordered.length;
+  return [...ordered.slice(offset), ...ordered.slice(0, offset)];
+}
+
 export class World {
   constructor(map, mode, combat, seed = 1) {
-    this.map = map;
-    this.mode = mode;
+    this.mode = normalizeFlashpointMode(mode);
+    // Flashpoint switches its active objective during one continuous World.
+    // Keep that projection World-local: the authored map remains immutable for
+    // other matches, while legacy consumers can still read map.objective.
+    this.map = isFlashpointMode(this.mode) ? { ...map } : map;
     this.combat = combat;
+    this.passiveCombatGraceSec = Math.max(0, economyConfig(combat.ultimateEconomy).passiveCombatGraceSec);
     this.mv = combat.movement;
     this.rng = makeRng(seed);
     this.seed = seed;
     this.collider = new Collider(map.solids);
-    this.objective = new ShiouraObjective(mode);
-    this.respawn = new RespawnSystem(mode.respawn);
-    this.flow = new MatchFlow(mode, this.rng);
+    this.objective = new ShiouraObjective(this.mode);
+    this.respawn = new RespawnSystem(this.mode.respawn);
+    this.flow = new MatchFlow(this.mode, this.rng);
+    this.flashpoint = isFlashpointMode(this.mode)
+      ? {
+        ...createFlashpointObjectiveMode({ seed, teamSides: this.flow.sides }),
+        activationIndex: 0,
+        results: [],
+      }
+      : null;
+    // Kept as an explicit alias because the bot route adapter accepts either
+    // a complete World or a narrow flashpoint state object.
+    this.flashpointState = this.flashpoint;
+    this.refreshFlashpointMapProjection();
     this.players = new Map();
     this.pickups = map.pickups.map(p => ({ ...p, active: true, respawnAt: 0 }));
     this.events = [];           // スナップショット間のイベント（キル・目標遷移等）
@@ -79,6 +181,154 @@ export class World {
       highWatermark: 0,
     };
     this.collider.dynamic = map.setupDoors; // SETUPは扉閉鎖から開始
+  }
+
+  activeObjectiveDefinition() {
+    if (!this.flashpoint?.activeSiteId) return null;
+    return this.map.objectives?.find(
+      objective => objective.id === this.flashpoint.activeSiteId,
+    ) ?? null;
+  }
+
+  projectedFlashpointObjectiveDefinition() {
+    if (!this.flashpoint) return null;
+    const siteId = this.flashpoint.activeSiteId ?? this.flashpoint.pendingSiteId ?? null;
+    if (!siteId) return null;
+    return this.map.objectives?.find(objective => objective.id === siteId) ?? null;
+  }
+
+  refreshFlashpointMapProjection() {
+    const projected = this.projectedFlashpointObjectiveDefinition();
+    if (projected) this.map.objective = projected;
+  }
+
+  respawnClockSec() {
+    // Flashpoint intentionally keeps respawn waves continuous across a site
+    // transition, whereas the legacy mode's objective clock is its round clock.
+    return this.flashpoint ? this.t : this.objective.time;
+  }
+
+  clearObjectiveMembership() {
+    for (const player of this.players.values()) player.insideObjective = false;
+  }
+
+  activateFlashpointSite(events) {
+    this.objective.resetRound();
+    this.objective.unseal(events);
+    this.clearObjectiveMembership();
+    this.events.push({
+      type: 'flashpoint_site_activated',
+      siteId: this.flashpoint.activeSiteId,
+      activationIndex: this.flashpoint.activationIndex,
+      matchTick: this.tickCount,
+      matchTimeSec: this.t,
+      siteTimeSec: this.objective.time,
+    });
+  }
+
+  advanceFlashpointTransition(events) {
+    if (!this.flashpoint || this.flashpoint.lifecycle !== 'transition') return;
+    const before = this.flashpoint;
+    const next = advanceFlashpointObjectiveMode(before, this.dt);
+    if (next.lifecycle === 'active' && before.lifecycle === 'transition') {
+      this.flashpoint = {
+        ...next,
+        activationIndex: before.activationIndex + 1,
+      };
+      this.flashpointState = this.flashpoint;
+      this.refreshFlashpointMapProjection();
+      this.activateFlashpointSite(events);
+      return;
+    }
+    this.flashpoint = next;
+    this.flashpointState = this.flashpoint;
+    this.refreshFlashpointMapProjection();
+  }
+
+  completeFlashpointObjective(events) {
+    if (!this.flashpoint?.activeSiteId || this.objective.roundWinner < 0) return;
+    const siteId = this.flashpoint.activeSiteId;
+    const winner = this.objective.roundWinner;
+    const objectiveEvent = [...events].reverse().find(event => event.type === 'obj_round_win');
+    const result = {
+      siteId,
+      winner,
+      reason: objectiveEvent?.reason ?? 'site_capture',
+      activationIndex: this.flashpoint.activationIndex,
+      completedAtMatchTimeSec: this.t,
+      capture: this.objective.snapshot(),
+    };
+    const next = completeFlashpointSite(this.flashpoint, winner);
+    this.flashpoint = {
+      ...next,
+      results: [...(next.results || []), result],
+    };
+    this.flashpointState = this.flashpoint;
+    this.refreshFlashpointMapProjection();
+    this.clearObjectiveMembership();
+    this.objective.resetRound();
+    this.events.push({
+      type: 'flashpoint_site_completed',
+      siteId,
+      winner,
+      activationIndex: result.activationIndex,
+      matchTick: this.tickCount,
+      matchTimeSec: this.t,
+      siteTimeSec: result.capture.time,
+    });
+    if (this.flashpoint.lifecycle === 'transition') {
+      this.events.push({
+        type: 'flashpoint_site_selected',
+        siteId: this.flashpoint.pendingSiteId,
+        selection: cloneFlashpointValue(this.flashpoint.lastSelection),
+        matchTick: this.tickCount,
+        matchTimeSec: this.t,
+      });
+      this.events.push({
+        type: 'flashpoint_transition_started',
+        pendingSiteId: this.flashpoint.pendingSiteId,
+        transitionRemainingSec: this.flashpoint.transitionRemainingSec,
+        matchTick: this.tickCount,
+        matchTimeSec: this.t,
+      });
+      return;
+    }
+    this.flow.score[winner]++;
+    this.flow.state = 'ROUND_END';
+    this.flow.stateT = 0;
+    this.events.push({
+      type: 'round_end',
+      round: this.flow.round,
+      winner,
+      score: [...this.flow.score],
+    });
+    this.events.push({
+      type: 'flashpoint_match_completed',
+      winner,
+      matchTick: this.tickCount,
+      matchTimeSec: this.t,
+    });
+  }
+
+  tickFlashpointFlow(events) {
+    this.flow.stateT += this.dt;
+    if (this.flow.state === 'SETUP' && this.flow.stateT >= this.mode.setupSec) {
+      this.flow.state = 'ACTIVE';
+      this.flow.stateT = 0;
+      this.activateFlashpointSite(events);
+      this.events.push({ type: 'round_active', round: this.flow.round });
+      return;
+    }
+    if (this.flow.state === 'ROUND_END' && this.flow.stateT >= this.mode.resultSec) {
+      this.flow.matchWinner = this.flashpoint?.winnerTeam ?? -1;
+      this.flow.state = 'MATCH_END';
+      this.flow.stateT = 0;
+      this.events.push({
+        type: 'match_end',
+        winner: this.flow.matchWinner,
+        score: [...this.flow.score],
+      });
+    }
   }
 
   addPlayer(name, isBot, forceTeam = -1, heroId = null) {
@@ -129,6 +379,9 @@ export class World {
       spawnIndex: (this.nextId + 3) % 5,
       lastResourcePos: [0, 0, 0],
       lastResourceSpendT: Number.NEGATIVE_INFINITY,
+      lastCombatAt: Number.NEGATIVE_INFINITY,
+      lastDamageTakenAt: Number.NEGATIVE_INFINITY,
+      lastDamageSourceId: null,
       setupUltGauge: 0,
     };
     this.players.set(id, pl);
@@ -156,6 +409,9 @@ export class World {
     } : null;
     pl.lastResourcePos = [...pl.move.pos];
     pl.lastResourceSpendT = Number.NEGATIVE_INFINITY;
+    pl.lastCombatAt = Number.NEGATIVE_INFINITY;
+    pl.lastDamageTakenAt = Number.NEGATIVE_INFINITY;
+    pl.lastDamageSourceId = null;
     this.bumpHistoryGeneration(pl);
     this.events.push({ type: 'hero_selected', player: pl.id, heroId: hero.id });
     return true;
@@ -180,7 +436,7 @@ export class World {
       pl.move.grounded = false;
       pl.spawnProtected = false;
       pl.spawnProtectionEndsAt = this.t;
-      this.respawn.onDeath(pl.id, this.objective.time);
+      this.respawn.onDeath(pl.id, this.respawnClockSec());
       this.events.push({
         type: 'spawn_failed', player: pl.id, reason: 'no_walkable_surface',
       });
@@ -209,6 +465,9 @@ export class World {
     pl.inputCommandState = { ...pl.input };
     pl.pendingActionInputs.length = 0;
     pl.lastResourcePos = [...pl.move.pos];
+    pl.lastCombatAt = Number.NEGATIVE_INFINITY;
+    pl.lastDamageTakenAt = Number.NEGATIVE_INFINITY;
+    pl.lastDamageSourceId = null;
     this.bumpHistoryGeneration(pl);
     pl.spawnProtected = !!protect;
     pl.spawnProtectionEndsAt = protect ? this.t + SPAWN_PROTECTION_SEC : this.t;
@@ -428,7 +687,7 @@ export class World {
     for (const slot of ['secondary', 'ability1', 'ability2', 'ultimate']) {
       pl.abilities.previous[slot] = false;
     }
-    pl.weapon.chargeStartedAt = null;
+    clearChargeState(pl.weapon);
   }
 
   noteInputRejection(code) {
@@ -485,10 +744,15 @@ export class World {
     interruptAbility(this, target, 'death');
     target.abilities.statuses = [];
     target.abilities.heroState = {};
+    for (const player of this.players.values()) {
+      if (player.abilities?.heroState?.linkedId !== target.id) continue;
+      delete player.abilities.heroState.linkedId;
+      delete player.abilities.heroState.linkExpiresAt;
+    }
     if (target.resource?.id === 'pain') target.resource.value = 0;
     target.stats.deaths++;
     if (source) source.stats.kills++;
-    this.respawn.onDeath(target.id, this.objective.time);
+    this.respawn.onDeath(target.id, this.respawnClockSec());
     const event = {
       type: 'kill', target: target.id, source: source?.id,
       headshot: !!headshot, abilityId: abilityId || null,
@@ -508,9 +772,14 @@ export class World {
   applyDamage(target, amount, source, headshot, meta = {}) {
     if (!target.alive || this.flow.state !== 'ACTIVE') return;
     if (target.flags.invulnerable || target.flags.intangible || target.spawnProtected) return;
+    const authoritativeEnemyHit = !!source && source.team !== target.team && !meta.redirected;
+    const empoweredHit = authoritativeEnemyHit && source.abilities?.heroState?.empoweredHits?.remaining > 0
+      ? source.abilities.heroState.empoweredHits
+      : null;
     let finalAmount = Math.max(0, amount);
     if (source) finalAmount *= outgoingDamageMultiplier(source);
-    finalAmount *= incomingDamageMultiplier(target);
+    if (empoweredHit) finalAmount *= empoweredHit.damageMult;
+    finalAmount *= incomingDamageMultiplier(target, meta);
 
     if (!meta.redirected) {
       const redirect = redirectStatus(target);
@@ -530,6 +799,12 @@ export class World {
     finalAmount -= shieldAbsorb;
     const healthDamage = Math.min(target.hp, finalAmount);
     target.hp -= healthDamage;
+    if (healthDamage + shieldAbsorb > 0) {
+      target.lastCombatAt = this.t;
+      target.lastDamageTakenAt = this.t;
+      target.lastDamageSourceId = source && source.team !== target.team ? source.id : null;
+      if (source) source.lastCombatAt = this.t;
+    }
     if (healthDamage > 0 && target.abilities.heroState.transit?.kind === 'rewind') {
       target.abilities.heroState.transit.endsAt += 0.3;
     }
@@ -541,6 +816,31 @@ export class World {
     if (target.resource?.id === 'momentum' && healthDamage + shieldAbsorb > 0) {
       target.resource.value = Math.max(0, target.resource.value - 12);
     }
+    const damageDealt = healthDamage + shieldAbsorb;
+    if (damageDealt > 0 && empoweredHit) {
+      empoweredHit.remaining--;
+      const shirabe = this.players.get(empoweredHit.sourceId);
+      applyStatus(this, target, {
+        id: `${empoweredHit.abilityId}:vulnerability`,
+        damageTakenMult: empoweredHit.vulnerabilityDamageTakenMult,
+        negative: true,
+      }, empoweredHit.vulnerabilityDurationSec, shirabe || source);
+      if (empoweredHit.remaining <= 0) delete source.abilities.heroState.empoweredHits;
+    }
+    if (damageDealt > 0 && authoritativeEnemyHit) {
+      for (const shirabe of this.players.values()) {
+        if (shirabe.heroId !== 'shirabe' || !shirabe.alive || shirabe.team !== source.team
+          || shirabe.abilities?.heroState?.linkedId !== source.id) continue;
+        const state = shirabe.abilities.heroState;
+        if (state.linkExpiresAt <= this.t || !source.alive || source.team !== shirabe.team) {
+          delete state.linkedId;
+          delete state.linkExpiresAt;
+          continue;
+        }
+        const gain = HERO_BY_ID.shirabe.passive.harmonyPerLinkedDamagingHit;
+        shirabe.resource.value = Math.min(shirabe.resource.max, shirabe.resource.value + gain);
+      }
+    }
     const damageOrigin = finiteVector3(meta.damageOrigin);
     const damageDirection = damageOrigin
       ? roundVec(damageOrigin.map((value, index) => value - target.move.pos[index]), 1000)
@@ -551,6 +851,7 @@ export class World {
       healthDamage: Math.round(healthDamage * 10) / 10,
       shieldDamage: Math.round(shieldAbsorb * 10) / 10,
       headshot: !!headshot, abilityId: meta.abilityId || null,
+      projectileId: meta.projectileId || null,
       damageOrigin,
       damageDirection,
     });
@@ -566,12 +867,32 @@ export class World {
     const healed = Math.min(amount, target.maxHp - target.hp);
     if (healed <= 0) return 0;
     target.hp += healed;
+    target.lastCombatAt = this.t;
     if (source) {
       source.stats.healing += healed;
+      source.lastCombatAt = this.t;
       source.ultGauge = addGauge(source.ultGauge, gainFromHealing(healed, this.combat.ultimateEconomy), this.combat.ultimateEconomy);
     }
     this.events.push({ type: 'heal', target: target.id, source: source?.id, amount: Math.round(healed * 10) / 10, abilityId });
     return healed;
+  }
+
+  tickRolePassives() {
+    const definitions = this.combat.health?.rolePassives;
+    if (!definitions || this.flow.state !== 'ACTIVE') return;
+    for (const player of this.players.values()) {
+      if (!player.alive || player.hp >= player.maxHp) continue;
+      const role = HERO_BY_ID[player.heroId]?.role;
+      const definition = role ? definitions[role] : null;
+      if (!definition) continue;
+      const delaySec = Math.max(0, Number(definition.delayAfterDamageSec) || 0);
+      const healPerSec = Math.max(0, Number(definition.selfHealPerSec) || 0);
+      if (healPerSec <= 0 || this.t - player.lastDamageTakenAt + 1e-9 < delaySec) continue;
+      // Role-passive recovery is health-state restoration, not an authored
+      // heal action: it must not feed healing stats, ultimate charge, audio,
+      // or teamfight-heal telemetry.
+      player.hp = Math.min(player.maxHp, player.hp + healPerSec * this.dt);
+    }
   }
 
   logEvent(e) {
@@ -591,7 +912,9 @@ export class World {
     );
     const snap = ticksBack > 0 ? this.history[this.history.length - ticksBack] : null;
     const out = [];
-    for (const pl of this.players.values()) {
+    const orderedPlayers = [...this.players.values()]
+      .sort((left, right) => compareLogicalActors(left, right, this.seed));
+    for (const pl of orderedPlayers) {
       if (!pl.alive || pl.flags.invulnerable || pl.flags.intangible || pl.spawnProtected) continue;
       const h = snap?.get(pl.id);
       out.push({
@@ -716,14 +1039,17 @@ export class World {
   }
 
   precisionAbilityShot(player, definition) {
-    if (player.weapon.ammo <= 0) return false;
+    const weapon = this.weaponDefinitionFor(player);
+    // Precision abilities draw from the same physical weapon. Reserving its
+    // normal cadence here prevents an ability round and a full burst from
+    // being emitted in the same authoritative tick.
+    if (!tryBeginFire(player, weapon, this.t, false)) return false;
     const eyeDir = fireDirection(player.move.yaw, player.move.pitch, 0, this.rng);
     const path = this.weaponShotPath(
-      player, this.weaponDefinitionFor(player), eyeDir, definition.rangeM || 55,
+      player, weapon, eyeDir, definition.rangeM || 55,
       this.targetsAt(0), 'enemy', true,
     );
     const hit = path.collision || { type: 'none', dist: path.maxDist };
-    player.weapon.ammo--;
     this.events.push({
       type: 'shot', source: player.id, origin: roundVec(path.origin), dir: roundVec(path.dir, 1000),
       dist: round1(hit.dist), weaponId: definition.id,
@@ -744,10 +1070,54 @@ export class World {
     if (!target) return false;
     const damage = hit.headshot ? (definition.headshotDamage || (definition.damage || 50) * 2) : (definition.damage || 50);
     this.applyDamage(target, damage, player, hit.headshot, {
-      abilityId: definition.id, ...weaponDamageMeta(path.origin, target),
+      abilityId: definition.id, projectileGuardEligible: weapon.type !== 'beam',
+      ...weaponDamageMeta(path.origin, target),
     });
     this.applyAsagiMark(player, target, 2);
     return true;
+  }
+
+  spawnAbilityProjectile(player, definition, target) {
+    if (
+      !player?.alive
+      || !target?.alive
+      || target.team === player.team
+      || target.flags.invulnerable
+      || target.flags.intangible
+      || target.spawnProtected
+    ) return null;
+    const origin = eyePosition(player, this.mv);
+    const targetPoint = eyePosition(target, this.mv);
+    const direction = normalizedVector(targetPoint.map((value, index) => value - origin[index]));
+    if (direction.length <= 1e-9) return null;
+    const rangeM = Math.max(1, definition.rangeM || 40);
+    const projectileDefinition = {
+      id: definition.id,
+      type: 'guided_projectile',
+      damage: Math.max(0, definition.damage || 0),
+      headshotMult: 1,
+      maxRangeM: rangeM,
+      falloffStartM: rangeM,
+      falloffEndM: rangeM + 0.01,
+      falloffMinMult: 1,
+      projectileSpeedMps: Math.max(1, definition.projectileSpeedMps || 18),
+      projectileRadiusM: Math.max(0, definition.projectileRadiusM || 0),
+      homingRangeM: Math.max(1, definition.homingRangeM || rangeM),
+      ignoreLineOfSight: definition.ignoreLineOfSight === true,
+    };
+    return spawnWeaponProjectile(this, player, projectileDefinition, origin, direction.dir, {
+      type: 'guided_projectile',
+      targetId: target.id,
+    });
+  }
+
+  detonateAbilityProjectile(player, projectile, definition) {
+    if (!player?.alive || !projectile?.alive || projectile.ownerId !== player.id) return false;
+    return detonateWeaponProjectile(this, projectile, {
+      abilityId: definition.id,
+      splashDamage: definition.damage,
+      splashRadiusM: definition.radiusM,
+    });
   }
 
   damageDeployable(zone, amount, source, abilityId = null, projectileId = null) {
@@ -763,8 +1133,13 @@ export class World {
   }
 
   processChargeWeapon(pl, weapon) {
+    const chargeRateMult = pl.abilities.statuses.reduce(
+      (value, status) => Math.max(value, status.chargeRateMult || 1),
+      1,
+    );
+    const effectiveChargeSec = Math.max(0.01, weapon.chargeSec / chargeRateMult);
     if (pl.input.reload) {
-      pl.weapon.chargeStartedAt = null;
+      clearChargeState(pl.weapon);
       tryBeginFire(pl, weapon, this.t, true);
       return;
     }
@@ -772,14 +1147,30 @@ export class World {
       if (this.t < pl.weapon.nextFireT) return;
       if (weapon.resourceCost && (!pl.resource || pl.resource.value < weapon.resourceCost)) return;
       pl.weapon.chargeStartedAt = this.t;
-      this.events.push({ type: 'weapon_charge', source: pl.id, weaponId: weapon.id, chargeSec: weapon.chargeSec });
+      pl.weapon.chargeProgressSec = 0;
+      pl.weapon.chargeLastUpdatedAt = this.t;
+      pl.weapon.chargeRateMult = chargeRateMult;
+      this.events.push({
+        type: 'weapon_charge', source: pl.id, weaponId: weapon.id,
+        chargeSec: effectiveChargeSec, authoredChargeSec: weapon.chargeSec,
+      });
       return;
     }
     if (pl.weapon.chargeStartedAt === null) return;
-    const heldSec = Math.max(0, this.t - pl.weapon.chargeStartedAt);
-    if (pl.input.fire && heldSec + 1e-9 < weapon.chargeSec) return;
+    const lastUpdatedAt = Number.isFinite(pl.weapon.chargeLastUpdatedAt)
+      ? pl.weapon.chargeLastUpdatedAt
+      : pl.weapon.chargeStartedAt;
+    const elapsedSec = Math.max(0, this.t - lastUpdatedAt);
+    const elapsedRateMult = Number.isFinite(pl.weapon.chargeRateMult)
+      ? Math.max(1, pl.weapon.chargeRateMult)
+      : chargeRateMult;
+    pl.weapon.chargeProgressSec = Math.max(0, pl.weapon.chargeProgressSec || 0)
+      + elapsedSec * elapsedRateMult;
+    pl.weapon.chargeLastUpdatedAt = this.t;
+    pl.weapon.chargeRateMult = chargeRateMult;
+    if (pl.input.fire && pl.weapon.chargeProgressSec + 1e-9 < weapon.chargeSec) return;
 
-    let ratio = Math.max(0, Math.min(1, heldSec / Math.max(0.01, weapon.chargeSec)));
+    let ratio = Math.max(0, Math.min(1, pl.weapon.chargeProgressSec / weapon.chargeSec));
     const resourceCost = lerp(weapon.resourceCost || 0, weapon.maxResourceCost || weapon.resourceCost || 0, ratio);
     if (resourceCost && (!pl.resource || pl.resource.value + 1e-9 < resourceCost)) {
       const availableRatio = (pl.resource.value - (weapon.resourceCost || 0))
@@ -791,15 +1182,23 @@ export class World {
       pl.resource.value = Math.max(0, pl.resource.value - actualCost);
       pl.lastResourceSpendT = this.t;
     }
-    pl.weapon.chargeStartedAt = null;
+    clearChargeState(pl.weapon);
     if (!tryBeginFire(pl, weapon, this.t, false)) return;
     const charged = {
       ...weapon,
       damage: lerp(weapon.damage, weapon.maxDamage || weapon.damage, ratio),
-      projectileSpeedMps: lerp(weapon.projectileSpeedMps || 35, weapon.maxProjectileSpeedMps || weapon.projectileSpeedMps || 35, ratio),
       splashDamage: (weapon.splashDamage || 0) * ratio,
       splashRadiusM: (weapon.splashRadiusM || 0) * ratio,
     };
+    // Charge scales an authored projectile's speed; it must not invent one for
+    // a hitscan weapon such as Shirasagi's rifle.
+    if (Number.isFinite(weapon.projectileSpeedMps)) {
+      charged.projectileSpeedMps = lerp(
+        weapon.projectileSpeedMps,
+        weapon.maxProjectileSpeedMps || weapon.projectileSpeedMps,
+        ratio,
+      );
+    }
     this.emitWeaponAttack(pl, charged, { chargeRatio: ratio });
   }
 
@@ -809,6 +1208,7 @@ export class World {
     const rewind = pl.isBot ? 0 : pl.appliedRewindMs / 1000;
     const targets = this.targetsAt(rewind);
     const statusMultiShot = pl.abilities.statuses.reduce((value, status) => Math.max(value, status.multiShot || 1), 1);
+    const statusPierce = pl.abilities.statuses.reduce((value, status) => Math.max(value, status.pierce || 0), 0);
     const finiteAmmo = weapon.reloadSec > 0 && weapon.magSize > 0;
     const burstRounds = weapon.burstCount
       ? (finiteAmmo ? Math.min(weapon.burstCount, Math.max(1, pl.weapon.ammo + 1)) : weapon.burstCount)
@@ -862,7 +1262,9 @@ export class World {
         this.damageDeployable(hit.zone, dealt, pl, weapon.id);
         this.events.push({
           type: 'shot', source: pl.id, origin: roundVec(path.origin), dir: roundVec(path.dir, 1000),
-          dist: round1(hit.dist), weaponId: weapon.id, attackId, pelletIndex: shot, pelletCount: shotCount,
+          dist: round1(hit.dist), weaponId: weapon.id,
+          chargeRatio: metadata.chargeRatio ?? null,
+          attackId, pelletIndex: shot, pelletCount: shotCount,
         });
         continue;
       }
@@ -871,10 +1273,20 @@ export class World {
         hit.barrier.hp -= dealt;
         this.events.push({ type: 'barrier_hit', source: pl.id, barrier: hit.barrier.id, amount: round1(dealt) });
         if (hit.barrier.hp <= 0) this.events.push({ type: 'barrier_destroyed', barrier: hit.barrier.id, source: pl.id });
-        this.events.push({ type: 'shot', source: pl.id, origin: roundVec(path.origin), dir: roundVec(path.dir, 1000), dist: round1(hit.dist), weaponId: weapon.id, attackId, pelletIndex: shot, pelletCount: shotCount });
+        this.events.push({
+          type: 'shot', source: pl.id, origin: roundVec(path.origin), dir: roundVec(path.dir, 1000),
+          dist: round1(hit.dist), weaponId: weapon.id,
+          chargeRatio: metadata.chargeRatio ?? null,
+          attackId, pelletIndex: shot, pelletCount: shotCount,
+        });
         continue;
       }
-      this.events.push({ type: 'shot', source: pl.id, origin: roundVec(path.origin), dir: roundVec(path.dir, 1000), dist: round1(hit.dist), weaponId: weapon.id, attackId, pelletIndex: shot, pelletCount: shotCount });
+      this.events.push({
+        type: 'shot', source: pl.id, origin: roundVec(path.origin), dir: roundVec(path.dir, 1000),
+        dist: round1(hit.dist), weaponId: weapon.id,
+        chargeRatio: metadata.chargeRatio ?? null,
+        attackId, pelletIndex: shot, pelletCount: shotCount,
+      });
       if (hit.type !== 'player') continue;
       const target = this.players.get(hit.target.id);
       if (!target) continue;
@@ -884,10 +1296,53 @@ export class World {
         continue;
       }
       this.applyDamage(target, damageAtRange(weapon, hit.dist, hit.headshot), pl, hit.headshot, {
-        abilityId: weapon.id, ...weaponDamageMeta(path.origin, target),
+        abilityId: weapon.id, projectileGuardEligible: weapon.type !== 'beam',
+        ...weaponDamageMeta(path.origin, target),
       });
       if (pl.heroId === 'asagi') {
         this.applyAsagiMark(pl, target, 1);
+      }
+      if (statusPierce <= 0 || canAffectAllies) continue;
+
+      const hitIds = new Set([target.id]);
+      for (let pierced = 0; pierced < statusPierce; pierced++) {
+        const remainingTargets = targets.filter(candidate => !hitIds.has(candidate.id));
+        const nextHit = this.closestWeaponCollision(
+          path.origin, path.dir, path.maxDist, remainingTargets, pl, 'enemy', true,
+        );
+        if (nextHit.type === 'deployable') {
+          this.damageDeployable(
+            nextHit.zone, damageAtRange(weapon, nextHit.dist, false), pl, weapon.id,
+          );
+          break;
+        }
+        if (nextHit.type === 'barrier') {
+          const dealt = damageAtRange(weapon, nextHit.dist, false);
+          nextHit.barrier.hp -= dealt;
+          this.events.push({
+            type: 'barrier_hit', source: pl.id, barrier: nextHit.barrier.id,
+            amount: round1(dealt), abilityId: weapon.id,
+          });
+          if (nextHit.barrier.hp <= 0) this.events.push({
+            type: 'barrier_destroyed', barrier: nextHit.barrier.id, source: pl.id,
+            abilityId: weapon.id,
+          });
+          break;
+        }
+        if (nextHit.type !== 'player') break;
+        const piercedTarget = this.players.get(nextHit.target.id);
+        if (!piercedTarget?.alive) break;
+        hitIds.add(piercedTarget.id);
+        this.applyDamage(
+          piercedTarget,
+          damageAtRange(weapon, nextHit.dist, nextHit.headshot),
+          pl,
+          nextHit.headshot,
+          {
+            abilityId: weapon.id, projectileGuardEligible: weapon.type !== 'beam',
+            ...weaponDamageMeta(path.origin, piercedTarget),
+          },
+        );
       }
     }
     if (pl.resource?.id === 'heat') pl.resource.value = Math.min(pl.resource.max, pl.resource.value + 8);
@@ -904,9 +1359,14 @@ export class World {
 
     // 扉: SETUP中のみ有効
     this.collider.dynamic = state === 'SETUP' ? this.map.setupDoors : [];
+    const tickPlayers = scheduleWorldActionOrder(
+      this.players.values(),
+      this.tickCount - 1,
+      this.seed,
+    );
 
     // 移動と射撃
-    for (const pl of this.players.values()) {
+    for (const pl of tickPlayers) {
       if (!this.expireInputLease(pl, leaseNowMs)) this.applyQueuedInputs(pl, leaseNowMs);
       this.updateSpawnProtection(pl);
       if (!pl.alive || frozen) {
@@ -915,8 +1375,9 @@ export class World {
         continue;
       }
       tickWeaponState(pl, this.weaponDefinitionFor(pl), this.t);
-      tickAbilityState(this, pl, this.dt);
-      if (state === 'ACTIVE') {
+      const recentlyContributed = this.t - (pl.lastCombatAt ?? Number.NEGATIVE_INFINITY)
+        <= this.passiveCombatGraceSec + 1e-9;
+      if (state === 'ACTIVE' && recentlyContributed) {
         pl.ultGauge = addGauge(
           pl.ultGauge,
           gainFromPassive(this.dt, this.combat.ultimateEconomy),
@@ -937,7 +1398,19 @@ export class World {
         pl.input = { ...pl.inputCommandState };
         continue;
       }
+      tickHealingTrailEmitters(this, pl);
       this.updatePassiveResource(pl);
+    }
+
+    // Resolve post-movement intents only after every player has completed the
+    // movement phase. This removes the old pre-move/post-move perception leak.
+    for (const pl of tickPlayers) {
+      if (!pl.alive || frozen) {
+        pl.pendingActionInputs.length = 0;
+        pl.input = { ...pl.inputCommandState };
+        continue;
+      }
+      tickAbilityState(this, pl, this.dt);
       if (state === 'ACTIVE' || state === 'SETUP') {
         const eventCount = this.events.length;
         const actionInputs = pl.pendingActionInputs.length > 0
@@ -962,13 +1435,17 @@ export class World {
       }
     }
 
+    // Run this after every player's actions so recovery is independent of
+    // player insertion order and cannot occur before a later attacker acts.
+    this.tickRolePassives();
+
     // 回復灯珠
     for (const pk of this.pickups) {
       if (!pk.active) {
         if (this.t >= pk.respawnAt) pk.active = true;
         continue;
       }
-      for (const pl of this.players.values()) {
+      for (const pl of tickPlayers) {
         if (!pl.alive || pl.hp >= pl.maxHp) continue;
         const dx = pl.move.pos[0] - pk.pos[0], dy = pl.move.pos[1] - pk.pos[1];
         if (dx * dx + dy * dy < 1.44 && Math.abs(pl.move.pos[2] - pk.pos[2]) < 2) {
@@ -981,36 +1458,54 @@ export class World {
       }
     }
 
-    // 目標とリスポーン（ACTIVE中のみ進む）
+    // 目標とリスポーン（ACTIVE中のみ進む）。Flashpointのリスポーン時計は
+    // site transition中にも進むため、目標時計と意図的に分離する。
     let objectivePresence = [0, 0];
     let objectiveOccupants = [];
     if (state === 'ACTIVE') {
-      objectiveOccupants = [];
-      objectivePresence = updateEffectivePresence([...this.players.values()], this.map.objective, this.mode, objectiveOccupants);
-      const evBefore = this.events.length;
-      this.objective.tick(this.dt, objectivePresence, this.events);
-      // 480秒同点のサドンデス突入は同tickの復帰判定より先に確定する。
-      if (
-        this.objective.roundWinner < 0
-        && !this.objective.suddenDeath
-        && !this.objective.ot.active
-        && !this.objective.hasFullPot()
-        && this.objective.time + 1e-9 >= this.mode.roundCapSec
-      ) {
-        this.objective.resolveByCap(this.events);
-        if (this.objective.suddenDeath) this.events.push({ type: 'sudden_death', round: this.flow.round });
+      if (this.flashpoint) this.advanceFlashpointTransition(this.events);
+      const activeObjective = this.flashpoint
+        ? this.activeObjectiveDefinition()
+        : this.map.objective;
+      if (activeObjective) {
+        objectiveOccupants = [];
+        objectivePresence = updateEffectivePresence(
+          tickPlayers,
+          activeObjective,
+          this.mode,
+          objectiveOccupants,
+        );
+        const objectiveEventsStart = this.events.length;
+        this.objective.tick(this.dt, objectivePresence, this.events);
+        // 480秒同点のサドンデス突入は同tickの復帰判定より先に確定する。
+        if (
+          this.objective.roundWinner < 0
+          && !this.objective.suddenDeath
+          && !this.objective.ot.active
+          && !this.objective.hasFullPot()
+          && this.objective.time + 1e-9 >= this.mode.roundCapSec
+        ) {
+          this.objective.resolveByCap(this.events);
+          if (this.objective.suddenDeath) this.events.push({ type: 'sudden_death', round: this.flow.round });
+        }
+        for (let i = objectiveEventsStart; i < this.events.length; i++) this.logEvent({
+          ...this.events[i],
+          gauge: [...this.objective.gauge].map(g => Math.round(g)),
+          pot: [...this.objective.pot],
+          presence: objectivePresence,
+          occupants: objectiveOccupants.map(p => ({ ...p })),
+        });
+        for (const pl of tickPlayers) {
+          if (pl.insideObjective && pl.alive) pl.stats.objectiveSec += this.dt;
+        }
+        if (this.flashpoint) this.completeFlashpointObjective(this.events);
+      } else {
+        this.clearObjectiveMembership();
       }
-      for (let i = evBefore; i < this.events.length; i++) this.logEvent({
-        ...this.events[i],
-        gauge: [...this.objective.gauge].map(g => Math.round(g)),
-        pot: [...this.objective.pot],
-        presence: objectivePresence,
-        occupants: objectiveOccupants.map(p => ({ ...p })),
-      });
-      for (const pl of this.players.values()) {
-        if (pl.insideObjective && pl.alive) pl.stats.objectiveSec += this.dt;
-      }
-      const spawned = this.respawn.tick(this.objective.time, this.objective.respawnPenaltySec());
+      const spawned = this.respawn.tick(
+        this.respawnClockSec(),
+        this.objective.respawnPenaltySec(),
+      );
       for (const pid of spawned) {
         const pl = this.players.get(pid);
         if (pl && this.spawnAtBase(pl, { safe: true, protect: true })) {
@@ -1021,23 +1516,27 @@ export class World {
 
     // 試合フロー
     const evBefore = this.events.length;
-    this.flow.tick(this.dt, this.objective, this.events, {
-      onNewRound: () => {
-        this.objective.resetRound();
-        this.respawn.resetRound();
-        for (const pl of this.players.values()) {
-          pl.ultGauge = carryoverGauge(pl.ultGauge, { ...this.combat.ultimateEconomy, carryoverMult: this.mode.ultCarryoverMult });
-          pl.setupUltGauge = pl.ultGauge;
-          pl.abilities = makeAbilityState();
-          this.spawnAtBase(pl);
-        }
-        this.zones = [];
-        this.barriers = [];
-        this.projectiles = [];
-      },
-    });
+    if (this.flashpoint) {
+      this.tickFlashpointFlow(this.events);
+    } else {
+      this.flow.tick(this.dt, this.objective, this.events, {
+        onNewRound: () => {
+          this.objective.resetRound();
+          this.respawn.resetRound();
+          for (const pl of tickPlayers) {
+            pl.ultGauge = carryoverGauge(pl.ultGauge, { ...this.combat.ultimateEconomy, carryoverMult: this.mode.ultCarryoverMult });
+            pl.setupUltGauge = pl.ultGauge;
+            pl.abilities = makeAbilityState();
+            this.spawnAtBase(pl);
+          }
+          this.zones = [];
+          this.barriers = [];
+          this.projectiles = [];
+        },
+      });
+    }
     if (state === 'SETUP' && this.flow.state === 'ACTIVE') {
-      for (const pl of this.players.values()) this.resetSetupConsumption(pl);
+      for (const pl of tickPlayers) this.resetSetupConsumption(pl);
       this.collider.dynamic = [];
       this.zones = [];
       this.barriers = [];
@@ -1144,6 +1643,38 @@ export class World {
   }
 
   snapshot() {
+    const activeSiteId = this.flashpoint?.activeSiteId ?? null;
+    const activeObjectiveSnapshot = !this.flashpoint || activeSiteId
+      ? this.objective.snapshot()
+      : null;
+    const resultBySiteId = new Map(
+      (this.flashpoint?.results || []).map(result => [result.siteId, result]),
+    );
+    const objectives = this.flashpoint
+      ? (this.map.objectives || []).map((objective) => {
+        const result = resultBySiteId.get(objective.id) ?? null;
+        const activation = objective.id === activeSiteId
+          ? 'active'
+          : result
+            ? 'resolved'
+            : 'locked';
+        return {
+          id: objective.id,
+          activation,
+          capture: objective.id === activeSiteId ? activeObjectiveSnapshot : null,
+          result: result ? cloneFlashpointValue(result) : null,
+        };
+      })
+      : null;
+    const flashpoint = this.flashpoint
+      ? {
+        ...cloneFlashpointValue(this.flashpoint),
+        phase: this.flashpoint.lifecycle,
+        activeSiteId,
+        pendingSiteId: this.flashpoint.pendingSiteId ?? null,
+        results: (this.flashpoint.results || []).map(cloneFlashpointValue),
+      }
+      : null;
     const players = [];
     for (const pl of this.players.values()) {
       const hero = pl.heroId ? HERO_BY_ID[pl.heroId] : null;
@@ -1179,6 +1710,7 @@ export class World {
         heroName: hero?.name || '訓練織身',
         role: hero?.role || null,
         roleLabel: hero?.roleLabel || null,
+        teamFunctions: Array.isArray(hero?.teamFunctions) ? [...hero.teamFunctions] : [],
         maxHp: pl.maxHp,
         pos: pl.move.pos.map(v => Math.round(v * 1000) / 1000),
         vel: pl.move.vel.map(v => Math.round(v * 100) / 100),
@@ -1192,7 +1724,8 @@ export class World {
         alive: pl.alive,
         spawnProtected: pl.spawnProtected,
         spawnProtectionRemaining: pl.spawnProtected ? round1(Math.max(0, pl.spawnProtectionEndsAt - this.t)) : 0,
-        onPoint: pl.insideObjective,
+        onPoint: Boolean(pl.insideObjective && (!this.flashpoint || activeSiteId)),
+        onObjectiveId: pl.insideObjective && activeSiteId ? activeSiteId : null,
         ammo: pl.weapon.ammo,
         maxAmmo: hero?.weapon?.magSize ?? this.combat.trainingWeapon.magSize,
         weaponId: hero?.weapon?.id ?? this.combat.trainingWeapon.id,
@@ -1209,7 +1742,11 @@ export class World {
         reloading: this.t < pl.weapon.reloadUntil,
         reloadRemainingSec: pl.weapon.reloadStartedAt === null ? 0 : round1(Math.max(0, pl.weapon.reloadUntil - this.t)),
         reloadProgress: reloadProgress(pl.weapon, this.t),
-        respawnIn: pl.alive ? 0 : Math.round(this.respawn.timeUntilSpawn(pl.id, this.objective.time, this.objective.respawnPenaltySec()) * 10) / 10,
+        respawnIn: pl.alive ? 0 : Math.round(this.respawn.timeUntilSpawn(
+          pl.id,
+          this.respawnClockSec(),
+          this.objective.respawnPenaltySec(),
+        ) * 10) / 10,
         kills: pl.stats.kills, deaths: pl.stats.deaths, dmg: Math.round(pl.stats.dmg), healing: Math.round(pl.stats.healing),
         statuses: pl.abilities.statuses.map(status => ({
           id: status.id, kind: status.kind || null, revealed: !!status.revealed,
@@ -1225,7 +1762,11 @@ export class World {
       tick: this.tickCount,
       t: Math.round(this.t * 100) / 100,
       match: this.flow.snapshot(),
-      objective: this.objective.snapshot(),
+      objective: activeObjectiveSnapshot,
+      activeObjectiveId: activeSiteId,
+      pendingObjectiveId: this.flashpoint?.pendingSiteId ?? null,
+      objectives,
+      flashpoint,
       pickups: this.pickups.map(p => ({ id: p.id, active: p.active })),
       zones: this.zones.map(zone => snapshotZone(zone, this.t)),
       barriers: this.barriers.map(barrier => snapshotBarrier(barrier, this.t)),
@@ -1257,6 +1798,12 @@ function weaponDamageMeta(origin, target) {
 function finiteVector3(vector) {
   if (!Array.isArray(vector) || vector.length < 3 || !vector.slice(0, 3).every(Number.isFinite)) return undefined;
   return vector.slice(0, 3);
+}
+function clearChargeState(weaponState) {
+  weaponState.chargeStartedAt = null;
+  weaponState.chargeProgressSec = 0;
+  weaponState.chargeLastUpdatedAt = null;
+  weaponState.chargeRateMult = null;
 }
 function round1(value) { return Math.round(value * 10) / 10; }
 function roundVec(vector, scale = 100) { return vector.map(value => Math.round(value * scale) / scale); }

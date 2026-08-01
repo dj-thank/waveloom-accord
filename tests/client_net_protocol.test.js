@@ -96,3 +96,18 @@ test('Net accepts the shared protocol version', () => {
     globalThis.WebSocket = originalWebSocket;
   }
 });
+
+test('Net preserves a reverse-proxy subpath for WebSocket handshakes', () => {
+  const originalLocation = globalThis.location;
+  const originalWebSocket = globalThis.WebSocket;
+  globalThis.location = { protocol: 'https:', host: 'game.example:8443', pathname: '/kagariai/' };
+  globalThis.WebSocket = FakeWebSocket;
+  try {
+    const net = new Net();
+    net.connect('player', 'asagi');
+    assert.equal(FakeWebSocket.instances.at(-1).url, 'wss://game.example:8443/kagariai/');
+  } finally {
+    globalThis.location = originalLocation;
+    globalThis.WebSocket = originalWebSocket;
+  }
+});

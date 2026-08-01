@@ -13,7 +13,6 @@ import {
   LINE_OF_SIGHT_EPSILON_M,
   canAffectPoint,
   canAffectTarget,
-  distance3D,
   playerTargetPoint,
 } from './spatial_query.js';
 
@@ -33,6 +32,7 @@ export function spawnWeaponProjectile(world, owner, weapon, origin, direction, v
     team: owner.team,
     heroId: owner.heroId,
     weaponId: weapon.id,
+    targetId: values.targetId ?? null,
     weapon,
     type: values.type || weapon.type || 'projectile',
     pos: [...origin],
@@ -68,9 +68,14 @@ export function tickProjectiles(world, dt) {
       continue;
     }
 
-    if (projectile.type === 'guided_projectile') steerTowardNearestEnemy(world, projectile, dt);
+    if (projectile.type === 'guided_projectile') steerTowardAssignedEnemy(world, projectile, dt);
     const targets = [...world.players.values()]
-      .filter(player => player.alive && !player.flags.invulnerable && !player.flags.intangible)
+      .filter(player => (
+        player.alive
+        && !player.flags.invulnerable
+        && !player.flags.intangible
+        && !player.spawnProtected
+      ))
       .map(player => ({
         id: player.id, team: player.team, pos: [...player.move.pos], crouch: player.move.crouch,
       }));
@@ -177,10 +182,36 @@ export function tickProjectiles(world, dt) {
   world.projectiles = world.projectiles.filter(projectile => projectile.alive);
 }
 
+export function detonateWeaponProjectile(world, projectile, {
+  abilityId = projectile?.weaponId,
+  splashDamage = projectile?.weapon?.splashDamage || 0,
+  splashRadiusM = projectile?.weapon?.splashRadiusM || 0,
+} = {}) {
+  if (!projectile?.alive || !world.projectiles?.includes(projectile)) return false;
+  const owner = world.players.get(projectile.ownerId);
+  if (!owner?.alive) return false;
+  const point = [...projectile.pos];
+  const detonation = {
+    ...projectile.weapon,
+    id: abilityId,
+    damage: 0,
+    splashDamage: Math.max(0, splashDamage),
+    splashRadiusM: Math.max(0, splashRadiusM),
+  };
+  world.events.push({
+    type: 'projectile_detonated', projectileId: projectile.id, source: owner.id,
+    abilityId, pos: roundVec(point),
+  });
+  resolveImpact(world, projectile, detonation, point, null, owner);
+  world.projectiles = world.projectiles.filter(candidate => candidate.alive);
+  return true;
+}
+
 export function snapshotProjectile(projectile) {
   return {
     id: projectile.id, ownerId: projectile.ownerId, team: projectile.team,
-    heroId: projectile.heroId, weaponId: projectile.weaponId, type: projectile.type,
+    heroId: projectile.heroId, weaponId: projectile.weaponId, targetId: projectile.targetId,
+    type: projectile.type,
     pos: roundVec(projectile.pos), dir: roundVec(projectile.dir),
     speedMps: round1(projectile.speedMps), radiusM: finiteRadius(projectile.radiusM),
     travelledM: round1(projectile.travelledM),
@@ -199,7 +230,8 @@ function resolveImpact(world, projectile, weapon, point, directTarget, owner, he
     } else {
       const damage = damageAtRange(weapon, distance, headshot) * projectile.damageScale;
       world.applyDamage(directTarget, damage, owner, headshot, {
-        abilityId: weapon.id, projectileId: projectile.id, damageOrigin: roundVec(point),
+        abilityId: weapon.id, projectileId: projectile.id,
+        projectileGuardEligible: true, damageOrigin: roundVec(point),
       });
     }
   }
@@ -218,7 +250,8 @@ function resolveImpact(world, projectile, weapon, point, directTarget, owner, he
         if (weapon.allyHealSplash) world.healPlayer(target, weapon.allyHealSplash, owner, weapon.id);
       } else if (weapon.splashDamage) {
         world.applyDamage(target, weapon.splashDamage * projectile.damageScale, owner, false, {
-          abilityId: weapon.id, projectileId: projectile.id, damageOrigin: roundVec(point),
+          abilityId: weapon.id, projectileId: projectile.id,
+          projectileGuardEligible: true, damageOrigin: roundVec(point),
         });
       }
     }
@@ -237,7 +270,8 @@ function resolveImpact(world, projectile, weapon, point, directTarget, owner, he
   if (weapon.type === 'deploy') createDeployZone(world, projectile, weapon, point);
   world.events.push({
     type: 'projectile_impact', projectileId: projectile.id, source: projectile.ownerId,
-    weaponId: projectile.weaponId, target: directTarget?.id || null, pos: roundVec(point),
+    weaponId: projectile.weaponId, abilityId: weapon.id,
+    target: directTarget?.id || null, pos: roundVec(point),
   });
 }
 
@@ -315,21 +349,22 @@ function nextProjectileFieldBoundary(world, projectile, maxDist) {
   return nearest;
 }
 
-function steerTowardNearestEnemy(world, projectile, dt) {
-  let nearest = null;
+function steerTowardAssignedEnemy(world, projectile, dt) {
+  const target = projectile.targetId ? world.players.get(projectile.targetId) : null;
+  if (
+    !target?.alive
+    || target.flags.invulnerable
+    || target.flags.intangible
+    || target.spawnProtected
+    || target.team === projectile.team
+  ) return;
   const acquisitionRangeM = projectile.weapon.homingRangeM ?? 35;
-  for (const target of world.players.values()) {
-    if (!target.alive || target.flags.invulnerable || target.flags.intangible || target.team === projectile.team) continue;
-    const dist = distance3D(projectile.pos, target.move.pos);
-    if (!canAffectTarget(world, projectile.pos, target, {
-      rangeM: acquisitionRangeM,
-      sourceId: projectile.ownerId,
-      ignoreLineOfSight: projectile.weapon.ignoreLineOfSight === true,
-    })) continue;
-    if (!nearest || dist < nearest.dist) nearest = { target, dist };
-  }
-  if (!nearest) return;
-  const targetPoint = playerTargetPoint(nearest.target, world.mv);
+  if (!canAffectTarget(world, projectile.pos, target, {
+    rangeM: acquisitionRangeM,
+    sourceId: projectile.ownerId,
+    ignoreLineOfSight: projectile.weapon.ignoreLineOfSight === true,
+  })) return;
+  const targetPoint = playerTargetPoint(target, world.mv);
   const desired = normalize([
     targetPoint[0] - projectile.pos[0], targetPoint[1] - projectile.pos[1], targetPoint[2] - projectile.pos[2],
   ]);

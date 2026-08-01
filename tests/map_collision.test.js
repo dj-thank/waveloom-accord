@@ -2,12 +2,15 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Collider } from '../shared/sim/collision.js';
 import { buildMap } from '../shared/data/map_oshioi.js';
+import { World } from '../shared/sim/sim.js';
+import { canTraverseGroundSegment } from '../server/bot_navigation.js';
 import { AUTHORED_COLLISION_MANIFEST as manifest } from '../shared/data/map_oshioi_authored_collision.js';
 import { generateCollisionManifest } from '../tools/generate_authored_map_collision.js';
+import { MODE, COMBAT } from './helpers.js';
 
 const PLAYER_RADIUS_M = 0.4;
 const PLAYER_HEIGHT_M = 1.7;
-const EXPECTED_MANIFEST_HASH = 'D4D471A28169A82C20D34D47E7DEBA99C271268646737BD3E93A0C6292D95219';
+const EXPECTED_MANIFEST_HASH = '66EB52BB76C0926CFCB1DB4B5E343C067F8C8B6F2294869BE393EDE4573BBC29';
 
 function authoredCollider() {
   return new Collider(manifest.proxies);
@@ -73,10 +76,21 @@ test('authored fixtures and runtime collision preserve gameplay route clearance'
       for (let sample = 0; sample <= steps; sample++) {
         const ratio = sample / steps;
         const pos = from.map((value, axis) => value + (to[axis] - value) * ratio);
+        const floor = runtime.groundHeight(
+          pos[0], pos[1], pos[2], PLAYER_RADIUS_M, 0.55,
+        );
+        assert.ok(
+          Number.isFinite(floor),
+          `route:${route}:${index - 1}-${index}@${ratio.toFixed(3)} has no walkable floor`,
+        );
+        assert.ok(
+          Math.abs(floor - pos[2]) <= 0.75,
+          `route:${route}:${index - 1}-${index}@${ratio.toFixed(3)} floor drift ${floor - pos[2]}`,
+        );
         assert.equal(
-          runtime.overlapsCylinder(...pos, 0.55, PLAYER_HEIGHT_M),
+          runtime.overlapsCylinder(pos[0], pos[1], floor, PLAYER_RADIUS_M, PLAYER_HEIGHT_M),
           false,
-          `route:${route}:${index - 1}-${index}@${ratio.toFixed(3)} is blocked by an authored proxy`,
+          `route:${route}:${index - 1}-${index}@${ratio.toFixed(3)} is blocked at its floor`,
         );
       }
     }
@@ -127,6 +141,91 @@ test('every spawn faces a clear exit that joins an authored route', () => {
   }
 });
 
+test('side routes stay within a bounded regroup envelope and mirror exactly', () => {
+  const map = buildMap();
+  const length = points => points.slice(1).reduce((sum, point, index) => (
+    sum + Math.hypot(...point.map((value, axis) => value - points[index][axis]))
+  ), 0);
+  const frontLength = length(map.routes.front);
+  const sideLengths = ['cloister', 'shallows'].map(route => length(map.routes[route]));
+  for (const route of ['cloister', 'shallows']) {
+    const ratio = length(map.routes[route]) / frontLength;
+    assert.ok(ratio >= 1.35 && ratio <= 1.5,
+      `${route} route ratio ${ratio.toFixed(3)} is outside the 1.35-1.50 flank budget`);
+  }
+  assert.ok(Math.abs(sideLengths[0] - sideLengths[1]) < 1,
+    `side routes drift by ${Math.abs(sideLengths[0] - sideLengths[1]).toFixed(3)}m`);
+  for (const [name, points] of Object.entries(map.routes)) {
+    const mirrored = points.map(([x, y, z]) => [-x, -y, z]);
+    assert.equal(length(mirrored), length(points), `${name} mirror length drift`);
+    assert.ok(mirrored.every(point => point.every(Number.isFinite)), `${name} mirror contains invalid waypoint`);
+  }
+});
+
+test('shallows uses its physical exit, lower lane, and dedicated connector in order', () => {
+  const points = buildMap().routes.shallows;
+  const lowerIndex = points.findIndex(([, , z]) => z <= 0.2);
+  const connectorIndex = points.findIndex(([x, y]) => x >= 31.5 && x <= 38.5 && y >= -19.5 && y <= -16.5);
+  const southEntryIndex = points.findIndex(([x, y]) => Math.abs(x) <= 1.5 && y >= -6 && y <= -4);
+  assert.ok(lowerIndex > 0, 'shallows must leave the south spawn exit and reach z=0');
+  assert.ok(connectorIndex > lowerIndex, 'the lower lane must reach its authored connector stair');
+  assert.ok(southEntryIndex > connectorIndex, 'the connector must lead to the south bowl entrance');
+});
+
+test('all tactical routes finish inside the objective through distinct entrances', () => {
+  const map = buildMap();
+  const endpoints = Object.values(map.routes).map(points => points.at(-1));
+  for (const point of endpoints) {
+    assert.ok(Math.hypot(point[0] - map.objective.center[0], point[1] - map.objective.center[1]) <= map.objective.radiusM);
+  }
+  for (let left = 0; left < endpoints.length; left++) {
+    for (let right = left + 1; right < endpoints.length; right++) {
+      assert.ok(Math.hypot(
+        endpoints[left][0] - endpoints[right][0],
+        endpoints[left][1] - endpoints[right][1],
+      ) >= 4, `routes ${left}/${right} collapse onto one objective entrance`);
+    }
+  }
+});
+
+test('authored full-height cover breaks the longest market and cloister eye rays', () => {
+  const collider = new Collider(buildMap().solids);
+  for (const [from, to] of [
+    [[37, 3.5, 5.6], [8, 3.5, 5.6]],
+    [[18, 0.1, 5.6], [8, 0.1, 5.6]],
+    [[41, 22.8, 5.6], [30, 22.8, 5.6]],
+    [[29, 12.5, 5.6], [14, 12.5, 5.6]],
+  ]) {
+    const delta = to.map((value, axis) => value - from[axis]);
+    const distance = Math.hypot(...delta);
+    const direction = delta.map(value => value / distance);
+    assert.ok(collider.raycast(...from, ...direction, distance) < distance,
+      `eye ray ${from} -> ${to} remains unbroken`);
+  }
+});
+
+test('every runtime tactical route is capsule-traversable on both rotated sides', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 20260722);
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider.dynamic = [];
+
+  for (const [route, eastPoints] of Object.entries(world.map.routes)) {
+    for (const side of ['east', 'west']) {
+      const points = side === 'east'
+        ? eastPoints
+        : eastPoints.map(([x, y, z]) => [-x, -y, z]);
+      for (let index = 1; index < points.length; index++) {
+        assert.equal(
+          canTraverseGroundSegment(world, points[index - 1], points[index]),
+          true,
+          `${side}:${route}:${index - 1}-${index} is not capsule-traversable`,
+        );
+      }
+    }
+  }
+});
+
 test('proxy manifest remains deterministic while runtime collision and presentation share canonical geometry', () => {
   const envelope = manifest.collisionEnvelope;
   assert.deepEqual(envelope, { min: [-47, -35, -1], max: [47, 35, 10] });
@@ -147,7 +246,19 @@ test('proxy manifest remains deterministic while runtime collision and presentat
   assert.deepEqual(aggregateMin, [-28.001321, -19.224868, -1]);
   assert.deepEqual(aggregateMax, [22.340323, 18.823759, 8.944529]);
   const map = buildMap();
-  assert.equal(map.solids.length, 147, 'zero-volume legacy stair faces are not gameplay solids');
+  const legacySolids = map.solids.filter(solid => solid.id.startsWith('canonical-'));
+  const flashpointSolids = map.solids.filter(solid => solid.id.startsWith('flash-'));
+  assert.equal(legacySolids.length, 175, 'the legacy core keeps every solid except its two opened side walls');
+  assert.ok(flashpointSolids.length >= 100, 'the five-site expansion must be authoritative gameplay geometry');
+  // 移動リングの港湾街区（ring-*）が第3のソースとして加わった。
+  // リングは 34,348 m² に構造箱30個・密度0.87/1000m² しか無く、
+  // 東半分の直線100m超が無遮蔽だったため、射線分割と高低差のために追加している。
+  const ringSolids = map.solids.filter(solid => solid.id.startsWith('ring-'));
+  assert.ok(ringSolids.length >= 100, 'the travel ring must carry authoritative cover, not just dressing');
+  assert.equal(
+    map.solids.length,
+    legacySolids.length + flashpointSolids.length + ringSolids.length,
+  );
   assert.deepEqual(map.presentationSolids, map.solids);
   assert.notEqual(map.presentationSolids, map.solids, 'renderer and collider own independent arrays');
   assert.notEqual(map.presentationSolids[0], map.solids[0], 'compiled boxes are independently cloned');

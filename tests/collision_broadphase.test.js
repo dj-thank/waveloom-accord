@@ -29,6 +29,13 @@ function assertSameQuery(fast, linear, method, args) {
   );
 }
 
+function overlapsAabbXY(solid, minX, minY, maxX, maxY) {
+  return solid.max[0] >= minX
+    && solid.min[0] <= maxX
+    && solid.max[1] >= minY
+    && solid.min[1] <= maxY;
+}
+
 test('sphere-cylinder sweep は radius=0 で既存 ray API へ完全委譲する', () => {
   const queries = [
     [-3, 0, 1, 1, 0, 0, 0, 0, 0, 2, 1, 10],
@@ -131,6 +138,144 @@ test('broadphase は authored map の full-linear oracle と決定論的に一�
     [-4, -4, 1, Math.SQRT1_2, Math.SQRT1_2, 0, 200],
   ];
   for (const query of boundaryQueries) assertSameQuery(fast, linear, 'trace', query);
+});
+
+test('staticSolidsInAabb は authored map の完全な静的候補のみを返し、solids 再代入を即時反映する', () => {
+  const map = buildMap();
+  const fast = new Collider(map.solids);
+  const linear = new Collider(map.solids, { broadphase: false });
+  const dynamicOnly = { min: [-1, -1, 0], max: [1, 1, 3], tag: 'dynamic-only' };
+  fast.dynamic = [dynamicOnly];
+  linear.dynamic = [dynamicOnly];
+
+  const queries = [
+    [-48, -36, -32, -20],
+    [-12, -10, 12, 10],
+    [28, 20, 44, 36],
+  ];
+  for (const query of queries) {
+    const expected = map.solids.filter(solid => overlapsAabbXY(solid, ...query));
+    const fastCandidates = fast.staticSolidsInAabb(...query);
+    const linearCandidates = linear.staticSolidsInAabb(...query);
+    assert.deepEqual(fastCandidates, expected, `fast(${query.join(', ')})`);
+    assert.deepEqual(linearCandidates, expected, `linear(${query.join(', ')})`);
+    assert.equal(fastCandidates.includes(dynamicOnly), false);
+    assert.equal(linearCandidates.includes(dynamicOnly), false);
+  }
+
+  fast.trace(-44, -30, 1, 1, 0, 0, 8);
+  const lastCollisionQuery = fast.diagnostics().broadphase.lastQuery;
+  fast.staticSolidsInAabb(...queries[0]);
+  assert.deepEqual(fast.diagnostics().broadphase.lastQuery, lastCollisionQuery);
+
+  const replacement = { min: [500, 500, 0], max: [501, 501, 3], tag: 'replacement' };
+  fast.solids = [replacement];
+  linear.solids = [replacement];
+  assert.deepEqual(fast.staticSolidsInAabb(499, 499, 502, 502), [replacement]);
+  assert.deepEqual(linear.staticSolidsInAabb(499, 499, 502, 502), [replacement]);
+  assert.deepEqual(fast.staticSolidsInAabb(-2, -2, 2, 2), []);
+  assert.deepEqual(linear.staticSolidsInAabb(-2, -2, 2, 2), []);
+});
+
+test('refreshStaticGeometry makes in-place static edits visible to the spatial index', () => {
+  const moved = { min: [-1, -1, 0], max: [1, 1, 3], tag: 'moved' };
+  const replaced = { min: [8, -1, 0], max: [9, 1, 3], tag: 'replaced' };
+  const first = { min: [16, -1, 0], max: [17, 1, 3], tag: 'first' };
+  const second = { min: [20, -1, 0], max: [21, 1, 3], tag: 'second' };
+  const fillers = Array.from({ length: 33 }, (_, index) => ({
+    min: [100 + index * 3, 100, 0],
+    max: [101 + index * 3, 101, 3],
+    tag: `filler-${index}`,
+  }));
+  const solids = [moved, replaced, first, second, ...fillers];
+  const fast = new Collider(solids);
+  const linear = new Collider(solids, { broadphase: false });
+  const assertMatchesLinearOracle = (...query) => {
+    const expected = solids.filter(solid => overlapsAabbXY(solid, ...query));
+    assert.deepEqual(fast.staticSolidsInAabb(...query), expected, `fast(${query.join(', ')})`);
+    assert.deepEqual(linear.staticSolidsInAabb(...query), expected, `linear(${query.join(', ')})`);
+  };
+
+  assertMatchesLinearOracle(-2, -2, 2, 2);
+  assert.equal(fast.diagnostics().broadphase.index.mode, 'grid');
+
+  moved.min[0] = 40;
+  moved.min[1] = 40;
+  moved.max[0] = 41;
+  moved.max[1] = 41;
+  fast.refreshStaticGeometry();
+  assertMatchesLinearOracle(39, 39, 42, 42);
+  assertMatchesLinearOracle(-2, -2, 2, 2);
+  assertSameQuery(fast, linear, 'trace', [38, 40.5, 1, 1, 0, 0, 5]);
+  assertSameQuery(fast, linear, 'sweepCylinder', [38, 40.5, 0.25, 0.5, 2, 5, 0]);
+
+  const replacement = { min: [50, -1, 0], max: [51, 1, 3], tag: 'replacement' };
+  solids[1] = replacement;
+  fast.refreshStaticGeometry();
+  assertMatchesLinearOracle(49, -2, 52, 2);
+  assertMatchesLinearOracle(7, -2, 10, 2);
+  assertSameQuery(fast, linear, 'trace', [48, 0, 1, 1, 0, 0, 5]);
+  assertSameQuery(fast, linear, 'sweepCylinder', [48, 0, 0.25, 0.5, 2, 5, 0]);
+
+  solids.reverse();
+  fast.refreshStaticGeometry();
+  assertMatchesLinearOracle(15, -2, 22, 2);
+});
+
+test('grid collision hot paths do not rescan every static solid after indexing', () => {
+  const target = { min: [0, -1, 0], max: [1, 1, 3], tag: 'target' };
+  const backing = [target, ...Array.from({ length: 48 }, (_, index) => ({
+    min: [100 + index * 3, 100, 0],
+    max: [101 + index * 3, 101, 3],
+    tag: `filler-${index}`,
+  }))];
+  let indexedReads = 0;
+  const solids = new Proxy(backing, {
+    get(source, property, receiver) {
+      if (typeof property === 'string' && /^(?:0|[1-9]\d*)$/.test(property)) indexedReads++;
+      return Reflect.get(source, property, receiver);
+    },
+  });
+  const collider = new Collider(solids);
+
+  // Build the grid, explicitly refresh it once, then count source-array index
+  // reads made by narrow local collision calls. A broadphase rebuild would read
+  // all 49 entries per call; the direct candidate reads below stay bounded by
+  // the local target.
+  collider.trace(-3, 0, 1, 1, 0, 0, 10);
+  collider.refreshStaticGeometry();
+  indexedReads = 0;
+  for (let index = 0; index < 3; index++) {
+    assert.equal(collider.trace(-3, 0, 1, 1, 0, 0, 10).solid, target);
+    assert.equal(collider.sweepCylinder(-3, 0, 0.25, 0.5, 2, 5, 0).solid, target);
+  }
+  assert.ok(indexedReads <= 8, `expected bounded local candidate reads, got ${indexedReads}`);
+  const broadphase = collider.diagnostics().broadphase;
+  assert.equal(broadphase.index.mode, 'grid');
+  assert.equal(broadphase.lastQuery.mode, 'grid');
+  assert.equal(broadphase.lastQuery.candidateSolids, 1);
+
+  // Navigation asks this public AABB API directly, so guard it separately from
+  // trace/sweep against a future all-source filter or linear fallback.
+  indexedReads = 0;
+  for (let index = 0; index < 3; index++) {
+    assert.deepEqual(collider.staticSolidsInAabb(-3, -3, 3, 3), [target]);
+  }
+  assert.ok(indexedReads <= 3, `expected bounded navigation candidate reads, got ${indexedReads}`);
+});
+
+test('staticSolidsInAabb keeps malformed static bounds fail-open for legacy narrow phase', () => {
+  const malformed = { min: [10, 0, 0], max: [0, 1, 4], tag: 'ground' };
+  const fillers = Array.from({ length: 33 }, (_, index) => ({
+    min: [100 + index * 2, 100, 0],
+    max: [101 + index * 2, 101, 1],
+    tag: 'ground',
+  }));
+  const collider = new Collider([malformed, ...fillers]);
+
+  const candidates = collider.staticSolidsInAabb(9.5, 0.4, 10.5, 0.6);
+
+  assert.deepEqual(candidates, [malformed]);
 });
 
 test('broadphase は候補を削減し diagnostics の snapshot は深く immutable', () => {
@@ -369,4 +514,47 @@ test('初期 overlap の微小な外向き成分で巨大な接線移動を soli
   assert.deepEqual(motion.position, [-0.4, 100]);
   assert.deepEqual(motion.displacement, [-0.2, 100]);
   assert.ok(motion.position.every(Number.isFinite));
+});
+
+test('refreshStaticGeometry preserves the new source-order identity after reverse', () => {
+  const first = { min: [2, -1, 0], max: [2.2, 1, 3] };
+  const second = { min: [2, -1, 0], max: [2.2, 1, 3] };
+  const fillers = Array.from({ length: 40 }, (_, index) => ({
+    min: [100 + index * 3, 100, 0],
+    max: [101 + index * 3, 101, 3],
+    tag: 'filler-' + index,
+  }));
+  const solids = [first, second, ...fillers];
+  const fast = new Collider(solids);
+  const linear = new Collider(solids, { broadphase: false });
+
+  assert.equal(fast.trace(0, 0, 1, 1, 0, 0, 10).solid, first);
+  solids.reverse();
+  fast.refreshStaticGeometry();
+
+  assert.equal(fast.trace(0, 0, 1, 1, 0, 0, 10).solid, second);
+  assert.equal(fast.sweepVerticalCylinder(2.1, 0, 0.2, 4, 1, -10).solid, second);
+  assert.equal(linear.trace(0, 0, 1, 1, 0, 0, 10).solid, second);
+  assert.equal(linear.sweepVerticalCylinder(2.1, 0, 0.2, 4, 1, -10).solid, second);
+});
+
+test('grid refresh keeps source-order ties across distinct spatial cells', () => {
+  const right = { min: [4, 0, 0], max: [5, 1, 3], tag: 'right' };
+  const left = { min: [0, 0, 0], max: [1, 1, 3], tag: 'left' };
+  const fillers = Array.from({ length: 40 }, (_, index) => ({
+    min: [100 + index * 3, 100, 0],
+    max: [101 + index * 3, 101, 3],
+  }));
+  const solids = [right, left, ...fillers];
+  const fast = new Collider(solids);
+  const linear = new Collider(solids, { broadphase: false });
+  const query = [2.5, 0.5, 2, 4, 1, -10];
+
+  assert.equal(fast.sweepVerticalCylinder(...query).solid, right);
+  assert.equal(linear.sweepVerticalCylinder(...query).solid, right);
+  solids.reverse();
+  fast.refreshStaticGeometry();
+
+  assert.equal(fast.sweepVerticalCylinder(...query).solid, left);
+  assert.equal(linear.sweepVerticalCylinder(...query).solid, left);
 });

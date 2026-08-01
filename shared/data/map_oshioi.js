@@ -9,6 +9,10 @@
 
 import { AUTHORED_COLLISION_MANIFEST } from './map_oshioi_authored_collision.js';
 import { compileMapBlueprint } from './map_blueprint.js';
+import { OSHIOI_FLASHPOINT } from './map_oshioi_flashpoint.js';
+import { buildOshioiFlashpointGeometry } from './map_oshioi_flashpoint_geometry.js';
+import { buildOshioiRingGeometry } from './map_oshioi_ring_geometry.js';
+import { OSHIOI_PRESENTATION } from './map_oshioi_presentation.js';
 
 function box(minX, minY, minZ, maxX, maxY, maxZ, tag = 'solid') {
   return { min: [minX, minY, minZ], max: [maxX, maxY, maxZ], tag };
@@ -27,6 +31,22 @@ export const AUTHORED_MAP_TRANSFORM = Object.freeze({
   terrain: Object.freeze({ sourceAxis: 'y', planeRatio: 0.28, plane: -25.558541384288475 }),
   scale: 0.36132213675343944,
   scenePosition: Object.freeze([-17.066711633025545, 9.234866785272322, -9.853341704406931]),
+});
+
+function freezeRoutes(routes) {
+  return Object.freeze(Object.fromEntries(Object.entries(routes).map(([name, points]) => [
+    name,
+    Object.freeze(points.map(point => Object.freeze([...point]))),
+  ])));
+}
+
+// Offline GLB proxy generation protects these historical authored corridors.
+// Runtime bot tactics are intentionally independent so route tuning cannot
+// silently change which decorative meshes enter the checked-in evidence set.
+export const AUTHORED_COLLISION_PROTECTED_ROUTES = freezeRoutes({
+  front: [[40, 0, 4], [35, 0, 4], [28, 0, 4], [22, 2, 4], [18, 2, 4], [16, -1, 4], [14, 2, 4], [10, 2, 4], [10, 0, 4], [7.7, 0, 4], [7, 0, 3.5], [6.3, 0, 3], [5.6, 0, 2.5], [3, 0, 2.5]],
+  cloister: [[41.5, 10, 4], [41.5, 16, 4], [41.5, 22, 4], [30, 23, 4], [16, 23, 4], [6.5, 23, 4], [6.5, 19, 4], [8, 15, 4], [8, 11, 4], [4.5, 8, 4], [7, 6.5, 4], [7, 4, 4], [7.7, 1, 4], [7, 0, 3.5], [6.3, 0, 3], [5.6, 0, 2.5], [2, 3, 2.5]],
+  shallows: [[41.5, -7.4, 4], [41.5, -8.3, 3.5], [41.5, -8.95, 3], [41.5, -9.55, 2.5], [41.5, -10.2, 2], [41.5, -10.8, 1.5], [41.5, -11.45, 1], [41.5, -12.05, 0.5], [41.5, -12.7, 0], [40, -16, 0], [44, -19, 0], [44, -27, 0], [34, -28, 0], [24, -29, 0], [21, -30, 0], [14, -31, 0], [14, -30.6, 0], [14, -29.75, 0.5], [14, -29.25, 1], [14, -28.75, 1.5], [14, -28.25, 2], [14, -27.75, 2.5], [14, -27.25, 3], [14, -26.75, 3.5], [14, -26.25, 4], [14, -24.5, 4], [11, -23, 4], [8, -19, 4], [4, -16, 4], [4, -9, 4], [7, -7, 4], [7, -4, 4], [7.7, -1, 4], [7, 0, 3.5], [6.3, 0, 3], [5.6, 0, 2.5], [5.2, -2, 2.5], [5.2, -5, 2.5], [2.5, -4.5, 2.5]],
 });
 
 function uppercaseHex(bytes) {
@@ -100,10 +120,20 @@ export function buildMap() {
   S.push(box(-6, -6, 0, 6, 6, 2.5, 'slab'));                 // ボウル床
   S.push(box(6, 1.5, 0, 8, 6, 4, 'rim'));                    // 東リム北片
   S.push(box(6, -6, 0, 8, -1.5, 4, 'rim'));                  // 東リム南片
-  S.push(...stairs('x', 6, 8, -1.5, 1.5, 2.5, 4.0, 3));      // 東階段（2.5→4.0）
+  const eastBowlStairs = stairs('x', 6, 8, -1.5, 1.5, 2.5, 4.0, 3);
+  S.push(...eastBowlStairs);                                  // 東階段（2.5→4.0）
   S.push(box(-8, 1.5, 0, -6, 6, 4, 'rim'));                  // 西リム北片
   S.push(box(-8, -6, 0, -6, -1.5, 4, 'rim'));                // 西リム南片
-  S.push(...stairs('x', -8, -6, -1.5, 1.5, 4.0, 2.5, 3));    // 西階段
+  // Derive the west collision stair from the east one. The old independently
+  // authored heights left the west-side outer landing below the 4m platform,
+  // so a mirrored capsule route could not descend into the bowl.
+  S.push(...eastBowlStairs.map(rot));                          // 西階段
+
+  // Side lanes enter the bowl independently instead of collapsing onto the
+  // east/west frontal stair. The north authored stair is mirrored to the
+  // south so both sides retain exact 180-degree competitive symmetry.
+  const northBowlStairs = stairs('y', 4, 6, -1.5, 1.5, 2.5, 4.0, 3);
+  S.push(...northBowlStairs, ...northBowlStairs.map(rot));
 
   // ---- ボウル内遮蔽（井桁＋潮壺4） ----
   S.push(box(-1.25, -1.25, 2.5, 1.25, 1.25, 5.0, 'cover'));  // 井桁（全身遮蔽）
@@ -150,6 +180,11 @@ export function buildMap() {
   const sstair = stairs('y', -30, -26, 12, 16, 0.0, 4.0, 8);
   for (const b of sstair) { S.push(b); S.push(rot(b)); }
 
+  // The tactical shallows lane now uses the physical south exit and lower
+  // lane, then climbs back to the market through this dedicated connector.
+  const shallowsConnector = stairs('x', 38, 32, -19.5, -16.5, 0.0, 4.0, 8);
+  for (const b of shallowsConnector) { S.push(b); S.push(rot(b)); }
+
   // ---- 灯籠櫓（北/南 z=8、欄干z9、東側に上り階段） ----
   const towerN = [];
   towerN.push(box(-3, 10, 4, 3, 16, 8, 'tower'));            // 北櫓本体
@@ -166,6 +201,12 @@ export function buildMap() {
   covers.push(box(25.4, -12.6, 4, 26.9, -11.1, 5.5, 'cover'));
   covers.push(box(11.0, -14.8, 4, 12.5, -13.3, 5.5, 'cover'));
   covers.push(box(28.0, 10.0, 4, 29.5, 11.5, 5.5, 'cover'));
+  // Full-height, offset cover creates repeatable 7-9m fallback beats without
+  // blocking any canonical capsule route.
+  covers.push(box(27.0, 2.5, 4, 29.0, 4.5, 6.4, 'cover'));
+  covers.push(box(12.2, -0.6, 4, 14.2, 0.8, 6.4, 'cover'));
+  covers.push(box(35.5, 21.8, 4, 37.5, 23.8, 6.4, 'cover'));
+  covers.push(box(21.0, 11.5, 4, 23.0, 13.5, 6.4, 'cover'));
   for (const b of covers) { S.push(b); S.push(rot(b)); }
 
   // ---- 渚の岩（下段の遮蔽） ----
@@ -203,20 +244,43 @@ export function buildMap() {
     }),
   };
 
+  const flashpointRuntime = buildOshioiFlashpointGeometry();
+  const ringRuntime = buildOshioiRingGeometry();
+  const legacyGeometry = S.map((solid, index) => ({
+    id: `canonical-${String(index + 1).padStart(3, '0')}-${solid.tag}`,
+    kind: 'box',
+    min: solid.min,
+    max: solid.max,
+    tag: solid.tag,
+  })).filter(primitive => (
+    !flashpointRuntime.removeCanonicalSolidIds.includes(primitive.id)
+  ));
+  const flashpoint = {
+    ...OSHIOI_FLASHPOINT,
+    runtime: {
+      boundsM: flashpointRuntime.boundsM,
+      objectiveBoundariesBySite: flashpointRuntime.objectiveBoundariesBySite,
+      spawnRooms: flashpointRuntime.spawnRooms,
+      spawnsBySite: flashpointRuntime.spawnsBySite,
+      routesBySite: flashpointRuntime.routesBySite,
+      highGroundRoutesBySite: flashpointRuntime.highGroundRoutesBySite,
+    },
+  };
+
   return compileMapBlueprint({
     id: 'map_oshioi',
     displayName: '潮汲み環礁ウルハ・大潮井',
-    boundsM: { x: [-46, 46], y: [-34, 34] },
+    boundsM: flashpointRuntime.boundsM,
     killZ: -12,
+    presentation: OSHIOI_PRESENTATION,
+    flashpoint,
+    objectives: flashpointRuntime.sites,
     visualAsset,
     decorations: [{ ...visualAsset, collision: false }],
-    geometry: S.map((solid, index) => ({
-      id: `canonical-${String(index + 1).padStart(3, '0')}-${solid.tag}`,
-      kind: 'box',
-      min: solid.min,
-      max: solid.max,
-      tag: solid.tag,
-    })),
+    // 移動リング（マップの74%）は構造箱30個・密度0.87/1000m² で、
+    // 東半分の直線100m超に遮蔽が無かった。港湾街区を足して射線を分割し、
+    // 完全な平面（プレイ可能面積の93.8%）に高低差を入れる。
+    geometry: [...legacyGeometry, ...flashpointRuntime.geometry, ...ringRuntime.geometry],
     setupDoors,
     objective: { center: [0, 0, 2.5], radiusM: 7.0, heightM: 5.0 },
     // side 'east' / 'west'。試合側でチーム→サイド割当を行う
@@ -245,9 +309,32 @@ export function buildMap() {
     ],
     // ボット用経路（東側視点。西側は反転して使用）
     routes: {
-      front: [[40, 0, 4], [35, 0, 4], [28, 0, 4], [22, 2, 4], [18, 2, 4], [16, -1, 4], [14, 2, 4], [10, 2, 4], [10, 0, 4], [5.4, 0, 4], [5.4, 0, 2.5], [3, 0, 2.5]],
-      cloister: [[41.5, 10, 4], [41.5, 16, 4], [41.5, 22, 4], [30, 23, 4], [16, 23, 4], [6.5, 23, 4], [6.5, 19, 4], [8, 15, 4], [8, 11, 4], [4.5, 8, 4], [2.5, 4.5, 4], [2, 3, 2.5]],
-      shallows: [[41.5, -9, 4], [41.5, -12, 1.5], [40, -16, 0], [44, -19, 0], [44, -27, 0], [34, -28, 0], [24, -29, 0], [21, -30, 0], [14, -31, 0], [14, -31, 4], [14, -24.5, 4], [11, -23, 4], [8, -19, 4], [4, -16, 4], [4, -9, 4], [3, -8, 4], [3, -5.4, 4], [3, -5.4, 2.5], [2.5, -4.5, 2.5]],
+      front: [
+        [40, 0, 4], [35, 0, 4], [28, 0, 4], [22, 2, 4], [18, 2, 4],
+        [16, -1, 4], [14, 2, 4], [10, 2, 4], [10, 0, 4],
+        [7.7, 0, 4], [7, 0, 4], [6.3, 0, 3.5], [5.6, 0, 2.5], [3, 0, 2.5],
+      ],
+      cloister: [
+        [41.5, 10, 4], [41, 21, 4], [39, 21, 4], [30.5, 21, 4],
+        [30.5, 19.5, 4], [13, 9.5, 4], [8, 6.5, 4], [4, 6.5, 4],
+        [3.5, 6.5, 4], [3, 6.5, 4], [3, 6, 4], [2.5, 6, 4],
+        [2, 6, 4], [1.5, 6, 4], [1.5, 5.5, 4], [1.5, 5, 4],
+        [1.5, 4.5, 3.5], [1, 4.5, 3.5], [1, 4, 3], [0.5, 4, 3],
+        [0.5, 3.5, 2.5], [0, 3.5, 2.5], [0, 3, 2.5],
+      ],
+      shallows: [
+        [41.5, -7.4, 4], [41.5, -8.5, 3.5], [41.5, -9.125, 3],
+        [41.5, -9.75, 2.5], [41.5, -10.375, 2], [41.5, -11, 1.5],
+        [41.5, -11.625, 1], [41.5, -12.25, 0.5], [41.5, -13.5, 0],
+        [38.5, -18, 0], [37.7, -18, 0.5], [36.95, -18, 1],
+        [36.2, -18, 1.5], [35.45, -18, 2], [34.7, -18, 2.5],
+        [33.95, -18, 3], [33.2, -18, 3.5], [32.45, -18, 4], [31.5, -18, 4],
+        [19, -17.5, 4], [8, -7, 4], [8, -6.5, 4], [4, -6.5, 4],
+        [3.5, -6.5, 4], [3, -6.5, 4], [3, -6, 4], [2.5, -6, 4],
+        [2, -6, 4], [1.5, -6, 4], [1.5, -5.5, 4], [1.5, -5, 4],
+        [1.5, -4.5, 3.5], [1, -4.5, 3.5], [1, -4, 3], [0.5, -4, 3],
+        [0.5, -3.5, 2.5], [0, -3.5, 2.5], [0, -3, 2.5],
+      ],
     },
   });
 }

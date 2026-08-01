@@ -1,0 +1,32 @@
+[
+  {
+    "view": "network",
+    "applied": true,
+    "file": "outputs/audit_compet/network.png"
+  },
+  {
+    "view": "aerial",
+    "applied": true,
+    "file": "outputs/audit_compet/aerial.png"
+  },
+  {
+    "view": "spawn",
+    "applied": true,
+    "file": "outputs/audit_compet/spawn.png"
+  },
+  {
+    "view": "objective",
+    "applied": true,
+    "file": "outputs/audit_compet/objective.png"
+  },
+  {
+    "view": "site-mizuichi",
+    "applied": true,
+    "file": "outputs/audit_compet/site-mizuichi.png"
+  },
+  {
+    "view": "site-kado",
+    "applied": true,
+    "file": "outputs/audit_compet/site-kado.png"
+  }
+]

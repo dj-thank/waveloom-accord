@@ -33,9 +33,21 @@ function readyAbilityCount(abilities) {
   }).length;
 }
 
+function hasRecoveryDuty(teamFunctions) {
+  return (teamFunctions || []).some(value => (
+    value === 'recovery' || value === 'sustain' || value === 'continuous_sustain'
+  ));
+}
+
+function hasSpaceDuty(teamFunctions) {
+  return (teamFunctions || []).includes('space');
+}
+
 export function buildCombatGuidance(view = {}) {
   const role = roleFor(view.role);
   const profile = ROLE_GUIDANCE[role];
+  const recoveryDuty = hasRecoveryDuty(view.teamFunctions);
+  const spaceDuty = hasSpaceDuty(view.teamFunctions);
   const hpRatio = Math.max(0, Number(view.hp) || 0) / Math.max(1, Number(view.maxHp) || 1);
   const aliveAllies = Math.max(0, Number(view.aliveAllies) || 0);
   const aliveEnemies = Math.max(0, Number(view.aliveEnemies) || 0);
@@ -43,14 +55,22 @@ export function buildCombatGuidance(view = {}) {
   const checklist = [];
   let phase = '灯見';
   let urgency = 'normal';
-  let instruction = profile.neutral;
+  let instruction = recoveryDuty
+    ? '回復で維持できる味方と接続し、前線が切れる前に回復を届ける。'
+    : spaceDuty
+      ? '味方が使える入口と遮蔽を作り、敵の注意を引き受ける。'
+      : profile.neutral;
 
   if (view.alive === false) {
     phase = '結い直し';
     instruction = '復帰ウェーブで味方と合流し、単独で前線へ戻らない。';
   } else if (view.state === 'SETUP') {
     phase = '結い直し';
-    instruction = profile.setup;
+    instruction = recoveryDuty
+      ? '回復を届ける味方と接続でき、敵の直線射線から外れる位置を選ぶ。'
+      : spaceDuty
+        ? '味方が使う入口と遮蔽を決め、敵の注意を受ける経路を確保する。'
+        : profile.setup;
     checklist.push('味方5人の位置と進む入口を確認');
   } else if (hpRatio <= 0.3) {
     phase = '退き火';
@@ -65,19 +85,35 @@ export function buildCombatGuidance(view = {}) {
   } else if (view.contested) {
     phase = '帳簿交換';
     urgency = 'focus';
-    instruction = profile.contest;
+    instruction = recoveryDuty
+      ? '前線の味方との接続を保ち、集中攻撃を受ける前に回復を届ける。'
+      : spaceDuty
+        ? '目標への入口と使える遮蔽を保ち、敵の注意を引き受ける。'
+        : profile.contest;
     checklist.push(`目標内 自${Number(view.countAlly) || 0}：敵${Number(view.countEnemy) || 0}`);
   } else if (aliveAllies - aliveEnemies >= 1) {
     phase = '追い焚き';
     urgency = 'focus';
-    instruction = profile.advantage;
+    instruction = recoveryDuty
+      ? '負傷した味方との接続を切らずに回復し、前線全体で目標時間へ変える。'
+      : spaceDuty
+        ? '敵の退路側に入口と遮蔽を作り、味方から外れず注意を引き受ける。'
+        : profile.advantage;
   } else if (view.owner === 'ally') {
     phase = '薪べ';
-    instruction = '占有を時間へ変える。敵の復帰方向を見ながら有利な遮蔽を維持する。';
+    instruction = recoveryDuty
+      ? '占有を時間へ変える。負傷した味方と接続し、回復しながら有利な遮蔽を維持する。'
+      : spaceDuty
+        ? '占有を時間へ変える。敵の復帰側の入口と遮蔽を保ち、注意を引き受ける。'
+        : '占有を時間へ変える。敵の復帰方向を見ながら有利な遮蔽を維持する。';
   } else if (view.owner === 'enemy' || Number(view.countAlly) > 0) {
     phase = '座取り';
     urgency = 'focus';
-    instruction = profile.neutral;
+    instruction = recoveryDuty
+      ? '回復で維持できる味方と接続し、前線が切れる前に回復を届ける。'
+      : spaceDuty
+        ? '味方が使える入口と遮蔽を作り、敵の注意を引き受ける。'
+        : profile.neutral;
   }
 
   if (ultimateReady) checklist.push('必殺技準備完了 — 味方の火蓋に合わせる');
@@ -87,7 +123,11 @@ export function buildCombatGuidance(view = {}) {
 
   return {
     role,
-    rolePurpose: profile.purpose,
+    rolePurpose: [
+      profile.purpose,
+      recoveryDuty ? '回復担当として味方の維持も担う。' : '',
+      spaceDuty ? '空間担当として入口と遮蔽を作る。' : '',
+    ].filter(Boolean).join(' '),
     phase,
     urgency,
     instruction,

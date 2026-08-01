@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-01T03:39:44.213Z",
+  "admission": "candidate-only; no item is admitted to the Local DSP runtime, distribution catalog, or a rights/creative/in-engine approval state by this summary",
+  "totals": {
+    "candidates": 350,
+    "technicalPassed": 350,
+    "technicalFailed": 0,
+    "mastered": 257,
+    "masteringFailed": 0
+  },
+  "currentTurnProviderUsage": {
+    "creditsUsedBefore": 5698,
+    "creditsUsedAfter": 9153,
+    "creditsDelta": 3455,
+    "creditsRemainingAfter": 111852,
+    "overageEnabled": false
+  },
+  "observedRuntimeContract": {
+    "soundGenerationPromptMaxCharacters": 450,
+    "rejectedFirstRemediationAttempt": "HTTP 400 text_too_long; no audio file was written; v002 was shortened to 415 characters before the successful retry",
+    "modelListingBoundary": "Music and sound-effect access is not inferred from /v1/models; each is evidenced by its own successful candidate response metadata."
+  },
+  "waves": [
+    {
+      "id": "legacy-sfx-090",
+      "assets": 90,
+      "generated": 90,
+      "providerCharacterCost": 1756,
+      "technical": {
+        "passed": 90,
+        "failed": 0
+      },
+      "mastering": null,
+      "manifest": "assets-src/elevenlabs/manifest.json",
+      "audit": "outputs/elevenlabs-candidate-audit-20260730-refresh.json",
+      "masteringReports": []
+    },
+    {
+      "id": "smoke-003",
+      "assets": 3,
+      "generated": 3,
+      "providerCharacterCost": 25,
+      "technical": {
+        "passed": 3,
+        "failed": 0
+      },
+      "mastering": null,
+      "manifest": "outputs/audio-factory-20260729/manifests/smoke-3.json",
+      "audit": "outputs/audio-factory-20260729/smoke-technical-audit-20260730.json",
+      "masteringReports": []
+    },
+    {
+      "id": "aaa-wave-001",
+      "assets": 32,
+      "generated": 32,
+      "providerCharacterCost": 149,
+      "technical": {
+        "passed": 32,
+        "failed": 0
+      },
+      "mastering": {
+        "passed": 32,
+        "failed": 0
+      },
+      "manifest": "outputs/audio-factory-20260729/manifests/aaa-wave-001.json",
+      "audit": "outputs/audio-factory-20260729/aaa-wave-001/technical-audit-20260730-refresh.json",
+      "masteringReports": [
+        "outputs/audio-factory-20260729/aaa-wave-001/mastered/master-manifest.json",
+        "outputs/audio-factory-20260729/aaa-wave-001/mastered-voices/master-manifest.json"
+      ]
+    },
+    {
+      "id": "aaa-pilot-002",
+      "assets": 24,
+      "generated": 24,
+      "providerCharacterCost": 680,
+      "technical": {
+        "passed": 24,
+        "failed": 0
+      },
+      "mastering": {
+        "passed": 24,
+        "failed": 0
+      },
+      "manifest": "outputs/audio-factory-20260730/manifests/aaa-pilot-002.json",
+      "audit": "outputs/audio-factory-20260730/aaa-pilot-002/technical-audit-20260730.json",
+      "masteringReports": [
+        "outputs/audio-factory-20260730/aaa-pilot-002/mastered/master-manifest.json"
+      ]
+    },
+    {
+      "id": "aaa-pilot-002-remediation-001",
+      "assets": 1,
+      "generated": 1,
+      "providerCharacterCost": 132,
+      "technical": {
+        "passed": 1,
+        "failed": 0
+      },
+      "mastering": {
+        "passed": 1,
+        "failed": 0
+      },
+      "manifest": "outputs/audio-factory-20260730/manifests/aaa-pilot-002-remediation-001.json",
+      "audit": "outputs/audio-factory-20260730/aaa-pilot-002-remediation-001/technical-audit-20260730.json",
+      "masteringReports": [
+        "outputs/audio-factory-20260730/aaa-pilot-002-remediation-001/mastered/master-manifest.json"
+      ]
+    },
+    {
+      "id": "aaa-batch-001",
+      "assets": 100,
+      "generated": 100,
+      "providerCharacterCost": 793,
+      "technical": {
+        "passed": 100,
+        "failed": 0
+      },
+      "mastering": {
+        "passed": 100,
+        "failed": 0
+      },
+      "manifest": "outputs/audio-factory-20260730/manifests/aaa-batch-001.json",
+      "audit": "outputs/audio-factory-20260730/aaa-batch-001/technical-audit-20260730.json",
+      "masteringReports": [
+        "outputs/audio-factory-20260730/aaa-batch-001/mastered/master-manifest.json"
+      ]
+    },
+    {
+      "id": "aaa-wave-002",
+      "assets": 100,
+      "generated": 100,
+      "providerCharacterCost": 1850,
+      "technical": {
+        "passed": 100,
+        "failed": 0
+      },
+      "mastering": {
+        "passed": 100,
+        "failed": 0
+      },
+      "manifest": "outputs/audio-factory-20260801/manifests/aaa-wave-002.json",
+      "audit": "outputs/audio-factory-20260801/aaa-wave-002/technical-audit.json",
+      "masteringReports": [
+        "outputs/audio-factory-20260801/aaa-wave-002/mastered/master-manifest.json"
+      ]
+    }
+  ]
+}

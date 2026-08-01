@@ -88,3 +88,9 @@
 - アカウント、永続マッチメイキング、ランキング、観戦、チート対策基盤、地域分散、オートスケールは含めない。
 - 公開 DNS、TLS 証明書、ホスティング先への実デプロイは、運用者が対象ドメインと実行環境を指定した後に行う。
 - したがって本成果物は「ローカルのクローズドプレイテスト用 Production Candidate」であり、公開DNS/TLS、対象ホストE2E、P1ネットワーク試験、ソース配布ライセンス決定を終えるまでは「世界公開版」「商用ライブサービス完成」「AAA アセット完成」とは表現しない。
+
+## RC5 SSOT補遺（2026-07-23）
+
+この文書に残る「固定1/2/2」「role_full」「role_change_locked」は、canonical Bot fixture の再現性ゲートにだけ適用する。live runtime の人間選択は `docs/TEAMFIGHT_REMEDIATION_SPEC_2026-07-22.md` を優先し、5人・`space >= 1`・`recovery >= 1` の capability contract を満たす role-open とする。人間が frontline 0人を選べること自体は仕様違反ではなく、capability 不足時だけ `team_capability_required` として fail closed にする。
+
+本番候補の判定では、canonical fixture の 1/2/2 決定論性と、live runtime の role-open capability 契約を別ゲートとして記録する。旧記述と新記述が衝突する場合は、この補遺および teamfight remediation spec が RC5 の SSOT である。

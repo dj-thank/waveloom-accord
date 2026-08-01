@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.0.0",
+  "policy": "A model is runtime eligible only after status=accepted, every quality gate is true, and evidence is attached.",
+  "qualityGateIds": [
+    "strictSpec",
+    "silhouette",
+    "multiAngle",
+    "material",
+    "runtimeContract",
+    "performance",
+    "visualReview"
+  ],
+  "defaults": {
+    "status": "candidate",
+    "runtime": null,
+    "quality": {
+      "gates": {
+        "strictSpec": false,
+        "silhouette": false,
+        "multiAngle": false,
+        "material": false,
+        "runtimeContract": true,
+        "performance": false,
+        "visualReview": false
+      },
+      "evidence": [],
+      "acceptedAt": null
+    }
+  },
+  "overrides": {
+    "shiomaneki": {
+      "status": "candidate",
+      "runtime": {
+        "moduleUrl": "/client/img2threejs/shiomaneki/createShiomanekiModel.js",
+        "factoryExport": "createShiomanekiPlayableHeroModel"
+      },
+      "quality": {
+        "gates": {
+          "strictSpec": true,
+          "silhouette": false,
+          "multiAngle": false,
+          "material": true,
+          "runtimeContract": true,
+          "performance": false,
+          "visualReview": false
+        },
+        "evidence": [
+          "work/img2threejs/shiomaneki/shiomaneki-sculpt-spec.json",
+          "work/img2threejs/shiomaneki/pbr-teal-armor-report.json",
+          "work/img2threejs/shiomaneki/pbr-brass-hardware-report.json",
+          "work/img2threejs/shiomaneki/pbr-navy-cloth-report.json",
+          "work/img2threejs/shiomaneki/pbr-rope-report.json",
+          "work/img2threejs/shiomaneki/final-pilot-refine-notes.md",
+          "work/img2threejs/shiomaneki/final-pilot-v38-front.png",
+          "work/img2threejs/shiomaneki/final-pilot-v38-right.png",
+          "work/img2threejs/shiomaneki/final-pilot-v38-comparison.png",
+          "work/img2threejs/shiomaneki/final-pilot-v38-tier1.json",
+          "work/img2threejs/shiomaneki/final-pilot-v38-browser.json"
+        ],
+        "acceptedAt": null
+      },
+      "notes": "Pilot remains candidate: silhouette, multi-angle likeness, mobile performance, and final visual review are still red."
+    }
+  }
+}

@@ -170,11 +170,13 @@ test('hero選択はSETUP中とACTIVEの死亡中だけ再度開ける', () => {
   assert.equal(resolveHeroSelectionContext(false, 'SETUP', true), null);
 });
 
-test('ACTIVEの復帰待ちでは同じ競技ロール内だけhero変更できる', () => {
+test('hero選択可能期間はロールを越えた全heroを候補にできる', () => {
   assert.equal(isHeroRoleSelectable('respawn', 'damage', 'damage', 2, 2), true);
-  assert.equal(isHeroRoleSelectable('respawn', 'support', 'damage', 1, 2), false);
+  assert.equal(isHeroRoleSelectable('respawn', 'support', 'damage', 2, 2), true);
   assert.equal(isHeroRoleSelectable('setup', 'support', 'damage', 1, 2), true);
-  assert.equal(isHeroRoleSelectable('setup', 'support', 'damage', 2, 2), false);
+  assert.equal(isHeroRoleSelectable('setup', 'support', 'damage', 2, 2), true);
+  assert.equal(isHeroRoleSelectable('join', 'frontline', null, 1, 1), true);
+  assert.equal(isHeroRoleSelectable(null, 'frontline', null, 0, 0), false);
 });
 
 test('reload表示は残り秒と進捗を示し、旧snapshotでは従来文言へfallbackする', () => {

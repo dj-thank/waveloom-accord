@@ -1,0 +1,469 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-29T19:40:26.647Z",
+  "sourceManifest": "outputs/audio-factory-20260730/manifests/aaa-pilot-002.json",
+  "kind": "sound_effect",
+  "targetSamplePeakDb": -1,
+  "policy": "attenuation-only candidate mastering; raw provider files are immutable; sample-peak headroom is technical evidence, not a substitute for true-peak, loudness, creative, rights, or in-engine mix approval",
+  "admission": "candidate-only; mastered output is not part of the shipped Local DSP catalog",
+  "results": [
+    {
+      "id": "aaa.pilot002.sfx.ui-confirm.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ui-confirm-v001.mp3",
+      "inputSha256": "fd7303494fc90bbeb4cffb5aae61abb4f0eb404a11ed0fd20629bf78fa0670de",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/ui-confirm-v001.mp3",
+      "outputSha256": "6daf9096c9f1ffb2e4cf81d538cd701d0dfc33ffe897d3c29310f01e5a42d1ff",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -21.6,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "masteredMetrics": {
+        "meanDb": -23.2,
+        "maxDb": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.ui-cancel.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ui-cancel-v001.mp3",
+      "inputSha256": "78c07500489ac84dc7d724979c4398d118d1dcbe1f29b9da7a84baa14455d2e1",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/ui-cancel-v001.mp3",
+      "outputSha256": "4ac857f57c451e241311a9f69f2c913f3d89645d092a925eed83c6879ab9e4fa",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -16.9,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "masteredMetrics": {
+        "meanDb": -18.4,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.ui-focus.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ui-focus-v001.mp3",
+      "inputSha256": "a44a360699fd674439b67d11780f9804c38d684647fa4ff3ab35d1a80f02ce36",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/ui-focus-v001.mp3",
+      "outputSha256": "1ee6c0b73ebf36535be93b61d13617b02db8d5b282a850fe458658cb113f71dd",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -26.5,
+        "maxDb": -5.1
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -26.7,
+        "maxDb": -5.7
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.ui-hit-confirm.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ui-hit-confirm-v001.mp3",
+      "inputSha256": "de69be0ffe465a356d382c202e7569d3b5d54319531c9fd693b2ea2d9dce597f",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/ui-hit-confirm-v001.mp3",
+      "outputSha256": "58ec779179c6cf5bbdd9115772646009767c56980d52879205daf75a35833aee",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -27.4,
+        "maxDb": -8.4
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -27.6,
+        "maxDb": -8.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.ui-damage-taken.v001",
+      "family": "ui",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ui-damage-taken-v001.mp3",
+      "inputSha256": "29057e38cff590272d21ecd45a2f658075784b48943453e3e397183d1886e8fb",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/ui-damage-taken-v001.mp3",
+      "outputSha256": "4f9645992be86446250113ca3e557760669da5d4cc22a3ddeb8dd07d6dd97bd3",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -18.5,
+        "maxDb": -1.5
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -18.7,
+        "maxDb": -1.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.objective-capture-start.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/objective-capture-start-v001.mp3",
+      "inputSha256": "7c56a802289c86a47f75b74a69db54138f98501f08ab0d84635e9d225d331dc1",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/objective-capture-start-v001.mp3",
+      "outputSha256": "d8efce7806a1329d9b4c3253d8340287b9ddc2d371a6c4352dd1ad4f741ceb63",
+      "bytes": 34525,
+      "sourceMetrics": {
+        "meanDb": -22.2,
+        "maxDb": -3.6
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -22.4,
+        "maxDb": -3.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.objective-capture-tick.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/objective-capture-tick-v001.mp3",
+      "inputSha256": "7430ff8acfcb55bdee5af658814cc4c1623e84926b61858a25f0e038a51442c0",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/objective-capture-tick-v001.mp3",
+      "outputSha256": "b22568a9650971470ed360152c8066278ebfe307ff3fe1dbaee08dc3f2e622c4",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -23.1,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "masteredMetrics": {
+        "meanDb": -24.6,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.objective-contested.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/objective-contested-v001.mp3",
+      "inputSha256": "de71cb0d3c8a1dc2afe65204485cfe30c7ae89ce6ee778714fc09dadf709c503",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/objective-contested-v001.mp3",
+      "outputSha256": "bcf4e0df2703dcd0e199b17fb0a88b10d7b0f12976c90b548f518bdfcbaf5115",
+      "bytes": 30137,
+      "sourceMetrics": {
+        "meanDb": -19.4,
+        "maxDb": -3.1
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -19.7,
+        "maxDb": -3.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.objective-transition.v001",
+      "family": "objective",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/objective-transition-v001.mp3",
+      "inputSha256": "6ce91fb0fe0e08fa3d16e2261885c9691753fba28cec36900b4769e13271bce1",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/objective-transition-v001.mp3",
+      "outputSha256": "d5c1fd24e598ffe843719867d31c66034b72c19620fd52714ca653c34a58309a",
+      "bytes": 25748,
+      "sourceMetrics": {
+        "meanDb": -22.2,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "masteredMetrics": {
+        "meanDb": -23.8,
+        "maxDb": -1.4
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-stone-footstep.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-stone-footstep-v001.mp3",
+      "inputSha256": "698484a4fe29a805e41710e6132cefe3a9638297b3ad2cdb987a3bc6bcfb9095",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/move-stone-footstep-v001.mp3",
+      "outputSha256": "2b17968076746fdb0c49641c226bebfc29dd3dba27cc6e2c7cbd044f4bb550b9",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -30.8,
+        "maxDb": -18.6
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -31.1,
+        "maxDb": -18.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-wood-footstep.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-wood-footstep-v001.mp3",
+      "inputSha256": "41a8e7d734c522e2504d5664b2ace89e6d67cf091806e261fb5cb6a573e22c07",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/move-wood-footstep-v001.mp3",
+      "outputSha256": "532a3c9dcfd91095342865f3effb808d3ae6ce6b47183ac644e52003d6113ffb",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -19.4,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "masteredMetrics": {
+        "meanDb": -20.9,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-ceramic-footstep.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-ceramic-footstep-v001.mp3",
+      "inputSha256": "0d60ab80a7f54ec92474722894ed8086c54b2fd9f2b537b59eae4f0f3369bbaf",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/move-ceramic-footstep-v001.mp3",
+      "outputSha256": "93fbda6e4f3351c19923e070391bb44725257c2ee3cab75ef09eb6a266d02570",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -26.8,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "masteredMetrics": {
+        "meanDb": -28.2,
+        "maxDb": -0.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-wet-stone-footstep.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-wet-stone-footstep-v001.mp3",
+      "inputSha256": "9a2f35f967e9ce8416e7d581c97e1e6262e2411af5af9c12371b8da64c9f841e",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/move-wet-stone-footstep-v001.mp3",
+      "outputSha256": "c253aba25d375266bbae2047d775d8bb2a0b327356c6b06a92acb56f85951a48",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -20.1,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "masteredMetrics": {
+        "meanDb": -21.6,
+        "maxDb": -1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-stone-jump.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-stone-jump-v001.mp3",
+      "inputSha256": "b06f06e60339f08819f1f93e9ebcf0e7b66cc194501dd911fe468f6c18aad471",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/move-stone-jump-v001.mp3",
+      "outputSha256": "134dcbe1ef4c0e65704c5449cf227ab721a5434c79f1fe7ada3fbfc68e320c53",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -19.4,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "masteredMetrics": {
+        "meanDb": -20.9,
+        "maxDb": -2.1
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-stone-land.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-stone-land-v001.mp3",
+      "inputSha256": "656cf10e30e1bd97d19b6d6a0dfe9b694307ae254fc971a085462b99b4a57999",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/move-stone-land-v001.mp3",
+      "outputSha256": "898d613d68630e22927fd64b6be6f462e615cb664373c428eef0c7396023125c",
+      "bytes": 15717,
+      "sourceMetrics": {
+        "meanDb": -15.2,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "masteredMetrics": {
+        "meanDb": -16.8,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.move-cloth-sprint.v001",
+      "family": "movement",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/move-cloth-sprint-v001.mp3",
+      "inputSha256": "be79d8bdd234bf0f23ae84469c5a38bbd9fb3af8ea31a96c665fc03042f553e6",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/move-cloth-sprint-v001.mp3",
+      "outputSha256": "2a40308a0ee38c1a3cdcb91cd71975651c33729a64fd071725b0070c9dfa8836",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -23.9,
+        "maxDb": -4.1
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -24.1,
+        "maxDb": -4.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.ambient-coastal-wind.v001",
+      "family": "ambient",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ambient-coastal-wind-v001.mp3",
+      "inputSha256": "002284529015a9b7d2d604fbf548823364c9280c3ff2d85fdc8c81224919769e",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/ambient-coastal-wind-v001.mp3",
+      "outputSha256": "c84c9f570a8805027d643e541f5db337453f3ab5539ef36c8638ff55940e5405",
+      "bytes": 289689,
+      "sourceMetrics": {
+        "meanDb": -21.2,
+        "maxDb": -3.6
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -21.4,
+        "maxDb": -3.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.ambient-canal-water.v001",
+      "family": "ambient",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ambient-canal-water-v001.mp3",
+      "inputSha256": "c3561a663b86277d07005c8ee51a19bddd9102788987156d61c7bb9bc89963db",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/ambient-canal-water-v001.mp3",
+      "outputSha256": "c5c6981ebd54f073d3dc9fa46df1a9e1962e8fa31109d585d333240b9fcdb68f",
+      "bytes": 289689,
+      "sourceMetrics": {
+        "meanDb": -45.7,
+        "maxDb": -8.4
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -46,
+        "maxDb": -9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.ambient-market-canopy.v001",
+      "family": "ambient",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ambient-market-canopy-v001.mp3",
+      "inputSha256": "6c714a9cf9d1404329f9225ca7db976dc5bbdfff3ef497c35265201a3de3d2ba",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/ambient-market-canopy-v001.mp3",
+      "outputSha256": "38febaf72529bcd4eecbf936536688bd31f3e54d26f54c39e10c216eff7ad45b",
+      "bytes": 289689,
+      "sourceMetrics": {
+        "meanDb": -49.8,
+        "maxDb": -32.5
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -50,
+        "maxDb": -32.9
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.ambient-rooftop-canvas.v001",
+      "family": "ambient",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/ambient-rooftop-canvas-v001.mp3",
+      "inputSha256": "d1405b24dd11a81ac0001b8f5ec7c51e0601d097b8b59966dacb20f6766f036b",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/ambient-rooftop-canvas-v001.mp3",
+      "outputSha256": "8930baf9dec46662261ac07e51483be5969a6e5bf410dcc19e73c66116b154ed",
+      "bytes": 289689,
+      "sourceMetrics": {
+        "meanDb": -22.7,
+        "maxDb": -2.8
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -22.9,
+        "maxDb": -3.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.foley-rope-creak.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/foley-rope-creak-v001.mp3",
+      "inputSha256": "924a26f9758c21734cdad85c0e1d493fdcfbca4bde044b8f095997c19748d45c",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/foley-rope-creak-v001.mp3",
+      "outputSha256": "d9088a46775740a28a7be1cd8ea255ccc3bb2a04114ac8d10e9664e8910ab069",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -21.7,
+        "maxDb": 0
+      },
+      "gainDb": -1.35,
+      "masteredMetrics": {
+        "meanDb": -23.3,
+        "maxDb": -1.6
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.foley-lantern-bronze-tap.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/foley-lantern-bronze-tap-v001.mp3",
+      "inputSha256": "52d8b475be89b3804b29429ba5da2dbeb23839684bbb95f84c261ece6d749729",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/foley-lantern-bronze-tap-v001.mp3",
+      "outputSha256": "60357a5e4206a3698b0d7ea99ec953d0101a9294946e59e1dd8c1db8c3c8eef8",
+      "bytes": 13209,
+      "sourceMetrics": {
+        "meanDb": -32.4,
+        "maxDb": -13.6
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -32.7,
+        "maxDb": -13.8
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.foley-ceramic-vessel-set.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/foley-ceramic-vessel-set-v001.mp3",
+      "inputSha256": "a2f536abf194f107aa02a4cfa8636609a32041330f1f3ccc01ec9f01a648740f",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/foley-ceramic-vessel-set-v001.mp3",
+      "outputSha256": "a5e744733bbafb5ade4464a4a69a5082d52506fdc4494a6242bebab0c6965532",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -24.9,
+        "maxDb": -0.1
+      },
+      "gainDb": -1.25,
+      "masteredMetrics": {
+        "meanDb": -26.4,
+        "maxDb": -1.5
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.pilot002.sfx.foley-canal-drip.v001",
+      "family": "foley",
+      "input": "outputs/audio-factory-20260730/aaa-pilot-002/generated/sfx/foley-canal-drip-v001.mp3",
+      "inputSha256": "2faed8ff5a3bdc0004998c936cff6e7a7e7b110259ac36119a1901828f5f5763",
+      "output": "outputs/audio-factory-20260730/aaa-pilot-002/mastered/sfx/foley-canal-drip-v001.mp3",
+      "outputSha256": "83e6b7c4a1e6be7b01c3626a2f1b898fcedd2d11597c590208e01b920633ef93",
+      "bytes": 18225,
+      "sourceMetrics": {
+        "meanDb": -30.4,
+        "maxDb": -7
+      },
+      "gainDb": 0,
+      "masteredMetrics": {
+        "meanDb": -30.7,
+        "maxDb": -7.2
+      },
+      "status": "mastered"
+    }
+  ],
+  "mastered": 24,
+  "failed": 0
+}

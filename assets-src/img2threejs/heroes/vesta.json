@@ -1,0 +1,108 @@
+{
+  "id": "vesta",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/vesta/concept/concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/vesta/concept/concept-green-v1.png"
+  },
+  "role": "frontline",
+  "cohort": "lantern controller",
+  "modelArchetype": "tall beacon sentinel",
+  "proportions": {
+    "heightM": 2.15,
+    "bodyRatio": "tall narrow trunk,long coat line",
+    "notes": "Keep vesta proportions legible at gameplay distance; preserve the distinctive lantern crown with flame core against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "lantern crown with flame core",
+      "layered coat over slim chest",
+      "long bracers"
+    ],
+    "side": [
+      "tall narrow trunk,long coat line profile",
+      "split skirt plates",
+      "flame halo"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "ochre",
+      "hex": "#e7c95b",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "soot",
+      "hex": "#3c3b36",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "warm white",
+      "hex": "#fff0b2",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "lantern crown with flame core"
+    ],
+    "torso": [
+      "layered coat over slim chest"
+    ],
+    "limbs": [
+      "long bracers",
+      "split skirt plates"
+    ],
+    "weapons": [
+      "staff lantern"
+    ],
+    "accessories": [
+      "flame halo"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "measured stride",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "staff cast",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The flame halo overhang can inflate the collider if not separated.",
+    "Asymmetric long bracers needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 3,
+    "rationale": "vesta establishes the lantern controller cohort and exposes its flame halo anchor early."
+  },
+  "status": "brief"
+}
+

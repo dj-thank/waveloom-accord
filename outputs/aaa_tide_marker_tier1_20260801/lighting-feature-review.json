@@ -1,0 +1,10 @@
+[
+  {
+    "id": "tide-marker-inset-and-bezel",
+    "score": 0.82,
+    "threshold": 0.72,
+    "tier": "important",
+    "result": "pass",
+    "notes": "The reference-like warm key and cool fill keep the bronze bezel readable against the sea-glass dome without emission or a gameplay beacon cue."
+  }
+]

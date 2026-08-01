@@ -1,0 +1,12 @@
+[
+  {
+    "view": "network",
+    "applied": true,
+    "file": "outputs/dense/network.png"
+  },
+  {
+    "view": "aerial",
+    "applied": true,
+    "file": "outputs/dense/aerial.png"
+  }
+]

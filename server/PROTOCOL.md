@@ -1,19 +1,19 @@
-# クライアント ↔ サーバー プロトコル v5
+# クライアント ↔ サーバー プロトコル v6
 
 JSON over WebSocket。接続先は `ws://<host>:8787`（HTTP と同一ポート）。
 静的配信は `/client/*`、`/shared/*`、`/vendor/three.module.js`、`/vendor/addons/*.js` に限定する。`/client/assets/` にはライセンス同梱済みの3Dマップを置く。
 
 サーバーは 63Hz でシミュレーションし、通常 21Hz で full snapshot を送る。
-1チーム5人、全体10人が接続中の人間プレイヤー上限である。正典編成の篝手1・焔手2・灯手2をサーバーが強制する。WebSocket transport全体の同時接続上限は32で、join前の接続も数える。
+1チーム5人、全体10人が接続中の人間プレイヤー上限である。runtime編成はロール数を固定せず、各チーム5人と、`space` 1人以上・`recovery` 1人以上をサーバーが強制する。正典BOT rotationだけは篝手1・焔手2・灯手2を維持する。WebSocket transport全体の同時接続上限は32で、join前の接続も数える。
 
-v5のクライアントとサーバーは同時に配布する。クライアントは `welcome.protocolVersion !== 5`（欠落を含む）ならwelcomeを適用せず、code 1002で接続を閉じる。
+v6のクライアントとサーバーは同時に配布する。クライアントは `welcome.protocolVersion !== 6`（欠落を含む）ならwelcomeを適用せず、code 1002で接続を閉じる。v6 は5拠点Flashpointの `objectives` / `activeObjectiveId` / `pendingObjectiveId` / `flashpoint` を必須にし、遷移中の `objective:null` を正規の状態として扱う。
 
 ## クライアント → サーバー
 
 | `t` | payload | 契約 |
 |---|---|---|
-| `join` | `{ t:'join', name, heroId }` | 入室。`name` は最大16文字。`heroId` は正典ロスターで検証し、不明・欠落時は `asagi` へfallbackする。選択ロールのBOT枠と交代する |
-| `select` | `{ t:'select', heroId }` | SETUP中、または死亡してrespawn待機中だけheroを変更する。SETUP中のロール変更は対象ロールのBOTと枠交換する |
+| `join` | `{ t:'join', name, heroId }` | 入室。`name` は最大16文字。`heroId` は正典ロスターで検証し、不明・欠落時は `asagi` へfallbackする。能力条件を保てるBOT枠と交代する |
+| `select` | `{ t:'select', heroId }` | SETUP中、または死亡してrespawn待機中だけheroを変更する。ロールを跨いでもBOTとのロール交換は行わず、変更後の5人編成を能力条件で検証する |
 | `input` | `{ t:'input', d:{...} }` | サーバー入力。下記のshapeと範囲を満たし、`seq` は接続ごとに単調増加させる。サーバーは32件のbounded reorder windowを持つ |
 | `ping` | `{ t:'ping', id }` | 同じ `id` の `pong` を返す |
 | `restart` | `{ t:'restart' }` | 参加済み接続かつ `MATCH_END` 中だけ再試合を要求できる |
@@ -51,51 +51,59 @@ join成功時、およびrestartでplayer IDを再割当した時に送る。
 ```js
 {
   t: 'welcome',
-  protocolVersion: 5,
+  protocolVersion: 6,
   id: 'p3',
   team: 0,
   heroId: 'asagi',
   roster: {
-    version: 1,
+    version: 4,
     defaultHeroId: 'asagi',
+    // 正典BOT rotationの監査情報。runtimeの人間選択上限ではない。
     roleSlots: { frontline:1, damage:2, support:2 },
-    heroes: [{ id, name, role, roleLabel, subtype, color, maxHp }]
+    runtimeCompositionPolicy: {
+      teamSize: 5,
+      roleSlots: { frontline:1, damage:2, support:2 },
+      requireContinuousSustain: true
+    },
+    heroes: [{ id, name, role, roleLabel, subtype, teamFunctions, color, maxHp }]
   },
   lagCompensationPolicy: {
     displayInterpolationBaseMs: 100,
     absoluteMaxMs: 220
   },
   tickRateHz: 63,
-  mode: { /* shared/data/mode_shioura.json */ },
+  mode: { /* shared/data/mode_flashpoint.json */ },
   combat: { /* shared/data/combat.json */ },
   seed: 123
 }
 ```
 
 サーバーは `welcome` の直後、同じsocketへ必ず現在の full `snap` を送る。
-クライアントは要求値ではなく `welcome.heroId` を採用する。`lagCompensationPolicy` は共有v5定数の表示用通知であり、クライアント入力によって変更できない。
+クライアントは要求値ではなく `welcome.heroId` を採用する。`lagCompensationPolicy` は共有v6定数の表示用通知であり、クライアント入力によって変更できない。
 
 ### `select_result`
 
 ```js
 { t:'select_result', ok:true, heroId:'koyomi' }
 { t:'select_result', ok:false, heroId:'koyomi', code:'selection_locked' }
+{ t:'select_result', ok:false, heroId:'karakasa', code:'team_capability_required', missingCapabilities:['space'] }
 ```
 
-拒否codeは `not_joined`、`invalid_hero`、`selection_locked`、`role_full`、`role_change_locked`。
+拒否codeは `not_joined`、`invalid_hero`、`selection_locked`、`team_capability_required`。能力不足時は `missingCapabilities` を必ず付け、値は `space` または `recovery` である。`role_full`、`role_change_locked`、`sustain_support_required` は旧v5実装との表示互換用legacy codeであり、現行runtime編成判定は返さない。
 成功は次回snapshotの `players[].heroId` と `hero_selected` eventにも反映される。
 
 ### `error`
 
 ```js
 { t:'error', code:'server_full', message:'The match is full (5 players per team).' }
+{ t:'error', code:'team_capability_required', message:'...', missingCapabilities:['recovery'] }
 ```
 
 主なcode:
 
 - `already_joined`: 同じ接続でjoin済み
 - `server_full`: 接続中の人間が10人、または両teamが5人
-- `role_full`: 選択したロールの人間枠が両team、または自teamで満員
+- `team_capability_required`: joinまたはrestart後の5人編成で `space` / `recovery` の最低数を満たせない。`missingCapabilities` を必ず伴う
 - `not_joined`: join前に入力を送った
 - `invalid_message`: JSONまたはmessage envelopeが不正
 - `invalid_input`: inputのshape・型・範囲が不正
@@ -169,9 +177,9 @@ join成功時、およびrestartでplayer IDを再割当した時に送る。
 - join先teamは、World上の `isBot` 数ではなくOPENなsocket数で決める。
 - 切断後3秒の猶予中も、そのplayer slotは新しい接続が再利用できる。再利用時は選択hero、HP、武器、能力、固有資源、位置、input/ACKを安全に初期化する。
 - 切断時は最後の人間inputを直ちに中立化する。3秒後も再接続されていなければ、同じhero・位置・HPのままbotが引き継ぐ。
-- restart時は接続中の人間の `name`、team、`heroId` を保持し、新しいIDをwelcomeで通知する。
+- restart時は接続中の人間の `name`、team、`heroId` を保持し、新しいIDをwelcomeで通知する。候補Worldで5人・能力条件・BOT補充を全検証してからcommitし、失敗時は旧試合を保持して `team_capability_required` と `missingCapabilities` を返す。
 - `seq` はWebSocket接続単位なのでrestart後も単調増加を継続する。welcomeで0へ戻さない。
-- 新しい試合のbotは18人の正典ロスターから、frontline/damage/supportが偏らないよう分散割当する。
+- 人間がいない正典BOT rotationは1/2/2 validatorを維持する。人間を保持するrestartでは同じ正典rotationから残り人数を補充し、runtimeの5人・`space`・`recovery` 条件を満たす組合せだけをcommitする。
 
 ## Backpressure
 

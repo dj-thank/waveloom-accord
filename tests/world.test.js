@@ -3,7 +3,13 @@
 // setupSecのみ短縮したmodeコピーを使用（指示により許可。他の凍結値は変更しない）。
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { World, EMPTY_INPUT } from '../shared/sim/sim.js';
+import {
+  World,
+  EMPTY_INPUT,
+  scheduleWorldActionOrder,
+} from '../shared/sim/sim.js';
+import { Collider } from '../shared/sim/collision.js';
+import { HERO_BY_ID } from '../shared/data/heroes.js';
 import { buildMap } from '../shared/data/map_oshioi.js';
 import { DT, TICK_TOL, MODE, COMBAT } from './helpers.js';
 
@@ -24,6 +30,214 @@ function runWorld(world, pred, maxTicks) {
 function command(seq, overrides = {}) {
   return { ...EMPTY_INPUT, seq, ...overrides };
 }
+
+test('authoritative action order ignores insertion order, physical ids, and rotates logical heroes first', () => {
+  const players = [
+    { id: 'p1', name: 'one', heroId: 'asagi' },
+    { id: 'p2', name: 'two', heroId: 'hibari' },
+    { id: 'p3', name: 'three', heroId: 'baraga' },
+  ];
+  const forward = scheduleWorldActionOrder(players, 0, 20268632);
+  const reversed = scheduleWorldActionOrder([...players].reverse(), 0, 20268632);
+  assert.deepEqual(
+    forward.map(player => player.heroId),
+    reversed.map(player => player.heroId),
+  );
+  assert.deepEqual(new Set(Array.from({ length: players.length }, (_, tick) => (
+    scheduleWorldActionOrder(players, tick, 20268632)[0].heroId
+  ))), new Set(players.map(player => player.heroId)));
+
+  const sameHeroForwardIds = [
+    { id: 'p1', team: 0, name: 'mirror', heroId: 'asagi', isBot: false },
+    { id: 'p2', team: 1, name: 'mirror', heroId: 'asagi', isBot: false },
+  ];
+  const sameHeroReversedIds = [
+    { id: 'p1', team: 1, name: 'mirror', heroId: 'asagi', isBot: false },
+    { id: 'p2', team: 0, name: 'mirror', heroId: 'asagi', isBot: false },
+  ];
+  assert.deepEqual(
+    scheduleWorldActionOrder(sameHeroForwardIds, 0, 20268632).map(player => player.team),
+    scheduleWorldActionOrder(sameHeroReversedIds, 0, 20268632).map(player => player.team),
+  );
+});
+
+test('mirror-stable logical action slots keep authoritative order independent of physical team and player id', () => {
+  const forward = [
+    { id: 'p1', team: 0, name: 'teamfight-bot-0', heroId: 'baraga', logicalActionSlot: 'lineup:2|side:a|slot:0' },
+    { id: 'p2', team: 0, name: 'teamfight-bot-1', heroId: 'tsubakuro', logicalActionSlot: 'lineup:2|side:a|slot:1' },
+    { id: 'p3', team: 1, name: 'teamfight-bot-5', heroId: 'sedora', logicalActionSlot: 'lineup:2|side:b|slot:0' },
+  ];
+  const mirrored = [
+    { id: 'p6', team: 1, name: 'teamfight-bot-0', heroId: 'baraga', logicalActionSlot: 'lineup:2|side:a|slot:0' },
+    { id: 'p7', team: 1, name: 'teamfight-bot-1', heroId: 'tsubakuro', logicalActionSlot: 'lineup:2|side:a|slot:1' },
+    { id: 'p8', team: 0, name: 'teamfight-bot-5', heroId: 'sedora', logicalActionSlot: 'lineup:2|side:b|slot:0' },
+  ];
+  for (let tick = 0; tick < 9; tick++) {
+    assert.deepEqual(
+      scheduleWorldActionOrder(forward, tick, 20276551).map(player => player.logicalActionSlot),
+      scheduleWorldActionOrder(mirrored, tick, 20276551).map(player => player.logicalActionSlot),
+    );
+  }
+});
+
+test('same-hero same-name pickup ownership does not depend on add order', () => {
+  const contest = insertion => {
+    const world = makeWorld(20268632);
+    const playerTeams = new Map();
+    const pickup = world.pickups[0];
+    world.pickups = [pickup];
+    for (const team of insertion) {
+      const player = world.addPlayer('mirror', false, team, 'asagi');
+      player.move.pos = [...pickup.pos];
+      player.move.vel = [0, 0, 0];
+      player.move.grounded = true;
+      player.hp = 1;
+      player.spawnProtected = false;
+      playerTeams.set(player.id, team);
+    }
+    world.flow.state = 'ACTIVE';
+    world.objective.unseal();
+    world.collider.dynamic = [];
+    world.tick();
+    const event = world.drainEvents().find(candidate => candidate.type === 'pickup');
+    assert.ok(event, 'one eligible player must collect the contested pickup');
+    return playerTeams.get(event.player);
+  };
+
+  assert.equal(contest([0, 1]), contest([1, 0]));
+});
+
+test('a ready cast targets the post-movement world even when its actor is scheduled first', () => {
+  const seed = 20268632;
+  const world = makeWorld(seed);
+  const opponents = [
+    world.addPlayer('mirror', false, 0, 'asagi'),
+    world.addPlayer('mirror', false, 1, 'asagi'),
+  ];
+  const [caster, mover] = scheduleWorldActionOrder(opponents, 0, seed);
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  caster.move.pos = [0, 0, 10];
+  caster.move.vel = [0, 0, 0];
+  caster.move.grounded = true;
+  caster.move.yaw = 0;
+  caster.move.pitch = 0;
+  mover.move.pos = [34.992, 0, 10];
+  mover.move.vel = [0, 0, 0];
+  mover.move.grounded = true;
+  mover.spawnProtected = false;
+  caster.spawnProtected = false;
+  caster.abilities.cast = {
+    definition: HERO_BY_ID.asagi.abilities.ability1,
+    target: [35, 0, 10],
+    targetId: null,
+    readyAt: world.dt,
+  };
+  assert.equal(world.queueInput(mover.id, command(1, {
+    moveY: -1,
+    yaw: 0,
+    pitch: 0,
+    interpMs: 0,
+  })), true);
+
+  world.tick();
+
+  assert.ok(mover.move.pos[0] < 34.988, `mover must enter 3D range first: x=${mover.move.pos[0]}`);
+  assert.equal(mover.hp, mover.maxHp - HERO_BY_ID.asagi.abilities.ability1.damage);
+});
+
+test('an equal-distance hitscan target does not depend on target add order', () => {
+  const shoot = insertion => {
+    const world = makeWorld(20268632);
+    const shooter = world.addPlayer('shooter', false, 0);
+    const targets = {};
+    for (const name of insertion) {
+      const target = world.addPlayer(name, false, 1, 'asagi');
+      target.move.pos = [12, 0, 10];
+      target.move.vel = [0, 0, 0];
+      target.move.grounded = true;
+      target.spawnProtected = false;
+      targets[name] = target;
+    }
+    world.flow.state = 'ACTIVE';
+    world.objective.unseal();
+    world.collider = new Collider([]);
+    shooter.move.pos = [0, 0, 10];
+    shooter.move.vel = [0, 0, 0];
+    shooter.move.grounded = true;
+    shooter.spawnProtected = false;
+    assert.equal(world.queueInput(shooter.id, command(1, {
+      fire: true,
+      yaw: 0,
+      pitch: 0,
+      interpMs: 0,
+    })), true);
+
+    world.tick();
+
+    return Object.fromEntries(['alpha', 'beta'].map(name => [name, targets[name].hp]));
+  };
+
+  const forward = shoot(['alpha', 'beta']);
+  const reversed = shoot(['beta', 'alpha']);
+  assert.equal(Object.values(forward).filter(hp => hp < HERO_BY_ID.asagi.maxHp).length, 1);
+  assert.deepEqual(reversed, forward);
+});
+
+test('same-tick lethal hitscan uses logical priority, not add order, and does not trade', () => {
+  const duel = insertion => {
+    const seed = 20268632;
+    const world = makeWorld(seed);
+    const specs = {
+      0: { pos: [-4, 0, 4], yaw: 0 },
+      1: { pos: [4, 0, 4], yaw: Math.PI },
+    };
+    const players = {};
+    for (const team of insertion) {
+      const spec = specs[team];
+      const player = world.addPlayer('mirror', false, team, 'asagi');
+      player.move.pos = [...spec.pos];
+      player.move.vel = [0, 0, 0];
+      player.move.grounded = true;
+      player.hp = 5;
+      player.maxHp = 5;
+      player.spawnProtected = false;
+      players[team] = player;
+    }
+    const priorityTeam = scheduleWorldActionOrder(Object.values(players), 0, seed)[0].team;
+    world.flow.state = 'ACTIVE';
+    world.objective.unseal();
+    world.collider.dynamic = [];
+    for (const [team, player] of Object.entries(players)) {
+      assert.equal(world.queueInput(player.id, command(1, {
+        fire: true,
+        yaw: specs[team].yaw,
+        pitch: -0.08,
+        interpMs: 0,
+      })), true);
+    }
+    world.tick();
+    const kills = world.drainEvents().filter(event => event.type === 'kill');
+    return {
+      priorityTeam,
+      killCount: kills.length,
+      killerTeam: kills.length > 0
+        ? players[0].id === kills[0].source ? 0 : 1
+        : null,
+      teams: Object.fromEntries(Object.entries(players).map(([team, player]) => [
+        team,
+        { alive: player.alive, hp: player.hp },
+      ])),
+    };
+  };
+
+  const forward = duel([0, 1]);
+  const reversed = duel([1, 0]);
+  assert.equal(forward.killCount, 1, JSON.stringify(forward));
+  assert.equal(forward.killerTeam, forward.priorityTeam, JSON.stringify(forward));
+  assert.deepEqual(reversed, forward);
+});
 
 function simulateOneSecondHold(inputRateHz) {
   const world = makeWorld(123);
@@ -66,6 +280,38 @@ test('30Hz, 60Hz, and 120Hz hold streams resample to the same 63Hz movement', ()
   }
   assert.ok(Math.abs(results[0].distance - results[1].distance) < 0.01);
   assert.ok(Math.abs(results[1].distance - results[2].distance) < 0.01);
+});
+
+test('support role passive restores health only after the authored no-damage delay', () => {
+  const combat = structuredClone(COMBAT);
+  combat.health.rolePassives = {
+    support: { delayAfterDamageSec: 2.5, selfHealPerSec: 20 },
+  };
+  const mode = structuredClone(MODE);
+  mode.setupSec = 0.5;
+  const world = new World(buildMap(), mode, combat, 131);
+  const support = world.addPlayer('support', false, 0, 'tsuzuri');
+  const damage = world.addPlayer('damage', false, 0, 'asagi');
+  const attacker = world.addPlayer('attacker', false, 1, 'botan');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+
+  world.applyDamage(support, 100, attacker, false);
+  world.applyDamage(damage, 100, attacker, false);
+  world.drainEvents();
+  const supportHpAfterHit = support.hp;
+  const damageHpAfterHit = damage.hp;
+
+  for (let index = 0; index < Math.floor(2.5 / world.dt); index++) world.tick();
+  assert.equal(support.hp, supportHpAfterHit, 'the passive must not heal before the delay');
+
+  for (let index = 0; index < Math.ceil(1 / world.dt); index++) world.tick();
+  assert.ok(Math.abs(support.hp - (supportHpAfterHit + 20)) <= 20 * world.dt + 1e-6);
+  assert.equal(damage.hp, damageHpAfterHit, 'the passive is support-only');
+  assert.equal(support.stats.healing, 0, 'role-passive healing is not credited as ability healing');
+  assert.ok(Math.abs(support.ultGauge - damage.ultGauge) < 1e-9,
+    'role-passive recovery cannot add charge beyond the shared passive combat gain');
+  assert.equal(world.drainEvents().some(event => event.type === 'heal' && event.source === support.id), false);
 });
 
 test('coalescing preserves press-release edges and acknowledges the maximum applied seq', () => {

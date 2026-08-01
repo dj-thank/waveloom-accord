@@ -1,0 +1,108 @@
+{
+  "id": "sedora",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/sedora/concept/sedora-concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/sedora/concept/sedora-concept-green-v1.png"
+  },
+  "role": "frontline",
+  "cohort": "escort bastion",
+  "modelArchetype": "stone-plated caravan guard",
+  "proportions": {
+    "heightM": 2,
+    "bodyRatio": "wide hips,shield side heavy,short neck",
+    "notes": "Keep sedora proportions legible at gameplay distance; preserve the distinctive slab visor with side fins against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "slab visor with side fins",
+      "layered stone cuirass",
+      "shield arm oversized"
+    ],
+    "side": [
+      "wide hips,shield side heavy,short neck profile",
+      "square plated boots",
+      "route pennants"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "sand",
+      "hex": "#8f7b4f",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "slate",
+      "hex": "#4c5154",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "linen",
+      "hex": "#c7b58a",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "slab visor with side fins"
+    ],
+    "torso": [
+      "layered stone cuirass"
+    ],
+    "limbs": [
+      "shield arm oversized",
+      "square plated boots"
+    ],
+    "weapons": [
+      "escort shield"
+    ],
+    "accessories": [
+      "route pennants"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "deliberate guard walk",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "shield brace",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The route pennants overhang can inflate the collider if not separated.",
+    "Asymmetric shield arm oversized needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 5,
+    "rationale": "sedora establishes the escort bastion cohort and exposes its route pennants anchor early."
+  },
+  "status": "brief"
+}
+

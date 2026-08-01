@@ -1,0 +1,12 @@
+[
+  {
+    "view": "aerial",
+    "applied": true,
+    "file": "outputs/views2/aerial.png"
+  },
+  {
+    "view": "network",
+    "applied": true,
+    "file": "outputs/views2/network.png"
+  }
+]

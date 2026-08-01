@@ -1,8 +1,12 @@
 // 実HTTP/WebSocket境界の反復可能なスモーク検証。
-// 起動済みサーバーに対して join/select/input/ping/10人上限を確認する。
+// 起動済みサーバーに対して join/select/能力契約/input/ping/10人上限を確認する。
 
 import WebSocket from 'ws';
 import { PROTOCOL_VERSION } from '../server/runtime.js';
+import {
+  RUNTIME_COMPOSITION_POLICY,
+  RUNTIME_ROSTER_VERSION,
+} from '../shared/rules/team_composition.js';
 
 const args = process.argv.slice(2);
 const urlIndex = args.indexOf('--url');
@@ -69,29 +73,26 @@ function assert(condition, message) {
 const clients = [];
 try {
   const legalHeroes = [
-    'zairu', 'vesta',
-    'asagi', 'shirasagi', 'tsubakuro', 'hokuchi',
-    'tsuzuri', 'koyomi', 'karakasa', 'shirabe',
+    'zairu', 'baraga',
+    'asagi', 'shirasagi',
+    'tsubakuro', 'hokuchi',
+    'tsuzuri', 'hibari',
+    'koyomi', 'karakasa',
   ];
-  let roleFullRejected = false;
   let primaryInitialState = null;
   for (let i = 0; i < legalHeroes.length; i++) {
     const client = await connect();
     clients.push(client);
-    if (i === 2) {
-      client.send({ t: 'join', name: `smoke-${i + 1}`, heroId: 'baraga' });
-      const roleFull = await client.waitFor(
-        message => message.t === 'error' && message.code === 'role_full',
-        'role_full',
-      );
-      roleFullRejected = roleFull.code === 'role_full';
-    }
     client.send({ t: 'join', name: `smoke-${i + 1}`, heroId: legalHeroes[i] });
     const welcome = await client.waitFor(message => message.t === 'welcome', `welcome ${i + 1}`);
     assert(welcome.protocolVersion === PROTOCOL_VERSION,
       `protocolVersion must be ${PROTOCOL_VERSION}`);
     assert(welcome.roster?.heroes?.length === 18, 'welcome roster must expose 18 heroes');
-    assert(JSON.stringify(welcome.roster?.roleSlots) === JSON.stringify({ frontline: 1, damage: 2, support: 2 }), 'welcome must expose 1/2/2 role slots');
+    assert(welcome.roster?.version === RUNTIME_ROSTER_VERSION,
+      `welcome roster contract must be version ${RUNTIME_ROSTER_VERSION}`);
+    assert(JSON.stringify(welcome.roster?.runtimeCompositionPolicy)
+      === JSON.stringify(RUNTIME_COMPOSITION_POLICY),
+    'welcome must expose the canonical five-player runtime composition contract');
     const initial = await client.waitFor(message => message.t === 'snap', `initial snap ${i + 1}`);
     assert(initial.snap?.players?.length === 10, 'initial snapshot must contain 10 player slots');
     if (i === 0) primaryInitialState = initial.snap?.match?.state || null;
@@ -110,7 +111,8 @@ try {
   primary.send({ t: 'select', heroId: 'vesta' });
   const selected = await primary.waitFor(message => message.t === 'select_result', 'select_result');
   if (primaryInitialState === 'SETUP') {
-    assert(selected.ok === true && selected.heroId === 'vesta', 'SETUP selection must succeed');
+    assert(selected.ok === true && selected.heroId === 'vesta',
+      'SETUP same-role selection must succeed under the fixed roster contract');
   } else if (!selected.ok) {
     assert(selected.code === 'selection_locked',
       `live-match selection must fail closed, got ${selected.code}`);
@@ -148,7 +150,9 @@ try {
     origin: ORIGIN,
     clientsAccepted: 10,
     overflowRejected: true,
-    roleFullRejected,
+    fixedRoleCompositionAccepted: true,
+    runtimeRosterVersion: RUNTIME_ROSTER_VERSION,
+    runtimeCompositionPolicy: RUNTIME_COMPOSITION_POLICY,
     rosterHeroes: 18,
     selectionState: primaryInitialState,
     selectionOutcome: selected.ok ? 'accepted' : selected.code,

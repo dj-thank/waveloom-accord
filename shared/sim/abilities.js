@@ -34,8 +34,20 @@ export function makeAbilityState() {
 export function tickAbilityState(world, player, dt) {
   const state = player.abilities;
   if (!state) return;
+  if (player.heroId === 'shirabe') linkedAlly(world, player);
+  if ((player.shield || 0) <= 0) {
+    player.shieldExpiresAt = null;
+  } else if (Number.isFinite(player.shieldExpiresAt) && player.shieldExpiresAt <= world.t) {
+    const expiredShield = player.shield;
+    player.shield = 0;
+    player.shieldExpiresAt = null;
+    world.events.push({
+      type: 'shield_expired', player: player.id, shield: expiredShield, pos: [...player.move.pos],
+    });
+  }
   tickNeedleWind(world, player, dt);
   tickHeroMotion(world, player);
+  tickHomingBarrage(world, player);
   const rate = cooldownRate(player);
   for (const slot of ['secondary', 'ability1', 'ability2']) {
     state.cooldowns[slot] = Math.max(0, state.cooldowns[slot] - dt * rate);
@@ -61,7 +73,7 @@ export function tickAbilityState(world, player, dt) {
   if (state.cast && world.t >= state.cast.readyAt) {
     const cast = state.cast;
     state.cast = null;
-    executeAbility(world, player, cast.definition, cast.target);
+    executeAbility(world, player, cast.definition, cast.target, cast.targetId);
   }
 }
 
@@ -78,7 +90,19 @@ export function tryActivateAbility(world, player, slot) {
   const hero = HERO_BY_ID[player.heroId];
   const definition = hero?.abilities?.[slot];
   if (!definition || player.abilities.cast || player.abilities.heroState.transit || player.abilities.heroState.anchorRecall) return false;
+  const target = aimPoint(world, player, definition.rangeM || 0);
   if (player.abilities.statuses.some(status => status.abilityLocked) && slot !== 'secondary') return false;
+  if (definition.behavior === 'rewind_marker') {
+    const marker = player.abilities.heroState.rewind;
+    if (!marker || marker.expiresAt <= world.t) return false;
+  }
+  const lockedTarget = definition.behavior === 'ally_grapple'
+    ? nearestInAim(world, player, definition.rangeM, 'ally', definition)
+    : null;
+  if (definition.behavior === 'ally_grapple' && !lockedTarget) return false;
+  if (definition.behavior === 'link_ally' && !nearestInAim(world, player, definition.rangeM, 'ally', definition)) return false;
+  if (definition.behavior === 'ally_damage_buff' && !linkedAlly(world, player, definition, true)) return false;
+  if (definition.behavior === 'airburst' && !airburstProjectile(world, player, definition, target)) return false;
   const anchorFollowup = definition.behavior === 'anchor_launch' && !!player.abilities.heroState.anchor;
   if (slot !== 'ultimate' && !anchorFollowup && (player.abilities.cooldowns[slot] || 0) > 0) return false;
   if (slot === 'ultimate' && !spendGauge(player.ultGauge, definition.ultCost || 100, world.combat?.ultimateEconomy).ok) return false;
@@ -98,11 +122,11 @@ export function tryActivateAbility(world, player, slot) {
     player.abilities.cooldowns[slot] = definition.cooldownSec || 0;
   }
 
-  const target = aimPoint(world, player, definition.rangeM || 0);
   if (definition.castSec > 0) {
     player.abilities.cast = {
       definition,
       target,
+      targetId: lockedTarget?.id || null,
       readyAt: world.t + definition.castSec * castTimeMultiplier(player),
       spent: { resourceCost: paidResourceCost, ultCost: paidUltCost, cooldownSec: paidCooldownSec },
     };
@@ -111,7 +135,7 @@ export function tryActivateAbility(world, player, slot) {
       abilityId: definition.id, slot, target, castSec: definition.castSec, pos: [...target],
     });
   } else {
-    executeAbility(world, player, definition, target);
+    executeAbility(world, player, definition, target, lockedTarget?.id || null);
   }
   return true;
 }
@@ -143,8 +167,8 @@ export function interruptAbility(world, player, reason = 'interrupted') {
   return true;
 }
 
-function executeAbility(world, player, definition, target) {
-  BEHAVIOR_HANDLERS[definition.behavior](world, player, definition, target);
+function executeAbility(world, player, definition, target, targetId = null) {
+  BEHAVIOR_HANDLERS[definition.behavior](world, player, definition, target, targetId);
   for (const ally of world.players.values()) {
     if (ally.team !== player.team || ally.heroId !== 'koyomi' || ally.id === player.id || !ally.resource) continue;
     ally.resource.value = Math.min(ally.resource.max, ally.resource.value + 4);
@@ -164,6 +188,7 @@ export function tickWorldAbilityEffects(world) {
   if (!world.zones) return;
   world.zones = world.zones.filter(zone => zone.expiresAt > world.t && (zone.hp === undefined || zone.hp > 0));
   world.barriers = world.barriers.filter(barrier => barrier.expiresAt > world.t && barrier.hp > 0);
+  const processedTrailIds = new Set();
   for (const zone of world.zones) {
     const owner = world.players.get(zone.ownerId);
     if (zone.resourceDrainPerSec) {
@@ -178,22 +203,41 @@ export function tickWorldAbilityEffects(world) {
     if (zone.followOwner) {
       if (owner?.alive) zone.center = [...owner.move.pos];
     }
+    if (zone.trailId) {
+      if (processedTrailIds.has(zone.trailId)) continue;
+      processedTrailIds.add(zone.trailId);
+      const segments = world.zones.filter(candidate => candidate.trailId === zone.trailId);
+      const nextPulseAt = Math.min(...segments.map(segment => segment.nextPulseAt));
+      if (world.t + 1e-9 < nextPulseAt) continue;
+      for (const segment of segments) segment.nextPulseAt = world.t + EFFECT_PULSE_SEC;
+      pulseZoneSegments(world, segments, owner);
+      continue;
+    }
     if (world.t + 1e-9 < zone.nextPulseAt) continue;
     zone.nextPulseAt = world.t + EFFECT_PULSE_SEC;
-    for (const target of world.players.values()) {
-      if (!target.alive || !canAffectTarget(world, zone.center, target, {
-        rangeM: zone.radiusM,
-        sourceId: zone.ownerId,
-        ignoreLineOfSight: zone.ignoreLineOfSight === true,
-      })) continue;
-      const ally = target.team === zone.team;
-      if (ally && zone.healPerSec) world.healPlayer?.(target, zone.healPerSec * EFFECT_PULSE_SEC, owner, zone.abilityId);
-      if (!ally && zone.damagePerSec) applyAbilityDamage(
-        world, target, zone.damagePerSec * EFFECT_PULSE_SEC, owner, zone.abilityId, zone.center,
-      );
-      if (ally && zone.allyStatus) applyStatus(world, target, { ...zone.allyStatus, id: `${zone.id}:ally` }, EFFECT_PULSE_SEC * 2, owner);
-      if (!ally && zone.enemyStatus) applyStatus(world, target, { ...zone.enemyStatus, id: `${zone.id}:enemy` }, EFFECT_PULSE_SEC * 2, owner);
+    pulseZoneSegments(world, [zone], owner);
+  }
+}
+
+function pulseZoneSegments(world, segments, owner) {
+  for (const target of world.players.values()) {
+    if (!target.alive) continue;
+    const zone = segments.find(segment => canAffectTarget(world, segment.center, target, {
+      rangeM: segment.radiusM,
+      sourceId: segment.ownerId,
+      ignoreLineOfSight: segment.ignoreLineOfSight === true,
+    }));
+    if (!zone) continue;
+    const ally = target.team === zone.team;
+    const trailSelfHeal = zone.kind === 'healing_trail' && target.id === zone.ownerId;
+    if (ally && zone.healPerSec && !trailSelfHeal) {
+      world.healPlayer?.(target, zone.healPerSec * EFFECT_PULSE_SEC, owner, zone.abilityId);
     }
+    if (!ally && zone.damagePerSec) applyAbilityDamage(
+      world, target, zone.damagePerSec * EFFECT_PULSE_SEC, owner, zone.abilityId, zone.center,
+    );
+    if (ally && zone.allyStatus) applyStatus(world, target, { ...zone.allyStatus, id: `${zone.id}:ally` }, EFFECT_PULSE_SEC * 2, owner);
+    if (!ally && zone.enemyStatus) applyStatus(world, target, { ...zone.enemyStatus, id: `${zone.id}:enemy` }, EFFECT_PULSE_SEC * 2, owner);
   }
 }
 
@@ -217,9 +261,35 @@ export function outgoingDamageMultiplier(player) {
   return player.abilities.statuses.reduce((value, status) => value * (status.damageMult || 1), 1);
 }
 
-export function incomingDamageMultiplier(player) {
+export function incomingDamageMultiplier(player, meta = {}) {
   if (!player?.abilities) return 1;
-  return player.abilities.statuses.reduce((value, status) => value * (status.damageTakenMult || 1), 1);
+  return player.abilities.statuses.reduce((value, status) => {
+    if (status.projectileGuard && (
+      meta.projectileGuardEligible !== true
+      || !projectileGuardCoversSource(player, status, meta.damageOrigin)
+    )) return value;
+    return value * (status.damageTakenMult || 1);
+  }, 1);
+}
+
+function projectileGuardCoversSource(player, status, sourcePosition) {
+  if (
+    !Array.isArray(sourcePosition)
+    || sourcePosition.length < 2
+    || !sourcePosition.slice(0, 2).every(Number.isFinite)
+    || !Array.isArray(player.move?.pos)
+    || !player.move.pos.slice(0, 2).every(Number.isFinite)
+    || !Number.isFinite(player.move.yaw)
+    || !Number.isFinite(status.frontalArcDeg)
+  ) return false;
+  const dx = sourcePosition[0] - player.move.pos[0];
+  const dy = sourcePosition[1] - player.move.pos[1];
+  const length = Math.hypot(dx, dy);
+  if (length <= 1e-9) return false;
+  const arcDeg = Math.max(0, Math.min(360, status.frontalArcDeg));
+  const minDot = Math.cos(arcDeg * Math.PI / 360);
+  const sourceDot = (dx * Math.cos(player.move.yaw) + dy * Math.sin(player.move.yaw)) / length;
+  return sourceDot + 1e-9 >= minDot;
 }
 
 export function redirectStatus(player) {
@@ -274,8 +344,8 @@ function createZone(world, player, definition, center, values = {}) {
         : deployableHp !== undefined ? player.move.pos[2] : center[2],
     ],
     radiusM: values.radiusM || definition.radiusM || 4,
-    expiresAt: world.t + (values.durationSec || definition.durationSec || 1),
-    nextPulseAt: world.t,
+    expiresAt: values.expiresAt ?? (world.t + (values.durationSec || definition.durationSec || 1)),
+    nextPulseAt: values.nextPulseAt ?? world.t,
     followOwner: !!values.followOwner,
     damagePerSec: values.damagePerSec || definition.damagePerSec || 0,
     healPerSec: values.healPerSec || definition.healPerSec || 0,
@@ -291,10 +361,101 @@ function createZone(world, player, definition, center, values = {}) {
     heightM: deployableHp
       ? finiteHeight(values.heightM ?? definition.deployableHeightM ?? definition.heightM, DEFAULT_DEPLOYABLE_HEIGHT_M)
       : undefined,
+    trailId: values.trailId || null,
+    segmentIndex: Number.isInteger(values.segmentIndex) ? values.segmentIndex : null,
   };
   world.zones.push(zone);
-  world.events.push({ type: 'zone_created', zone: snapshotZone(zone, world.t), pos: [...zone.center] });
+  if (values.emitEvent !== false) {
+    world.events.push({ type: 'zone_created', zone: snapshotZone(zone, world.t), pos: [...zone.center] });
+  }
   return zone;
+}
+
+function beginHealingTrail(world, player, definition) {
+  const spacingM = Math.max(0.01, definition.trailSpacingM || 4);
+  const emitSec = Math.max(0, definition.trailEmitSec || 0.65);
+  const maxSegments = Math.max(1, Math.ceil((definition.rangeM || 0) / spacingM) + 1);
+  const emitters = player.abilities.heroState.healingTrailEmitters ||= {};
+  delete emitters[definition.id];
+  world.zones = world.zones.filter(zone => !(
+    zone.ownerId === player.id
+    && zone.abilityId === definition.id
+    && zone.trailId
+  ));
+
+  const trailId = `${player.id}:${definition.id}:${world.nextEffectId}`;
+  const origin = [...player.move.pos];
+  const expiresAt = world.t + (definition.durationSec || 1);
+  createZone(world, player, definition, origin, {
+    kind: 'healing_trail', trailId, segmentIndex: 0, expiresAt,
+  });
+  emitters[definition.id] = {
+    abilityId: definition.id,
+    definition,
+    trailId,
+    spacingM,
+    maxSegments,
+    segmentCount: 1,
+    distanceSinceSegmentM: 0,
+    lastSamplePos: origin,
+    expiresAt,
+    endsAt: world.t + emitSec,
+    historyGeneration: player.historyGeneration,
+  };
+}
+
+export function tickHealingTrailEmitters(world, player) {
+  const emitters = player?.abilities?.heroState?.healingTrailEmitters;
+  if (!emitters) return;
+  for (const [abilityId, emitter] of Object.entries(emitters)) {
+    if (!player.alive || player.historyGeneration !== emitter.historyGeneration) {
+      delete emitters[abilityId];
+      continue;
+    }
+    sampleHealingTrail(world, player, emitter, world.t + 1e-9 >= emitter.endsAt);
+    if (world.t + 1e-9 >= emitter.endsAt) delete emitters[abilityId];
+  }
+  if (Object.keys(emitters).length === 0) delete player.abilities.heroState.healingTrailEmitters;
+}
+
+function sampleHealingTrail(world, player, emitter, finalSample) {
+  const endpoint = [...player.move.pos];
+  let cursor = [...emitter.lastSamplePos];
+  let remainingM = distance3D(cursor, endpoint);
+  const intermediateLimit = Math.max(1, emitter.maxSegments - 1);
+
+  while (remainingM > 1e-9 && emitter.segmentCount < intermediateLimit) {
+    const neededM = Math.max(0, emitter.spacingM - emitter.distanceSinceSegmentM);
+    if (remainingM + 1e-9 < neededM) break;
+    const ratio = neededM <= 1e-9 ? 0 : Math.min(1, neededM / remainingM);
+    cursor = lerpPoint(cursor, endpoint, ratio);
+    emitHealingTrailSegment(world, player, emitter, cursor);
+    emitter.distanceSinceSegmentM = 0;
+    remainingM = distance3D(cursor, endpoint);
+  }
+  emitter.distanceSinceSegmentM += remainingM;
+  emitter.lastSamplePos = endpoint;
+
+  if (!finalSample || emitter.segmentCount >= emitter.maxSegments) return;
+  const segments = world.zones.filter(zone => zone.trailId === emitter.trailId);
+  const lastCenter = segments.at(-1)?.center || endpoint;
+  if (distance3D(lastCenter, endpoint) > 1e-6) emitHealingTrailSegment(world, player, emitter, endpoint);
+}
+
+function emitHealingTrailSegment(world, player, emitter, center) {
+  const group = world.zones.filter(zone => zone.trailId === emitter.trailId);
+  const nextPulseAt = group.length > 0
+    ? Math.min(...group.map(zone => zone.nextPulseAt))
+    : world.t;
+  createZone(world, player, emitter.definition, center, {
+    kind: 'healing_trail',
+    trailId: emitter.trailId,
+    segmentIndex: emitter.segmentCount,
+    expiresAt: emitter.expiresAt,
+    nextPulseAt,
+    emitEvent: false,
+  });
+  emitter.segmentCount++;
 }
 
 function createBarrier(world, player, definition, center, values = {}) {
@@ -332,7 +493,9 @@ function affectRadius(world, player, center, radius, values = {}, definition = {
     if (!ally && values.enemyStatus) applyStatus(world, target, values.enemyStatus, values.durationSec || 1, player);
     if (ally && values.allyStatus) applyStatus(world, target, values.allyStatus, values.durationSec || 1, player);
     if (!ally && values.pushM) pushFrom(world, target, center, values.pushM);
-    if (ally && values.shield) grantShield(target, values.shield);
+    if (ally && values.shield) {
+      grantShield(world, target, values.shield, values.shieldDurationSec ?? values.durationSec);
+    }
   }
 }
 
@@ -353,8 +516,18 @@ function canAbilityAffectTarget(world, player, definition, origin, target, optio
   });
 }
 
-function grantShield(player, amount) {
+function grantShield(world, player, amount, durationSec) {
+  if ((player.shield || 0) <= 0) player.shieldExpiresAt = null;
   player.shield = Math.min((player.maxHp || 250) * 0.6, (player.shield || 0) + (amount || 0));
+  if (player.shield <= 0) {
+    player.shieldExpiresAt = null;
+    return;
+  }
+  const nextExpiry = world.t + Math.max(0, Number(durationSec) || 0);
+  player.shieldExpiresAt = Math.max(
+    Number.isFinite(player.shieldExpiresAt) ? player.shieldExpiresAt : world.t,
+    nextExpiry,
+  );
 }
 
 function nearestInAim(world, player, rangeM, relation = 'enemy', definition = {}) {
@@ -365,6 +538,9 @@ function nearestInAim(world, player, rangeM, relation = 'enemy', definition = {}
     if (!target.alive || target.id === player.id) continue;
     const ally = target.team === player.team;
     if ((relation === 'enemy' && ally) || (relation === 'ally' && !ally)) continue;
+    if (relation === 'enemy' && (
+      target.flags.invulnerable || target.flags.intangible || target.spawnProtected
+    )) continue;
     const dx = target.move.pos[0] - player.move.pos[0];
     const dy = target.move.pos[1] - player.move.pos[1];
     const dist = Math.hypot(dx, dy);
@@ -380,10 +556,114 @@ function nearestInAim(world, player, rangeM, relation = 'enemy', definition = {}
   return best?.target || null;
 }
 
+function clearLinkedAlly(player) {
+  delete player.abilities.heroState.linkedId;
+  delete player.abilities.heroState.linkExpiresAt;
+}
+
+function linkedAlly(world, player, definition = null, requireRangeAndLos = false) {
+  const state = player?.abilities?.heroState;
+  if (!state?.linkedId) return null;
+  const ally = world.players.get(state.linkedId);
+  if (!player.alive || state.linkExpiresAt <= world.t || !ally?.alive || ally.team !== player.team) {
+    clearLinkedAlly(player);
+    return null;
+  }
+  if (requireRangeAndLos) {
+    const origin = playerTargetPoint(player, world.mv);
+    if (!canAbilityAffectTarget(world, player, definition, origin, ally, {
+      rangeM: definition.rangeM,
+      rangeOrigin: player.move.pos,
+    })) return null;
+  }
+  return ally;
+}
+
+function tickHomingBarrage(world, player) {
+  const barrage = player.abilities?.heroState?.homingBarrage;
+  if (!barrage) return;
+  if (!player.alive || barrage.remaining <= 0) {
+    player.abilities.heroState.homingBarrage = null;
+    return;
+  }
+  if (world.t + 1e-9 < barrage.nextAt) return;
+
+  const origin = playerTargetPoint(player, world.mv);
+  const definition = {
+    id: barrage.abilityId,
+    rangeM: barrage.rangeM,
+    ignoreLineOfSight: barrage.ignoreLineOfSight,
+  };
+  const enemies = [...world.players.values()]
+    .filter(target => (
+      target.alive && !target.flags.invulnerable && !target.flags.intangible &&
+      !target.spawnProtected &&
+      target.team !== player.team &&
+      canAbilityAffectTarget(world, player, definition, origin, target, {
+        rangeM: barrage.rangeM,
+        rangeOrigin: player.move.pos,
+      })
+    ))
+    .sort((left, right) => left.id.localeCompare(right.id));
+  const target = enemies.length > 0
+    ? enemies[barrage.shotsFired % enemies.length]
+    : null;
+  if (target) {
+    world.spawnAbilityProjectile?.(player, {
+      id: barrage.abilityId,
+      damage: barrage.damage,
+      rangeM: barrage.rangeM,
+      projectileSpeedMps: barrage.projectileSpeedMps,
+      projectileRadiusM: barrage.projectileRadiusM,
+      homingRangeM: barrage.homingRangeM,
+      ignoreLineOfSight: barrage.ignoreLineOfSight,
+    }, target);
+  }
+  barrage.remaining--;
+  barrage.shotsFired++;
+  barrage.nextAt += barrage.intervalSec;
+  world.events.push({
+    type: 'ability_barrage_shot',
+    player: player.id,
+    abilityId: barrage.abilityId,
+    target: target?.id || null,
+    remaining: barrage.remaining,
+    pos: [...origin],
+  });
+  if (barrage.remaining <= 0) player.abilities.heroState.homingBarrage = null;
+}
+
+function airburstProjectile(world, player, definition, target) {
+  const weaponId = HERO_BY_ID[player.heroId]?.weapon?.id;
+  const maxRangeM = Math.max(0, definition.rangeM || 0);
+  return (world.projectiles || [])
+    .filter(projectile => (
+      projectile.alive
+      && projectile.ownerId === player.id
+      && projectile.weaponId === weaponId
+      && distance3D(player.move.pos, projectile.pos) <= maxRangeM + LINE_OF_SIGHT_EPSILON_M
+    ))
+    .sort((left, right) => (
+      distance3D(left.pos, target) - distance3D(right.pos, target)
+      || right.travelledM - left.travelledM
+      || String(left.id).localeCompare(String(right.id))
+    ))[0] || null;
+}
+
 const BEHAVIOR_HANDLERS = {
   dash(world, player, definition) {
+    if (definition.healPerSec && definition.fieldDurationSec) {
+      createZone(world, player, definition, [...player.move.pos], {
+        kind: 'healing_field',
+        radiusM: definition.radiusM,
+        healPerSec: definition.healPerSec,
+        durationSec: definition.fieldDurationSec,
+      });
+    }
     propel(player, definition.rangeM || 7, false);
-    if (definition.shield) grantShield(player, definition.shield);
+    if (definition.shield) {
+      grantShield(world, player, definition.shield, definition.shieldDurationSec ?? definition.durationSec);
+    }
   },
   air_dash(world, player, definition) {
     const origin = [...player.move.pos];
@@ -393,9 +673,30 @@ const BEHAVIOR_HANDLERS = {
         durationSec: definition.durationSec || 2.5,
       });
     }
-    propel(player, definition.rangeM || 7, false);
-    player.move.vel[2] = Math.max(player.move.vel[2], 5.5);
-    if (definition.shield) grantShield(player, definition.shield);
+    if (player.heroId === 'karakasa') {
+      const rangeM = definition.rangeM || 7;
+      const durationSec = Math.max(world.dt, definition.travelSec || 0.65);
+      const destination = [
+        origin[0] + Math.cos(player.move.yaw) * rangeM,
+        origin[1] + Math.sin(player.move.yaw) * rangeM,
+        origin[2],
+      ];
+      player.abilities.heroState.transit = {
+        kind: 'air_dash', from: origin, to: destination,
+        startedAt: world.t, endsAt: world.t + durationSec, definition,
+      };
+      player.move.vel = [0, 0, 0];
+      world.events.push({
+        type: 'ability_transit_started', player: player.id, abilityId: definition.id,
+        from: origin, to: [...destination], durationSec,
+      });
+    } else {
+      propel(player, definition.rangeM || 7, false);
+      player.move.vel[2] = Math.max(player.move.vel[2], 5.5);
+    }
+    if (definition.shield) {
+      grantShield(world, player, definition.shield, definition.shieldDurationSec ?? definition.durationSec);
+    }
     changeResource(player, definition.resourceGain || 0);
   },
   backstep(world, player, definition) {
@@ -469,11 +770,29 @@ const BEHAVIOR_HANDLERS = {
   },
   barrier(world, player, definition, target) { createBarrier(world, player, definition, target); },
   cone_blast(world, player, definition) {
-    const target = nearestInAim(world, player, definition.rangeM || 7, 'enemy', definition);
-    if (target) {
+    const rangeM = definition.rangeM || 7;
+    const forwardX = Math.cos(player.move.yaw), forwardY = Math.sin(player.move.yaw);
+    const origin = playerTargetPoint(player, world.mv);
+    for (const target of world.players.values()) {
+      if (
+        !target.alive
+        || target.id === player.id
+        || target.team === player.team
+        || target.flags.invulnerable
+        || target.flags.intangible
+        || target.spawnProtected
+      ) continue;
+      const dx = target.move.pos[0] - player.move.pos[0];
+      const dy = target.move.pos[1] - player.move.pos[1];
+      const distanceM = Math.hypot(dx, dy);
+      if (distanceM < 1e-6 || (dx * forwardX + dy * forwardY) / distanceM < 0.82) continue;
+      if (!canAbilityAffectTarget(world, player, definition, origin, target, {
+        rangeM,
+        rangeOrigin: player.move.pos,
+      })) continue;
       applyAbilityDamage(
         world, target, definition.damage || 0, player, definition.id,
-        playerTargetPoint(player, world.mv),
+        origin,
       );
       if (definition.pushM) pushFrom(world, target, player.move.pos, definition.pushM);
       if (definition.slowMult) applyStatus(world, target, { id: `${definition.id}:slow`, slowMult: definition.slowMult, negative: true }, definition.durationSec || 1, player);
@@ -585,8 +904,9 @@ const BEHAVIOR_HANDLERS = {
     }
   },
   team_wave(world, player, definition) {
-    affectRadius(world, player, player.move.pos, definition.rangeM || definition.radiusM, {
+    affectRadius(world, player, player.move.pos, definition.radiusM || definition.rangeM, {
       shield: definition.shield,
+      shieldDurationSec: definition.shieldDurationSec,
       pushM: definition.pushM,
       allyStatus: { id: definition.id, moveSpeedMult: definition.moveSpeedMult },
       durationSec: definition.durationSec,
@@ -670,7 +990,8 @@ const BEHAVIOR_HANDLERS = {
     createZone(world, player, definition, player.move.pos, { followOwner: true, kind: 'damage_aura' });
   },
   airburst(world, player, definition, target) {
-    affectRadius(world, player, target, definition.radiusM, { damage: definition.damage, abilityId: definition.id }, definition);
+    const projectile = airburstProjectile(world, player, definition, target);
+    if (projectile) world.detonateAbilityProjectile?.(player, projectile, definition);
   },
   damage_zone(world, player, definition, target) { createZone(world, player, definition, target, { kind: 'damage' }); },
   zone_dash(world, player, definition) {
@@ -710,35 +1031,64 @@ const BEHAVIOR_HANDLERS = {
   },
   seeking_blast(world, player, definition) {
     const target = nearestInAim(world, player, definition.rangeM, 'enemy', definition);
-    if (target) applyAbilityDamage(
-      world, target, definition.damage, player, definition.id,
-      playerTargetPoint(player, world.mv),
-    );
+    if (target) world.spawnAbilityProjectile?.(player, definition, target);
   },
   homing_barrage(world, player, definition) {
-    const origin = playerTargetPoint(player, world.mv);
-    const enemies = [...world.players.values()].filter(target =>
-      target.alive && !target.flags.invulnerable && !target.flags.intangible && target.team !== player.team
-      && canAbilityAffectTarget(world, player, definition, origin, target, {
-        rangeM: definition.rangeM,
-        rangeOrigin: player.move.pos,
-    }));
-    for (let i = 0; i < (definition.count || 1) && enemies.length; i++) {
-      const target = enemies[i % enemies.length];
-      applyAbilityDamage(world, target, definition.damage, player, definition.id, origin);
-    }
+    const count = Math.max(1, Math.floor(definition.count || 1));
+    const durationSec = Math.max(world.dt || 1 / 60, definition.durationSec || count);
+    player.abilities.heroState.homingBarrage = {
+      abilityId: definition.id,
+      damage: definition.damage || 0,
+      rangeM: definition.rangeM || 0,
+      ignoreLineOfSight: definition.ignoreLineOfSight === true,
+      projectileSpeedMps: definition.projectileSpeedMps || 18,
+      projectileRadiusM: definition.projectileRadiusM || 0,
+      homingRangeM: definition.homingRangeM || definition.rangeM || 0,
+      remaining: count,
+      shotsFired: 0,
+      intervalSec: durationSec / count,
+      nextAt: world.t + durationSec / count,
+    };
   },
   ammo_restore(world, player, definition) {
     if (definition.ammoPerSec) return;
     player.weapon.ammo = Math.min(HERO_BY_ID[player.heroId].weapon.magSize, player.weapon.ammo + (definition.ammoRestore || 0));
     if (player.resource?.id === 'needles') player.resource.value = player.weapon.ammo;
   },
-  ally_grapple(world, player, definition) {
-    const ally = nearestInAim(world, player, definition.rangeM, 'ally', definition);
+  ally_grapple(world, player, definition, _target, targetId) {
+    const candidate = targetId ? world.players.get(targetId) : null;
+    const origin = playerTargetPoint(player, world.mv);
+    const ally = candidate?.alive && candidate.id !== player.id && candidate.team === player.team &&
+      canAbilityAffectTarget(world, player, definition, origin, candidate, {
+        rangeM: definition.rangeM,
+        rangeOrigin: player.move.pos,
+      })
+      ? candidate
+      : null;
     if (!ally) return;
     const dx = ally.move.pos[0] - player.move.pos[0], dy = ally.move.pos[1] - player.move.pos[1];
     const len = Math.max(0.01, Math.hypot(dx, dy));
-    player.move.vel[0] = dx / len * 14; player.move.vel[1] = dy / len * 14;
+    const stopDistanceM = Math.max(0, definition.stopDistanceM ?? 2);
+    const travelDistanceM = Math.max(0, len - stopDistanceM);
+    if (travelDistanceM > 0.01) {
+      const from = [...player.move.pos];
+      const to = [
+        from[0] + dx / len * travelDistanceM,
+        from[1] + dy / len * travelDistanceM,
+        from[2],
+      ];
+      const travelSpeedMps = Math.max(1, definition.travelSpeedMps || 14);
+      const travelSec = Math.max(world.dt, travelDistanceM / travelSpeedMps);
+      player.abilities.heroState.transit = {
+        kind: 'ally_grapple', from, to, startedAt: world.t,
+        endsAt: world.t + travelSec, definition, targetId: ally.id,
+      };
+      player.move.vel = [0, 0, 0];
+      world.events.push({
+        type: 'ability_transit_started', player: player.id, abilityId: definition.id,
+        target: ally.id, from, to: [...to], durationSec: travelSec,
+      });
+    }
     if (definition.storedHeal) storeHeal(world, ally, definition.storedHeal, player, definition.id);
   },
   release_stored_heal(world, player, definition) {
@@ -769,28 +1119,42 @@ const BEHAVIOR_HANDLERS = {
     }
   },
   projectile_guard(world, player, definition) {
-    applyStatus(world, player, { id: definition.id, damageTakenMult: definition.damageTakenMult, projectileGuard: true }, definition.durationSec, player);
+    applyStatus(world, player, {
+      id: definition.id,
+      damageTakenMult: definition.damageTakenMult,
+      projectileGuard: true,
+      frontalArcDeg: definition.frontalArcDeg,
+      attackLocked: true,
+    }, definition.durationSec, player);
   },
   team_guard(world, player, definition) {
     for (const ally of world.players.values()) if (ally.alive && ally.team === player.team) {
-      applyStatus(world, ally, { id: definition.id, damageTakenMult: definition.damageTakenMult, projectileGuard: true }, definition.durationSec, player);
+      applyStatus(world, ally, {
+        id: definition.id,
+        damageTakenMult: definition.damageTakenMult,
+        projectileGuard: true,
+        frontalArcDeg: definition.frontalArcDeg,
+      }, definition.durationSec, player);
     }
   },
   link_ally(world, player, definition) {
     const ally = nearestInAim(world, player, definition.rangeM, 'ally', definition);
-    if (ally) player.abilities.heroState.linkedId = ally.id;
+    if (ally) {
+      player.abilities.heroState.linkedId = ally.id;
+      player.abilities.heroState.linkExpiresAt = world.t + definition.durationSec;
+    }
   },
   ally_damage_buff(world, player, definition) {
-    const linked = world.players.get(player.abilities.heroState.linkedId);
-    const origin = playerTargetPoint(player, world.mv);
-    const ally = linked && linked.alive && linked.team === player.team
-      && canAbilityAffectTarget(world, player, definition, origin, linked, {
-        rangeM: definition.rangeM,
-        rangeOrigin: player.move.pos,
-      })
-      ? linked
-      : nearestInAim(world, player, definition.rangeM, 'ally', definition);
-    if (ally) applyStatus(world, ally, { id: definition.id, damageMult: definition.damageMult }, definition.durationSec, player);
+    const ally = linkedAlly(world, player, definition, true);
+    if (!ally) return;
+    ally.abilities.heroState.empoweredHits = {
+      sourceId: player.id,
+      abilityId: definition.id,
+      remaining: definition.empoweredHits,
+      damageMult: definition.damageMult,
+      vulnerabilityDamageTakenMult: definition.vulnerabilityDamageTakenMult,
+      vulnerabilityDurationSec: definition.vulnerabilityDurationSec,
+    };
   },
   team_damage_buff(world, player, definition) {
     for (const ally of world.players.values()) if (ally.alive && ally.team === player.team) {
@@ -799,7 +1163,7 @@ const BEHAVIOR_HANDLERS = {
   },
   healing_trail(world, player, definition) {
     propel(player, definition.rangeM || 10, false);
-    createZone(world, player, definition, player.move.pos, { kind: 'healing_trail' });
+    beginHealingTrail(world, player, definition);
   },
   leap_heal(world, player, definition) {
     player.move.vel[2] = Math.max(player.move.vel[2], 7);
@@ -909,7 +1273,10 @@ function tickHeroMotion(world, player) {
   state.transit = null;
   if (transit.kind === 'anchor') {
     state.rewind = { pos: [...transit.from], expiresAt: world.t + 5 };
-    grantShield(player, Math.min(50, transit.chain * 0.5));
+    grantShield(
+      world, player, Math.min(50, transit.chain * 0.5),
+      transit.definition.shieldDurationSec ?? transit.definition.durationSec,
+    );
     affectRadius(world, player, player.move.pos, transit.definition.radiusM, {
       damage: transit.definition.damage, abilityId: transit.definition.id,
       enemyStatus: { id: `${transit.definition.id}:slow`, kind: 'slow', slowMult: transit.definition.slowMult, negative: true },
@@ -953,6 +1320,10 @@ export function snapshotZone(zone, now = 0) {
     ownerId: zone.ownerId, team: zone.team, center: [...zone.center], radiusM: zone.radiusM,
     remaining: Math.max(0, Math.round((zone.expiresAt - now) * 10) / 10),
   };
+  if (zone.trailId) {
+    snapshot.trailId = zone.trailId;
+    snapshot.segmentIndex = zone.segmentIndex;
+  }
   if (zone.hp !== undefined) {
     snapshot.hp = Math.max(0, Math.round(zone.hp));
     snapshot.maxHp = zone.maxHp;
@@ -976,10 +1347,19 @@ export function snapshotBarrier(barrier, now = 0) {
 export function storeHeal(world, target, amount, source, abilityId) {
   const sourceId = source?.id || null;
   const rateMult = (source?.abilities?.statuses || []).reduce((value, status) => Math.max(value, status.storedHealRateMult || 1), 1);
-  const stitches = target.abilities.statuses.filter(status => status.kind === 'stored_heal' && status.sourceId === sourceId);
+  const stitches = target.abilities.statuses.filter(status => (
+    status.kind === 'stored_heal' && status.sourceId === sourceId && status.amount > 0
+  ));
   if (stitches.length >= 4) {
     const oldest = stitches.sort((a, b) => a.convertAt - b.convertAt)[0];
+    const overflowAmount = oldest.amount;
     oldest.amount = 0;
+    // The four-stitch cap is a delivery limit, not a heal deletion mechanic.
+    // Sustained primary fire converts the oldest stitch immediately so the
+    // support can keep healing an actively pressured frontline.
+    if (overflowAmount > 0) {
+      world.healPlayer?.(target, overflowAmount, source, oldest.abilityId || abilityId);
+    }
   }
   const status = {
     id: `stored_heal:${sourceId}:${world.nextEffectId++}`,
@@ -991,7 +1371,10 @@ export function storeHeal(world, target, amount, source, abilityId) {
   target.abilities.statuses.push(status);
   const active = target.abilities.statuses.filter(item => item.kind === 'stored_heal' && item.sourceId === sourceId && item.amount > 0);
   if (active.length >= 3) {
-    for (const item of active) item.convertAt = world.t + 2 / rateMult;
+    const acceleratedDeadline = world.t + 2 / rateMult;
+    for (const item of active) {
+      item.convertAt = Math.min(item.convertAt, acceleratedDeadline);
+    }
   }
   world.events.push({ type: 'stored_heal_added', source: sourceId, target: target.id, amount: status.amount, abilityId });
 }

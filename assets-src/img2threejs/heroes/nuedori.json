@@ -1,0 +1,108 @@
+{
+  "id": "nuedori",
+  "references": {
+    "alpha": "assets-src/imagegen/heroes/nuedori/concept/nuedori-concept-alpha-v1.png",
+    "green": "assets-src/imagegen/heroes/nuedori/concept/nuedori-concept-green-v1.png"
+  },
+  "role": "frontline",
+  "cohort": "disruption beast",
+  "modelArchetype": "asymmetric chimera",
+  "proportions": {
+    "heightM": 1.9,
+    "bodyRatio": "crooked spine,asymmetric shoulder,coiled legs",
+    "notes": "Keep nuedori proportions legible at gameplay distance; preserve the distinctive bird-mask with offset crest against a neutral rig."
+  },
+  "silhouetteAnchors": {
+    "front": [
+      "bird-mask with offset crest",
+      "twisted layered torso",
+      "hooked forearms"
+    ],
+    "side": [
+      "crooked spine,asymmetric shoulder,coiled legs profile",
+      "spring talons",
+      "feather mantle"
+    ]
+  },
+  "materialPalette": [
+    {
+      "name": "violet",
+      "hex": "#755b9c",
+      "finish": "hero primary matte"
+    },
+    {
+      "name": "ink",
+      "hex": "#241a35",
+      "finish": "secondary worn surface"
+    },
+    {
+      "name": "silver",
+      "hex": "#b9a8d2",
+      "finish": "emissive or trim accent"
+    }
+  ],
+  "primitives": {
+    "head": [
+      "bird-mask with offset crest"
+    ],
+    "torso": [
+      "twisted layered torso"
+    ],
+    "limbs": [
+      "hooked forearms",
+      "spring talons"
+    ],
+    "weapons": [
+      "hook blade"
+    ],
+    "accessories": [
+      "feather mantle"
+    ]
+  },
+  "rig": {
+    "pivot": "root at ground contact, +Y up, +Z forward, centered on gameplay capsule",
+    "sockets": [
+      "weapon_primary",
+      "hand_off",
+      "back_accessory",
+      "vfx_origin"
+    ],
+    "colliders": [
+      "capsule matches body width and height",
+      "separate accessory hit proxy where silhouette overhangs"
+    ]
+  },
+  "animation": {
+    "locomotion": [
+      "sideways lunge",
+      "strafe without foot sliding",
+      "crouch/stop preserves anchor silhouette"
+    ],
+    "combat": [
+      "pounce and feint",
+      "ability pose keeps weapon socket stable"
+    ],
+    "deformationBudget": "No more than 4 corrective shape keys; rigid props remain socketed."
+  },
+  "reconstructionRisks": [
+    "The feather mantle overhang can inflate the collider if not separated.",
+    "Asymmetric hooked forearms needs mirrored fallback controls for retargeting."
+  ],
+  "qualityAcceptance": {
+    "targets": [
+      "Front and side renders match every listed silhouette anchor at thumbnail size",
+      "Palette values remain within authored hex swatches under neutral light",
+      "Weapon and accessory sockets stay aligned through locomotion and ability clips"
+    ],
+    "gates": [
+      "alpha/green reference comparison recorded",
+      "glTF export reopens with no missing materials"
+    ]
+  },
+  "rollout": {
+    "priority": 4,
+    "rationale": "nuedori establishes the disruption beast cohort and exposes its feather mantle anchor early."
+  },
+  "status": "brief"
+}
+

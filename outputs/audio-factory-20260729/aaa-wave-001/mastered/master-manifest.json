@@ -1,0 +1,479 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-29T05:35:27.723Z",
+  "sourceManifest": "outputs/audio-factory-20260729/manifests/aaa-wave-001.json",
+  "admission": "candidate-only; raw provider audio is retained, and this derivative is not in the shipped Local DSP catalog",
+  "policy": "technical mastering only; rights, editorial fit, in-engine mix, and human acceptance remain required",
+  "results": [
+    {
+      "id": "aaa.wave001.music.oshioi-main-menu.v001",
+      "input": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/oshioi-main-menu-v001.mp3",
+      "inputSha256": "cc4f0bd2221f9d5a31267907e5a9a27dcfd549708a1af74f26558b9aaa205656",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/mastered/music/oshioi-main-menu-v001.mp3",
+      "outputSha256": "637e57a0927d16b934e65541ab0febaf0a1982240f636816b06d1081e0507afc",
+      "bytes": 577773,
+      "measurement": {
+        "input_i": "-20.84",
+        "input_tp": "-5.93",
+        "input_lra": "19.40",
+        "input_thresh": "-33.07",
+        "output_i": "-14.78",
+        "output_tp": "-1.50",
+        "output_lra": "4.60",
+        "output_thresh": "-25.43",
+        "normalization_type": "dynamic",
+        "target_offset": "-3.22"
+      },
+      "postMeasurement": {
+        "input_i": "-18.43",
+        "input_tp": "-1.93",
+        "input_lra": "22.80",
+        "input_thresh": "-30.87",
+        "output_i": "-14.90",
+        "output_tp": "-1.50",
+        "output_lra": "7.50",
+        "output_thresh": "-25.57",
+        "normalization_type": "dynamic",
+        "target_offset": "-3.10"
+      },
+      "target": {
+        "integratedLufs": -18,
+        "truePeakDbtp": -1.5,
+        "loudnessRangeLu": 11,
+        "allowedMaxTruePeakDbtp": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave001.music.match-setup-briefing.v001",
+      "input": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/match-setup-briefing-v001.mp3",
+      "inputSha256": "e17651c49aecf03d9f5c1fcd19e699b2810c7e2698a145bd77450cfbe23a3957",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/mastered/music/match-setup-briefing-v001.mp3",
+      "outputSha256": "9483863af61d8ca70af51ddf5ebec71e81cbb7cd3c1916d00123baa533469b8c",
+      "bytes": 529965,
+      "measurement": {
+        "input_i": "-28.44",
+        "input_tp": "-13.53",
+        "input_lra": "13.90",
+        "input_thresh": "-39.42",
+        "output_i": "-16.63",
+        "output_tp": "-2.59",
+        "output_lra": "4.20",
+        "output_thresh": "-27.14",
+        "normalization_type": "dynamic",
+        "target_offset": "-1.37"
+      },
+      "postMeasurement": {
+        "input_i": "-18.44",
+        "input_tp": "-4.30",
+        "input_lra": "14.70",
+        "input_thresh": "-29.29",
+        "output_i": "-17.98",
+        "output_tp": "-3.55",
+        "output_lra": "4.50",
+        "output_thresh": "-28.48",
+        "normalization_type": "dynamic",
+        "target_offset": "-0.02"
+      },
+      "target": {
+        "integratedLufs": -18,
+        "truePeakDbtp": -1.5,
+        "loudnessRangeLu": 11,
+        "allowedMaxTruePeakDbtp": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave001.music.controlpoint-neutral-tension.v001",
+      "input": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/controlpoint-neutral-tension-v001.mp3",
+      "inputSha256": "e3e75ab498565efaa74e620f512b84fc7cd17c69cb72b7abdaaf11c6e5864fb2",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/mastered/music/controlpoint-neutral-tension-v001.mp3",
+      "outputSha256": "02d373261205091001d8f290bdd99e1eec6b9dc1c17e5dd7d68d2119e76054ac",
+      "bytes": 626157,
+      "measurement": {
+        "input_i": "-21.23",
+        "input_tp": "-4.22",
+        "input_lra": "4.60",
+        "input_thresh": "-31.23",
+        "output_i": "-16.79",
+        "output_tp": "-1.50",
+        "output_lra": "3.00",
+        "output_thresh": "-26.79",
+        "normalization_type": "dynamic",
+        "target_offset": "-1.21"
+      },
+      "postMeasurement": {
+        "input_i": "-18.28",
+        "input_tp": "-1.50",
+        "input_lra": "2.80",
+        "input_thresh": "-28.28",
+        "output_i": "-17.53",
+        "output_tp": "-1.50",
+        "output_lra": "2.20",
+        "output_thresh": "-27.53",
+        "normalization_type": "dynamic",
+        "target_offset": "-0.47"
+      },
+      "target": {
+        "integratedLufs": -18,
+        "truePeakDbtp": -1.5,
+        "loudnessRangeLu": 11,
+        "allowedMaxTruePeakDbtp": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave001.music.controlpoint-team0-push.v001",
+      "input": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/controlpoint-team0-push-v001.mp3",
+      "inputSha256": "ce3ce275bab3bac756635c00ef0c8575330ab709d2ae324ceebaafc9a37f150b",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/mastered/music/controlpoint-team0-push-v001.mp3",
+      "outputSha256": "a24800f5df5667ed382b578be57c345d96fb8a99ba887b747c3ad5241aad2b67",
+      "bytes": 577773,
+      "measurement": {
+        "input_i": "-18.88",
+        "input_tp": "-0.85",
+        "input_lra": "16.60",
+        "input_thresh": "-30.42",
+        "output_i": "-15.74",
+        "output_tp": "-1.50",
+        "output_lra": "5.90",
+        "output_thresh": "-26.83",
+        "normalization_type": "dynamic",
+        "target_offset": "-2.26"
+      },
+      "postMeasurement": {
+        "input_i": "-17.90",
+        "input_tp": "-1.24",
+        "input_lra": "17.60",
+        "input_thresh": "-29.83",
+        "output_i": "-14.79",
+        "output_tp": "-1.50",
+        "output_lra": "6.40",
+        "output_thresh": "-25.93",
+        "normalization_type": "dynamic",
+        "target_offset": "-3.21"
+      },
+      "target": {
+        "integratedLufs": -18,
+        "truePeakDbtp": -1.5,
+        "loudnessRangeLu": 11,
+        "allowedMaxTruePeakDbtp": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave001.music.controlpoint-team1-push.v001",
+      "input": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/controlpoint-team1-push-v001.mp3",
+      "inputSha256": "3b29a051af4b405776f6b30b00818e3d61e470aafd6d8e076a0981f5c0df169b",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/mastered/music/controlpoint-team1-push-v001.mp3",
+      "outputSha256": "c249492e18e9c9686a3a0b26ba784981176b821a9b0e90747d41984754439f48",
+      "bytes": 577773,
+      "measurement": {
+        "input_i": "-29.64",
+        "input_tp": "-10.33",
+        "input_lra": "8.50",
+        "input_thresh": "-39.94",
+        "output_i": "-16.47",
+        "output_tp": "-1.50",
+        "output_lra": "4.40",
+        "output_thresh": "-26.63",
+        "normalization_type": "dynamic",
+        "target_offset": "-1.53"
+      },
+      "postMeasurement": {
+        "input_i": "-18.05",
+        "input_tp": "-1.55",
+        "input_lra": "4.60",
+        "input_thresh": "-28.19",
+        "output_i": "-17.34",
+        "output_tp": "-1.50",
+        "output_lra": "3.90",
+        "output_thresh": "-27.47",
+        "normalization_type": "dynamic",
+        "target_offset": "-0.66"
+      },
+      "target": {
+        "integratedLufs": -18,
+        "truePeakDbtp": -1.5,
+        "loudnessRangeLu": 11,
+        "allowedMaxTruePeakDbtp": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave001.music.flashpoint-transition.v001",
+      "input": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/flashpoint-transition-v001.mp3",
+      "inputSha256": "bca8cde9c3c020775c121c0e65fad9dec4d63677047cd2c6de08cfc234b5266e",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/mastered/music/flashpoint-transition-v001.mp3",
+      "outputSha256": "69d9814385eaf39a8e0ed1e28193fed9374a5e25cc10b06806a9f5c328c767ce",
+      "bytes": 433773,
+      "measurement": {
+        "input_i": "-16.52",
+        "input_tp": "-0.64",
+        "input_lra": "10.70",
+        "input_thresh": "-28.47",
+        "output_i": "-17.41",
+        "output_tp": "-1.50",
+        "output_lra": "10.70",
+        "output_thresh": "-28.85",
+        "normalization_type": "dynamic",
+        "target_offset": "-0.59"
+      },
+      "postMeasurement": {
+        "input_i": "-18.26",
+        "input_tp": "-2.38",
+        "input_lra": "10.70",
+        "input_thresh": "-30.22",
+        "output_i": "-17.41",
+        "output_tp": "-1.50",
+        "output_lra": "10.70",
+        "output_thresh": "-28.85",
+        "normalization_type": "dynamic",
+        "target_offset": "-0.59"
+      },
+      "target": {
+        "integratedLufs": -18,
+        "truePeakDbtp": -1.5,
+        "loudnessRangeLu": 11,
+        "allowedMaxTruePeakDbtp": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave001.music.sudden-death.v001",
+      "input": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/sudden-death-v001.mp3",
+      "inputSha256": "f567b683a357ddd4375a1d77396dff0f53e3250a777047a167857681c05fe5b4",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/mastered/music/sudden-death-v001.mp3",
+      "outputSha256": "cad43994766231a62c5f34f4c86383a5f9d94a4b6dae07998fbe1a13b3780a80",
+      "bytes": 482157,
+      "measurement": {
+        "input_i": "-19.93",
+        "input_tp": "-1.11",
+        "input_lra": "12.30",
+        "input_thresh": "-31.15",
+        "output_i": "-15.01",
+        "output_tp": "-1.50",
+        "output_lra": "5.20",
+        "output_thresh": "-25.73",
+        "normalization_type": "dynamic",
+        "target_offset": "-2.99"
+      },
+      "postMeasurement": {
+        "input_i": "-18.21",
+        "input_tp": "-2.45",
+        "input_lra": "5.10",
+        "input_thresh": "-29.39",
+        "output_i": "-16.54",
+        "output_tp": "-2.30",
+        "output_lra": "2.60",
+        "output_thresh": "-27.21",
+        "normalization_type": "dynamic",
+        "target_offset": "-1.46"
+      },
+      "target": {
+        "integratedLufs": -18,
+        "truePeakDbtp": -1.5,
+        "loudnessRangeLu": 11,
+        "allowedMaxTruePeakDbtp": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave001.music.victory-team0.v001",
+      "input": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/victory-team0-v001.mp3",
+      "inputSha256": "adee0d90bffb517586b831c9a5d4354ff4bf034fd1cccd78e1c462b7614ffab8",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/mastered/music/victory-team0-v001.mp3",
+      "outputSha256": "1de0040b26ccb28766f54bda4442506dc6cb9464b362a96d58c21024c7e3d3e6",
+      "bytes": 385965,
+      "measurement": {
+        "input_i": "-12.03",
+        "input_tp": "-1.12",
+        "input_lra": "23.40",
+        "input_thresh": "-25.78",
+        "output_i": "-16.92",
+        "output_tp": "-1.50",
+        "output_lra": "4.20",
+        "output_thresh": "-27.86",
+        "normalization_type": "dynamic",
+        "target_offset": "-1.08"
+      },
+      "postMeasurement": {
+        "input_i": "-18.02",
+        "input_tp": "-6.81",
+        "input_lra": "17.20",
+        "input_thresh": "-31.86",
+        "output_i": "-16.99",
+        "output_tp": "-1.50",
+        "output_lra": "5.00",
+        "output_thresh": "-27.93",
+        "normalization_type": "dynamic",
+        "target_offset": "-1.01"
+      },
+      "target": {
+        "integratedLufs": -18,
+        "truePeakDbtp": -1.5,
+        "loudnessRangeLu": 11,
+        "allowedMaxTruePeakDbtp": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave001.music.defeat-refocus.v001",
+      "input": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/defeat-refocus-v001.mp3",
+      "inputSha256": "b5f920064296de1f4245506bff9a8e455530415eb1b2535dffbfdaa81c38607b",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/mastered/music/defeat-refocus-v001.mp3",
+      "outputSha256": "19a6d4b9d174f29df03abe0f67313a7e8b4ad54fca2f1e9d40ec174e900efd43",
+      "bytes": 385965,
+      "measurement": {
+        "input_i": "-29.74",
+        "input_tp": "-13.93",
+        "input_lra": "14.00",
+        "input_thresh": "-41.34",
+        "output_i": "-16.80",
+        "output_tp": "-1.50",
+        "output_lra": "12.00",
+        "output_thresh": "-27.58",
+        "normalization_type": "dynamic",
+        "target_offset": "-1.20"
+      },
+      "postMeasurement": {
+        "input_i": "-18.22",
+        "input_tp": "-1.76",
+        "input_lra": "15.50",
+        "input_thresh": "-29.51",
+        "output_i": "-17.83",
+        "output_tp": "-1.96",
+        "output_lra": "12.30",
+        "output_thresh": "-28.64",
+        "normalization_type": "dynamic",
+        "target_offset": "-0.17"
+      },
+      "target": {
+        "integratedLufs": -18,
+        "truePeakDbtp": -1.5,
+        "loudnessRangeLu": 11,
+        "allowedMaxTruePeakDbtp": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave001.music.north-lantern-rooftops.v001",
+      "input": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/north-lantern-rooftops-v001.mp3",
+      "inputSha256": "6b64ef4d715b0ca3f663eeded8a647103a684e06e7393da0da29171887c4ca66",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/mastered/music/north-lantern-rooftops-v001.mp3",
+      "outputSha256": "188cbae11b8473c966019350c2afdf0ed31db04ea20696792d9f32c0d52aa595",
+      "bytes": 577773,
+      "measurement": {
+        "input_i": "-18.04",
+        "input_tp": "-1.46",
+        "input_lra": "21.60",
+        "input_thresh": "-32.01",
+        "output_i": "-17.26",
+        "output_tp": "-1.50",
+        "output_lra": "17.00",
+        "output_thresh": "-28.37",
+        "normalization_type": "dynamic",
+        "target_offset": "-0.74"
+      },
+      "postMeasurement": {
+        "input_i": "-18.02",
+        "input_tp": "-1.75",
+        "input_lra": "21.70",
+        "input_thresh": "-32.01",
+        "output_i": "-17.42",
+        "output_tp": "-1.50",
+        "output_lra": "15.30",
+        "output_thresh": "-28.52",
+        "normalization_type": "dynamic",
+        "target_offset": "-0.58"
+      },
+      "target": {
+        "integratedLufs": -18,
+        "truePeakDbtp": -1.5,
+        "loudnessRangeLu": 11,
+        "allowedMaxTruePeakDbtp": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave001.music.central-plaza.v001",
+      "input": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/central-plaza-v001.mp3",
+      "inputSha256": "d903bb5cb26bf6a9527c727b21498a746f9f546946b6589f9e6497160d37b3f7",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/mastered/music/central-plaza-v001.mp3",
+      "outputSha256": "8aed0fdcd889d7aef6bdd18983500b056694daaea1fb78e7573c40bb3825d40a",
+      "bytes": 577773,
+      "measurement": {
+        "input_i": "-14.60",
+        "input_tp": "-2.23",
+        "input_lra": "3.50",
+        "input_thresh": "-26.00",
+        "output_i": "-18.21",
+        "output_tp": "-5.88",
+        "output_lra": "8.40",
+        "output_thresh": "-29.13",
+        "normalization_type": "dynamic",
+        "target_offset": "0.21"
+      },
+      "postMeasurement": {
+        "input_i": "-18.26",
+        "input_tp": "-5.95",
+        "input_lra": "3.50",
+        "input_thresh": "-29.62",
+        "output_i": "-18.21",
+        "output_tp": "-5.87",
+        "output_lra": "8.40",
+        "output_thresh": "-29.13",
+        "normalization_type": "dynamic",
+        "target_offset": "0.21"
+      },
+      "target": {
+        "integratedLufs": -18,
+        "truePeakDbtp": -1.5,
+        "loudnessRangeLu": 11,
+        "allowedMaxTruePeakDbtp": -1.2
+      },
+      "status": "mastered"
+    },
+    {
+      "id": "aaa.wave001.music.south-docks.v001",
+      "input": "outputs/audio-factory-20260729/aaa-wave-001/generated/music/south-docks-v001.mp3",
+      "inputSha256": "d783037023ea4eba6c92667a68ba7c3e52363706d76cc1a9acaa3cf26041d287",
+      "output": "outputs/audio-factory-20260729/aaa-wave-001/mastered/music/south-docks-v001.mp3",
+      "outputSha256": "1da2716518b6df2654eeeb0dca2c4c6ceb8527759f62fab0b1ecca0c702e9ae9",
+      "bytes": 577773,
+      "measurement": {
+        "input_i": "-15.48",
+        "input_tp": "-0.97",
+        "input_lra": "18.10",
+        "input_thresh": "-28.86",
+        "output_i": "-15.45",
+        "output_tp": "-1.50",
+        "output_lra": "6.10",
+        "output_thresh": "-26.16",
+        "normalization_type": "dynamic",
+        "target_offset": "-2.55"
+      },
+      "postMeasurement": {
+        "input_i": "-17.37",
+        "input_tp": "-1.76",
+        "input_lra": "21.10",
+        "input_thresh": "-31.37",
+        "output_i": "-15.73",
+        "output_tp": "-1.50",
+        "output_lra": "7.90",
+        "output_thresh": "-26.48",
+        "normalization_type": "dynamic",
+        "target_offset": "-2.27"
+      },
+      "target": {
+        "integratedLufs": -18,
+        "truePeakDbtp": -1.5,
+        "loudnessRangeLu": 11,
+        "allowedMaxTruePeakDbtp": -1.2
+      },
+      "status": "mastered"
+    }
+  ],
+  "mastered": 12,
+  "failed": 0
+}

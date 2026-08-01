@@ -68,6 +68,10 @@ function standardPad({ axes = [0, 0, 0, 0], pressed = [] } = {}) {
   };
 }
 
+function touch(identifier, clientX, clientY) {
+  return { identifier, clientX, clientY };
+}
+
 function assertNeutralActions(built) {
   assert.deepEqual({
     f: built.f, b: built.b, l: built.l, r: built.r,
@@ -246,6 +250,56 @@ test('keyboardの斜め移動はmoveXとmoveYを単位長へ正規化する', ()
     assert.ok(Math.abs(built.moveY - Math.SQRT1_2) < 1e-12);
     assert.equal(built.f, true);
     assert.equal(built.r, true);
+  } finally {
+    env.restore();
+  }
+});
+
+test('タッチ操作はPointer Lockなしでも移動・照準・射撃を入力パケットへ反映する', () => {
+  const env = installBrowserEnvironment();
+  env.canvas.getBoundingClientRect = () => ({ left: 0, top: 0, width: 1000, height: 600 });
+  try {
+    const input = new InputManager(env.canvas);
+    input.setEnabled(true);
+    const movementStart = touch(1, 140, 500);
+    const movementEnd = touch(1, 220, 420);
+    const lookStart = touch(2, 760, 280);
+    const lookEnd = touch(2, 820, 240);
+    env.canvas.dispatch('touchstart', {
+      changedTouches: [movementStart], touches: [movementStart], preventDefault() {},
+    });
+    env.canvas.dispatch('touchmove', {
+      changedTouches: [movementEnd], touches: [movementEnd], preventDefault() {},
+    });
+    env.canvas.dispatch('touchstart', {
+      changedTouches: [lookStart], touches: [movementEnd, lookStart], preventDefault() {},
+    });
+    env.canvas.dispatch('touchmove', {
+      changedTouches: [lookEnd], touches: [movementEnd, lookEnd], preventDefault() {},
+    });
+
+    const moving = input.buildInput(61, 100, false, 1 / 63);
+    assert.ok(moving.moveX > 0.25);
+    assert.ok(moving.moveY > 0.25);
+    assert.ok(moving.yaw < Math.PI);
+    assert.ok(moving.pitch > 0);
+
+    env.document.dispatch('touchstart', {
+      target: { dataset: { touchAction: 'fire' } },
+      changedTouches: [touch(3, 900, 480)],
+      touches: [movementEnd, lookEnd, touch(3, 900, 480)],
+      preventDefault() {},
+    });
+    assert.equal(input.buildInput(62, 100, false, 1 / 63).fire, true);
+
+    env.document.dispatch('touchend', {
+      target: { dataset: { touchAction: 'fire' } }, changedTouches: [touch(3, 900, 480)],
+      touches: [movementEnd, lookEnd], preventDefault() {},
+    });
+    env.canvas.dispatch('touchend', {
+      changedTouches: [movementEnd, lookEnd], touches: [], preventDefault() {},
+    });
+    assertNeutralActions(input.buildInput(63, 100, false, 1 / 63));
   } finally {
     env.restore();
   }

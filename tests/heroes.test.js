@@ -4,6 +4,7 @@ import { HEROES, HERO_BY_ID } from '../shared/data/heroes.js';
 import { World } from '../shared/sim/sim.js';
 import {
   SUPPORTED_BEHAVIORS,
+  storeHeal,
   tickAbilityState,
   tickWorldAbilityEffects,
   tryActivateAbility,
@@ -47,9 +48,24 @@ test('詳細仕様6人の正典値は概要用の仮値で上書きされない'
   assert.equal(HERO_BY_ID.asagi.weapon.magSize, 21);
   assert.equal(HERO_BY_ID.asagi.weapon.reloadSec, 2.8);
   assert.equal(HERO_BY_ID.asagi.passive.resource.max, 5);
+  assert.deepEqual(HERO_BY_ID.asagi.teamFunctions, ['pressure', 'sustain']);
+  assert.equal(HERO_BY_ID.asagi.abilities.ability2.rangeM, 8);
+  assert.equal(HERO_BY_ID.asagi.abilities.ability2.cooldownSec, 18);
+  assert.equal(HERO_BY_ID.asagi.abilities.ability2.radiusM, 4);
+  assert.equal(HERO_BY_ID.asagi.abilities.ability2.healPerSec, 40);
+  assert.equal(HERO_BY_ID.asagi.abilities.ability2.fieldDurationSec, 5);
   assert.equal(HERO_BY_ID.tsubakuro.maxHp, 200);
-  assert.equal(HERO_BY_ID.tsuzuri.weapon.allyHealStored, 60);
+  assert.equal(HERO_BY_ID.tsuzuri.weapon.allyHeal, 18);
+  assert.equal(HERO_BY_ID.tsuzuri.weapon.allyHealStored, 42);
   assert.equal(HERO_BY_ID.koyomi.abilities.ability1.cooldownRateMult, 2);
+});
+
+test('utility support persistent primary zones stay below a damage-role burst budget', () => {
+  const offensiveSupportZones = HEROES
+    .filter(hero => hero.role === 'support' && hero.weapon?.zoneDamagePerSec)
+    .map(hero => ({ heroId: hero.id, damagePerSec: hero.weapon.zoneDamagePerSec }));
+
+  assert.deepEqual(offensiveSupportZones, [{ heroId: 'koyomi', damagePerSec: 16 }]);
 });
 
 test('ザイルの正典projectile半径は実弾snapshotへ伝播し未指定武器は0へfallbackする', () => {
@@ -86,6 +102,9 @@ test('18人72アクションは権威World上で発動し、例外や未処理�
     const enemy = world.addPlayer('敵', false, 1, 'asagi');
     world.flow.state = 'ACTIVE';
     world.objective.unseal();
+    world.collider = new Collider([{
+      min: [-100, -100, -1], max: [100, 100, 4], tag: 'test-ground',
+    }]);
     actor.move.pos = [10, 0, 4];
     ally.move.pos = [14, 0, 4];
     enemy.move.pos = [18, 0, 4];
@@ -99,6 +118,21 @@ test('18人72アクションは権威World上で発動し、例外や未処理�
       if (slot !== 'ultimate') actor.abilities.cooldowns[slot] = 0;
       if (actor.resource) actor.resource.value = actor.resource.max;
       if (slot === 'ultimate') actor.ultGauge = 100;
+      if (hero.abilities[slot].behavior === 'rewind_marker') {
+        actor.abilities.heroState.rewind = {
+          pos: [actor.move.pos[0] - 1, actor.move.pos[1], actor.move.pos[2]],
+          expiresAt: world.t + 5,
+        };
+      }
+      if (hero.abilities[slot].behavior === 'airburst') {
+        spawnWeaponProjectile(
+          world,
+          actor,
+          hero.weapon,
+          [actor.move.pos[0] + 4, actor.move.pos[1], actor.move.pos[2] + 1.45],
+          [1, 0, 0],
+        );
+      }
       world.drainEvents();
       world.queueInput(actor.id, { [slot]: true, fire: false, yaw: 0, pitch: 0 });
       world.tick();
@@ -111,6 +145,14 @@ test('18人72アクションは権威World上で発動し、例外や未処理�
         true,
         `${hero.id}:${slot}:${hero.abilities[slot].behavior}`,
       );
+      // This table proves activation coverage, not multi-second movement
+      // lifecycle. Isolate the next slot from any authoritative transit that
+      // the previous slot intentionally started.
+      actor.abilities.heroState.transit = null;
+      actor.abilities.heroState.anchorRecall = null;
+      if (hero.abilities[slot].behavior === 'rewind_marker') {
+        actor.abilities.heroState.rewind = null;
+      }
       enemy.alive = true;
       enemy.hp = enemy.maxHp;
     }
@@ -314,6 +356,73 @@ test('projectile splash は爆心から見て solid の裏にいる対象へ届�
   assert.equal(blocked.hp, blocked.maxHp - weapon.splashDamage, '明示的なLOS除外定義は壁越し爆風を許可する');
 });
 
+test('Botan airburst fails closed without an owned live shell', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4290);
+  const botan = world.addPlayer('airburst-owner', false, 0, 'botan');
+  const enemy = world.addPlayer('airburst-target', false, 1, 'asagi');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  botan.move.pos = [0, 0, 0];
+  botan.move.yaw = 0;
+  enemy.move.pos = [10, 0, 0];
+  world.drainEvents();
+
+  assert.equal(tryActivateAbility(world, botan, 'secondary'), false);
+  assert.equal(enemy.hp, enemy.maxHp, 'airburst cannot create free damage at the aim point');
+  assert.equal(botan.abilities.cooldowns.secondary, 0, 'a missing shell cannot consume cooldown');
+  assert.equal(
+    world.drainEvents().some(event => event.abilityId === HERO_BY_ID.botan.abilities.secondary.id),
+    false,
+  );
+});
+
+test('Botan airburst detonates the aimed owned shell at its authoritative position', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4291);
+  const botan = world.addPlayer('airburst-owner', false, 0, 'botan');
+  const enemy = world.addPlayer('airburst-target', false, 1, 'asagi');
+  const blocked = world.addPlayer('airburst-blocked', false, 1, 'asagi');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  botan.move.pos = [0, 0, 0];
+  botan.move.yaw = 0;
+  enemy.move.pos = [20, -1, 0];
+  blocked.move.pos = [20, 3, 0];
+  world.collider = new Collider([
+    { min: [19, 1, 0], max: [21, 2, 3], tag: 'airburst-cover' },
+  ]);
+  const nearShell = spawnWeaponProjectile(
+    world, botan, HERO_BY_ID.botan.weapon, [5, 0, 1], [1, 0, 0],
+  );
+  const aimedShell = spawnWeaponProjectile(
+    world, botan, HERO_BY_ID.botan.weapon, [20, 0, 1], [1, 0, 0],
+  );
+  world.drainEvents();
+
+  assert.equal(tryActivateAbility(world, botan, 'secondary'), true);
+
+  assert.equal(aimedShell.alive, false);
+  assert.equal(nearShell.alive, true, 'only the shell nearest the authoritative aim point detonates');
+  assert.deepEqual(world.projectiles.map(projectile => projectile.id), [nearShell.id]);
+  assert.equal(
+    enemy.hp,
+    enemy.maxHp - HERO_BY_ID.botan.abilities.secondary.damage,
+  );
+  assert.equal(blocked.hp, blocked.maxHp, 'the remote blast cannot pass through authored cover');
+  const events = world.drainEvents();
+  assert.ok(events.some(event => (
+    event.type === 'projectile_detonated'
+    && event.projectileId === aimedShell.id
+    && event.abilityId === HERO_BY_ID.botan.abilities.secondary.id
+  )));
+  assert.ok(events.some(event => (
+    event.type === 'hit'
+    && event.target === enemy.id
+    && event.abilityId === HERO_BY_ID.botan.abilities.secondary.id
+    && event.projectileId === aimedShell.id
+  )));
+});
+
 test('燕羽の跳弾後12mのimpactは同じ総dtを1tickと複数tickに分けても一致する', () => {
   const simulate = dts => {
     const world = new World(buildMap(), MODE, COMBAT, 405);
@@ -472,7 +581,13 @@ test('LOS必須の action kind は target・radius・global の各経路で壁�
 
     const hpBefore = target.hp;
     const statusesBefore = target.abilities.statuses.map(status => ({ ...status }));
-    assert.equal(tryActivateAbility(world, actor, entry.slot), true, entry.kind);
+    const activated = tryActivateAbility(world, actor, entry.slot);
+    if (entry.kind === 'target_stored_heal') {
+      assert.equal(activated, false, 'locked ally target fails closed behind cover');
+      blockedByKind[entry.kind] = target.abilities.statuses.length === statusesBefore.length;
+      continue;
+    }
+    assert.equal(activated, true, entry.kind);
     if (actor.abilities.cast) {
       world.t = actor.abilities.cast.readyAt;
       tickAbilityState(world, actor, 0);
@@ -488,7 +603,7 @@ test('LOS必須の action kind は target・radius・global の各経路で壁�
   assert.deepEqual(blockedByKind, Object.fromEntries(cases.map(entry => [entry.kind, true])));
 });
 
-test('homing barrage は射程内かつ可視の敵だけを標的にする', () => {
+test('homing barrage launches six authoritative guided projectiles over its duration', () => {
   const world = new World(buildMap(), MODE, COMBAT, 430);
   const ankou = world.addPlayer('提灯守', false, 0, 'ankou');
   const visible = world.addPlayer('可視対象', false, 1, 'vesta');
@@ -504,13 +619,244 @@ test('homing barrage は射程内かつ可視の敵だけを標的にする', ()
   ankou.ultGauge = 100;
 
   assert.equal(tryActivateAbility(world, ankou, 'ultimate'), true);
-
-  assert.equal(visible.hp, 1000 - HERO_BY_ID.ankou.abilities.ultimate.damage * HERO_BY_ID.ankou.abilities.ultimate.count);
+  const ultimate = HERO_BY_ID.ankou.abilities.ultimate;
+  assert.equal(visible.hp, 1000, 'the cast tick cannot apply all six hits at once');
   assert.equal(blocked.hp, 1000);
   assert.equal(outOfRange.hp, 1000);
+
+  for (let shot = 1; shot <= ultimate.count; shot++) {
+    world.t = shot * ultimate.durationSec / ultimate.count;
+    tickAbilityState(world, ankou, 0);
+    assert.equal(visible.hp, 1000, `shot ${shot} remains in flight`);
+    assert.equal(world.projectiles.length, shot);
+    assert.equal(blocked.hp, 1000);
+    assert.equal(outOfRange.hp, 1000);
+  }
+  assert.ok(world.projectiles.every(projectile => (
+    projectile.weaponId === ultimate.id && projectile.type === 'guided_projectile'
+  )));
+  tickProjectiles(world, 1);
+  assert.equal(visible.hp, 1000 - ultimate.damage * ultimate.count);
+  assert.equal(ankou.abilities.heroState.homingBarrage, null);
 });
 
-test('guided projectile は遮蔽された最近敵ではなく可視の敵へ追尾する', () => {
+test('Ankou barrage skips protected targets and distributes assigned impacts', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4300);
+  const ankou = world.addPlayer('barrage owner', false, 0, 'ankou');
+  const protectedTarget = world.addPlayer('protected target', false, 1, 'vesta');
+  const left = world.addPlayer('left target', false, 1, 'vesta');
+  const right = world.addPlayer('right target', false, 1, 'vesta');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  ankou.move.pos = [0, 0, 10];
+  protectedTarget.move.pos = [10, 0, 10];
+  protectedTarget.spawnProtected = true;
+  protectedTarget.spawnProtectionEndsAt = world.t + 10;
+  left.move.pos = [25, -6, 10];
+  right.move.pos = [25, 6, 10];
+  for (const target of [protectedTarget, left, right]) target.maxHp = target.hp = 1000;
+  ankou.ultGauge = 100;
+
+  assert.equal(tryActivateAbility(world, ankou, 'ultimate'), true);
+  const ultimate = HERO_BY_ID.ankou.abilities.ultimate;
+  const assigned = [];
+  for (let shot = 1; shot <= ultimate.count; shot++) {
+    world.t = shot * ultimate.durationSec / ultimate.count;
+    tickAbilityState(world, ankou, 0);
+    const event = world.drainEvents().find(item => item.type === 'ability_barrage_shot');
+    assigned.push(event?.target);
+  }
+
+  assert.deepEqual(assigned, [left.id, right.id, left.id, right.id, left.id, right.id]);
+  assert.deepEqual(world.projectiles.map(projectile => projectile.targetId), assigned);
+  for (let tick = 0; tick < 200 && world.projectiles.length > 0; tick++) {
+    tickProjectiles(world, world.dt);
+  }
+
+  assert.equal(protectedTarget.hp, protectedTarget.maxHp);
+  assert.equal(left.maxHp - left.hp, ultimate.damage * 3);
+  assert.equal(right.maxHp - right.hp, ultimate.damage * 3);
+});
+
+test('Ankou seeking blast is a swept guided projectile instead of instant damage', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4301);
+  const ankou = world.addPlayer('seeker', false, 0, 'ankou');
+  const target = world.addPlayer('target', false, 1, 'vesta');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([{ min: [-20, -20, -1], max: [20, 20, 0], tag: 'test-ground' }]);
+  ankou.move.pos = [0, 0, 0];
+  ankou.move.yaw = 0;
+  target.move.pos = [10, 0, 0];
+  ankou.move.grounded = target.move.grounded = true;
+  ankou.resource.value = ankou.resource.max;
+
+  assert.equal(tryActivateAbility(world, ankou, 'ability1'), true);
+  assert.equal(target.hp, target.maxHp, 'activation cannot apply instant damage');
+  assert.equal(world.projectiles.length, 1);
+  assert.equal(world.projectiles[0].weaponId, HERO_BY_ID.ankou.abilities.ability1.id);
+  assert.equal(world.projectiles[0].type, 'guided_projectile');
+  tickProjectiles(world, 1);
+  assert.equal(target.maxHp - target.hp, HERO_BY_ID.ankou.abilities.ability1.damage);
+});
+
+test('Ankou guided projectile retains its assigned target when another enemy becomes nearer', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4302);
+  const ankou = world.addPlayer('target owner', false, 0, 'ankou');
+  const assigned = world.addPlayer('assigned target', false, 1, 'vesta');
+  const decoy = world.addPlayer('later decoy', false, 1, 'vesta');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([{ min: [-30, -30, -1], max: [30, 30, 0], tag: 'test-ground' }]);
+  ankou.move.pos = [0, 0, 0];
+  ankou.move.yaw = 0;
+  assigned.move.pos = [12, 0, 0];
+  decoy.move.pos = [20, 6, 0];
+  for (const player of [ankou, assigned, decoy]) player.move.grounded = true;
+  ankou.resource.value = ankou.resource.max;
+
+  assert.equal(tryActivateAbility(world, ankou, 'ability1'), true);
+  assert.equal(world.projectiles.length, 1);
+  assert.equal(world.projectiles[0].targetId, assigned.id);
+  decoy.move.pos = [5, 5, 0];
+
+  tickProjectiles(world, 1);
+
+  assert.equal(assigned.maxHp - assigned.hp, HERO_BY_ID.ankou.abilities.ability1.damage);
+  assert.equal(decoy.hp, decoy.maxHp);
+});
+
+test('Ankou seeking blast skips a protected nearer target for an eligible enemy', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4303);
+  const ankou = world.addPlayer('protected-target seeker', false, 0, 'ankou');
+  const protectedTarget = world.addPlayer('protected target', false, 1, 'vesta');
+  const eligible = world.addPlayer('eligible target', false, 1, 'vesta');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([{ min: [-30, -30, -1], max: [30, 30, 0], tag: 'test-ground' }]);
+  ankou.move.pos = [0, 0, 0];
+  ankou.move.yaw = 0;
+  protectedTarget.move.pos = [7, 0, 0];
+  protectedTarget.spawnProtected = true;
+  protectedTarget.spawnProtectionEndsAt = world.t + 10;
+  eligible.move.pos = [12, 3, 0];
+  for (const player of [ankou, protectedTarget, eligible]) player.move.grounded = true;
+  ankou.resource.value = ankou.resource.max;
+
+  assert.equal(tryActivateAbility(world, ankou, 'ability1'), true);
+  assert.equal(world.projectiles[0]?.targetId, eligible.id);
+  tickProjectiles(world, 1);
+
+  assert.equal(protectedTarget.hp, protectedTarget.maxHp);
+  assert.equal(eligible.maxHp - eligible.hp, HERO_BY_ID.ankou.abilities.ability1.damage);
+  assert.equal(
+    world.drainEvents().some(event => event.type === 'projectile_impact' && event.target === protectedTarget.id),
+    false,
+  );
+});
+
+test('Ankou guided projectile never impacts its assigned target after spawn protection begins', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4304);
+  const ankou = world.addPlayer('in-flight protection seeker', false, 0, 'ankou');
+  const assigned = world.addPlayer('newly protected target', false, 1, 'vesta');
+  const bystander = world.addPlayer('eligible bystander', false, 1, 'vesta');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([{ min: [-30, -30, -1], max: [30, 30, 0], tag: 'test-ground' }]);
+  ankou.move.pos = [0, 0, 0];
+  ankou.move.yaw = 0;
+  assigned.move.pos = [12, 0, 0];
+  bystander.move.pos = [5, 5, 0];
+  for (const player of [ankou, assigned, bystander]) player.move.grounded = true;
+  ankou.resource.value = ankou.resource.max;
+
+  assert.equal(tryActivateAbility(world, ankou, 'ability1'), true);
+  assert.equal(world.projectiles[0]?.targetId, assigned.id);
+  assigned.spawnProtected = true;
+  assigned.spawnProtectionEndsAt = world.t + 10;
+  world.drainEvents();
+
+  tickProjectiles(world, 1);
+  const impacts = world.drainEvents().filter(event => event.type === 'projectile_impact');
+
+  assert.equal(assigned.hp, assigned.maxHp);
+  assert.equal(bystander.hp, bystander.maxHp);
+  assert.equal(impacts.some(event => event.target === assigned.id), false);
+  assert.equal(world.projectiles[0]?.targetId, assigned.id, 'the assignment is retained without reacquisition');
+});
+
+test('Tsuzuri ally grapple uses a collision-swept transit and finishes near its ally', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 432);
+  const tsuzuri = world.addPlayer('Tsuzuri', false, 0, 'tsuzuri');
+  const ally = world.addPlayer('frontline ally', false, 0, 'zairu');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([{ min: [-20, -20, -1], max: [20, 20, 0], tag: 'test-ground' }]);
+  tsuzuri.move.pos = [0, 0, 0];
+  tsuzuri.move.yaw = 0;
+  ally.move.pos = [10, 0, 0];
+
+  assert.equal(tryActivateAbility(world, tsuzuri, 'ability1'), true);
+  world.t = tsuzuri.abilities.cast.readyAt;
+  tickAbilityState(world, tsuzuri, 0);
+
+  assert.equal(tsuzuri.abilities.heroState.transit?.kind, 'ally_grapple');
+  assert.equal(
+    ally.abilities.statuses.some(status => status.kind === 'stored_heal' && status.sourceId === tsuzuri.id),
+    true,
+  );
+
+  let ticks = 0;
+  while (tsuzuri.abilities.heroState.transit && ticks++ < 200) {
+    world.t += world.dt;
+    tickAbilityState(world, tsuzuri, world.dt);
+  }
+  assert.ok(ticks < 200, 'grapple transit completes');
+  const remaining = Math.hypot(
+    ally.move.pos[0] - tsuzuri.move.pos[0],
+    ally.move.pos[1] - tsuzuri.move.pos[1],
+  );
+  assert.ok(remaining >= 1.5 && remaining <= 2.5, `remaining=${remaining}`);
+  assert.equal(
+    world.collider.overlapsCylinder(
+      tsuzuri.move.pos[0], tsuzuri.move.pos[1], tsuzuri.move.pos[2],
+      COMBAT.movement.capsuleRadiusM, COMBAT.movement.standHeightM,
+    ),
+    false,
+  );
+});
+
+test('Tsuzuri ally grapple keeps its windup target when a nearer ally enters the aim cone', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4322);
+  const tsuzuri = world.addPlayer('Tsuzuri', false, 0, 'tsuzuri');
+  const tank = world.addPlayer('locked frontline ally', false, 0, 'zairu');
+  const lateAlly = world.addPlayer('late nearer ally', false, 0, 'asagi');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([{ min: [-20, -20, -1], max: [20, 20, 0], tag: 'test-ground' }]);
+  tsuzuri.move.pos = [0, 0, 0];
+  tsuzuri.move.yaw = 0;
+  tank.move.pos = [10, 0, 0];
+  lateAlly.move.pos = [0, 6, 0];
+
+  assert.equal(tryActivateAbility(world, tsuzuri, 'ability1'), true);
+  lateAlly.move.pos = [4, 0, 0];
+  world.t = tsuzuri.abilities.cast.readyAt;
+  tickAbilityState(world, tsuzuri, 0);
+
+  assert.equal(tsuzuri.abilities.heroState.transit?.targetId, tank.id);
+  assert.equal(
+    tank.abilities.statuses.some(status => status.kind === 'stored_heal' && status.sourceId === tsuzuri.id),
+    true,
+  );
+  assert.equal(
+    lateAlly.abilities.statuses.some(status => status.kind === 'stored_heal' && status.sourceId === tsuzuri.id),
+    false,
+  );
+});
+
+test('guided projectile keeps a covered assignment instead of reacquiring a visible enemy', () => {
   const world = new World(buildMap(), MODE, COMBAT, 431);
   const ankou = world.addPlayer('提灯守', false, 0, 'ankou');
   const blocked = world.addPlayer('遮蔽された近敵', false, 1, 'asagi');
@@ -521,10 +867,15 @@ test('guided projectile は遮蔽された最近敵ではなく可視の敵へ�
   visible.move.pos = [12, -5, 10];
   world.collider = new Collider([{ min: [2, 0.9, 9], max: [8, 1.1, 13], tag: 'test-wall' }]);
 
-  const projectile = spawnWeaponProjectile(world, ankou, HERO_BY_ID.ankou.weapon, [0, 0, 11], [1, 0, 0]);
+  const projectile = spawnWeaponProjectile(
+    world, ankou, HERO_BY_ID.ankou.weapon, [0, 0, 11], [1, 0, 0],
+    { targetId: blocked.id },
+  );
   tickProjectiles(world, 0.1);
 
-  assert.ok(projectile.dir[1] < 0, `visible target direction expected, dir=${projectile.dir}`);
+  assert.equal(projectile.targetId, blocked.id);
+  assert.deepEqual(projectile.dir, [1, 0, 0]);
+  assert.equal(visible.hp, visible.maxHp);
 });
 
 test('能力のpushは swept cylinder 経路を使い solid を通り抜けない', () => {
@@ -604,6 +955,186 @@ test('速度を付与するdash能力も通常移動の swept cylinder 経路を
     ),
     false,
   );
+});
+
+test('シオマネキの波乗りシールドは3秒で消える', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4331);
+  const shiomaneki = world.addPlayer('潮招き', false, 0, 'shiomaneki');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+
+  assert.equal(tryActivateAbility(world, shiomaneki, 'secondary'), true);
+  assert.equal(shiomaneki.shield, 35);
+
+  world.t = 2.99;
+  tickAbilityState(world, shiomaneki, 0);
+  assert.equal(shiomaneki.shield, 35);
+
+  world.t = 3;
+  tickAbilityState(world, shiomaneki, 0);
+
+  assert.equal(shiomaneki.shield, 0);
+  assert.equal(
+    world.drainEvents().filter(event => event.type === 'shield_expired' && event.player === shiomaneki.id).length,
+    1,
+  );
+});
+
+test('シオマネキのうねりは範囲内の味方へ4秒シールドを与える', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4332);
+  const shiomaneki = world.addPlayer('潮招き', false, 0, 'shiomaneki');
+  const ally = world.addPlayer('味方', false, 0, 'asagi');
+  const outsideWave = world.addPlayer('波の外の味方', false, 0, 'ankou');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  shiomaneki.move.pos = [0, 0, 10];
+  ally.move.pos = [1, 0, 10];
+  outsideWave.move.pos = [6, 0, 10];
+
+  assert.equal(tryActivateAbility(world, shiomaneki, 'ability1'), true);
+  assert.equal(ally.shield, 40);
+  assert.equal(outsideWave.shield, 0, 'radiusM=5 の外へチームシールドを配らない');
+
+  world.t = 3.99;
+  tickAbilityState(world, ally, 0);
+  assert.equal(ally.shield, 40);
+
+  world.t = 4;
+  tickAbilityState(world, ally, 0);
+
+  assert.equal(ally.shield, 0);
+});
+
+test('カラカサの傘滑りシールドは3秒で消える', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4333);
+  const karakasa = world.addPlayer('傘守', false, 0, 'karakasa');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+
+  assert.equal(tryActivateAbility(world, karakasa, 'ability1'), true);
+  assert.equal(karakasa.shield, 25);
+
+  world.t = 2.99;
+  tickAbilityState(world, karakasa, 0);
+  assert.equal(karakasa.shield, 25);
+
+  world.t = 3;
+  tickAbilityState(world, karakasa, 0);
+
+  assert.equal(karakasa.shield, 0);
+});
+
+test('残存シールドへ重ねた短いシールドは既存の長い期限を縮めない', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4334);
+  const shiomaneki = world.addPlayer('潮招き', false, 0, 'shiomaneki');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  shiomaneki.ultGauge = 100;
+
+  assert.equal(tryActivateAbility(world, shiomaneki, 'ultimate'), true);
+  assert.equal(shiomaneki.shield, 75);
+
+  world.t = 1;
+  assert.equal(tryActivateAbility(world, shiomaneki, 'secondary'), true);
+  assert.equal(shiomaneki.shield, 110);
+
+  world.t = 4;
+  tickAbilityState(world, shiomaneki, 0);
+  assert.equal(shiomaneki.shield, 110);
+
+  world.t = 5.99;
+  tickAbilityState(world, shiomaneki, 0);
+  assert.equal(shiomaneki.shield, 110);
+
+  world.t = 6;
+  tickAbilityState(world, shiomaneki, 0);
+  assert.equal(shiomaneki.shield, 0);
+});
+
+test('残存シールドへ重ねた長いシールドは期限を新しい終了時刻まで延ばす', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4337);
+  const shiomaneki = world.addPlayer('潮招き', false, 0, 'shiomaneki');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  shiomaneki.ultGauge = 100;
+
+  assert.equal(tryActivateAbility(world, shiomaneki, 'secondary'), true);
+  assert.equal(shiomaneki.shield, 35);
+
+  world.t = 1;
+  assert.equal(tryActivateAbility(world, shiomaneki, 'ultimate'), true);
+  assert.equal(shiomaneki.shield, 110);
+
+  world.t = 6.99;
+  tickAbilityState(world, shiomaneki, 0);
+  assert.equal(shiomaneki.shield, 110);
+
+  world.t = 7;
+  tickAbilityState(world, shiomaneki, 0);
+  assert.equal(shiomaneki.shield, 0);
+});
+
+test('消耗済みシールドの古い期限は次の付与へ引き継がれない', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4335);
+  const shiomaneki = world.addPlayer('潮招き', false, 0, 'shiomaneki');
+  const enemy = world.addPlayer('敵', false, 1, 'asagi');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  shiomaneki.ultGauge = 100;
+
+  assert.equal(tryActivateAbility(world, shiomaneki, 'ultimate'), true);
+  world.applyDamage(shiomaneki, 75, enemy, false);
+  assert.equal(shiomaneki.shield, 0);
+
+  world.t = 1;
+  assert.equal(tryActivateAbility(world, shiomaneki, 'secondary'), true);
+  assert.equal(shiomaneki.shield, 35);
+
+  world.t = 3.99;
+  tickAbilityState(world, shiomaneki, 0);
+  assert.equal(shiomaneki.shield, 35);
+
+  world.t = 4;
+  tickAbilityState(world, shiomaneki, 0);
+  assert.equal(shiomaneki.shield, 0);
+});
+
+test('ザイルの投錨着地シールドは2秒で消える', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4336);
+  const zairu = world.addPlayer('錨守', false, 0, 'zairu');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  zairu.move.pos = [0, 0, 10];
+  zairu.resource.value = 100;
+  zairu.abilities.heroState.anchor = {
+    pos: [1, 0, 10], origin: [...zairu.move.pos], expiresAt: world.t + 6,
+  };
+
+  assert.equal(tryActivateAbility(world, zairu, 'ability1'), true);
+  world.t = zairu.abilities.cast.readyAt;
+  tickAbilityState(world, zairu, 0);
+  while (zairu.abilities.heroState.transit) {
+    world.t += world.dt;
+    tickAbilityState(world, zairu, world.dt);
+  }
+  assert.equal(zairu.shield, 50);
+
+  const landedAt = world.t;
+  world.t = landedAt + 1.99;
+  tickAbilityState(world, zairu, 0);
+  assert.equal(zairu.shield, 50);
+
+  world.t = landedAt + 2;
+  tickAbilityState(world, zairu, 0);
+
+  assert.equal(zairu.shield, 0);
 });
 
 test('zoneへの能力移動もXY→Zのsweepで壁手前に停止する', () => {
@@ -755,7 +1286,7 @@ test('必殺技は100%未満では拒否し、予兆完了後に一度だけ発�
   world.queueInput(player.id, { ultimate: true });
   world.tick();
   assert.equal(world.drainEvents().some(event => event.type === 'ultimate_used'), false);
-  assert.equal(player.ultGauge, gainFromPassive(world.dt, COMBAT.ultimateEconomy));
+  assert.equal(player.ultGauge, 0, 'idle setup cannot supply a free ultimate charge');
 
   world.queueInput(player.id, { ultimate: false });
   world.tick();
@@ -948,7 +1479,44 @@ test('三点バーストは残弾1/2/3だけを同じattackとして発射し弾
   }
 });
 
-test('ツヅリの灯針は味方へ縫い目を残し2秒後に回復へ変換する', () => {
+test('アサギの継ぎ足はDamageから味方へ回復場を提供し敵を回復しない', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4501);
+  const asagi = world.addPlayer('測量士', false, 0, 'asagi');
+  const support = world.addPlayer('支援役', false, 0, 'tsuzuri');
+  const enemy = world.addPlayer('敵', false, 1, 'shirasagi');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  asagi.move.pos = [0, 0, 10];
+  support.move.pos = [1, 0, 10];
+  enemy.move.pos = [1, 1, 10];
+  asagi.hp = support.hp = enemy.hp = 100;
+
+  assert.equal(tryActivateAbility(world, asagi, 'ability2'), true);
+  const field = world.zones.find(zone => (
+    zone.ownerId === asagi.id && zone.abilityId === HERO_BY_ID.asagi.abilities.ability2.id
+  ));
+  assert.ok(field);
+  assert.deepEqual(field.center, [0, 0, 10]);
+  assert.equal(field.radiusM, 4);
+  assert.equal(field.healPerSec, 40);
+  assert.equal(field.expiresAt, 5);
+
+  for (const time of [0, 0.25, 0.5, 0.75]) {
+    world.t = time;
+    tickWorldAbilityEffects(world);
+  }
+  assert.equal(asagi.hp, 140, 'Damage本人も回復場を利用できる');
+  assert.equal(support.hp, 140, '味方SupportもDamageの回復場で回復する');
+  assert.equal(enemy.hp, 100, '敵は味方回復場の対象外');
+
+  world.t = 5;
+  tickWorldAbilityEffects(world);
+  assert.equal(world.zones.some(zone => zone.id === field.id), false);
+  assert.equal(support.hp, 140, '期限後は回復しない');
+});
+
+test('ツヅリの灯針は即時18と遅延42を合わせて総量60回復する', () => {
   const world = new World(buildMap(), MODE, COMBAT, 46);
   const tsuzuri = world.addPlayer('仕立て屋', false, 0, 'tsuzuri');
   const ally = world.addPlayer('味方', false, 0, 'asagi');
@@ -962,11 +1530,41 @@ test('ツヅリの灯針は味方へ縫い目を残し2秒後に回復へ変換�
   world.tick();
   world.queueInput(tsuzuri.id, { fire: false });
   for (let i = 0; i < Math.ceil(0.25 / world.dt); i++) world.tick();
-  assert.equal(ally.hp, 100, '回復は即時ではない');
-  assert.equal(ally.abilities.statuses.some(status => status.kind === 'stored_heal' && status.amount === 60), true);
+  assert.equal(ally.hp, 118, '着弾時に救命用の即時回復が入る');
+  assert.equal(ally.abilities.statuses.some(status => status.kind === 'stored_heal' && status.amount === 42), true);
 
   for (let i = 0; i < Math.ceil(2.4 / world.dt); i++) world.tick();
-  assert.equal(ally.hp, 160);
+  assert.equal(ally.hp, 160, '即時18と遅延42の合計は従来どおり60');
+});
+
+test('ツヅリの連射は既存の回復期限を遅らせず5本目も回復量を失わない', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 4601);
+  const tsuzuri = world.addPlayer('仕立て屋', false, 0, 'tsuzuri');
+  const ally = world.addPlayer('味方', false, 0, 'zairu');
+  world.flow.state = 'ACTIVE';
+  ally.hp = 100;
+  const startingHp = ally.hp;
+
+  for (const time of [0, 0.1, 0.2, 0.3, 0.4]) {
+    const deadlinesBefore = new Map(ally.abilities.statuses
+      .filter(status => status.kind === 'stored_heal' && status.amount > 0)
+      .map(status => [status.id, status.convertAt]));
+    world.t = time;
+    storeHeal(world, ally, 60, tsuzuri, 'tsuzuri_primary');
+    for (const status of ally.abilities.statuses) {
+      const previous = deadlinesBefore.get(status.id);
+      if (previous !== undefined && status.amount > 0) {
+        assert.ok(status.convertAt <= previous,
+          `${status.id} deadline moved from ${previous} to ${status.convertAt}`);
+      }
+    }
+  }
+
+  const pending = ally.abilities.statuses
+    .filter(status => status.kind === 'stored_heal' && status.amount > 0)
+    .reduce((total, status) => total + status.amount, 0);
+  assert.equal(ally.hp - startingHp + pending, 300,
+    'overflow converts the oldest stitch instead of discarding it');
 });
 
 test('設置障壁は敵弾を遮り、耐久値をサーバー権威で消費する', () => {
@@ -1231,6 +1829,24 @@ test('アサギの点睛は頭部照準なら100ダメージと標定2を与え�
   assert.equal(hit?.headshot, true);
   assert.deepEqual(hit?.damageOrigin, [0.8, 0, 11.47]);
   assert.deepEqual(hit?.damageDirection, [-9.2, 0, 1.47]);
+});
+
+test('点睛と通常三点射は同tickに重ならず同じ武器cadenceを共有する', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 581);
+  const asagi = world.addPlayer('測量士', false, 0, 'asagi');
+  const target = world.addPlayer('標的', false, 1, 'vesta');
+  world.flow.state = 'ACTIVE'; world.objective.unseal();
+  asagi.move.pos = [0, 0, 10];
+  target.move.pos = [10, 0, 10];
+  const ammoBefore = asagi.weapon.ammo;
+
+  world.queueInput(asagi.id, { secondary: true, fire: true, yaw: 0, pitch: -0.08 });
+  world.tick();
+
+  const shots = world.drainEvents().filter(event => event.type === 'shot' && event.source === asagi.id);
+  assert.deepEqual(shots.map(event => event.weaponId), ['tensei']);
+  assert.equal(asagi.weapon.ammo, ammoBefore - 1);
+  assert.ok(asagi.weapon.nextFireT > world.t);
 });
 
 test('field detonate scatters only projectiles in 3D range with world and barrier LOS', () => {
@@ -1500,6 +2116,16 @@ test('ザイルの巻き戻しは楔へ瞬間移動せず20m/sの帰還線を移
   assert.ok(Math.abs(zairu.move.pos[0]) < 0.2, `帰還後x=${zairu.move.pos[0]}`);
 });
 
+test('ザイルは有効な巻き戻し楔がない時にCDやability eventを消費しない', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 631);
+  const zairu = world.addPlayer('錨守', false, 0, 'zairu');
+  world.flow.state = 'ACTIVE'; world.objective.unseal();
+
+  assert.equal(tryActivateAbility(world, zairu, 'ability2'), false);
+  assert.equal(zairu.abilities.cooldowns.ability2, 0);
+  assert.equal(world.drainEvents().some(event => event.abilityId === 'makimodoshi'), false);
+});
+
 test('コヨミの香炉は耐久60を持ち、敵射撃で破壊すると煙も消える', () => {
   const world = new World(buildMap(), MODE, COMBAT, 64);
   const koyomi = world.addPlayer('暦売り', false, 0, 'koyomi');
@@ -1656,4 +2282,795 @@ test('代受苦の大蔓の衝撃波は3D射程とworld・barrier・deployable�
     const shockwave = world.drainEvents().find(event => event.type === 'ability_shockwave');
     assert.deepEqual(shockwave?.targets, [], scenario.name);
   });
+});
+
+test('Shirabe frozen core tuning is authored in hero SSOT', () => {
+  const shirabe = HERO_BY_ID.shirabe;
+
+  assert.equal(shirabe.passive.harmonyPerLinkedDamagingHit, 5);
+  assert.equal(shirabe.abilities.secondary.durationSec, 12);
+  assert.deepEqual(
+    (({ resourceCost, empoweredHits, damageMult, vulnerabilityDamageTakenMult, vulnerabilityDurationSec }) => ({
+      resourceCost, empoweredHits, damageMult, vulnerabilityDamageTakenMult, vulnerabilityDurationSec,
+    }))(shirabe.abilities.ability1),
+    {
+      resourceCost: 40,
+      empoweredHits: 4,
+      damageMult: 1.2,
+      vulnerabilityDamageTakenMult: 1.15,
+      vulnerabilityDurationSec: 1.5,
+    },
+  );
+  assert.equal(shirabe.abilities.ability1.durationSec, 0);
+});
+
+test('Shirabe link gives bounded harmony only for the linked ally and expires after 12 seconds', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 710);
+  const shirabe = world.addPlayer('linker', false, 0, 'shirabe');
+  const linked = world.addPlayer('linked', false, 0, 'asagi');
+  const unlinked = world.addPlayer('unlinked', false, 0, 'asagi');
+  const enemy = world.addPlayer('enemy', false, 1, 'vesta');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  shirabe.move.pos = [0, 0, 10];
+  shirabe.move.yaw = 0;
+  linked.move.pos = [5, 0, 10];
+  unlinked.move.pos = [0, 5, 10];
+  enemy.move.pos = [10, 0, 10];
+  shirabe.resource.value = 90;
+
+  assert.equal(tryActivateAbility(world, shirabe, 'secondary'), true);
+  assert.equal(shirabe.abilities.heroState.linkedId, linked.id);
+  assert.equal(shirabe.abilities.heroState.linkExpiresAt, 12);
+
+  world.applyDamage(enemy, 10, unlinked, false);
+  assert.equal(shirabe.resource.value, 90, 'unlinked hits grant no harmony');
+  world.applyDamage(enemy, 10, linked, false);
+  world.applyDamage(enemy, 10, linked, false);
+  world.applyDamage(enemy, 10, linked, false);
+  assert.equal(shirabe.resource.value, 100, 'linked gains are capped by passive max');
+
+  world.t = 12;
+  tickAbilityState(world, shirabe, 0);
+  assert.equal(shirabe.abilities.heroState.linkedId, undefined);
+  assert.equal(shirabe.abilities.heroState.linkExpiresAt, undefined);
+  shirabe.resource.value = 50;
+  world.applyDamage(enemy, 10, linked, false);
+  assert.equal(shirabe.resource.value, 50, 'expired links grant no harmony');
+});
+
+test('Shirabe link is replaced by one ally and clears on ally death or invalid team', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 711);
+  const shirabe = world.addPlayer('linker', false, 0, 'shirabe');
+  const first = world.addPlayer('first', false, 0, 'asagi');
+  const second = world.addPlayer('second', false, 0, 'asagi');
+  const enemy = world.addPlayer('enemy', false, 1, 'vesta');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  shirabe.move.pos = [0, 0, 10];
+  shirabe.move.yaw = 0;
+  first.move.pos = [5, 0, 10];
+  second.move.pos = [0, 5, 10];
+  enemy.move.pos = [10, 0, 10];
+
+  assert.equal(tryActivateAbility(world, shirabe, 'secondary'), true);
+  assert.equal(shirabe.abilities.heroState.linkedId, first.id);
+  first.move.pos = [-5, 0, 10];
+  second.move.pos = [5, 0, 10];
+  shirabe.abilities.cooldowns.secondary = 0;
+  assert.equal(tryActivateAbility(world, shirabe, 'secondary'), true);
+  assert.equal(shirabe.abilities.heroState.linkedId, second.id, 'relink replaces the prior ally');
+
+  world.eliminatePlayer(second, { source: enemy });
+  assert.equal(shirabe.abilities.heroState.linkedId, undefined, 'death clears immediately');
+
+  first.alive = true;
+  first.hp = first.maxHp;
+  first.move.pos = [5, 0, 10];
+  shirabe.abilities.cooldowns.secondary = 0;
+  assert.equal(tryActivateAbility(world, shirabe, 'secondary'), true);
+  first.team = 1;
+  tickAbilityState(world, shirabe, 0);
+  assert.equal(shirabe.abilities.heroState.linkedId, undefined, 'team invalidation clears on authority tick');
+});
+
+test('Waon spends 40 harmony and empowers exactly four real enemy hits with vulnerability', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 712);
+  const shirabe = world.addPlayer('linker', false, 0, 'shirabe');
+  const linked = world.addPlayer('linked', false, 0, 'asagi');
+  const friendly = world.addPlayer('friendly', false, 0, 'vesta');
+  const enemy = world.addPlayer('enemy', false, 1, 'vesta');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  shirabe.move.pos = [0, 0, 10];
+  shirabe.move.yaw = 0;
+  linked.move.pos = [5, 0, 10];
+  friendly.move.pos = [8, 0, 10];
+  enemy.move.pos = [10, 0, 10];
+  shirabe.resource.value = 80;
+
+  assert.equal(tryActivateAbility(world, shirabe, 'secondary'), true);
+  assert.equal(tryActivateAbility(world, shirabe, 'ability1'), true);
+  assert.equal(shirabe.resource.value, 40);
+  assert.equal(linked.abilities.heroState.empoweredHits?.remaining, 4);
+
+  world.applyDamage(friendly, 10, linked, false);
+  world.applyDamage(enemy, 0, linked, false);
+  enemy.flags.invulnerable = true;
+  world.applyDamage(enemy, 10, linked, false);
+  enemy.flags.invulnerable = false;
+  assert.equal(linked.abilities.heroState.empoweredHits?.remaining, 4, 'non-enemy and zero damage do not consume');
+
+  const hpBefore = enemy.hp;
+  world.applyDamage(enemy, 10, linked, false);
+  assert.equal(enemy.hp, hpBefore - 12);
+  assert.equal(linked.abilities.heroState.empoweredHits?.remaining, 3);
+  const vulnerability = enemy.abilities.statuses.find(status => status.id === 'waon:vulnerability');
+  assert.equal(vulnerability?.damageTakenMult, 1.15);
+  assert.equal(vulnerability?.expiresAt, 1.5);
+
+  world.applyDamage(enemy, 10, linked, false);
+  world.applyDamage(enemy, 10, linked, false);
+  world.applyDamage(enemy, 10, linked, false);
+  assert.equal(linked.abilities.heroState.empoweredHits, undefined);
+
+  world.t = 1.5;
+  tickAbilityState(world, enemy, 0);
+  const hpAfterCharges = enemy.hp;
+  world.applyDamage(enemy, 10, linked, false);
+  assert.equal(enemy.hp, hpAfterCharges - 10, 'amplification ends after the fourth damaging hit');
+});
+
+test('Waon requires the linked ally to remain in range and LOS and never falls back to another ally', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 713);
+  const shirabe = world.addPlayer('linker', false, 0, 'shirabe');
+  const linked = world.addPlayer('linked', false, 0, 'asagi');
+  const fallback = world.addPlayer('fallback', false, 0, 'asagi');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  shirabe.move.pos = [0, 0, 10];
+  shirabe.move.yaw = 0;
+  linked.move.pos = [5, 0, 10];
+  fallback.move.pos = [0, 5, 10];
+  shirabe.resource.value = 80;
+
+  assert.equal(tryActivateAbility(world, shirabe, 'secondary'), true);
+  linked.move.pos = [31, 0, 10];
+  fallback.move.pos = [5, 0, 10];
+  assert.equal(tryActivateAbility(world, shirabe, 'ability1'), false);
+  assert.equal(shirabe.resource.value, 80);
+  assert.equal(fallback.abilities.heroState.empoweredHits, undefined);
+
+  linked.move.pos = [5, 0, 10];
+  world.collider = new Collider([{ min: [2, -2, 9], max: [3, 2, 13], tag: 'wall' }]);
+  assert.equal(tryActivateAbility(world, shirabe, 'ability1'), false);
+  assert.equal(shirabe.resource.value, 80);
+});
+
+test('redirected damage counts as one linked hit for harmony and Waon charges', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 714);
+  const shirabe = world.addPlayer('linker', false, 0, 'shirabe');
+  const linked = world.addPlayer('linked', false, 0, 'asagi');
+  const kazura = world.addPlayer('redirector', false, 1, 'kazura');
+  const victim = world.addPlayer('victim', false, 1, 'vesta');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  shirabe.move.pos = [0, 10, 10];
+  shirabe.move.yaw = 0;
+  linked.move.pos = [5, 10, 10];
+  kazura.move.pos = [0, 0, 10];
+  kazura.move.yaw = 0;
+  victim.move.pos = [5, 0, 10];
+  shirabe.resource.value = 80;
+
+  assert.equal(tryActivateAbility(world, shirabe, 'secondary'), true);
+  assert.equal(tryActivateAbility(world, shirabe, 'ability1'), true);
+  assert.equal(tryActivateAbility(world, kazura, 'secondary'), true);
+  world.drainEvents();
+  world.applyDamage(victim, 20, linked, false);
+
+  assert.equal(shirabe.resource.value, 45, 'one hit adds one 5-point harmony gain after Waon cost');
+  assert.equal(linked.abilities.heroState.empoweredHits?.remaining, 3);
+  assert.equal(world.drainEvents().filter(event => event.type === 'hit' && event.source === linked.id).length, 2);
+});
+
+test('Shirasagi charged rifle remains hitscan when its SSOT has no projectile speed', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 715);
+  const shirasagi = world.addPlayer('precision shooter', false, 0, 'shirasagi');
+  const target = world.addPlayer('distant target', false, 1, 'shiomaneki');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([{
+    min: [-100, -100, -1], max: [100, 100, 4], tag: 'test-ground',
+  }]);
+  shirasagi.move.pos = [0, 0, 4];
+  target.move.pos = [32, 0, 4];
+  shirasagi.move.grounded = target.move.grounded = true;
+  shirasagi.move.yaw = 0;
+  shirasagi.move.pitch = 0;
+  world.queueInput(shirasagi.id, { fire: true, yaw: 0, pitch: 0, interpMs: 0 });
+
+  let shot = null;
+  for (let tick = 0; tick < 150 && !shot; tick++) {
+    world.tick();
+    shot = world.drainEvents().find(event => (
+      event.type === 'shot' && event.source === shirasagi.id
+    )) || null;
+  }
+
+  assert.ok(shot, 'the full charge produces one shot');
+  assert.ok(shot.chargeRatio >= 0.99, `chargeRatio=${shot.chargeRatio}`);
+  assert.notEqual(shot.projectile, true);
+  assert.equal(world.projectiles.length, 0);
+  assert.ok(target.hp < target.maxHp, `targetHp=${target.hp}`);
+});
+
+test('Shirasagi charge keeps elapsed base-rate progress when ultimate starts mid-charge', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 7151);
+  const shirasagi = world.addPlayer('rate-segment shooter', false, 0, 'shirasagi');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  shirasagi.move.pos = [0, 0, 10];
+  shirasagi.move.yaw = 0;
+  shirasagi.move.pitch = 0;
+  shirasagi.inputCommandState = {
+    ...shirasagi.inputCommandState, fire: true, yaw: 0, pitch: 0,
+  };
+
+  world.tick();
+  const chargeEvents = world.drainEvents().filter(event => event.type === 'weapon_charge');
+  assert.equal(chargeEvents.length, 1);
+  assert.equal(chargeEvents[0].chargeSec, 1.5);
+  assert.equal(chargeEvents[0].authoredChargeSec, 1.5);
+  for (let tick = 0; tick < 31; tick++) {
+    world.tick();
+    world.drainEvents();
+  }
+
+  shirasagi.ultGauge = 100;
+  shirasagi.inputCommandState = {
+    ...shirasagi.inputCommandState, fire: false, ultimate: true,
+  };
+  world.tick();
+  const events = world.drainEvents();
+  const shot = events.find(event => event.type === 'shot' && event.source === shirasagi.id);
+
+  assert.ok(shot, 'releasing while the ultimate starts emits the charged shot');
+  assert.ok(
+    shot.chargeRatio >= 0.33 && shot.chargeRatio <= 0.36,
+    `elapsed base-rate progress was retroactively changed: ${shot.chargeRatio}`,
+  );
+});
+
+test('Shirasagi charge keeps boosted progress when ultimate ends mid-charge', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 7152);
+  const shirasagi = world.addPlayer('expiry-segment shooter', false, 0, 'shirasagi');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  shirasagi.move.pos = [0, 0, 10];
+  shirasagi.move.yaw = 0;
+  shirasagi.move.pitch = 0;
+  shirasagi.ultGauge = 100;
+  assert.equal(tryActivateAbility(world, shirasagi, 'ultimate'), true);
+  shirasagi.inputCommandState = {
+    ...shirasagi.inputCommandState, fire: true, yaw: 0, pitch: 0,
+  };
+
+  world.tick();
+  const charge = world.drainEvents().find(event => event.type === 'weapon_charge');
+  assert.equal(charge?.chargeSec, 0.75);
+  assert.equal(charge?.authoredChargeSec, 1.5);
+  const ultimateStatus = shirasagi.abilities.statuses.find(status => status.id === 'sumiwatari');
+  assert.ok(ultimateStatus);
+  ultimateStatus.expiresAt = world.t + 15 * world.dt;
+  for (let tick = 0; tick < 29; tick++) {
+    world.tick();
+    world.drainEvents();
+  }
+
+  shirasagi.inputCommandState = { ...shirasagi.inputCommandState, fire: false };
+  world.tick();
+  const shot = world.drainEvents().find(event => event.type === 'shot' && event.source === shirasagi.id);
+
+  assert.ok(shot, 'releasing after the ultimate expires emits the charged shot');
+  assert.ok(
+    Math.abs(shot.chargeRatio - 0.4762) < 0.001,
+    `boosted elapsed progress was rolled back at expiry: ${shot.chargeRatio}`,
+  );
+});
+
+test('Shirasagi ultimate halves charge time and pierces only one extra enemy without crossing cover', () => {
+  const makeLine = cover => {
+    const world = new World(buildMap(), MODE, COMBAT, 716);
+    const shirasagi = world.addPlayer('precision shooter', false, 0, 'shirasagi');
+    const ally = world.addPlayer('friendly bystander', false, 0, 'asagi');
+    const first = world.addPlayer('first target', false, 1, 'shiomaneki');
+    const second = world.addPlayer('second target', false, 1, 'vesta');
+    const third = world.addPlayer('third target', false, 1, 'baraga');
+    world.flow.state = 'ACTIVE';
+    world.objective.unseal();
+    world.collider = new Collider([
+      { min: [-100, -100, -1], max: [100, 100, 4], tag: 'test-ground' },
+      ...(cover === 'world' ? [{
+        min: [25, -2, 4], max: [25.2, 2, 8], tag: 'pierce-wall',
+      }] : []),
+    ]);
+    shirasagi.move.pos = [0, 0, 4];
+    ally.move.pos = [10, 0, 4];
+    first.move.pos = [20, 0, 4];
+    second.move.pos = [30, 0, 4];
+    third.move.pos = [40, 0, 4];
+    for (const player of [shirasagi, ally, first, second, third]) player.move.grounded = true;
+    shirasagi.move.yaw = 0;
+    shirasagi.move.pitch = 0;
+    shirasagi.ultGauge = 100;
+    assert.equal(tryActivateAbility(world, shirasagi, 'ultimate'), true);
+    if (cover === 'barrier') world.barriers.push({
+      id: 'pierce-stop', ownerId: second.id, team: 1,
+      center: [25, 0, 4], radiusM: 2, heightM: 4, hp: 600,
+      maxHp: 600, friendlyPass: true, expiresAt: world.t + 10,
+    });
+    shirasagi.inputCommandState = {
+      ...shirasagi.inputCommandState, fire: true, yaw: 0, pitch: 0,
+    };
+    let shot = null;
+    let ticks = 0;
+    while (!shot && ticks++ < 60) {
+      world.tick();
+      shot = world.drainEvents().find(event => event.type === 'shot' && event.source === shirasagi.id) || null;
+    }
+    return { world, shirasagi, ally, first, second, third, shot, ticks };
+  };
+
+  const open = makeLine(null);
+  assert.ok(open.shot, 'ultimate shot releases');
+  assert.ok(open.ticks <= 50, `effective 0.75s charge exceeded: ticks=${open.ticks}`);
+  assert.ok(open.shot.chargeRatio >= 0.99, `chargeRatio=${open.shot.chargeRatio}`);
+  assert.equal(open.ally.hp, open.ally.maxHp, 'an ally on the trace is ignored');
+  assert.ok(open.first.hp < open.first.maxHp, 'the first target is hit');
+  assert.ok(open.second.hp < open.second.maxHp, 'one additional target is pierced');
+  assert.equal(open.third.hp, open.third.maxHp, 'pierce=1 never reaches a second extra enemy');
+  assert.equal(open.world.projectiles.length, 0, 'piercing remains hitscan');
+
+  const blocked = makeLine('barrier');
+  assert.ok(blocked.first.hp < blocked.first.maxHp, 'the first target before the barrier is hit');
+  assert.equal(blocked.second.hp, blocked.second.maxHp, 'the barrier stops the piercing trace');
+  assert.ok(blocked.world.barriers[0].hp < blocked.world.barriers[0].maxHp);
+
+  const walled = makeLine('world');
+  assert.ok(walled.first.hp < walled.first.maxHp, 'the first target before solid cover is hit');
+  assert.equal(walled.second.hp, walled.second.maxHp, 'solid cover stops the piercing trace');
+});
+
+test('Karakasa cannot fire while the projectile guard is active', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 7161);
+  const karakasa = world.addPlayer('guarded shooter', false, 0, 'karakasa');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([]);
+  karakasa.move.pos = [0, 0, 10];
+  const ammoBefore = karakasa.weapon.ammo;
+
+  world.queueInput(karakasa.id, {
+    secondary: true, fire: true, yaw: 0, pitch: 0, interpMs: 0,
+  });
+  world.tick();
+  const events = world.drainEvents();
+
+  assert.equal(events.some(event => event.type === 'ability_used' && event.abilityId === 'ukenagashi'), true);
+  assert.equal(events.some(event => event.type === 'shot' && event.source === karakasa.id), false);
+  assert.equal(karakasa.weapon.ammo, ammoBefore);
+});
+
+test('Karakasa projectile guard mitigates weapon projectiles without reducing direct ability damage', () => {
+  assert.equal(HERO_BY_ID.karakasa.abilities.secondary.frontalArcDeg, 120);
+  assert.equal(HERO_BY_ID.karakasa.abilities.ultimate.frontalArcDeg, 120);
+  const makeGuardWorld = (seed, attackerX = 0) => {
+    const world = new World(buildMap(), MODE, COMBAT, seed);
+    const karakasa = world.addPlayer('guard', false, 0, 'karakasa');
+    const attacker = world.addPlayer('attacker', false, 1, 'ankou');
+    world.flow.state = 'ACTIVE';
+    world.objective.unseal();
+    world.collider = new Collider([{
+      min: [-100, -100, -1], max: [100, 100, 0], tag: 'test-ground',
+    }]);
+    karakasa.move.pos = [5, 0, 0];
+    karakasa.move.yaw = Math.PI;
+    attacker.move.pos = [attackerX, 0, 0];
+    karakasa.move.grounded = attacker.move.grounded = true;
+    assert.equal(tryActivateAbility(world, karakasa, 'secondary'), true);
+    world.drainEvents();
+    return { world, karakasa, attacker };
+  };
+
+  const direct = makeGuardWorld(717);
+  direct.world.applyDamage(direct.karakasa, 100, direct.attacker, false, {
+    abilityId: 'direct-ability-probe', damageKind: 'ability', damageOrigin: [0, 0, 0],
+  });
+  assert.equal(direct.karakasa.maxHp - direct.karakasa.hp, 100);
+
+  const physical = makeGuardWorld(718);
+  spawnWeaponProjectile(physical.world, physical.attacker, {
+    id: 'physical-projectile-probe', type: 'projectile', damage: 100,
+    projectileSpeedMps: 20, maxRangeM: 10,
+    falloffStartM: 10, falloffEndM: 10.01, falloffMinMult: 1,
+  }, [0, 0, 1], [1, 0, 0]);
+  tickProjectiles(physical.world, 0.5);
+  assert.equal(physical.karakasa.maxHp - physical.karakasa.hp, 35);
+
+  const rear = makeGuardWorld(719, 10);
+  spawnWeaponProjectile(rear.world, rear.attacker, {
+    id: 'rear-projectile-probe', type: 'projectile', damage: 100,
+    projectileSpeedMps: 20, maxRangeM: 10,
+    falloffStartM: 10, falloffEndM: 10.01, falloffMinMult: 1,
+  }, [10, 0, 1], [-1, 0, 0]);
+  tickProjectiles(rear.world, 0.5);
+  assert.equal(rear.karakasa.maxHp - rear.karakasa.hp, 100);
+
+  const unknownSource = makeGuardWorld(7191);
+  unknownSource.world.applyDamage(unknownSource.karakasa, 100, unknownSource.attacker, false, {
+    projectileGuardEligible: true,
+  });
+  assert.equal(unknownSource.karakasa.maxHp - unknownSource.karakasa.hp, 100);
+});
+
+test('Karakasa projectile guard mitigates an actual hitscan weapon but not an actual melee strike', () => {
+  const runAttack = (seed, heroId, distanceM) => {
+    const world = new World(buildMap(), MODE, COMBAT, seed);
+    const karakasa = world.addPlayer('guard target', false, 0, 'karakasa');
+    const attacker = world.addPlayer('weapon attacker', false, 1, heroId);
+    world.flow.state = 'ACTIVE';
+    world.objective.unseal();
+    world.collider = new Collider([{
+      min: [-20, -20, -1], max: [20, 20, 0], tag: 'guard-ground',
+    }]);
+    attacker.move.pos = [0, 0, 0];
+    attacker.move.yaw = 0;
+    attacker.move.pitch = 0;
+    karakasa.move.pos = [distanceM, 0, 0];
+    karakasa.move.yaw = Math.PI;
+    attacker.move.grounded = karakasa.move.grounded = true;
+    assert.equal(tryActivateAbility(world, karakasa, 'secondary'), true);
+    world.drainEvents();
+    world.queueInput(karakasa.id, { yaw: Math.PI, pitch: 0, interpMs: 0 });
+    world.queueInput(attacker.id, { fire: true, yaw: 0, pitch: 0, interpMs: 0 });
+    world.tick();
+    return { world, karakasa, events: world.drainEvents() };
+  };
+
+  const hitscan = runAttack(71911, 'asagi', 5);
+  const hitscanHits = hitscan.events.filter(event => (
+    event.type === 'hit' && event.target === hitscan.karakasa.id
+  ));
+  assert.ok(hitscanHits.length > 0);
+  const expectedHitscanDamage = hitscanHits.reduce((total, event) => (
+    total + HERO_BY_ID.asagi.weapon.damage
+      * (event.headshot ? HERO_BY_ID.asagi.weapon.headshotMult : 1)
+      * HERO_BY_ID.karakasa.abilities.secondary.damageTakenMult
+  ), 0);
+  const actualHitscanDamage = hitscan.karakasa.maxHp - hitscan.karakasa.hp;
+  assert.ok(
+    Math.abs(actualHitscanDamage - expectedHitscanDamage) < 1e-6,
+    `actual=${actualHitscanDamage} expected=${expectedHitscanDamage} hits=${JSON.stringify(hitscanHits)}`,
+  );
+
+  const melee = runAttack(71912, 'zairu', 2.5);
+  assert.equal(
+    melee.karakasa.maxHp - melee.karakasa.hp,
+    HERO_BY_ID.zairu.weapon.meleeDamage,
+  );
+});
+
+test('Karakasa cone blast affects every visible enemy in its cone and no covered or off-cone target', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 7192);
+  const karakasa = world.addPlayer('cone owner', false, 0, 'karakasa');
+  const center = world.addPlayer('center target', false, 1, 'asagi');
+  const flank = world.addPlayer('flank target', false, 1, 'asagi');
+  const covered = world.addPlayer('covered target', false, 1, 'asagi');
+  const outside = world.addPlayer('off-cone target', false, 1, 'asagi');
+  const ally = world.addPlayer('friendly target', false, 0, 'asagi');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([
+    { min: [-20, -20, -1], max: [20, 20, 0], tag: 'cone-ground' },
+    { min: [1.8, 0.75, 0], max: [2.2, 1.25, 4], tag: 'cone-cover' },
+  ]);
+  karakasa.move.pos = [0, 0, 0];
+  karakasa.move.yaw = 0;
+  center.move.pos = [3, 0, 0];
+  flank.move.pos = [4, -2, 0];
+  covered.move.pos = [4, 2, 0];
+  outside.move.pos = [0, 4, 0];
+  ally.move.pos = [3, -0.5, 0];
+  for (const player of [karakasa, center, flank, covered, outside, ally]) player.move.grounded = true;
+
+  assert.equal(tryActivateAbility(world, karakasa, 'ability2'), true);
+
+  const damage = HERO_BY_ID.karakasa.abilities.ability2.damage;
+  assert.equal(center.hp, center.maxHp - damage);
+  assert.equal(flank.hp, flank.maxHp - damage);
+  assert.equal(covered.hp, covered.maxHp);
+  assert.equal(outside.hp, outside.maxHp);
+  assert.equal(ally.hp, ally.maxHp);
+});
+
+test('Karakasa air dash travels its authored seven metres as a finite authoritative transit', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 7193);
+  const karakasa = world.addPlayer('air dash owner', false, 0, 'karakasa');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([{
+    min: [-20, -20, -1], max: [20, 20, 0], tag: 'air-dash-ground',
+  }]);
+  karakasa.move.pos = [0, 0, 0];
+  karakasa.move.vel = [0, 0, 0];
+  karakasa.move.yaw = 0;
+  karakasa.move.grounded = true;
+  const definition = HERO_BY_ID.karakasa.abilities.ability1;
+  assert.equal(definition.rangeM, 7);
+
+  assert.equal(tryActivateAbility(world, karakasa, 'ability1'), true);
+  const started = world.drainEvents().find(event => (
+    event.type === 'ability_transit_started' && event.abilityId === definition.id
+  ));
+  assert.ok(started, 'the dash publishes its finite authoritative path');
+  assert.ok(started.durationSec > 0 && started.durationSec < 1);
+  assert.equal(Math.hypot(
+    started.to[0] - started.from[0],
+    started.to[1] - started.from[1],
+  ), definition.rangeM);
+
+  let ended = null;
+  for (let tick = 0; tick < 90 && !ended; tick++) {
+    world.tick();
+    ended = world.drainEvents().find(event => (
+      event.type === 'ability_transit_ended' && event.abilityId === definition.id
+    )) || null;
+  }
+
+  assert.ok(ended, 'the dash terminates');
+  assert.ok(Math.abs(karakasa.move.pos[0] - definition.rangeM) < 0.01, `x=${karakasa.move.pos[0]}`);
+  assert.ok(Math.abs(karakasa.move.pos[1]) < 0.01, `y=${karakasa.move.pos[1]}`);
+});
+
+test('Karakasa air dash stops its player cylinder before solid cover', () => {
+  const world = new World(buildMap(), MODE, COMBAT, 7194);
+  const karakasa = world.addPlayer('blocked air dash owner', false, 0, 'karakasa');
+  const wall = { min: [4, -2, 0], max: [4.2, 2, 4], tag: 'air-dash-wall' };
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([
+    { min: [-20, -20, -1], max: [20, 20, 0], tag: 'air-dash-ground' },
+    wall,
+  ]);
+  karakasa.move.pos = [0, 0, 0];
+  karakasa.move.yaw = 0;
+  karakasa.move.grounded = true;
+
+  assert.equal(tryActivateAbility(world, karakasa, 'ability1'), true);
+  let ended = false;
+  for (let tick = 0; tick < 90 && !ended; tick++) {
+    world.tick();
+    ended = world.drainEvents().some(event => (
+      event.type === 'ability_transit_ended' && event.abilityId === 'kasasuberi'
+    ));
+  }
+
+  assert.equal(ended, true);
+  assert.ok(karakasa.move.pos[0] > 0);
+  assert.ok(
+    karakasa.move.pos[0] <= wall.min[0] - COMBAT.movement.capsuleRadiusM + 1e-4,
+    `x=${karakasa.move.pos[0]}`,
+  );
+  assert.equal(world.collider.overlapsCylinder(
+    karakasa.move.pos[0], karakasa.move.pos[1], karakasa.move.pos[2],
+    COMBAT.movement.capsuleRadiusM, COMBAT.movement.standHeightM,
+  ), false);
+});
+
+function makeHibariTrailWorld(seed, { wall = null, observer = false } = {}) {
+  const world = new World(buildMap(), MODE, COMBAT, seed);
+  const hibari = world.addPlayer('trail-owner', false, 0, 'hibari');
+  world.flow.state = 'ACTIVE';
+  world.objective.unseal();
+  world.collider = new Collider([
+    { min: [-100, -100, -1], max: [100, 100, 0], tag: 'trail-ground' },
+    ...(wall ? [wall] : []),
+  ]);
+  hibari.move.pos = [0, 0, 0];
+  hibari.move.vel = [0, 0, 0];
+  hibari.move.yaw = 0;
+  hibari.move.pitch = 0;
+  hibari.move.grounded = true;
+  if (observer) {
+    const player = world.addPlayer('trail-observer', false, 1, 'asagi');
+    player.move.pos = [80, 80, 0];
+    player.move.grounded = true;
+  }
+  return { world, hibari };
+}
+
+function runHibariTrail(world, hibari, abilityId, maxTicks = 100) {
+  let ticks = 0;
+  while (hibari.abilities.heroState.healingTrailEmitters?.[abilityId] && ticks++ < maxTicks) {
+    world.tick();
+  }
+  assert.ok(ticks < maxTicks, `${abilityId} trail emitter completes`);
+  return world.zones.filter(zone => zone.ownerId === hibari.id && zone.abilityId === abilityId);
+}
+
+test('Hibari healing trails publish their radius, spacing, and finite emission window in SSOT', () => {
+  for (const slot of ['ability1', 'ultimate']) {
+    const definition = HERO_BY_ID.hibari.abilities[slot];
+    assert.equal(definition.radiusM, 4, slot);
+    assert.equal(definition.trailSpacingM, 4, slot);
+    assert.equal(definition.trailEmitSec, 0.65, slot);
+  }
+});
+
+test('Hibari trail keeps one activation expiry and emits only origin plus sampled segments through its endpoint', () => {
+  const { world, hibari } = makeHibariTrailWorld(720);
+  const definition = HERO_BY_ID.hibari.abilities.ability1;
+  const origin = [...hibari.move.pos];
+
+  assert.equal(tryActivateAbility(world, hibari, 'ability1'), true);
+  const activationEvents = world.drainEvents().filter(event => event.type === 'zone_created');
+  assert.equal(activationEvents.length, 1, 'only the origin emits zone_created');
+  assert.deepEqual(activationEvents[0].pos, origin);
+
+  const zones = runHibariTrail(world, hibari, definition.id);
+  const endpoint = zones.at(-1).center;
+  assert.deepEqual(zones[0].center, origin);
+  assert.deepEqual(endpoint, hibari.move.pos, 'the final authoritative position is flushed');
+  assert.ok(Math.hypot(endpoint[0] - origin[0], endpoint[1] - origin[1]) > 0);
+  assert.equal(new Set(zones.map(zone => zone.trailId)).size, 1);
+  assert.deepEqual(zones.map(zone => zone.segmentIndex), zones.map((_, index) => index));
+  assert.equal(new Set(zones.map(zone => zone.expiresAt)).size, 1);
+  assert.equal(zones[0].expiresAt, definition.durationSec);
+  assert.equal(world.drainEvents().some(event => event.type === 'zone_created'), false);
+});
+
+test('Hibari trail heals allies without self-healing and overlapping circles apply one pulse per target', () => {
+  const { world, hibari } = makeHibariTrailWorld(721);
+  const ally = world.addPlayer('endpoint-ally', false, 0, 'asagi');
+  const enemy = world.addPlayer('overlap-enemy', false, 1, 'vesta');
+  ally.move.pos = [80, 80, 0];
+  enemy.move.pos = [80, -80, 0];
+  ally.move.grounded = enemy.move.grounded = true;
+  assert.equal(tryActivateAbility(world, hibari, 'ability1'), true);
+  const zones = runHibariTrail(world, hibari, 'wataribi');
+  assert.ok(zones.length >= 2, 'the trail contains distinct origin and endpoint circles');
+  assert.equal(new Set(zones.map(zone => zone.nextPulseAt)).size, 1, 'later segments join the group pulse schedule');
+  const overlap = zones[0].center.map((value, index) => (value + zones.at(-1).center[index]) / 2);
+  assert.ok(
+    zones.filter(zone => Math.hypot(...zone.center.map((value, index) => value - overlap[index])) <= zone.radiusM).length >= 2,
+    'the target fixture is inside overlapping circles from one trail',
+  );
+  ally.move.pos = overlap;
+  enemy.move.pos = overlap;
+  hibari.move.pos = overlap;
+  ally.move.vel = [0, 0, 0];
+  enemy.move.vel = [0, 0, 0];
+  hibari.move.vel = [0, 0, 0];
+  ally.hp = enemy.hp = hibari.hp = 100;
+  hibari.lastDamageTakenAt = world.t;
+  for (const zone of zones) zone.nextPulseAt = world.t;
+  world.drainEvents();
+
+  for (let tick = 0; tick < Math.round(1 / world.dt); tick++) world.tick();
+
+  const expectedHeal = HERO_BY_ID.hibari.abilities.ability1.healPerSec;
+  const expectedDamage = HERO_BY_ID.hibari.abilities.ability1.damagePerSec;
+  assert.equal(ally.hp, 100 + expectedHeal, 'the endpoint segment heals its nearby ally');
+  assert.equal(hibari.hp, 100, 'the trail owner cannot heal themself');
+  assert.equal(enemy.hp, 100 - expectedDamage);
+  const pulseEvents = world.drainEvents();
+  assert.equal(pulseEvents.filter(event => event.type === 'heal' && event.target === ally.id).length, 4);
+  assert.equal(pulseEvents.filter(event => event.type === 'heal' && event.target === hibari.id).length, 0);
+  assert.equal(pulseEvents.filter(event => event.type === 'hit' && event.target === enemy.id).length, 4);
+});
+
+test('Hibari trail segment bounds include a sub-spacing endpoint and never cross a collision wall', () => {
+  for (const [slot, seed] of [['ability1', 722], ['ultimate', 723]]) {
+    const { world, hibari } = makeHibariTrailWorld(seed);
+    const definition = HERO_BY_ID.hibari.abilities[slot];
+    hibari.move.pos = [0, 0, 10];
+    hibari.move.grounded = false;
+    if (slot === 'ultimate') hibari.ultGauge = 100;
+    assert.equal(tryActivateAbility(world, hibari, slot), true);
+    const zones = runHibariTrail(world, hibari, definition.id);
+    assert.equal(
+      zones.length,
+      Math.ceil(definition.rangeM / definition.trailSpacingM) + 1,
+      `${slot} fills but never exceeds its segment bound`,
+    );
+    assert.deepEqual(zones.at(-1).center, hibari.move.pos, `${slot} reserves its last segment for the endpoint`);
+  }
+
+  const wall = { min: [2, -5, 0], max: [2.2, 5, 4], tag: 'trail-wall' };
+  const { world, hibari } = makeHibariTrailWorld(724, { wall });
+  const definition = HERO_BY_ID.hibari.abilities.ability1;
+  assert.equal(tryActivateAbility(world, hibari, 'ability1'), true);
+  const zones = runHibariTrail(world, hibari, definition.id);
+  assert.equal(zones.length, 2, 'the blocked endpoint is flushed even before four metres');
+  assert.ok(zones.at(-1).center[0] > 0);
+  assert.deepEqual(zones.at(-1).center, hibari.move.pos);
+  assert.ok(
+    zones.every(zone => zone.center[0] <= wall.min[0] - COMBAT.movement.capsuleRadiusM + 1e-4),
+    `centers=${JSON.stringify(zones.map(zone => zone.center))}`,
+  );
+});
+
+test('Hibari trail sampling does not change authoritative movement when an observer is present', () => {
+  const trace = observer => {
+    const { world, hibari } = makeHibariTrailWorld(725, { observer });
+    assert.equal(tryActivateAbility(world, hibari, 'ability1'), true);
+    const positions = [];
+    for (let tick = 0; tick < 48; tick++) {
+      world.tick();
+      positions.push({ pos: [...hibari.move.pos], vel: [...hibari.move.vel] });
+    }
+    return positions;
+  };
+
+  assert.deepEqual(trace(true), trace(false));
+});
+
+test('Hibari trail emitter is discarded on death or history generation change without removing placed zones', () => {
+  const death = makeHibariTrailWorld(726);
+  const killer = death.world.addPlayer('trail-killer', false, 1, 'asagi');
+  assert.equal(tryActivateAbility(death.world, death.hibari, 'ability1'), true);
+  for (let tick = 0; tick < 8; tick++) death.world.tick();
+  const placedBeforeDeath = death.world.zones.filter(zone => zone.abilityId === 'wataribi').length;
+  death.world.eliminatePlayer(death.hibari, { source: killer });
+  for (let tick = 0; tick < 50; tick++) death.world.tick();
+  assert.equal(death.world.zones.filter(zone => zone.abilityId === 'wataribi').length, placedBeforeDeath);
+
+  const generation = makeHibariTrailWorld(727);
+  assert.equal(tryActivateAbility(generation.world, generation.hibari, 'ability1'), true);
+  for (let tick = 0; tick < 8; tick++) generation.world.tick();
+  const placedBeforeSpawn = generation.world.zones.filter(zone => zone.abilityId === 'wataribi').length;
+  assert.equal(generation.world.spawnAtBase(generation.hibari), true);
+  for (let tick = 0; tick < 50; tick++) generation.world.tick();
+  assert.equal(generation.world.zones.filter(zone => zone.abilityId === 'wataribi').length, placedBeforeSpawn);
+});
+
+test('Hibari ability trails replace only the same ability group and remain deterministic', () => {
+  const run = seed => {
+    const { world, hibari } = makeHibariTrailWorld(seed);
+    assert.equal(tryActivateAbility(world, hibari, 'ability1'), true);
+    runHibariTrail(world, hibari, 'wataribi');
+    const firstAbilityTrailId = world.zones.find(zone => zone.abilityId === 'wataribi').trailId;
+    hibari.ultGauge = 100;
+    assert.equal(tryActivateAbility(world, hibari, 'ultimate'), true);
+    world.tick();
+    const ultimateTrailId = world.zones.find(zone => zone.abilityId === 'watarinooohi').trailId;
+    hibari.abilities.cooldowns.ability1 = 0;
+    assert.equal(tryActivateAbility(world, hibari, 'ability1'), true);
+    const abilityZones = world.zones.filter(zone => zone.abilityId === 'wataribi');
+    const ultimateZones = world.zones.filter(zone => zone.abilityId === 'watarinooohi');
+    assert.equal(abilityZones.some(zone => zone.trailId === firstAbilityTrailId), false);
+    assert.equal(new Set(abilityZones.map(zone => zone.trailId)).size, 1);
+    assert.equal(ultimateZones.some(zone => zone.trailId === ultimateTrailId), true);
+    for (let tick = 0; tick < 50; tick++) world.tick();
+    return world.zones
+      .filter(zone => zone.kind === 'healing_trail')
+      .map(zone => ({
+        id: zone.id,
+        trailId: zone.trailId,
+        abilityId: zone.abilityId,
+        segmentIndex: zone.segmentIndex,
+        center: zone.center,
+        expiresAt: zone.expiresAt,
+      }));
+  };
+
+  assert.deepEqual(run(728), run(728));
 });
