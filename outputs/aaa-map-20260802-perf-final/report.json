@@ -1,0 +1,641 @@
+{
+  "globalInfo": {
+    "instanceCount": 19038,
+    "layerCount": 110,
+    "siteCount": 5,
+    "mapId": "map_oshioi",
+    "presentationId": "oshioi-shiokagami-original-v1"
+  },
+  "report": [
+    {
+      "view": "aerial",
+      "stats": {
+        "snapshot": {
+          "quality": "high",
+          "profile": {
+            "dprCap": 1.75,
+            "shadows": true,
+            "shadowMapSize": 2048,
+            "particleBudget": 420,
+            "tracerBudget": 200,
+            "targetFrameMs": 16.7
+          },
+          "frameMs": {
+            "samples": 6,
+            "average": 30.566666666666606,
+            "p95": 50,
+            "p99": 50,
+            "max": 50
+          },
+          "pools": {
+            "particles": {
+              "active": 0,
+              "budget": 420,
+              "capacity": 420,
+              "peak": 0
+            },
+            "tracers": {
+              "active": 0,
+              "budget": 200,
+              "capacity": 200,
+              "peak": 0
+            }
+          },
+          "renderer": {
+            "memory": {
+              "geometries": 151,
+              "textures": 15
+            },
+            "render": {
+              "calls": 153,
+              "triangles": 507906,
+              "points": 0,
+              "lines": 3408,
+              "frame": 6
+            }
+          }
+        },
+        "rendererInfo": {
+          "memory": {
+            "geometries": 151,
+            "textures": 15
+          },
+          "render": {
+            "calls": 153,
+            "triangles": 507906,
+            "points": 0,
+            "lines": 3408,
+            "frame": 6
+          }
+        }
+      }
+    },
+    {
+      "view": "network",
+      "stats": {
+        "snapshot": {
+          "quality": "high",
+          "profile": {
+            "dprCap": 1.75,
+            "shadows": true,
+            "shadowMapSize": 2048,
+            "particleBudget": 420,
+            "tracerBudget": 200,
+            "targetFrameMs": 16.7
+          },
+          "frameMs": {
+            "samples": 13,
+            "average": 41.0307692307692,
+            "p95": 50,
+            "p99": 50,
+            "max": 50
+          },
+          "pools": {
+            "particles": {
+              "active": 0,
+              "budget": 420,
+              "capacity": 420,
+              "peak": 0
+            },
+            "tracers": {
+              "active": 0,
+              "budget": 200,
+              "capacity": 200,
+              "peak": 0
+            }
+          },
+          "renderer": {
+            "memory": {
+              "geometries": 191,
+              "textures": 15
+            },
+            "render": {
+              "calls": 205,
+              "triangles": 509474,
+              "points": 0,
+              "lines": 3846,
+              "frame": 13
+            }
+          }
+        },
+        "rendererInfo": {
+          "memory": {
+            "geometries": 191,
+            "textures": 15
+          },
+          "render": {
+            "calls": 205,
+            "triangles": 509474,
+            "points": 0,
+            "lines": 3846,
+            "frame": 13
+          }
+        }
+      }
+    },
+    {
+      "view": "objective",
+      "stats": {
+        "snapshot": {
+          "quality": "high",
+          "profile": {
+            "dprCap": 1.75,
+            "shadows": true,
+            "shadowMapSize": 2048,
+            "particleBudget": 420,
+            "tracerBudget": 200,
+            "targetFrameMs": 16.7
+          },
+          "frameMs": {
+            "samples": 21,
+            "average": 44.44761904761903,
+            "p95": 50,
+            "p99": 50,
+            "max": 50
+          },
+          "pools": {
+            "particles": {
+              "active": 0,
+              "budget": 420,
+              "capacity": 420,
+              "peak": 0
+            },
+            "tracers": {
+              "active": 0,
+              "budget": 200,
+              "capacity": 200,
+              "peak": 0
+            }
+          },
+          "renderer": {
+            "memory": {
+              "geometries": 191,
+              "textures": 15
+            },
+            "render": {
+              "calls": 145,
+              "triangles": 507026,
+              "points": 0,
+              "lines": 3408,
+              "frame": 21
+            }
+          }
+        },
+        "rendererInfo": {
+          "memory": {
+            "geometries": 191,
+            "textures": 15
+          },
+          "render": {
+            "calls": 145,
+            "triangles": 507026,
+            "points": 0,
+            "lines": 3408,
+            "frame": 21
+          }
+        }
+      }
+    },
+    {
+      "view": "spawn",
+      "stats": {
+        "snapshot": {
+          "quality": "high",
+          "profile": {
+            "dprCap": 1.75,
+            "shadows": true,
+            "shadowMapSize": 2048,
+            "particleBudget": 420,
+            "tracerBudget": 200,
+            "targetFrameMs": 16.7
+          },
+          "frameMs": {
+            "samples": 28,
+            "average": 45.835714285714275,
+            "p95": 50,
+            "p99": 50,
+            "max": 50
+          },
+          "pools": {
+            "particles": {
+              "active": 0,
+              "budget": 420,
+              "capacity": 420,
+              "peak": 0
+            },
+            "tracers": {
+              "active": 0,
+              "budget": 200,
+              "capacity": 200,
+              "peak": 0
+            }
+          },
+          "renderer": {
+            "memory": {
+              "geometries": 191,
+              "textures": 15
+            },
+            "render": {
+              "calls": 146,
+              "triangles": 507038,
+              "points": 0,
+              "lines": 3408,
+              "frame": 28
+            }
+          }
+        },
+        "rendererInfo": {
+          "memory": {
+            "geometries": 191,
+            "textures": 15
+          },
+          "render": {
+            "calls": 146,
+            "triangles": 507038,
+            "points": 0,
+            "lines": 3408,
+            "frame": 28
+          }
+        }
+      }
+    },
+    {
+      "view": "orbit",
+      "stats": {
+        "snapshot": {
+          "quality": "high",
+          "profile": {
+            "dprCap": 1.75,
+            "shadows": true,
+            "shadowMapSize": 2048,
+            "particleBudget": 420,
+            "tracerBudget": 200,
+            "targetFrameMs": 16.7
+          },
+          "frameMs": {
+            "samples": 35,
+            "average": 46.66857142857142,
+            "p95": 50,
+            "p99": 50,
+            "max": 50
+          },
+          "pools": {
+            "particles": {
+              "active": 0,
+              "budget": 420,
+              "capacity": 420,
+              "peak": 0
+            },
+            "tracers": {
+              "active": 0,
+              "budget": 200,
+              "capacity": 200,
+              "peak": 0
+            }
+          },
+          "renderer": {
+            "memory": {
+              "geometries": 191,
+              "textures": 15
+            },
+            "render": {
+              "calls": 146,
+              "triangles": 507074,
+              "points": 0,
+              "lines": 3408,
+              "frame": 35
+            }
+          }
+        },
+        "rendererInfo": {
+          "memory": {
+            "geometries": 191,
+            "textures": 15
+          },
+          "render": {
+            "calls": 146,
+            "triangles": 507074,
+            "points": 0,
+            "lines": 3408,
+            "frame": 35
+          }
+        }
+      }
+    },
+    {
+      "view": "site-shiogama",
+      "stats": {
+        "snapshot": {
+          "quality": "high",
+          "profile": {
+            "dprCap": 1.75,
+            "shadows": true,
+            "shadowMapSize": 2048,
+            "particleBudget": 420,
+            "tracerBudget": 200,
+            "targetFrameMs": 16.7
+          },
+          "frameMs": {
+            "samples": 42,
+            "average": 47.223809523809514,
+            "p95": 50,
+            "p99": 50,
+            "max": 50
+          },
+          "pools": {
+            "particles": {
+              "active": 0,
+              "budget": 420,
+              "capacity": 420,
+              "peak": 0
+            },
+            "tracers": {
+              "active": 0,
+              "budget": 200,
+              "capacity": 200,
+              "peak": 0
+            }
+          },
+          "renderer": {
+            "memory": {
+              "geometries": 191,
+              "textures": 15
+            },
+            "render": {
+              "calls": 163,
+              "triangles": 508230,
+              "points": 0,
+              "lines": 3612,
+              "frame": 42
+            }
+          }
+        },
+        "rendererInfo": {
+          "memory": {
+            "geometries": 191,
+            "textures": 15
+          },
+          "render": {
+            "calls": 163,
+            "triangles": 508230,
+            "points": 0,
+            "lines": 3612,
+            "frame": 42
+          }
+        }
+      }
+    },
+    {
+      "view": "site-mizuichi",
+      "stats": {
+        "snapshot": {
+          "quality": "low",
+          "profile": {
+            "dprCap": 1,
+            "shadows": false,
+            "shadowMapSize": 0,
+            "particleBudget": 120,
+            "tracerBudget": 80,
+            "targetFrameMs": 33.34
+          },
+          "frameMs": {
+            "samples": 51,
+            "average": 47.71372549019607,
+            "p95": 50,
+            "p99": 50,
+            "max": 50
+          },
+          "pools": {
+            "particles": {
+              "active": 0,
+              "budget": 120,
+              "capacity": 420,
+              "peak": 0
+            },
+            "tracers": {
+              "active": 0,
+              "budget": 80,
+              "capacity": 200,
+              "peak": 0
+            }
+          },
+          "renderer": {
+            "memory": {
+              "geometries": 191,
+              "textures": 15
+            },
+            "render": {
+              "calls": 160,
+              "triangles": 507786,
+              "points": 0,
+              "lines": 3474,
+              "frame": 51
+            }
+          }
+        },
+        "rendererInfo": {
+          "memory": {
+            "geometries": 191,
+            "textures": 15
+          },
+          "render": {
+            "calls": 160,
+            "triangles": 507786,
+            "points": 0,
+            "lines": 3474,
+            "frame": 51
+          }
+        }
+      }
+    },
+    {
+      "view": "site-kado",
+      "stats": {
+        "snapshot": {
+          "quality": "low",
+          "profile": {
+            "dprCap": 1,
+            "shadows": false,
+            "shadowMapSize": 0,
+            "particleBudget": 120,
+            "tracerBudget": 80,
+            "targetFrameMs": 33.34
+          },
+          "frameMs": {
+            "samples": 59,
+            "average": 48.023728813559316,
+            "p95": 50,
+            "p99": 50,
+            "max": 50
+          },
+          "pools": {
+            "particles": {
+              "active": 0,
+              "budget": 120,
+              "capacity": 420,
+              "peak": 0
+            },
+            "tracers": {
+              "active": 0,
+              "budget": 80,
+              "capacity": 200,
+              "peak": 0
+            }
+          },
+          "renderer": {
+            "memory": {
+              "geometries": 191,
+              "textures": 15
+            },
+            "render": {
+              "calls": 165,
+              "triangles": 508258,
+              "points": 0,
+              "lines": 3462,
+              "frame": 59
+            }
+          }
+        },
+        "rendererInfo": {
+          "memory": {
+            "geometries": 191,
+            "textures": 15
+          },
+          "render": {
+            "calls": 165,
+            "triangles": 508258,
+            "points": 0,
+            "lines": 3462,
+            "frame": 59
+          }
+        }
+      }
+    },
+    {
+      "view": "site-ami",
+      "stats": {
+        "snapshot": {
+          "quality": "low",
+          "profile": {
+            "dprCap": 1,
+            "shadows": false,
+            "shadowMapSize": 0,
+            "particleBudget": 120,
+            "tracerBudget": 80,
+            "targetFrameMs": 33.34
+          },
+          "frameMs": {
+            "samples": 67,
+            "average": 48.25970149253731,
+            "p95": 50,
+            "p99": 50,
+            "max": 50
+          },
+          "pools": {
+            "particles": {
+              "active": 0,
+              "budget": 120,
+              "capacity": 420,
+              "peak": 0
+            },
+            "tracers": {
+              "active": 0,
+              "budget": 80,
+              "capacity": 200,
+              "peak": 0
+            }
+          },
+          "renderer": {
+            "memory": {
+              "geometries": 191,
+              "textures": 15
+            },
+            "render": {
+              "calls": 130,
+              "triangles": 497222,
+              "points": 0,
+              "lines": 3456,
+              "frame": 67
+            }
+          }
+        },
+        "rendererInfo": {
+          "memory": {
+            "geometries": 191,
+            "textures": 15
+          },
+          "render": {
+            "calls": 130,
+            "triangles": 497222,
+            "points": 0,
+            "lines": 3456,
+            "frame": 67
+          }
+        }
+      }
+    },
+    {
+      "view": "site-kazami",
+      "stats": {
+        "snapshot": {
+          "quality": "low",
+          "profile": {
+            "dprCap": 1,
+            "shadows": false,
+            "shadowMapSize": 0,
+            "particleBudget": 120,
+            "tracerBudget": 80,
+            "targetFrameMs": 33.34
+          },
+          "frameMs": {
+            "samples": 75,
+            "average": 48.44533333333333,
+            "p95": 50,
+            "p99": 50,
+            "max": 50
+          },
+          "pools": {
+            "particles": {
+              "active": 0,
+              "budget": 120,
+              "capacity": 420,
+              "peak": 0
+            },
+            "tracers": {
+              "active": 0,
+              "budget": 80,
+              "capacity": 200,
+              "peak": 0
+            }
+          },
+          "renderer": {
+            "memory": {
+              "geometries": 191,
+              "textures": 15
+            },
+            "render": {
+              "calls": 154,
+              "triangles": 506190,
+              "points": 0,
+              "lines": 3474,
+              "frame": 75
+            }
+          }
+        },
+        "rendererInfo": {
+          "memory": {
+            "geometries": 191,
+            "textures": 15
+          },
+          "render": {
+            "calls": 154,
+            "triangles": 506190,
+            "points": 0,
+            "lines": 3474,
+            "frame": 75
+          }
+        }
+      }
+    }
+  ]
+}

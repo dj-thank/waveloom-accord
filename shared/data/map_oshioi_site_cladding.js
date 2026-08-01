@@ -682,8 +682,15 @@ function cladRingStore(b, seed) {
   // ---- 屋根 ----
   // 検証で「上から見ると暗い平屋根が依然として支配的。勾配・曲面屋根は247しかない」。
   // 屋根の族を7つへ増やし、地区ごとに偏りを与えて（roofBias）色数も増やす。
-  const roofBase = 0.84;
-  const famA = ROOF_FAMILY[(seed + district.roofBias) % ROOF_FAMILY.length];
+  // 小屋（tier 0）の屋根は、実画面で「上から見ると同じ平板が並ぶ」と出た主因だった。
+  // 屋根が建物高さの 16% しかなく、hip の勾配が潰れて板に見えていた。
+  // 小屋だけ屋根を厚くし（0.84 → 0.76 = 高さの24%）、族を barrel（半円筒）へ寄せる。
+  // dome は使わない（実在文化のモチーフを入れない規則）。曲面は barrelRoof で稼ぐ。
+  const roofBase = tier === 0 ? 0.76 : 0.84;
+  const BARREL_FAMILY = ROOF_FAMILY.filter(family => family.kind === 'barrel');
+  const famA = tier === 0
+    ? BARREL_FAMILY[(seed + district.roofBias) % BARREL_FAMILY.length]
+    : ROOF_FAMILY[(seed + district.roofBias) % ROOF_FAMILY.length];
   if (b.w > 7.2 || tier === 2) {
     // 大屋根は2枚に割り、材質と高さを変えて段差を作る。
     const famB = ROOF_FAMILY[(seed * 3 + 2 + district.roofBias) % ROOF_FAMILY.length];

@@ -808,6 +808,11 @@ export const OSHIOI_PRESENTATION = deepFreeze({
     },
     copperPlaster: { type: 'standard', color: 0xc2814f, roughness: 0.8, metalness: 0.06 },
     shellShade: { type: 'standard', color: 0xd8c5a2, roughness: 0.86, metalness: 0.03 },
+    // 敷石の継ぎ目。実画面の検証で、床が「明るい面に置かれたテラコッタの貼り紙」に
+    // 見えていた。継ぎ目は**色相を変えず明度だけ落とす**（貝灰の影色）。
+    // cedar(0x8a5233) を使うと目地自体が暖色の線として主張し、貼り紙感が増える。
+    // 逆に basalt(0x3e3a34) まで落とすと広場全体が黒い格子に見える（旧版の失敗）。
+    stoneJoint: { type: 'standard', color: 0xa89877, roughness: 0.9, metalness: 0.02 },
     roofBlue: { type: 'standard', color: 0x1e4667, roughness: 0.6, metalness: 0.26 },
     roofCopper: { type: 'standard', color: 0xa06b3a, roughness: 0.52, metalness: 0.34 },
     // 原則4「金の差し色」の主役。clad-ring-window だけで全インスタンスの約30%を

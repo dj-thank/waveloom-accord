@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "scope": "local-map-quality-evidence",
+  "score": 100,
+  "maximum": 100,
+  "status": "complete-local-evidence",
+  "limitations": [
+    "This is a deterministic local evidence score, not a human AAA-art verdict.",
+    "Route safety, collision containment, and false-cover clustering are gated by their dedicated test/audit commands.",
+    "It does not prove deployment, multiplayer production traffic, or a human playtest."
+  ],
+  "metrics": {
+    "solids": 1064,
+    "presentationLayers": 110,
+    "presentationInstances": 19038,
+    "budget": {
+      "maxPresentationDrawCalls": 128,
+      "maxPresentationInstances": 24000,
+      "maxDynamicLights": 0
+    },
+    "preview": {
+      "valid": true,
+      "instances": 19038,
+      "layers": 110,
+      "calls": 144,
+      "triangles": 506990,
+      "errors": 0
+    }
+  },
+  "categories": [
+    {
+      "id": "map-contract",
+      "label": "マップ契約と競技境界",
+      "criteria": [
+        {
+          "id": "five-sites",
+          "label": "5拠点の順序とID",
+          "points": 8,
+          "maxPoints": 8,
+          "pass": true,
+          "actual": [
+            "shiogama",
+            "mizuichi",
+            "kado",
+            "ami",
+            "kazami"
+          ],
+          "target": [
+            "shiogama",
+            "mizuichi",
+            "kado",
+            "ami",
+            "kazami"
+          ]
+        },
+        {
+          "id": "presentation-boundary",
+          "label": "描画層の明示的な競技境界",
+          "points": 8,
+          "maxPoints": 8,
+          "pass": true,
+          "actual": [
+            "clad-existing-solid",
+            "outside-playable-bounds"
+          ],
+          "target": [
+            "clad-existing-solid",
+            "outside-playable-bounds"
+          ]
+        },
+        {
+          "id": "collision-scale",
+          "label": "衝突ソリッドの本番規模",
+          "points": 6,
+          "maxPoints": 6,
+          "pass": true,
+          "actual": 1064,
+          "target": ">= 1000"
+        },
+        {
+          "id": "flashpoint-protocol",
+          "label": "Flashpointプロトコルv6",
+          "points": 8,
+          "maxPoints": 8,
+          "pass": true,
+          "actual": 6,
+          "target": 6
+        }
+      ]
+    },
+    {
+      "id": "visual-hierarchy",
+      "label": "視覚階層",
+      "criteria": [
+        {
+          "id": "dome-rhythm",
+          "label": "遠景の丸屋根リズム",
+          "points": 7,
+          "maxPoints": 7,
+          "pass": true,
+          "actual": 17,
+          "target": "dome >= 12"
+        },
+        {
+          "id": "beacon-contrast",
+          "label": "中央灯柱の暖色シルエット",
+          "points": 6,
+          "maxPoints": 6,
+          "pass": true,
+          "actual": "copperPlaster",
+          "target": "copperPlaster above z=20"
+        },
+        {
+          "id": "plaza-hierarchy",
+          "label": "広場の暖色目地と金の導線",
+          "points": 6,
+          "maxPoints": 6,
+          "pass": true,
+          "actual": {
+            "seam": "cedar",
+            "gold": 361
+          },
+          "target": {
+            "seam": "cedar",
+            "gold": ">= 300"
+          }
+        },
+        {
+          "id": "finial-cadence",
+          "label": "金冠の重複なし・形状変化",
+          "points": 5,
+          "maxPoints": 5,
+          "pass": true,
+          "actual": {
+            "positions": 232,
+            "silhouettes": 13
+          },
+          "target": {
+            "positions": "all unique",
+            "silhouettes": ">= 7"
+          }
+        },
+        {
+          "id": "site-vocabulary",
+          "label": "5拠点の固有語彙",
+          "points": 6,
+          "maxPoints": 6,
+          "pass": true,
+          "actual": true,
+          "target": "five families with >= 3 layers"
+        }
+      ]
+    },
+    {
+      "id": "performance",
+      "label": "性能予算",
+      "criteria": [
+        {
+          "id": "instances",
+          "label": "描画インスタンス",
+          "points": 8,
+          "maxPoints": 8,
+          "pass": true,
+          "actual": 19038,
+          "target": "<= 24000"
+        },
+        {
+          "id": "layers",
+          "label": "presentation層",
+          "points": 5,
+          "maxPoints": 5,
+          "pass": true,
+          "actual": 110,
+          "target": "<= 128"
+        },
+        {
+          "id": "preview-draws",
+          "label": "実画面ドローコール",
+          "points": 6,
+          "maxPoints": 6,
+          "pass": true,
+          "actual": 144,
+          "target": "<= 250"
+        },
+        {
+          "id": "preview-triangles",
+          "label": "実画面三角形",
+          "points": 6,
+          "maxPoints": 6,
+          "pass": true,
+          "actual": 506990,
+          "target": "<= 1200000"
+        }
+      ]
+    },
+    {
+      "id": "evidence",
+      "label": "実行証跡",
+      "criteria": [
+        {
+          "id": "preview-contract",
+          "label": "ブラウザのマップ契約",
+          "points": 6,
+          "maxPoints": 6,
+          "pass": true,
+          "actual": true,
+          "target": true
+        },
+        {
+          "id": "preview-clean",
+          "label": "ブラウザ例外・console error",
+          "points": 4,
+          "maxPoints": 4,
+          "pass": true,
+          "actual": 0,
+          "target": 0
+        },
+        {
+          "id": "preview-count-match",
+          "label": "ブラウザと定義の件数一致",
+          "points": 5,
+          "maxPoints": 5,
+          "pass": true,
+          "actual": {
+            "instances": 19038,
+            "layers": 110
+          },
+          "target": {
+            "instances": 19038,
+            "layers": 110
+          }
+        }
+      ]
+    }
+  ],
+  "failedCriteria": []
+}

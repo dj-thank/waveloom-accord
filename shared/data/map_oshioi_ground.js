@@ -20,7 +20,9 @@
 import { buildOshioiFlashpointGeometry } from './map_oshioi_flashpoint_geometry.js';
 import { buildOshioiRingGeometry } from './map_oshioi_ring_geometry.js';
 
-const LAYER_BUDGET = 8;
+// 8 → 9。敷石の継ぎ目層（ground-joint）を足した分。実測の余地は
+// presentation 層 110/128、実画面ドローコール 146/250、三角形 506,552/1,200,000。
+const LAYER_BUDGET = 9;
 // 反復2で 4,500 → 7,600 へ。検証で「中央広場の床が単一の明るいクリーム面で模様がない」
 // （下帯の最頻色ビン比率 objective 35.6%→62.1% と悪化）と出たため、
 // 中央の舗石を細かく割り直し、貝紋の扇と波紋の環を破線から連続線にした。
@@ -142,6 +144,8 @@ const DZ_MID = 0.007;
 const DZ_BRIGHT = 0.010;
 const DZ_LANE = 0.026;
 const DZ_SEAM = 0.038;
+const DZ_JOINT = 0.034;   // 敷石の継ぎ目。紋様（DZ_SEAM）より僅かに下で交差を許す
+
 const PLANE_T = 0.004;   // 板の見かけ厚み（PlaneGeometry は平面なので上端 = z + 0.002）
 
 const SPEC = [
@@ -155,7 +159,15 @@ const SPEC = [
   // 金の導線とテラコッタ舗装を主役に戻す。
   ['ground-figure-seam', 'plane', 'cedar', 1650],
   ['ground-curb', 'box', 'basalt', 600],
+  // 敷石の継ぎ目。紋様（貝紋・波紋 = cedar の暖色線）とは役割が違うので層を分ける。
+  // 目地は色相を変えず明度だけ落とした影色でなければ「貼り紙」感が消えない。
+  // 層を1枚増やす判断の根拠は実測: presentation 層 110/128、実画面ドローコール
+  // 146/250、三角形 506,552/1,200,000 で、1層分の余地が確実にある。
+  ['ground-joint', 'plane', 'stoneJoint', 3000],
 ];
+
+// 敷石の目地を後段（4.5節）で引くために、実際に置けたタイルだけを控えておく。
+const PAVED_TILES = [];
 
 const BUCKETS = new Map();
 for (const [id] of SPEC) BUCKETS.set(id, []);
@@ -268,7 +280,9 @@ for (let band = 0; band < BANDS.length; band++) {
         slab('ground-tide-canal', x, y, sx, sy, 0, DZ_CANAL);
         continue;
       }
-      slab(id, x, y, sx, sy, 0, dz);
+      if (slab(id, x, y, sx, sy, 0, dz) && band <= 1) {
+        PAVED_TILES.push({ x, y, sx, sy });
+      }
     }
   }
 }
@@ -377,6 +391,29 @@ function centralApproachWedge(angle, radius) {
   return radius >= 8 && radius <= 31
     && CENTRAL_APPROACH_AXES.some(axis => angleDistance(angle, axis) < 0.28);
 }
+// ---------------------------------------------------------------------------
+// 6.1 敷石の目地（舗装を「色の違う板」ではなく「継いだ石」に見せる）
+// ---------------------------------------------------------------------------
+// 実画面の検証で、制圧点の床が「明るい面に置かれたテラコッタの貼り紙」に見えていた。
+// 敷石同士の境界に線が無く、板の縁が背景と同じ明度で消えていたのが原因。
+// 各タイルの +X / +Y 辺だけに細い杉の目地を引く（隣接タイルと辺を共有するので
+// 二重に引かない）。既存の ground-figure-seam 層へ相乗りさせるため層は8のまま、
+// ドローコールは増えない。
+//
+// 中央4方向の進入くさびは負空間として空けたままにする。ここへ線を足すと
+// 「どこから中央へ入るか」の一瞥性が落ちる。
+// くさびの判定は目地そのものの位置で行う。タイル中心で判定すると、辺は中心から
+// 最大 1.8m ずれるのでくさびの中へはみ出す。
+const JOINT_W = 0.15;
+function joint(x, y, sx, sy) {
+  if (centralApproachWedge(Math.atan2(y, x), Math.hypot(x, y))) return;
+  slab('ground-joint', x, y, sx, sy, 0, DZ_JOINT);
+}
+for (const tile of PAVED_TILES) {
+  joint(tile.x + tile.sx / 2, tile.y, JOINT_W, tile.sy);
+  joint(tile.x, tile.y + tile.sy / 2, tile.sx, JOINT_W);
+}
+
 // 北=貝紋、南=波紋という語彙は残しつつ、密度を一段落として中央金環を主役にする。
 shellFan(0, 0, 0, Math.PI, 14, 10.5, 29, 3.2, centralApproachWedge);
 waveRings(0, 0, -Math.PI, 0, [12, 16, 20, 25, 29], 3.2, centralApproachWedge);

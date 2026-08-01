@@ -1,0 +1,52 @@
+[
+  {
+    "view": "aerial",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802/aerial.png"
+  },
+  {
+    "view": "network",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802/network.png"
+  },
+  {
+    "view": "objective",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802/objective.png"
+  },
+  {
+    "view": "spawn",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802/spawn.png"
+  },
+  {
+    "view": "orbit",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802/orbit.png"
+  },
+  {
+    "view": "site-shiogama",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802/site-shiogama.png"
+  },
+  {
+    "view": "site-mizuichi",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802/site-mizuichi.png"
+  },
+  {
+    "view": "site-kado",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802/site-kado.png"
+  },
+  {
+    "view": "site-ami",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802/site-ami.png"
+  },
+  {
+    "view": "site-kazami",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802/site-kazami.png"
+  }
+]

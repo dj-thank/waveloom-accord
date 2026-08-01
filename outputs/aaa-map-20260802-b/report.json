@@ -1,0 +1,12 @@
+[
+  {
+    "view": "objective",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802-b/objective.png"
+  },
+  {
+    "view": "aerial",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802-b/aerial.png"
+  }
+]
