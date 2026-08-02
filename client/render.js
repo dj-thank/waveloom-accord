@@ -156,6 +156,21 @@ function makeSurfaceTexture(hex, variation = 0.12, seed = 1, repeat = 8) {
   return texture;
 }
 
+// インスタンスごとの決定論的な微小ゆらぎ 0..1。位置と添字から作るので、
+// 同じマップからは必ず同じ結果が出る（ビルドの再現性を壊さない）。
+function instanceJitter(position = [0, 0, 0], index = 0) {
+  const x = Math.round((position[0] ?? 0) * 16);
+  const y = Math.round((position[1] ?? 0) * 16);
+  const z = Math.round((position[2] ?? 0) * 16);
+  let h = Math.imul(x + 0x9e37, 0x85ebca6b)
+    ^ Math.imul(y + 0x27d4, 0xc2b2ae35)
+    ^ Math.imul(z + 0x165b, 0x27d4eb2f)
+    ^ Math.imul(index + 1, 0x165667b1);
+  h = (h ^ (h >>> 15)) >>> 0;
+  h = Math.imul(h, 0x2545f491) >>> 0;
+  return ((h ^ (h >>> 13)) >>> 0) / 4294967296;
+}
+
 function makeResourceRegistry() {
   return { geometries: new Set(), materials: new Set(), textures: new Set() };
 }
@@ -391,6 +406,57 @@ export class SceneRenderer {
     this.scene.add(sun);
     this.sun = sun;
     this.scene.add(new THREE.AmbientLight(0xbdd9df, 0.18));
+  }
+
+  // 環境マップ（IBL）。これが無いと metalness を持つ面は「反射するものが無い」ため
+  // ただ暗く沈み、金属が金属に見えない。銅・銅屋根・硝子の 1,700 インスタンス超が
+  // これに該当していた。外部 HDRI は持たないので、この空（0x9bcbd8）と海と太陽の
+  // 色から手続きで畳み込む。テクスチャ1枚・ドローコール0・三角形0。
+  _buildEnvironment() {
+    if (!this.renderer || typeof THREE.PMREMGenerator !== 'function') return null;
+    let pmrem = null;
+    try {
+      const envScene = new THREE.Scene();
+      // 上半球=空、下半球=潮の照り返し。GPU 上で畳み込むので面は粗くてよい。
+      const shell = new THREE.Mesh(
+        new THREE.SphereGeometry(50, 16, 12),
+        new THREE.MeshBasicMaterial({ color: 0x9bcbd8, side: THREE.BackSide }),
+      );
+      envScene.add(shell);
+      const water = new THREE.Mesh(
+        new THREE.CylinderGeometry(50, 50, 50, 16, 1, true),
+        new THREE.MeshBasicMaterial({ color: 0x6f8e86, side: THREE.BackSide }),
+      );
+      water.position.y = -25;
+      envScene.add(water);
+      // 太陽の明るい塊。金属のハイライトはここから来る。
+      const sunPatch = new THREE.Mesh(
+        new THREE.SphereGeometry(9, 12, 8),
+        new THREE.MeshBasicMaterial({ color: 0xfff0d2 }),
+      );
+      sunPatch.position.set(24, 38, -18);
+      envScene.add(sunPatch);
+
+      pmrem = new THREE.PMREMGenerator(this.renderer);
+      const target = pmrem.fromScene(envScene, 0.04);
+      this.scene.environment = target.texture;
+      // 環境光は控えめに。強くすると ACES で白く飛び、競技上の可読性が落ちる。
+      if ('environmentIntensity' in this.scene) this.scene.environmentIntensity = 0.55;
+      this._environmentTarget = target;
+      shell.geometry.dispose();
+      shell.material.dispose();
+      water.geometry.dispose();
+      water.material.dispose();
+      sunPatch.geometry.dispose();
+      sunPatch.material.dispose();
+      return target.texture;
+    } catch (error) {
+      // 環境マップは装飾であり、失敗しても描画は続行できる。
+      this.scene.environment = null;
+      return null;
+    } finally {
+      pmrem?.dispose?.();
+    }
   }
 
   _boxMesh(b, material) {
@@ -1248,14 +1314,27 @@ export class SceneRenderer {
       instances.userData.collision = false;
       instances.userData.semantics = layer.semantics;
       instances.userData.source = `map.presentation.layers.${layer.id}`;
+      // 同一マテリアルの数百インスタンスが完全に同じ色だと、密度が「多様性」ではなく
+      // 「同じ部品の反復」として読まれる。位置から決定論的に明度だけを ±7% 振る。
+      // 色相は動かさない（拠点ごとの色識別は競技上の現在地情報なので壊せない）。
+      // 三角形0・ドローコール0・インスタンス0増で、反復感だけが下がる。
+      // instanceColor は material.color に**乗算**される。ここに material.color を
+      // 掛けたものを入れると色が二乗され、彩度と暗さが跳ねる（実際に一度やった）。
+      // 入れるのは中立グレーの倍率だけにする。
+      const tint = new THREE.Color();
       transforms.forEach((transform, index) => {
-        dummy.position.set(...safeVec3(transform.position));
+        const position = safeVec3(transform.position);
+        dummy.position.set(...position);
         dummy.rotation.set(...safeVec3(transform.rotation));
         dummy.scale.set(...safeVec3(transform.scale, [1, 1, 1]));
         dummy.updateMatrix();
         instances.setMatrixAt(index, dummy.matrix);
+        const shade = 1 + (instanceJitter(position, index) - 0.5) * 0.14;
+        tint.setRGB(shade, shade, shade);
+        instances.setColorAt(index, tint);
       });
       instances.instanceMatrix.needsUpdate = true;
+      if (instances.instanceColor) instances.instanceColor.needsUpdate = true;
       instances.castShadow = layer.castShadow === true;
       instances.receiveShadow = layer.receiveShadow === true;
       group.add(instances);
@@ -2869,6 +2948,12 @@ export class SceneRenderer {
 
     globalThis.window?.removeEventListener?.('resize', this._onResize);
     this._motionQuery?.removeEventListener?.('change', this._onMotionChange);
+
+    // PMREM の render target はシーン走査では拾えない（scene.environment は
+    // texture 参照であって子ノードではない）ので、明示的に解放する。
+    this._environmentTarget?.dispose?.();
+    this._environmentTarget = null;
+    if (this.scene) this.scene.environment = null;
 
     const registry = makeResourceRegistry();
     const roots = new Set();
