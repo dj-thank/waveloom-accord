@@ -227,6 +227,41 @@ history:
 That is the next piece of work, and it touches collision, so it has to clear the
 mirrored-matchup balance test the same way the core trees failed to.
 
+## P0-A shipped: harbour buildings 23 → 75
+
+The candidate-grid ceiling described above was the fix. Tightening only the block
+pitch — `BLOCK_PITCH_X 23 → 10`, `BLOCK_PITCH_Y 21 → 7`, a two-line change with no
+safety constant touched — raised `ring-store-*` from 23 to 75. The pitch/yield
+relationship is non-monotonic (discrete grid aliasing against `BLOCK_W 14` /
+`BLOCK_D 13`), so the value was found by an empirical sweep, not a formula: pitch
+19×17 actually gave *fewer* stores (22) than the 23×21 baseline.
+
+Verified independently on an unloaded machine:
+
+| gate | result |
+|---|---|
+| `ring-store-*` | 23 → **75** |
+| map solids | 1,064 → 1,150 (canonical 175 + flash 192 + ring 783, all `ring-*`) |
+| full source suite | exit 0, 875 dots, zero `F`/`X` |
+| mirrored-matchup balance (`three competitive matchups`) | **pass**, no iteration needed |
+| route safety | 30/30, zero unsafe segments |
+| fake-cover clusters | 0 |
+| map quality score | 100/100 |
+| worst-view budget | 206/250 draw calls, 614,256/1,200,000 triangles |
+| authored collision digest | unchanged |
+
+The aerial view now reads as a built-up harbour ring instead of a sparse one;
+the central arena is untouched. This is the change the whole cladding vocabulary
+was waiting on — walls, roofs, eaves, and arches now have three times the surface
+to land on.
+
+One real cost surfaced: presentation instances rose 19,059 → 21,214 against the
+soft budget of 22,000 (hard 24,000). Each store pulls ~41 cladding instances. The
+786-instance margin means P0-B (eye-level detail) and P1-A (curved silhouette)
+must either raise the soft budget deliberately or spend their triangles on
+existing instances rather than new ones. A denser 81-store config (pitch 8×5) was
+measured but left only 511 margin and was not shipped.
+
 ## Art observations from the captured views — for the human art pass
 
 These are recorded, not acted on. The map is dense and heavily pinned by tests, so

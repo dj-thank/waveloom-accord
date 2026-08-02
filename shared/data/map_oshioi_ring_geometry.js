@@ -46,8 +46,8 @@ const RING_BANDS = [
   { id: 'south', x: [-40, 40], y: [-86, -40], ox: 17, oy: 12, seed: 0x53 },
 ];
 
-const BLOCK_PITCH_X = 23;
-const BLOCK_PITCH_Y = 21;
+const BLOCK_PITCH_X = 10;
+const BLOCK_PITCH_Y = 7;
 const BLOCK_W = 14;
 const BLOCK_D = 13;
 

@@ -1,7 +1,7 @@
 {
   "globalInfo": {
-    "instanceCount": 19038,
-    "layerCount": 110,
+    "instanceCount": 21214,
+    "layerCount": 111,
     "siteCount": 5,
     "mapId": "map_oshioi",
     "presentationId": "oshioi-shiokagami-original-v1"
@@ -22,7 +22,7 @@
           },
           "frameMs": {
             "samples": 7,
-            "average": 38.142857142857146,
+            "average": 37.05714285714287,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -43,28 +43,28 @@
           },
           "renderer": {
             "memory": {
-              "geometries": 151,
+              "geometries": 152,
               "textures": 15
             },
             "render": {
-              "calls": 153,
-              "triangles": 523838,
+              "calls": 155,
+              "triangles": 612700,
               "points": 0,
-              "lines": 3408,
+              "lines": 3792,
               "frame": 7
             }
           }
         },
         "rendererInfo": {
           "memory": {
-            "geometries": 151,
+            "geometries": 152,
             "textures": 15
           },
           "render": {
-            "calls": 153,
-            "triangles": 523838,
+            "calls": 155,
+            "triangles": 612700,
             "points": 0,
-            "lines": 3408,
+            "lines": 3792,
             "frame": 7
           }
         }
@@ -85,7 +85,7 @@
           },
           "frameMs": {
             "samples": 14,
-            "average": 44.07142857142857,
+            "average": 43.52857142857143,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -106,28 +106,28 @@
           },
           "renderer": {
             "memory": {
-              "geometries": 191,
+              "geometries": 192,
               "textures": 15
             },
             "render": {
-              "calls": 205,
-              "triangles": 525406,
+              "calls": 206,
+              "triangles": 614256,
               "points": 0,
-              "lines": 3846,
+              "lines": 4230,
               "frame": 14
             }
           }
         },
         "rendererInfo": {
           "memory": {
-            "geometries": 191,
+            "geometries": 192,
             "textures": 15
           },
           "render": {
-            "calls": 205,
-            "triangles": 525406,
+            "calls": 206,
+            "triangles": 614256,
             "points": 0,
-            "lines": 3846,
+            "lines": 4230,
             "frame": 14
           }
         }
@@ -148,7 +148,7 @@
           },
           "frameMs": {
             "samples": 22,
-            "average": 46.22727272727273,
+            "average": 45.88181818181818,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -169,28 +169,28 @@
           },
           "renderer": {
             "memory": {
-              "geometries": 191,
+              "geometries": 192,
               "textures": 15
             },
             "render": {
-              "calls": 145,
-              "triangles": 522958,
+              "calls": 149,
+              "triangles": 611884,
               "points": 0,
-              "lines": 3408,
+              "lines": 3792,
               "frame": 22
             }
           }
         },
         "rendererInfo": {
           "memory": {
-            "geometries": 191,
+            "geometries": 192,
             "textures": 15
           },
           "render": {
-            "calls": 145,
-            "triangles": 522958,
+            "calls": 149,
+            "triangles": 611884,
             "points": 0,
-            "lines": 3408,
+            "lines": 3792,
             "frame": 22
           }
         }
@@ -211,7 +211,7 @@
           },
           "frameMs": {
             "samples": 29,
-            "average": 47.13793103448276,
+            "average": 46.87586206896552,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -232,28 +232,28 @@
           },
           "renderer": {
             "memory": {
-              "geometries": 191,
+              "geometries": 192,
               "textures": 15
             },
             "render": {
-              "calls": 146,
-              "triangles": 522970,
+              "calls": 149,
+              "triangles": 611884,
               "points": 0,
-              "lines": 3408,
+              "lines": 3792,
               "frame": 29
             }
           }
         },
         "rendererInfo": {
           "memory": {
-            "geometries": 191,
+            "geometries": 192,
             "textures": 15
           },
           "render": {
-            "calls": 146,
-            "triangles": 522970,
+            "calls": 149,
+            "triangles": 611884,
             "points": 0,
-            "lines": 3408,
+            "lines": 3792,
             "frame": 29
           }
         }
@@ -274,7 +274,7 @@
           },
           "frameMs": {
             "samples": 36,
-            "average": 47.69444444444444,
+            "average": 47.483333333333334,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -295,28 +295,28 @@
           },
           "renderer": {
             "memory": {
-              "geometries": 191,
+              "geometries": 192,
               "textures": 15
             },
             "render": {
-              "calls": 145,
-              "triangles": 522958,
+              "calls": 149,
+              "triangles": 611884,
               "points": 0,
-              "lines": 3408,
+              "lines": 3792,
               "frame": 36
             }
           }
         },
         "rendererInfo": {
           "memory": {
-            "geometries": 191,
+            "geometries": 192,
             "textures": 15
           },
           "render": {
-            "calls": 145,
-            "triangles": 522958,
+            "calls": 149,
+            "triangles": 611884,
             "points": 0,
-            "lines": 3408,
+            "lines": 3792,
             "frame": 36
           }
         }
@@ -337,7 +337,7 @@
           },
           "frameMs": {
             "samples": 43,
-            "average": 48.06976744186046,
+            "average": 47.89302325581396,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -358,28 +358,28 @@
           },
           "renderer": {
             "memory": {
-              "geometries": 191,
+              "geometries": 192,
               "textures": 15
             },
             "render": {
-              "calls": 163,
-              "triangles": 524162,
+              "calls": 166,
+              "triangles": 613040,
               "points": 0,
-              "lines": 3612,
+              "lines": 3996,
               "frame": 43
             }
           }
         },
         "rendererInfo": {
           "memory": {
-            "geometries": 191,
+            "geometries": 192,
             "textures": 15
           },
           "render": {
-            "calls": 163,
-            "triangles": 524162,
+            "calls": 166,
+            "triangles": 613040,
             "points": 0,
-            "lines": 3612,
+            "lines": 3996,
             "frame": 43
           }
         }
@@ -399,8 +399,8 @@
             "targetFrameMs": 33.34
           },
           "frameMs": {
-            "samples": 51,
-            "average": 48.37058823529414,
+            "samples": 50,
+            "average": 47.52600000000003,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -421,29 +421,29 @@
           },
           "renderer": {
             "memory": {
-              "geometries": 191,
+              "geometries": 192,
               "textures": 15
             },
             "render": {
-              "calls": 160,
-              "triangles": 523718,
+              "calls": 163,
+              "triangles": 612628,
               "points": 0,
-              "lines": 3474,
-              "frame": 51
+              "lines": 3858,
+              "frame": 50
             }
           }
         },
         "rendererInfo": {
           "memory": {
-            "geometries": 191,
+            "geometries": 192,
             "textures": 15
           },
           "render": {
-            "calls": 160,
-            "triangles": 523718,
+            "calls": 163,
+            "triangles": 612628,
             "points": 0,
-            "lines": 3474,
-            "frame": 51
+            "lines": 3858,
+            "frame": 50
           }
         }
       }
@@ -462,8 +462,8 @@
             "targetFrameMs": 33.34
           },
           "frameMs": {
-            "samples": 59,
-            "average": 48.59152542372884,
+            "samples": 57,
+            "average": 47.829824561403534,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -484,29 +484,29 @@
           },
           "renderer": {
             "memory": {
-              "geometries": 191,
+              "geometries": 192,
               "textures": 15
             },
             "render": {
-              "calls": 165,
-              "triangles": 524190,
+              "calls": 166,
+              "triangles": 613040,
               "points": 0,
-              "lines": 3462,
-              "frame": 59
+              "lines": 3846,
+              "frame": 57
             }
           }
         },
         "rendererInfo": {
           "memory": {
-            "geometries": 191,
+            "geometries": 192,
             "textures": 15
           },
           "render": {
-            "calls": 165,
-            "triangles": 524190,
+            "calls": 166,
+            "triangles": 613040,
             "points": 0,
-            "lines": 3462,
-            "frame": 59
+            "lines": 3846,
+            "frame": 57
           }
         }
       }
@@ -525,8 +525,8 @@
             "targetFrameMs": 33.34
           },
           "frameMs": {
-            "samples": 67,
-            "average": 48.75970149253734,
+            "samples": 64,
+            "average": 48.067187500000024,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -547,29 +547,29 @@
           },
           "renderer": {
             "memory": {
-              "geometries": 191,
+              "geometries": 192,
               "textures": 15
             },
             "render": {
-              "calls": 130,
-              "triangles": 513154,
+              "calls": 133,
+              "triangles": 601888,
               "points": 0,
-              "lines": 3456,
-              "frame": 67
+              "lines": 3840,
+              "frame": 64
             }
           }
         },
         "rendererInfo": {
           "memory": {
-            "geometries": 191,
+            "geometries": 192,
             "textures": 15
           },
           "render": {
-            "calls": 130,
-            "triangles": 513154,
+            "calls": 133,
+            "triangles": 601888,
             "points": 0,
-            "lines": 3456,
-            "frame": 67
+            "lines": 3840,
+            "frame": 64
           }
         }
       }
@@ -588,8 +588,8 @@
             "targetFrameMs": 33.34
           },
           "frameMs": {
-            "samples": 75,
-            "average": 48.89200000000002,
+            "samples": 72,
+            "average": 48.28194444444446,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -610,29 +610,29 @@
           },
           "renderer": {
             "memory": {
-              "geometries": 191,
+              "geometries": 192,
               "textures": 15
             },
             "render": {
-              "calls": 154,
-              "triangles": 522122,
+              "calls": 157,
+              "triangles": 611036,
               "points": 0,
-              "lines": 3474,
-              "frame": 75
+              "lines": 3858,
+              "frame": 72
             }
           }
         },
         "rendererInfo": {
           "memory": {
-            "geometries": 191,
+            "geometries": 192,
             "textures": 15
           },
           "render": {
-            "calls": 154,
-            "triangles": 522122,
+            "calls": 157,
+            "triangles": 611036,
             "points": 0,
-            "lines": 3474,
-            "frame": 75
+            "lines": 3858,
+            "frame": 72
           }
         }
       }

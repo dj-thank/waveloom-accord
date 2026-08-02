@@ -10,9 +10,9 @@
     "It does not prove deployment, multiplayer production traffic, or a human playtest."
   ],
   "metrics": {
-    "solids": 1064,
-    "presentationLayers": 110,
-    "presentationInstances": 19059,
+    "solids": 1150,
+    "presentationLayers": 111,
+    "presentationInstances": 21214,
     "budget": {
       "maxPresentationDrawCalls": 128,
       "maxPresentationInstances": 24000,
@@ -20,10 +20,10 @@
     },
     "preview": {
       "valid": true,
-      "instances": 19059,
-      "layers": 110,
-      "calls": 144,
-      "triangles": 527500,
+      "instances": 21214,
+      "layers": 111,
+      "calls": 148,
+      "triangles": 611848,
       "errors": 0
     }
   },
@@ -74,7 +74,7 @@
           "points": 6,
           "maxPoints": 6,
           "pass": true,
-          "actual": 1064,
+          "actual": 1150,
           "target": ">= 1000"
         },
         {
@@ -132,8 +132,8 @@
           "maxPoints": 5,
           "pass": true,
           "actual": {
-            "positions": 232,
-            "silhouettes": 13
+            "positions": 249,
+            "silhouettes": 30
           },
           "target": {
             "positions": "all unique",
@@ -161,7 +161,7 @@
           "points": 8,
           "maxPoints": 8,
           "pass": true,
-          "actual": 19059,
+          "actual": 21214,
           "target": "<= 24000"
         },
         {
@@ -170,7 +170,7 @@
           "points": 5,
           "maxPoints": 5,
           "pass": true,
-          "actual": 110,
+          "actual": 111,
           "target": "<= 128"
         },
         {
@@ -179,7 +179,7 @@
           "points": 6,
           "maxPoints": 6,
           "pass": true,
-          "actual": 144,
+          "actual": 148,
           "target": "<= 250"
         },
         {
@@ -188,7 +188,7 @@
           "points": 6,
           "maxPoints": 6,
           "pass": true,
-          "actual": 527500,
+          "actual": 611848,
           "target": "<= 1200000"
         }
       ]
@@ -222,12 +222,12 @@
           "maxPoints": 5,
           "pass": true,
           "actual": {
-            "instances": 19059,
-            "layers": 110
+            "instances": 21214,
+            "layers": 111
           },
           "target": {
-            "instances": 19059,
-            "layers": 110
+            "instances": 21214,
+            "layers": 111
           }
         }
       ]

@@ -1,0 +1,12 @@
+[
+  {
+    "view": "aerial",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802-p0a/aerial.png"
+  },
+  {
+    "view": "site-mizuichi",
+    "applied": true,
+    "file": "outputs/aaa-map-20260802-p0a/site-mizuichi.png"
+  }
+]
