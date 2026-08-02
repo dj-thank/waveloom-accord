@@ -187,6 +187,46 @@ blocker is competitive balance, and it is a different and more interesting probl
 Any future performance number from `tools/headless.js --max-wall-sec` must be taken
 with no browser capture running, or it measures the machine rather than the map.
 
+## The harbour district is 23 buildings, not 178
+
+`map_oshioi_site_cladding.js` opens with "178棟。ここが「まだ箱に見える」と指摘された
+本体" and the whole cladding vocabulary is written against that number. The actual
+ring contains **23 `ring-store-*` solids** (12 east, 8 west, 3 south). The visual
+density of the ring comes from crates (150), deck stairs (218), trees (69) and
+curbs (115) — not from architecture. This is why broadening the facade arch band in
+`6acad31` moved only 21 instances: there are only 23 walls to put arches on.
+
+Instrumented `tryStore` to count every rejection reason across one build:
+
+| outcome | count | share |
+|---|---:|---:|
+| candidates generated | 117 | — |
+| rejected: route clearance | 39 | 33% |
+| rejected: overlaps existing solid | 21 | 18% |
+| rejected: inside a spawn room | 16 | 14% |
+| rejected: site keep-out (17 m) | 15 | 13% |
+| rejected: inside the legacy core | 1 | 1% |
+| **placed** | **25** | **21%** |
+
+Two conclusions, both of which correct earlier guesses in this document's own
+history:
+
+1. **Route clearance is the largest single rejector but not the bottleneck.** A
+   sensitivity sweep that graded the building clearance by height —
+   `4.2 m → 3.4 m` for tall masses and `4.2 m → 2.6 m`, then `2.2 m`, then `2.0 m`
+   for low sheds — moved the placed count only from 23 to 25, 26, and 28. Relaxing
+   a competitive-geometry constant to buy three buildings is a bad trade, so the
+   change was reverted rather than shipped.
+2. **The candidate grid is the real ceiling.** Only 117 candidates are ever
+   generated, from `BLOCK_PITCH_X = 23` / `BLOCK_PITCH_Y = 21` against
+   `BLOCK_W = 14` / `BLOCK_D = 13`. Even rejecting nothing would yield 117, not 178.
+   The way to a denser harbour is to generate more candidates inside the space that
+   is already legal — a tighter pitch, and infill units between the existing
+   blocks — not to loosen the constraints that keep lanes open.
+
+That is the next piece of work, and it touches collision, so it has to clear the
+mirrored-matchup balance test the same way the core trees failed to.
+
 ## Art observations from the captured views — for the human art pass
 
 These are recorded, not acted on. The map is dense and heavily pinned by tests, so
