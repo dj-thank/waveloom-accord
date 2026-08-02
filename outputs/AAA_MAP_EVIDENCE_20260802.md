@@ -295,6 +295,33 @@ Draw calls rose by 2 (the two new layers). This is the pattern for the rest of
 P1-A: find an overloaded box key that is genuinely a curved/vertical member, split
 just that use onto the right primitive, spend triangles not instances.
 
+### Rejected: chamfered crates (bad triangle trade)
+
+Splitting the 209 harbour crates (`ring-crate` + `market-crates`) from box onto a
+`chamferBox` layer was tried and reverted. It passed every gate — 875 tests, 100/100,
+fake-cover 0, digest unchanged — but the cost was wrong. `chamferBox` is not the
+~44 triangles the primitive table assumed; the bevelled extrude geometry measures
+about **600 triangles each**, so 209 crates added **127,000 triangles** (611,848 →
+749,000, jumping the budget from 52% to 62%) for an edge bevel that is invisible at
+gameplay distance. The learning doc's own rule — spend triangles on silhouette, not
+dressing — says no. The 40-triangle cylinder columns are a good trade because a
+round column reads at range; a 600-triangle bevelled crate is not, because crates
+are small floor dressing. Kept the columns, reverted the crates. The measured
+`chamferBox ≈ 600 tris` figure is recorded so future passes budget it correctly:
+it is only worth spending on a large, close, silhouette-defining surface, never on
+scattered props.
+
+## Side effect of P0-A: arch openings tripled on their own
+
+The facade arch broadening in `6acad31` moved only 21 instances when there were
+23 buildings. With P0-A at 75 buildings, the same code now emits **102 arch
+openings** (`clad-market-arch`, up from 32), plus 47 colonnades and 51 lattices —
+roughly 2.7 opening treatments per building. The flat-wall tell that the reference
+solves with recessed openings is now substantially addressed as a free consequence
+of having three times the hosts, with no new work. This is the compounding the plan
+predicted: fixing the host count first makes every per-building vocabulary item pay
+off across the whole ring.
+
 ## Art observations from the captured views — for the human art pass
 
 These are recorded, not acted on. The map is dense and heavily pinned by tests, so
