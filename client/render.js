@@ -156,6 +156,155 @@ function makeSurfaceTexture(hex, variation = 0.12, seed = 1, repeat = 8) {
   return texture;
 }
 
+// ---------------------------------------------------------------------------
+// 手続きマテリアルマップ（albedo / normal / roughness）
+//
+// 描画インスタンス 21,214 個は全て「単色の塗り面」で、面の中に情報が無かった。
+// 面の光の返し方が均一だと、どれだけジオメトリを足しても CG としてのリアリティは
+// 出ない。ここで高さ場を1つ作り、そこから3枚を導出する:
+//   albedo    … 高さに応じた色むら（低い所は汚れて暗い）
+//   normal    … 高さの勾配。**これが入って初めて面が光を拾う**
+//   roughness … 高さの逆相関（凹部は汚れて粗く、凸部は擦れて滑らか）
+//
+// 外部アセットは持たないので全て手続き生成。決定論的（Math.random 不使用）。
+// 詳細と素材別の指針は docs/AAA_MATERIAL_REALISM_PLAN_20260802.md。
+// ---------------------------------------------------------------------------
+
+function hashLattice(x, y, seed) {
+  let h = Math.imul(x + 0x9e37, 0x85ebca6b)
+    ^ Math.imul(y + 0x27d4, 0xc2b2ae35)
+    ^ Math.imul(seed + 0x165b, 0x27d4eb2f);
+  h = (h ^ (h >>> 15)) >>> 0;
+  h = Math.imul(h, 0x2545f491) >>> 0;
+  return ((h ^ (h >>> 13)) >>> 0) / 4294967296;
+}
+
+// タイル境界で継ぎ目が出ないよう、格子を周期 freq で巻いた value noise。
+function tileNoise(u, v, freq, seed) {
+  const fx = u * freq;
+  const fy = v * freq;
+  const x0 = Math.floor(fx);
+  const y0 = Math.floor(fy);
+  const tx = fx - x0;
+  const ty = fy - y0;
+  const sx = tx * tx * (3 - 2 * tx);
+  const sy = ty * ty * (3 - 2 * ty);
+  const i0 = ((x0 % freq) + freq) % freq;
+  const j0 = ((y0 % freq) + freq) % freq;
+  const i1 = (i0 + 1) % freq;
+  const j1 = (j0 + 1) % freq;
+  const v00 = hashLattice(i0, j0, seed);
+  const v10 = hashLattice(i1, j0, seed);
+  const v01 = hashLattice(i0, j1, seed);
+  const v11 = hashLattice(i1, j1, seed);
+  return (v00 * (1 - sx) + v10 * sx) * (1 - sy) + (v01 * (1 - sx) + v11 * sx) * sy;
+}
+
+// 素材族ごとの高さ場。スケール比を変えることで異方性（木目・織り目）を作る。
+// 等方ノイズだけだと木も布も石に見えてしまう。
+const SURFACE_PROFILES = {
+  // 石: 粗い粒。法線を強く出して光を散らす。
+  stone: { octaves: [[4, 1], [9, 0.55], [19, 0.3]], ax: 1, ay: 1, bump: 1.5, albedo: 0.3, rough: 0.28 },
+  // 漆喰: 低周波の塗りムラ主体。凹凸は弱い。
+  plaster: { octaves: [[3, 1], [7, 0.4], [17, 0.18]], ax: 1, ay: 1, bump: 0.7, albedo: 0.26, rough: 0.2 },
+  // 木: 一方向に強く伸ばした縞＝木目。
+  wood: { octaves: [[3, 1], [8, 0.5], [24, 0.28]], ax: 0.16, ay: 5.5, bump: 1.0, albedo: 0.34, rough: 0.24 },
+  // 金属: 緑青・酸化のまだら。粗さの差が主役で、色むらは控えめ。
+  metal: { octaves: [[3, 1], [6, 0.45]], ax: 1, ay: 1, bump: 0.55, albedo: 0.2, rough: 0.42 },
+  // 布: 細かい格子の織り目。
+  fabric: { octaves: [[6, 1], [22, 0.6]], ax: 3.2, ay: 3.2, bump: 0.85, albedo: 0.18, rough: 0.16 },
+  // 植生: 葉の房。高周波の塊感。
+  foliage: { octaves: [[5, 1], [13, 0.7], [27, 0.45]], ax: 1, ay: 1, bump: 1.15, albedo: 0.4, rough: 0.14 },
+};
+
+function surfaceHeight(u, v, profile, seed) {
+  let sum = 0;
+  let norm = 0;
+  for (const [freq, weight] of profile.octaves) {
+    const fx = Math.max(2, Math.round(freq * profile.ax));
+    const fy = Math.max(2, Math.round(freq * profile.ay));
+    // ax/ay で周波数を軸ごとに変え、異方性を作る（木目・織り目）。
+    sum += tileNoise(u, v, fx, seed + freq * 131) * weight
+      * 0.5 + tileNoise(v, u, fy, seed + freq * 977) * weight * 0.5;
+    norm += weight;
+  }
+  return sum / Math.max(1e-6, norm);
+}
+
+// 1つの素材について albedo / normal / roughness の3枚を返す。
+function makeProceduralMaterialMaps(surface, hex, baseRoughness, seed) {
+  const profile = SURFACE_PROFILES[surface];
+  if (!profile) return null;
+  const size = 128;
+  // THREE.Color は色管理下でリニア値を保持する。albedo は SRGBColorSpace の
+  // テクスチャへ書くので、バイト化する前に sRGB へ戻さないと二重変換になり、
+  // 元のマテリアル色と違う色が出る（実際に一度ずれた）。
+  const color = new THREE.Color(hex).convertLinearToSRGB();
+  const pixels = size * size;
+  const height = new Float32Array(pixels);
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      height[y * size + x] = surfaceHeight(x / size, y / size, profile, seed);
+    }
+  }
+
+  const albedo = new Uint8Array(pixels * 4);
+  const normal = new Uint8Array(pixels * 4);
+  const rough = new Uint8Array(pixels * 4);
+  const at = (x, y) => height[(((y % size) + size) % size) * size + (((x % size) + size) % size)];
+
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const index = y * size + x;
+      const h = height[index];
+      const centred = h - 0.5;
+
+      // albedo: 凹部を暗く。sRGB で書くので後段のガンマを考えて控えめに。
+      const shade = Math.max(0.45, 1 + centred * profile.albedo);
+      albedo[index * 4] = Math.min(255, color.r * 255 * shade);
+      albedo[index * 4 + 1] = Math.min(255, color.g * 255 * shade);
+      albedo[index * 4 + 2] = Math.min(255, color.b * 255 * shade);
+      albedo[index * 4 + 3] = 255;
+
+      // normal: 高さの中心差分。tangent space、z 上向き。
+      const dx = (at(x + 1, y) - at(x - 1, y)) * profile.bump * 2.4;
+      const dy = (at(x, y + 1) - at(x, y - 1)) * profile.bump * 2.4;
+      let nx = -dx;
+      let ny = -dy;
+      let nz = 1;
+      const inv = 1 / Math.sqrt(nx * nx + ny * ny + nz * nz);
+      nx *= inv; ny *= inv; nz *= inv;
+      normal[index * 4] = Math.round((nx * 0.5 + 0.5) * 255);
+      normal[index * 4 + 1] = Math.round((ny * 0.5 + 0.5) * 255);
+      normal[index * 4 + 2] = Math.round((nz * 0.5 + 0.5) * 255);
+      normal[index * 4 + 3] = 255;
+
+      // roughness: 凹部ほど粗い。Three.js は G チャンネルを読むのでグレースケールにする。
+      const r = Math.max(0.05, Math.min(1, baseRoughness + (0.5 - h) * profile.rough));
+      const byte = Math.round(r * 255);
+      rough[index * 4] = byte;
+      rough[index * 4 + 1] = byte;
+      rough[index * 4 + 2] = byte;
+      rough[index * 4 + 3] = 255;
+    }
+  }
+
+  const build = (data, colorSpace) => {
+    const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat);
+    texture.colorSpace = colorSpace;
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.anisotropy = 4;
+    texture.needsUpdate = true;
+    return texture;
+  };
+  return {
+    map: build(albedo, THREE.SRGBColorSpace),
+    // normal と roughness は色ではなくデータなので、色空間変換をかけてはいけない。
+    normalMap: build(normal, THREE.NoColorSpace),
+    roughnessMap: build(rough, THREE.NoColorSpace),
+  };
+}
+
 // インスタンスごとの決定論的な微小ゆらぎ 0..1。位置と添字から作るので、
 // 同じマップからは必ず同じ結果が出る（ビルドの再現性を壊さない）。
 function instanceJitter(position = [0, 0, 0], index = 0) {
@@ -266,6 +415,7 @@ export class SceneRenderer {
 
     this._surfaceTextures = [];
     this._buildEnvironment();
+    this._buildEnvironmentMap();
     this._buildLights();
     this._applyQualityProfile(this.performanceBudget.quality);
     this._buildMapMeshes();
@@ -412,7 +562,7 @@ export class SceneRenderer {
   // ただ暗く沈み、金属が金属に見えない。銅・銅屋根・硝子の 1,700 インスタンス超が
   // これに該当していた。外部 HDRI は持たないので、この空（0x9bcbd8）と海と太陽の
   // 色から手続きで畳み込む。テクスチャ1枚・ドローコール0・三角形0。
-  _buildEnvironment() {
+  _buildEnvironmentMap() {
     if (!this.renderer || typeof THREE.PMREMGenerator !== 'function') return null;
     let pmrem = null;
     try {
@@ -441,7 +591,9 @@ export class SceneRenderer {
       const target = pmrem.fromScene(envScene, 0.04);
       this.scene.environment = target.texture;
       // 環境光は控えめに。強くすると ACES で白く飛び、競技上の可読性が落ちる。
-      if ('environmentIntensity' in this.scene) this.scene.environmentIntensity = 0.55;
+      // 手続きマップ導入後は面が自前の陰影を持つため、環境光を 0.55 のままにすると
+      // 全体が浮いて ACES で白に寄る。締めて陰影のコントラストを残す。
+      if ('environmentIntensity' in this.scene) this.scene.environmentIntensity = 0.34;
       this._environmentTarget = target;
       shell.geometry.dispose();
       shell.material.dispose();
@@ -1269,13 +1421,47 @@ export class SceneRenderer {
     };
     if (definition.blending === 'additive') options.blending = THREE.AdditiveBlending;
     if (definition.type === 'basic') return new THREE.MeshBasicMaterial(options);
-    return new THREE.MeshStandardMaterial({
+    const roughness = finiteNumber(definition.roughness, 0.75);
+    const standard = {
       ...options,
-      roughness: finiteNumber(definition.roughness, 0.75),
+      roughness,
       metalness: finiteNumber(definition.metalness, 0),
       emissive: definition.emissive ?? 0x000000,
       emissiveIntensity: finiteNumber(definition.emissiveIntensity, 0),
-    });
+    };
+
+    // 素材族が宣言されている層だけ、手続きの albedo/normal/roughness を貼る。
+    // 27 マテリアルに対して層は 113 あるので、必ずキャッシュしてから配る
+    // （同じ素材で何枚も焼くと GPU メモリと初期化時間を無駄にする）。
+    const surface = definition.surface;
+    if (surface && SURFACE_PROFILES[surface]) {
+      const key = `${surface}|${definition.color ?? 0}|${roughness}`;
+      this._materialMapCache = this._materialMapCache || new Map();
+      let maps = this._materialMapCache.get(key);
+      if (!maps) {
+        const seed = (definition.color ?? 0) ^ (surface.length * 8191);
+        maps = makeProceduralMaterialMaps(surface, definition.color ?? 0xffffff, roughness, seed);
+        if (maps) {
+          this._materialMapCache.set(key, maps);
+          // dispose() 用の登録。_presentationMaterial は構築順に依らず
+          // 単独でも呼べる必要があるので、配列が未初期化でも落とさない。
+          this._surfaceTextures = this._surfaceTextures || [];
+          this._surfaceTextures.push(maps.map, maps.normalMap, maps.roughnessMap);
+        }
+      }
+      if (maps) {
+        // map は色を持つので、material.color は白にして二重着色を避ける。
+        standard.color = 0xffffff;
+        standard.map = maps.map;
+        standard.normalMap = maps.normalMap;
+        standard.roughnessMap = maps.roughnessMap;
+        standard.normalScale = new THREE.Vector2(
+          finiteNumber(definition.normalScale, 1),
+          finiteNumber(definition.normalScale, 1),
+        );
+      }
+    }
+    return new THREE.MeshStandardMaterial(standard);
   }
 
   _buildOriginalMapPresentation(dressing = this.worldDressing) {

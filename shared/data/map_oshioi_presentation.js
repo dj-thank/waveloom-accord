@@ -792,18 +792,20 @@ export const OSHIOI_PRESENTATION = deepFreeze({
     // 中間値（0.15〜0.5）を置くと、非金属が金属的に光り、金属は金属に見えない、という
     // 「プラスチックっぽさ」の主因になる。石・漆喰・瓦は 0.0〜0.05、金属は 0.7 以上、
     // 発光面は 0 に寄せる。詳細は docs/AAA_MATERIAL_REALISM_PLAN_20260802.md §4。
-    shell: { type: 'standard', color: 0xf0e4cc, roughness: 0.88, metalness: 0.02 },
+    // surface は手続きの albedo/normal/roughness を焼く素材族。
+    // 宣言した層だけが面内の情報を持つ（stone/plaster/wood/metal/fabric/foliage）。
+    shell: { type: 'standard', surface: 'plaster', color: 0xf0e4cc, roughness: 0.88, metalness: 0.02 },
     // 玄武岩は非金属。0.16 は石を金属的に光らせていた。
-    basalt: { type: 'standard', color: 0x3e3a34, roughness: 0.73, metalness: 0.04 },
-    cedar: { type: 'standard', color: 0x8a5233, roughness: 0.78, metalness: 0.03 },
+    basalt: { type: 'standard', surface: 'stone', color: 0x3e3a34, roughness: 0.73, metalness: 0.04 },
+    cedar: { type: 'standard', surface: 'wood', color: 0x8a5233, roughness: 0.78, metalness: 0.03 },
     copper: {
       type: 'standard', color: 0xe0ac63, roughness: 0.38, metalness: 0.72,
       emissive: 0x24140b, emissiveIntensity: 0.12,
     },
-    foliage: { type: 'standard', color: 0x365f52, roughness: 0.92, metalness: 0 },
-    foliageLight: { type: 'standard', color: 0x53785f, roughness: 0.9, metalness: 0 },
+    foliage: { type: 'standard', surface: 'foliage', color: 0x365f52, roughness: 0.92, metalness: 0 },
+    foliageLight: { type: 'standard', surface: 'foliage', color: 0x53785f, roughness: 0.9, metalness: 0 },
     // 濡れ石も非金属。濡れは metalness ではなく roughness を下げて表現する。
-    wetRock: { type: 'standard', color: 0x2c4249, roughness: 0.5, metalness: 0.04 },
+    wetRock: { type: 'standard', surface: 'stone', color: 0x2c4249, roughness: 0.5, metalness: 0.04 },
     indigoWall: { type: 'standard', color: 0x2a5e8c, roughness: 0.82, metalness: 0.04 },
     // 設計書§15「東=橙硝子・西=藍硝子」。西の陣営灯は indigoWall（emissive 無し）に
     // 割り当てられていたため、灯ではなく暗い青い箱として描かれ、東 65 個だけが光る
@@ -812,17 +814,17 @@ export const OSHIOI_PRESENTATION = deepFreeze({
       type: 'standard', color: 0x4a86b8, roughness: 0.33, metalness: 0,
       emissive: 0x1a4a7a, emissiveIntensity: 0.7,
     },
-    copperPlaster: { type: 'standard', color: 0xc2814f, roughness: 0.8, metalness: 0.06 },
-    shellShade: { type: 'standard', color: 0xd8c5a2, roughness: 0.86, metalness: 0.03 },
+    copperPlaster: { type: 'standard', surface: 'plaster', color: 0xc2814f, roughness: 0.8, metalness: 0.06 },
+    shellShade: { type: 'standard', surface: 'plaster', color: 0xd8c5a2, roughness: 0.86, metalness: 0.03 },
     // 敷石の継ぎ目。実画面の検証で、床が「明るい面に置かれたテラコッタの貼り紙」に
     // 見えていた。継ぎ目は**色相を変えず明度だけ落とす**（貝灰の影色）。
     // cedar(0x8a5233) を使うと目地自体が暖色の線として主張し、貼り紙感が増える。
     // 逆に basalt(0x3e3a34) まで落とすと広場全体が黒い格子に見える（旧版の失敗）。
-    stoneJoint: { type: 'standard', color: 0xa89877, roughness: 0.9, metalness: 0.02 },
+    stoneJoint: { type: 'standard', surface: 'stone', color: 0xa89877, roughness: 0.9, metalness: 0.02 },
     // 藍屋根は焼き物の瓦として扱う（非金属）。0.26 はどちらでもない中間値だった。
-    roofBlue: { type: 'standard', color: 0x1e4667, roughness: 0.6, metalness: 0.05 },
+    roofBlue: { type: 'standard', surface: 'stone', color: 0x1e4667, roughness: 0.6, metalness: 0.05 },
     // 銅屋根は金属板として扱う。0.34 では銅に見えず、かつ瓦にも見えなかった。
-    roofCopper: { type: 'standard', color: 0xa06b3a, roughness: 0.52, metalness: 0.7 },
+    roofCopper: { type: 'standard', surface: 'metal', color: 0xa06b3a, roughness: 0.52, metalness: 0.7 },
     // 原則4「金の差し色」の主役。clad-ring-window だけで全インスタンスの約30%を
     // 占めるので、ここ1箇所が画面全体の金の量を決める。
     // 旧: basic + additive + opacity 0.82 + depthWrite:false。加算合成が明るい空

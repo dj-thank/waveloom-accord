@@ -22,8 +22,8 @@
       "valid": true,
       "instances": 21214,
       "layers": 113,
-      "calls": 148,
-      "triangles": 620280,
+      "calls": 150,
+      "triangles": 621928,
       "errors": 0
     }
   },
@@ -179,7 +179,7 @@
           "points": 6,
           "maxPoints": 6,
           "pass": true,
-          "actual": 148,
+          "actual": 150,
           "target": "<= 250"
         },
         {
@@ -188,7 +188,7 @@
           "points": 6,
           "maxPoints": 6,
           "pass": true,
-          "actual": 620280,
+          "actual": 621928,
           "target": "<= 1200000"
         }
       ]

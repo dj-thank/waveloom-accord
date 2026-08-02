@@ -87,6 +87,23 @@ function makeBareRenderer(SceneRenderer) {
   return renderer;
 }
 
+test('sky geometry and the optional IBL environment map remain separate build stages', () => {
+  const { SceneRenderer } = loadRenderModule();
+  const renderer = makeBareRenderer(SceneRenderer);
+
+  renderer._buildEnvironment();
+
+  assert.ok(renderer.sky, 'the constructor environment stage must still build the visible sky');
+  assert.ok(renderer.scene.children.includes(renderer.sky));
+  assert.equal(typeof renderer._buildEnvironmentMap, 'function');
+
+  renderer.renderer = null;
+  assert.equal(renderer._buildEnvironmentMap(), null,
+    'IBL is optional when a WebGL renderer or PMREM is unavailable');
+  assert.ok(renderer.scene.children.includes(renderer.sky),
+    'an optional IBL failure must not remove visible environment geometry');
+});
+
 function equipPlayerRendering(renderer) {
   renderer._unitCyl = new THREE.CylinderGeometry(1, 1, 1, 14);
   renderer._unitSphere = new THREE.SphereGeometry(1, 14, 10);
