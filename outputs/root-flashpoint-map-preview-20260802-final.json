@@ -78,9 +78,9 @@
       "source": "network",
       "level": "error",
       "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
-      "timestamp": 1785702981123.94,
+      "timestamp": 1785707382410.914,
       "url": "http://localhost:8899/favicon.ico",
-      "networkRequestId": "41904.43"
+      "networkRequestId": "17484.43"
     }
   ],
   "screenshot": "outputs/root-flashpoint-map-preview-20260802-final.png",
