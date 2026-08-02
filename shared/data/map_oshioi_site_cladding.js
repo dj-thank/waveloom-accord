@@ -721,8 +721,19 @@ function cladRingStore(b, seed) {
   const faceKey = ['ring-arch', 'ring-colonnade', 'ring-lattice'][seed % 3];
   inner(b, faceKey, { inset: 0.1, from: 0, to: tall ? 0.5 : 0.6 });
   // アーチ帯を上階にもう一段（原則7の曲線開口を増やす。archWall は218三角形と安い）
-  if (tier >= 1 && r2 > 0.45) {
-    inner(b, 'ring-arch', { inset: 0.34, from: tall ? 0.54 : 0.64, to: 0.8 });
+  //
+  // 実画面の検証で、街区は「平らな面に細い帯を描いた箱」に見えていた。壁面に
+  // 凹んだ開口が無く、影が出る場所が帯の下しか無いのが原因。上階のアーチ帯は
+  // tier>=1 かつ r2>0.45 の棟にしか出ておらず、178棟のうち約3割しか届いていなかった。
+  //
+  // 全棟へ広げる。三角形は archWall=218/個 で、予算は 522,922/1,200,000 と余裕がある。
+  // inset は棟の高さ段で変え、上階の開口が下階と同じ面に揃って「格子の壁」に
+  // 見えないようにする。
+  if (tier >= 1) {
+    inner(b, 'ring-arch', { inset: r2 > 0.45 ? 0.34 : 0.52, from: tall ? 0.54 : 0.64, to: 0.8 });
+  } else {
+    // 小屋は上階が無いので、軒下に浅い開口帯を1本だけ入れる。
+    inner(b, 'ring-arch', { inset: 0.46, from: 0.62, to: 0.78 });
   }
   // 丸屋根の庇（barrelRoof を庇として横に使う。曲線要素の増量）
   if (r2 < 0.55) {

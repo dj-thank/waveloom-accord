@@ -126,7 +126,19 @@ cultural motifs, so curvature comes from barrel vaults instead.
    space on the map, and square posts were the strongest greybox tell at eye level.
    Cost: `+15,932` triangles, exactly as predicted, no new layer, no new draw call.
 
-All three changes are presentation-only. Collision, routes, and the authored
+4. **Facade openings.** The upper arch band on ring stores was gated behind
+   `tier >= 1 && r2 > 0.45`, so roughly a third of the harbour blocks had a single
+   opening band and read as a flat box with painted trim. It now runs on every
+   store, with the inset varying by tier so upper and lower openings do not line up
+   into a grid, and tier-0 sheds get one shallow band under the eaves.
+   Cost: `+21` instances, `+4,578` triangles, no new layer, no new draw call.
+
+   This produced far less than expected, which is itself a finding: `clad-market-arch`
+   — the layer that absorbs both `market-arch` and `ring-arch` — holds only **32
+   instances across the entire ring**. The arch vocabulary is barely reaching the 178
+   harbour buildings, and finding out why is the highest-value lead for the next pass.
+
+All four changes are presentation-only. Collision, routes, and the authored
 collision digest are untouched, and the fake-cover cluster count is still `0`.
 
 ### Rejected: trees inside the playable core
@@ -137,22 +149,43 @@ existing `insideCore()` guard was relaxed only for individually authored,
 180°-symmetric coordinates that passed every route/spawn/overlap/boost check).
 
 They passed route safety (30/30, zero unsafe segments) and the fake-cover audit
-(0 clusters), but **they broke bot navigation performance** and were reverted.
-Measured on the acceptance match (`--seed 20260719 --match-index 1`):
+(0 clusters), but were reverted because they **change fight outcomes**.
 
-| | baseline | with 6 core trees |
+`tests/hero_bots.test.js` — "three competitive matchups pass on both mirrored
+sides with paired seeds" — failed with the trees in place:
+
+```
+match 1: global combat kills were one-sided at 1:6
+match 4: global combat kills were one-sided at 5:0
+```
+
+Those matchups use fixed seeds, so the result is deterministic and reproducible,
+and the same test passes with the trees removed. Six pieces of body-height cover
+in the central arena were enough to tip two of the three audited matchups past the
+one-sidedness guard. Placement needs balance iteration and a human playtest, which
+is exactly the gate this project already declares — not something to decide from a
+screenshot.
+
+**Correction.** An earlier version of this document, and the commit message of
+`4a7bcaa`, attributed the rejection to bot-navigation *performance*: the
+acceptance match hitting `wall_clock_budget_exhausted` with worst-case bot think
+rising from 441 ms to 2,488 ms. That measurement was wrong. It was taken while a
+headless Chrome instance was rendering map views on the same machine, and the
+`--max-wall-sec 90` budget is wall-clock and therefore load-sensitive. Re-measured
+on an unloaded machine:
+
+| | without core trees | with 6 core trees |
 |---|---:|---:|
-| wall elapsed | 72.2 s | 90.0 s (budget exhausted) |
-| bot think total | 62.3 s | 79.0 s |
-| **worst single bot think** | **441 ms** | **2,488 ms** |
-| final state | `MATCH_END` | `ACTIVE`, `wall_clock_budget_exhausted` |
+| wall elapsed | 31.5 s | 37.3 s / 39.5 s (two runs) |
+| worst single bot think | 229 ms | 640 ms / 577 ms |
+| final state | `MATCH_END` | `MATCH_END`, `failures=0` |
 
-The worst-case planner tick went up 5.6×, with the slowest think landing on a bot
-in `regroup` mode on the shallows route. The bot planner degrades sharply when
-obstacles appear near route corridors, and the baseline already spends 86% of its
-wall budget inside bot thinking. **The core cannot accept new collision until that
-planner cost is addressed** — this is a prerequisite work item, not a map-art
-decision. Raising `--max-wall-sec` would have hidden a real regression.
+The trees do cost roughly 19% more wall time, but they stay well inside the 90 s
+budget and the acceptance match completes. There is no bot-planner blocker. The
+blocker is competitive balance, and it is a different and more interesting problem.
+
+Any future performance number from `tools/headless.js --max-wall-sec` must be taken
+with no browser capture running, or it measures the machine rather than the map.
 
 ## Art observations from the captured views — for the human art pass
 
