@@ -262,6 +262,39 @@ must either raise the soft budget deliberately or spend their triangles on
 existing instances rather than new ones. A denser 81-store config (pitch 8×5) was
 measured but left only 511 margin and was not shipped.
 
+## P1-A shipped: corner columns box → cylinder (zero new instances)
+
+With P0-A pushing instances to 21,214 against a 22,000 soft budget, the silhouette
+spend had to come from upgrading existing primitives, not adding new ones. The
+fattest "box column" tell at eye level is the corner pilaster on every ring store
+— now 75 buildings × 4 corners.
+
+`ring-pilaster` turned out to be an overloaded key used three ways: the 0.6 m
+corner columns, the 0.34 m string-line lamp-post supports (guarded by a specific
+finial test), and thin slabs. Moving the whole key to cylinder broke the
+string-line test — correctly, because it counts the 0.34 m supports inside
+`clad-shell-trim`. The fix was to split only the fat corner columns onto a new
+`ring-column` key and a `clad-ring-column` cylinder layer, leaving the 0.34 m
+supports as boxes where the test expects them. `site-pilaster` (site buildings)
+is only ever a corner column, so it moved wholesale to `clad-site-column`.
+
+Result, verified unloaded:
+
+| gate | result |
+|---|---|
+| columns box → cylinder | 300 ring + 60 site = 360 |
+| presentation instances | 21,214 → **21,214** (unchanged; primitives swapped in place) |
+| presentation layers | 111 → 113 (budget 128) |
+| triangles (browser) | 611,848 → 621,928 (+10,080 = 360 × 28, as predicted) |
+| full source suite | exit 0, 875 dots, zero `F`/`X` |
+| worst-view budget | 208/250 draw calls, 624,336/1,200,000 triangles |
+| fake-cover clusters | 0 |
+| authored collision digest | unchanged |
+
+Draw calls rose by 2 (the two new layers). This is the pattern for the rest of
+P1-A: find an overloaded box key that is genuinely a curved/vertical member, split
+just that use onto the right primitive, spend triangles not instances.
+
 ## Art observations from the captured views — for the human art pass
 
 These are recorded, not acted on. The map is dense and heavily pinned by tests, so

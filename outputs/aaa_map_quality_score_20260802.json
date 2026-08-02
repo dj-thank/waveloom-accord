@@ -11,7 +11,7 @@
   ],
   "metrics": {
     "solids": 1150,
-    "presentationLayers": 111,
+    "presentationLayers": 113,
     "presentationInstances": 21214,
     "budget": {
       "maxPresentationDrawCalls": 128,
@@ -21,9 +21,9 @@
     "preview": {
       "valid": true,
       "instances": 21214,
-      "layers": 111,
-      "calls": 148,
-      "triangles": 611848,
+      "layers": 113,
+      "calls": 150,
+      "triangles": 621928,
       "errors": 0
     }
   },
@@ -170,7 +170,7 @@
           "points": 5,
           "maxPoints": 5,
           "pass": true,
-          "actual": 111,
+          "actual": 113,
           "target": "<= 128"
         },
         {
@@ -179,7 +179,7 @@
           "points": 6,
           "maxPoints": 6,
           "pass": true,
-          "actual": 148,
+          "actual": 150,
           "target": "<= 250"
         },
         {
@@ -188,7 +188,7 @@
           "points": 6,
           "maxPoints": 6,
           "pass": true,
-          "actual": 611848,
+          "actual": 621928,
           "target": "<= 1200000"
         }
       ]
@@ -223,11 +223,11 @@
           "pass": true,
           "actual": {
             "instances": 21214,
-            "layers": 111
+            "layers": 113
           },
           "target": {
             "instances": 21214,
-            "layers": 111
+            "layers": 113
           }
         }
       ]

@@ -16,7 +16,7 @@
       "mapId": "map_oshioi",
       "presentationId": "oshioi-shiokagami-original-v1",
       "instanceCount": 21214,
-      "layerCount": 111,
+      "layerCount": 113,
       "performance": {
         "quality": "high",
         "profile": {
@@ -50,12 +50,12 @@
         },
         "renderer": {
           "memory": {
-            "geometries": 150,
+            "geometries": 152,
             "textures": 9
           },
           "render": {
-            "calls": 148,
-            "triangles": 611848,
+            "calls": 150,
+            "triangles": 621928,
             "points": 0,
             "lines": 3792,
             "frame": 1
@@ -78,9 +78,9 @@
       "source": "network",
       "level": "error",
       "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
-      "timestamp": 1785652149861.365,
+      "timestamp": 1785702981123.94,
       "url": "http://localhost:8899/favicon.ico",
-      "networkRequestId": "26244.43"
+      "networkRequestId": "41904.43"
     }
   ],
   "screenshot": "outputs/root-flashpoint-map-preview-20260802-final.png",

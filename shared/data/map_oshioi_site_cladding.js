@@ -648,8 +648,11 @@ function cladRingStore(b, seed) {
   inner(b, 'ring-plinth', { inset: -0.22, from: 0, to: 0.07 });
   inner(b, 'ring-string', { inset: -0.12, from: tall ? 0.48 : 0.56, to: tall ? 0.53 : 0.61 });
   inner(b, 'ring-cornice', { inset: -0.28, from: 0.79, to: 0.85 });
-  // 四隅の付柱で縦線を出す
-  corners(b, 'ring-pilaster', { inset: 0.75, size: 0.6, from: 0.06, to: 0.8 });
+  // 四隅の付柱で縦線を出す。0.6m角の太い柱なので box → cylinder（clad-ring-column）。
+  // 同じ 'ring-pilaster' キーは 0.34m の string-line 灯柱支柱や薄板にも使われており、
+  // それらは box のまま（test が clad-shell-trim 内の 0.34 支柱を数える）。太い角柱だけを
+  // 別キー 'ring-column' に分けて丸める。
+  corners(b, 'ring-column', { inset: 0.75, size: 0.6, from: 0.06, to: 0.8 });
 
   // 本体と上階（壁材質は地区で分ける）
   const district = districtOf(b.cx, b.cy);
@@ -1088,14 +1091,22 @@ const LAYER_SPECS = [
   ['clad-slip-plinth', 'box', 'cedar', ['slip-plinth']],
 
   // --- 共通の壁・帯（primitive+material で束ねた層）---
+  // 'ring-pilaster' は 0.34m の string-line 灯柱支柱・薄板として box のまま残す。
   ['clad-shell-trim', 'box', 'shellShade', [
     'stair-stringer', 'ring-string', 'ring-pilaster', 'site-string', 'ring-deck', 'ring-parapet',
   ]],
+  // 太い付柱（0.6m角）だけを box → cylinder に分離する。角柱のままだと目線の高さで
+  // 最も「箱」に見える要素だった。P0-A で街区が23→75棟に増えた分、四隅の付柱
+  // （1棟4本）も増えるので、丸めるとシルエット改善が街区全体に乗る。
+  // インスタンスは移すだけで増えない（cylinder=40三角形/個）。
+  ['clad-ring-column', 'cylinder', 'shellShade', ['ring-column']],
   ['clad-dark-trim', 'box', 'basalt', [
     'ring-eave', 'ring-cratelid', 'ring-plinth', 'site-plinth',
     'dock-gantry', 'dock-keel', 'ring-lantern-cord',
   ]],
-  ['clad-wall-shell', 'box', 'shell', ['ring-store', 'ring-cornice', 'site-pilaster']],
+  ['clad-wall-shell', 'box', 'shell', ['ring-store', 'ring-cornice']],
+  // 拠点建築の付柱も同様に丸める（垂直材のみ。インスタンスは増えない）。
+  ['clad-site-column', 'cylinder', 'shell', ['site-pilaster']],
   // 地区ごとの街区の壁（色で現在地が読めるようにする）
   ['clad-ring-store-warm', 'box', 'copperPlaster', ['ring-store-warm']],
   ['clad-ring-store-sand', 'box', 'shellShade', ['ring-store-sand']],
