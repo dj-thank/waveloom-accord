@@ -168,7 +168,13 @@ const withTag = tag => CANONICAL.filter(solid => solid.tag === tag);
 const LAYER_SPECS = [
   ['core-plinth', 'box', 'basalt'],        // 基壇・沓石・暗い足元
   ['core-string', 'box', 'shellShade'],    // 水平線・笠石・段丘の縁・渡り石
-  ['core-pilaster', 'box', 'shell'],       // 付柱・柱・欄干子・灯柱の胴（貝灰漆喰）
+  // 付柱・柱・欄干子・灯柱の胴（貝灰漆喰）。569個すべて垂直材なので box → cylinder。
+  // 実測: 描画インスタンス 19,038 に対し box が 10,589（56%）、曲面は barrelRoof 133 /
+  // hipRoof 106 しかなく、シルエットがほぼ直線だけで出来ていた。1個あたりの
+  // 三角形は 27 で、参照品質帯（約 387）とは density ではなく**曲率**で差がついている。
+  // 三角形予算は 507k/1,200k と余っているので、最も見られる中央制圧点の柱から丸める。
+  // cylinder は 40 三角形なので +28/個、569個で +15,932 三角形。
+  ['core-pilaster', 'cylinder', 'shell'],
   ['core-window', 'box', 'windowGlow'],    // 色ガラスの窓・浮き玉灯籠の光
   ['core-arch', 'archWall', 'shellShade'], // 半円アーチの開口（市場段丘のアーケード）
   // 旧: ['core-gate','archGate','copperPlaster']。

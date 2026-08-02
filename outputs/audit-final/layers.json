@@ -12,7 +12,7 @@
       "primitive": "cylinder",
       "material": "basalt",
       "semantics": "clad-existing-solid",
-      "n": 35
+      "n": 37
     },
     {
       "id": "clad-kiln-arch",
@@ -22,18 +22,32 @@
       "n": 8
     },
     {
+      "id": "clad-kiln-wall",
+      "primitive": "box",
+      "material": "copperPlaster",
+      "semantics": "clad-existing-solid",
+      "n": 11
+    },
+    {
+      "id": "clad-kiln-plinth",
+      "primitive": "box",
+      "material": "basalt",
+      "semantics": "clad-existing-solid",
+      "n": 10
+    },
+    {
       "id": "clad-market-awning",
       "primitive": "barrelRoof",
       "material": "roofCopper",
       "semantics": "clad-existing-solid",
-      "n": 106
+      "n": 58
     },
     {
       "id": "clad-market-sawroof",
       "primitive": "sawRoof",
       "material": "roofCopper",
       "semantics": "clad-existing-solid",
-      "n": 6
+      "n": 32
     },
     {
       "id": "clad-market-arch",
@@ -57,6 +71,20 @@
       "n": 10
     },
     {
+      "id": "clad-market-wall",
+      "primitive": "box",
+      "material": "shell",
+      "semantics": "clad-existing-solid",
+      "n": 18
+    },
+    {
+      "id": "clad-market-plinth",
+      "primitive": "box",
+      "material": "shellShade",
+      "semantics": "clad-existing-solid",
+      "n": 3
+    },
+    {
       "id": "clad-dock-hull",
       "primitive": "box",
       "material": "wetRock",
@@ -78,11 +106,25 @@
       "n": 42
     },
     {
+      "id": "clad-dock-wall",
+      "primitive": "box",
+      "material": "wetRock",
+      "semantics": "clad-existing-solid",
+      "n": 11
+    },
+    {
+      "id": "clad-dock-plinth",
+      "primitive": "box",
+      "material": "wetRock",
+      "semantics": "clad-existing-solid",
+      "n": 2
+    },
+    {
       "id": "clad-lock-roof",
       "primitive": "hipRoof",
       "material": "roofBlue",
       "semantics": "clad-existing-solid",
-      "n": 8
+      "n": 5
     },
     {
       "id": "clad-lock-arch",
@@ -96,14 +138,28 @@
       "primitive": "lattice",
       "material": "cedar",
       "semantics": "clad-existing-solid",
-      "n": 13
+      "n": 14
+    },
+    {
+      "id": "clad-lock-wall",
+      "primitive": "box",
+      "material": "indigoWall",
+      "semantics": "clad-existing-solid",
+      "n": 6
+    },
+    {
+      "id": "clad-lock-plinth",
+      "primitive": "box",
+      "material": "indigoWall",
+      "semantics": "clad-existing-solid",
+      "n": 30
     },
     {
       "id": "clad-slip-timber",
       "primitive": "box",
       "material": "cedar",
       "semantics": "clad-existing-solid",
-      "n": 302
+      "n": 260
     },
     {
       "id": "clad-slip-colonnade",
@@ -120,102 +176,144 @@
       "n": 1
     },
     {
+      "id": "clad-slip-wall",
+      "primitive": "box",
+      "material": "cedar",
+      "semantics": "clad-existing-solid",
+      "n": 23
+    },
+    {
+      "id": "clad-slip-plinth",
+      "primitive": "box",
+      "material": "cedar",
+      "semantics": "clad-existing-solid",
+      "n": 7
+    },
+    {
       "id": "clad-shell-trim",
       "primitive": "box",
       "material": "shellShade",
       "semantics": "clad-existing-solid",
-      "n": 491
+      "n": 747
     },
     {
       "id": "clad-dark-trim",
       "primitive": "box",
       "material": "basalt",
       "semantics": "clad-existing-solid",
-      "n": 317
+      "n": 2870
     },
     {
       "id": "clad-wall-shell",
       "primitive": "box",
       "material": "shell",
       "semantics": "clad-existing-solid",
-      "n": 124
+      "n": 97
+    },
+    {
+      "id": "clad-ring-store-warm",
+      "primitive": "box",
+      "material": "copperPlaster",
+      "semantics": "clad-existing-solid",
+      "n": 4
+    },
+    {
+      "id": "clad-ring-store-sand",
+      "primitive": "box",
+      "material": "shellShade",
+      "semantics": "clad-existing-solid",
+      "n": 8
+    },
+    {
+      "id": "clad-ring-store-cedar",
+      "primitive": "box",
+      "material": "cedar",
+      "semantics": "clad-existing-solid",
+      "n": 1
     },
     {
       "id": "clad-wall-copper",
       "primitive": "box",
       "material": "copperPlaster",
       "semantics": "clad-existing-solid",
-      "n": 32
+      "n": 35
     },
     {
       "id": "clad-wall-indigo",
       "primitive": "box",
       "material": "indigoWall",
       "semantics": "clad-existing-solid",
-      "n": 10
+      "n": 4
     },
     {
       "id": "clad-window",
       "primitive": "box",
       "material": "windowGlow",
       "semantics": "clad-existing-solid",
-      "n": 374
+      "n": 397
     },
     {
       "id": "clad-metal-band",
       "primitive": "box",
       "material": "copper",
       "semantics": "clad-existing-solid",
-      "n": 323
+      "n": 326
     },
     {
       "id": "clad-ridge-blue",
       "primitive": "box",
       "material": "roofBlue",
       "semantics": "clad-existing-solid",
-      "n": 21
+      "n": 23
     },
     {
       "id": "clad-ring-colonnade",
       "primitive": "colonnade",
       "material": "shell",
       "semantics": "clad-existing-solid",
-      "n": 7
+      "n": 8
     },
     {
       "id": "clad-roof-tile",
       "primitive": "hipRoof",
       "material": "copperPlaster",
       "semantics": "clad-existing-solid",
-      "n": 5
-    },
-    {
-      "id": "clad-roof-shed",
-      "primitive": "sawRoof",
-      "material": "basalt",
-      "semantics": "clad-existing-solid",
-      "n": 4
+      "n": 1
     },
     {
       "id": "clad-roof-vault",
       "primitive": "barrelRoof",
       "material": "shellShade",
       "semantics": "clad-existing-solid",
-      "n": 5
+      "n": 9
+    },
+    {
+      "id": "clad-roof-vault-warm",
+      "primitive": "barrelRoof",
+      "material": "copperPlaster",
+      "semantics": "clad-existing-solid",
+      "n": 41
+    },
+    {
+      "id": "clad-roof-sand",
+      "primitive": "hipRoof",
+      "material": "shellShade",
+      "semantics": "clad-existing-solid",
+      "n": 32
     },
     {
       "id": "clad-ring-annexroof",
       "primitive": "hipRoof",
       "material": "roofCopper",
       "semantics": "clad-existing-solid",
-      "n": 11
+      "n": 12
     },
     {
       "id": "clad-ring-dome",
       "primitive": "spire",
       "material": "copperPlaster",
       "semantics": "clad-existing-solid",
-      "n": 5
+      "n": 6
     },
     {
       "id": "clad-ring-spire",
@@ -229,7 +327,14 @@
       "primitive": "spire",
       "material": "copper",
       "semantics": "clad-existing-solid",
-      "n": 16
+      "n": 232
+    },
+    {
+      "id": "clad-ring-lantern",
+      "primitive": "dodecaLow",
+      "material": "windowGlow",
+      "semantics": "clad-existing-solid",
+      "n": 564
     },
     {
       "id": "clad-core-cloisterbase",
@@ -285,49 +390,49 @@
       "primitive": "plane",
       "material": "shell",
       "semantics": "clad-existing-solid",
-      "n": 332
+      "n": 435
     },
     {
       "id": "ground-pave-mid",
       "primitive": "plane",
       "material": "shellShade",
       "semantics": "clad-existing-solid",
-      "n": 262
+      "n": 397
     },
     {
       "id": "ground-pave-outer",
       "primitive": "plane",
       "material": "copperPlaster",
       "semantics": "clad-existing-solid",
-      "n": 277
+      "n": 313
     },
     {
       "id": "ground-pave-far",
       "primitive": "plane",
       "material": "cedar",
       "semantics": "clad-existing-solid",
-      "n": 204
+      "n": 294
     },
     {
       "id": "ground-tide-canal",
       "primitive": "plane",
       "material": "wetRock",
       "semantics": "clad-existing-solid",
-      "n": 6
+      "n": 14
     },
     {
       "id": "ground-lane-gold",
       "primitive": "plane",
       "material": "copper",
       "semantics": "clad-existing-solid",
-      "n": 64
+      "n": 361
     },
     {
       "id": "ground-figure-seam",
       "primitive": "plane",
-      "material": "basalt",
+      "material": "cedar",
       "semantics": "clad-existing-solid",
-      "n": 622
+      "n": 1049
     },
     {
       "id": "ground-curb",
@@ -337,11 +442,18 @@
       "n": 316
     },
     {
+      "id": "ground-joint",
+      "primitive": "plane",
+      "material": "stoneJoint",
+      "semantics": "clad-existing-solid",
+      "n": 1541
+    },
+    {
       "id": "veg-planter-rim",
       "primitive": "box",
       "material": "shellShade",
       "semantics": "clad-existing-solid",
-      "n": 120
+      "n": 189
     },
     {
       "id": "veg-shrub",
@@ -355,21 +467,21 @@
       "primitive": "plane",
       "material": "foliage",
       "semantics": "clad-existing-solid",
-      "n": 82
+      "n": 151
     },
     {
       "id": "veg-trunk-inner",
       "primitive": "cylinder",
       "material": "cedar",
       "semantics": "clad-existing-solid",
-      "n": 58
+      "n": 69
     },
     {
       "id": "veg-crown-inner",
       "primitive": "dodecaLow",
       "material": "foliageLight",
       "semantics": "clad-existing-solid",
-      "n": 174
+      "n": 207
     },
     {
       "id": "veg-boundary-trunk",
@@ -390,21 +502,28 @@
       "primitive": "box",
       "material": "shellShade",
       "semantics": "clad-existing-solid",
-      "n": 84
+      "n": 89
     },
     {
       "id": "landmark-body",
       "primitive": "box",
       "material": "shell",
       "semantics": "clad-existing-solid",
-      "n": 26
+      "n": 10
+    },
+    {
+      "id": "landmark-beacon-body",
+      "primitive": "box",
+      "material": "copperPlaster",
+      "semantics": "clad-existing-solid",
+      "n": 18
     },
     {
       "id": "landmark-frame",
       "primitive": "box",
       "material": "basalt",
       "semantics": "clad-existing-solid",
-      "n": 421
+      "n": 449
     },
     {
       "id": "landmark-arcade",
@@ -418,7 +537,7 @@
       "primitive": "terrace",
       "material": "copperPlaster",
       "semantics": "clad-existing-solid",
-      "n": 10
+      "n": 23
     },
     {
       "id": "landmark-spire",
@@ -432,21 +551,21 @@
       "primitive": "cylinder",
       "material": "copper",
       "semantics": "clad-existing-solid",
-      "n": 12
+      "n": 14
     },
     {
       "id": "landmark-lamp-east",
       "primitive": "box",
       "material": "windowGlow",
       "semantics": "clad-existing-solid",
-      "n": 65
+      "n": 66
     },
     {
       "id": "landmark-lamp-west",
       "primitive": "box",
-      "material": "indigoWall",
+      "material": "indigoGlow",
       "semantics": "clad-existing-solid",
-      "n": 59
+      "n": 63
     },
     {
       "id": "core-plinth",
@@ -467,42 +586,49 @@
       "primitive": "box",
       "material": "shell",
       "semantics": "clad-existing-solid",
-      "n": 490
+      "n": 569
     },
     {
       "id": "core-window",
       "primitive": "box",
       "material": "windowGlow",
       "semantics": "clad-existing-solid",
-      "n": 193
+      "n": 180
     },
     {
       "id": "core-arch",
       "primitive": "archWall",
       "material": "shellShade",
       "semantics": "clad-existing-solid",
-      "n": 74
+      "n": 82
     },
     {
       "id": "core-gate",
-      "primitive": "archGate",
+      "primitive": "archWall",
       "material": "copperPlaster",
       "semantics": "clad-existing-solid",
-      "n": 50
+      "n": 48
     },
     {
       "id": "core-fixture",
       "primitive": "box",
       "material": "cedar",
       "semantics": "clad-existing-solid",
-      "n": 299
+      "n": 989
     },
     {
       "id": "core-crown",
       "primitive": "spire",
       "material": "copper",
       "semantics": "clad-existing-solid",
-      "n": 70
+      "n": 126
+    },
+    {
+      "id": "core-lantern",
+      "primitive": "dodecaLow",
+      "material": "windowGlow",
+      "semantics": "clad-existing-solid",
+      "n": 168
     },
     {
       "id": "district-shells",
@@ -523,56 +649,63 @@
       "primitive": "box",
       "material": "farAccent",
       "semantics": "outside-playable-bounds",
-      "n": 248
+      "n": 424
     },
     {
       "id": "district-hip-roofs",
       "primitive": "hipRoof",
       "material": "farRoof",
       "semantics": "outside-playable-bounds",
-      "n": 62
+      "n": 56
     },
     {
       "id": "metropolis-eaves",
       "primitive": "box",
       "material": "farRoof",
       "semantics": "outside-playable-bounds",
-      "n": 122
+      "n": 102
     },
     {
       "id": "metropolis-barrel-roofs",
       "primitive": "barrelRoof",
-      "material": "farRoof",
+      "material": "farRoofWarm",
       "semantics": "outside-playable-bounds",
-      "n": 20
+      "n": 25
     },
     {
       "id": "metropolis-saw-roofs",
       "primitive": "sawRoof",
+      "material": "farRoofLight",
+      "semantics": "outside-playable-bounds",
+      "n": 24
+    },
+    {
+      "id": "metropolis-dome-roofs",
+      "primitive": "dome",
       "material": "farRoof",
       "semantics": "outside-playable-bounds",
-      "n": 20
+      "n": 17
     },
     {
       "id": "district-windows-bright",
       "primitive": "box",
       "material": "farGlowWarm",
       "semantics": "outside-playable-bounds",
-      "n": 213
+      "n": 575
     },
     {
       "id": "district-windows",
       "primitive": "box",
       "material": "farGlow",
       "semantics": "outside-playable-bounds",
-      "n": 250
+      "n": 475
     },
     {
       "id": "district-windows-dim",
       "primitive": "box",
       "material": "farGlowDim",
       "semantics": "outside-playable-bounds",
-      "n": 163
+      "n": 200
     },
     {
       "id": "tide-gauge-trusses",
@@ -641,6 +774,8 @@
   "materials": [
     "farShell",
     "farRoof",
+    "farRoofWarm",
+    "farRoofLight",
     "farAccent",
     "farIndigo",
     "farGlowWarm",
@@ -655,8 +790,10 @@
     "foliageLight",
     "wetRock",
     "indigoWall",
+    "indigoGlow",
     "copperPlaster",
     "shellShade",
+    "stoneJoint",
     "roofBlue",
     "roofCopper",
     "windowGlow",

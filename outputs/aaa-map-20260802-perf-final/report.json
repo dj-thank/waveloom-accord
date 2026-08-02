@@ -21,8 +21,8 @@
             "targetFrameMs": 16.7
           },
           "frameMs": {
-            "samples": 6,
-            "average": 30.566666666666606,
+            "samples": 7,
+            "average": 38.142857142857146,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -48,10 +48,10 @@
             },
             "render": {
               "calls": 153,
-              "triangles": 507906,
+              "triangles": 523838,
               "points": 0,
               "lines": 3408,
-              "frame": 6
+              "frame": 7
             }
           }
         },
@@ -62,10 +62,10 @@
           },
           "render": {
             "calls": 153,
-            "triangles": 507906,
+            "triangles": 523838,
             "points": 0,
             "lines": 3408,
-            "frame": 6
+            "frame": 7
           }
         }
       }
@@ -84,8 +84,8 @@
             "targetFrameMs": 16.7
           },
           "frameMs": {
-            "samples": 13,
-            "average": 41.0307692307692,
+            "samples": 14,
+            "average": 44.07142857142857,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -111,10 +111,10 @@
             },
             "render": {
               "calls": 205,
-              "triangles": 509474,
+              "triangles": 525406,
               "points": 0,
               "lines": 3846,
-              "frame": 13
+              "frame": 14
             }
           }
         },
@@ -125,10 +125,10 @@
           },
           "render": {
             "calls": 205,
-            "triangles": 509474,
+            "triangles": 525406,
             "points": 0,
             "lines": 3846,
-            "frame": 13
+            "frame": 14
           }
         }
       }
@@ -147,8 +147,8 @@
             "targetFrameMs": 16.7
           },
           "frameMs": {
-            "samples": 21,
-            "average": 44.44761904761903,
+            "samples": 22,
+            "average": 46.22727272727273,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -174,10 +174,10 @@
             },
             "render": {
               "calls": 145,
-              "triangles": 507026,
+              "triangles": 522958,
               "points": 0,
               "lines": 3408,
-              "frame": 21
+              "frame": 22
             }
           }
         },
@@ -188,10 +188,10 @@
           },
           "render": {
             "calls": 145,
-            "triangles": 507026,
+            "triangles": 522958,
             "points": 0,
             "lines": 3408,
-            "frame": 21
+            "frame": 22
           }
         }
       }
@@ -210,8 +210,8 @@
             "targetFrameMs": 16.7
           },
           "frameMs": {
-            "samples": 28,
-            "average": 45.835714285714275,
+            "samples": 29,
+            "average": 47.13793103448276,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -237,10 +237,10 @@
             },
             "render": {
               "calls": 146,
-              "triangles": 507038,
+              "triangles": 522970,
               "points": 0,
               "lines": 3408,
-              "frame": 28
+              "frame": 29
             }
           }
         },
@@ -251,10 +251,10 @@
           },
           "render": {
             "calls": 146,
-            "triangles": 507038,
+            "triangles": 522970,
             "points": 0,
             "lines": 3408,
-            "frame": 28
+            "frame": 29
           }
         }
       }
@@ -273,8 +273,8 @@
             "targetFrameMs": 16.7
           },
           "frameMs": {
-            "samples": 35,
-            "average": 46.66857142857142,
+            "samples": 36,
+            "average": 47.69444444444444,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -299,11 +299,11 @@
               "textures": 15
             },
             "render": {
-              "calls": 146,
-              "triangles": 507074,
+              "calls": 145,
+              "triangles": 522958,
               "points": 0,
               "lines": 3408,
-              "frame": 35
+              "frame": 36
             }
           }
         },
@@ -313,11 +313,11 @@
             "textures": 15
           },
           "render": {
-            "calls": 146,
-            "triangles": 507074,
+            "calls": 145,
+            "triangles": 522958,
             "points": 0,
             "lines": 3408,
-            "frame": 35
+            "frame": 36
           }
         }
       }
@@ -336,8 +336,8 @@
             "targetFrameMs": 16.7
           },
           "frameMs": {
-            "samples": 42,
-            "average": 47.223809523809514,
+            "samples": 43,
+            "average": 48.06976744186046,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -363,10 +363,10 @@
             },
             "render": {
               "calls": 163,
-              "triangles": 508230,
+              "triangles": 524162,
               "points": 0,
               "lines": 3612,
-              "frame": 42
+              "frame": 43
             }
           }
         },
@@ -377,10 +377,10 @@
           },
           "render": {
             "calls": 163,
-            "triangles": 508230,
+            "triangles": 524162,
             "points": 0,
             "lines": 3612,
-            "frame": 42
+            "frame": 43
           }
         }
       }
@@ -400,7 +400,7 @@
           },
           "frameMs": {
             "samples": 51,
-            "average": 47.71372549019607,
+            "average": 48.37058823529414,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -426,7 +426,7 @@
             },
             "render": {
               "calls": 160,
-              "triangles": 507786,
+              "triangles": 523718,
               "points": 0,
               "lines": 3474,
               "frame": 51
@@ -440,7 +440,7 @@
           },
           "render": {
             "calls": 160,
-            "triangles": 507786,
+            "triangles": 523718,
             "points": 0,
             "lines": 3474,
             "frame": 51
@@ -463,7 +463,7 @@
           },
           "frameMs": {
             "samples": 59,
-            "average": 48.023728813559316,
+            "average": 48.59152542372884,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -489,7 +489,7 @@
             },
             "render": {
               "calls": 165,
-              "triangles": 508258,
+              "triangles": 524190,
               "points": 0,
               "lines": 3462,
               "frame": 59
@@ -503,7 +503,7 @@
           },
           "render": {
             "calls": 165,
-            "triangles": 508258,
+            "triangles": 524190,
             "points": 0,
             "lines": 3462,
             "frame": 59
@@ -526,7 +526,7 @@
           },
           "frameMs": {
             "samples": 67,
-            "average": 48.25970149253731,
+            "average": 48.75970149253734,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -552,7 +552,7 @@
             },
             "render": {
               "calls": 130,
-              "triangles": 497222,
+              "triangles": 513154,
               "points": 0,
               "lines": 3456,
               "frame": 67
@@ -566,7 +566,7 @@
           },
           "render": {
             "calls": 130,
-            "triangles": 497222,
+            "triangles": 513154,
             "points": 0,
             "lines": 3456,
             "frame": 67
@@ -589,7 +589,7 @@
           },
           "frameMs": {
             "samples": 75,
-            "average": 48.44533333333333,
+            "average": 48.89200000000002,
             "p95": 50,
             "p99": 50,
             "max": 50
@@ -615,7 +615,7 @@
             },
             "render": {
               "calls": 154,
-              "triangles": 506190,
+              "triangles": 522122,
               "points": 0,
               "lines": 3474,
               "frame": 75
@@ -629,7 +629,7 @@
           },
           "render": {
             "calls": 154,
-            "triangles": 506190,
+            "triangles": 522122,
             "points": 0,
             "lines": 3474,
             "frame": 75

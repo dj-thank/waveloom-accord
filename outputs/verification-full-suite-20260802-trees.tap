@@ -1,0 +1,887 @@
+﻿....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+......X.............
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+..................X.
+....................
+....................
+....................
+....................
+..................X.
+....................
+....................
+....................
+...............
+
+Failed tests:
+
+✖ headless acceptance completes the historically stalled roster seam (90989.3839ms)
+  Error: Command failed: C:\Users\rambo\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe tools/headless.js --matches 1 --match-index 1 --seed 20260719 --max-sim-sec 2700 --profile --max-wall-sec 90 --quiet --json
+    [FAIL] match did not terminate before 2700s: {"state":"ACTIVE","score":[0,1],"objective":{"sealed":false,"owner":0,"gauge":[100,0],"pot":[295,1000],"ot":null,"suddenDeath":false,"otPenaltyStartT":-1,"respawnPenaltySec":0,"state":"contested","time":222},"ticks":24982,"maxTicks":170100}
+    [FAIL] 試合がMATCH_ENDに到達しなかった（ACTIVE）
+    [FAIL] 勝者が確定していない
+    [FAIL] 勝利チームのラウンド取得数がroundsToWinと一致しない
+    [FAIL] obj_round_win回数がラウンド数と不一致
+  
+  検証失敗: 5件
+  
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at checkExecSyncError (node:child_process:925:11)
+      at execFileSync (node:child_process:961:15)
+      at TestContext.<anonymous> (file:///C:/Users/rambo/projects/kagariai-props/tests/hero_bots.test.js:2897:18)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:787:18)
+      at Test.postRun (node:internal/test_runner/test:1247:19)
+      at Test.run (node:internal/test_runner/test:1175:12) {
+    status: 1,
+    signal: null,
+    output: [ null, '{"seed":20260719,"matches":1,"startMatchIndex":1,"acceptance":{"baselinePairedRotation":false,"requiredMatches":6},"seeds":[20268638],"roster":{"uniqueHeroes":10,"totalHeroes":18,"heroes":["vesta","botan","ankou","tsuzuri","kazura","nuedori","shirasagi","asagi","hibari","shirabe"],"complete":false},"actions":{"primary":1396,"abilities":551,"ultimates":22,"slots":{"secondary":346,"ability1":115,"ability2":90,"ultimate":22},"byHero":{"vesta":{"primary":28,"secondary":44,"ability1":4,"ability2":14,"ultimate":2,"healing":0},"botan":{"primary":35,"secondary":15,"ability1":18,"ability2":7,"ultimate":2,"healing":0},"ankou":{"primary":26,"secondary":17,"ability1":2,"ability2":7,"ultimate":1,"healing":0},"tsuzuri":{"primary":281,"secondary":38,"ability1":10,"ability2":11,"ultimate":3,"healing":8305.499999999998},"kazura":{"primary":66,"secondary":31,"ability1":7,"ability2":5,"ultimate":2,"healing":814.1},"nuedori":{"primary":360,"secondary":14,"ability1":14,"ability2":20,"ultimate":3,"healing":0},"shirasagi":{"primary":22,"secondary":23,"ability1":14,"ability2":9,"ultimate":2,"healing":0},"asagi":{"primary":247,"secondary":86,"ability1":19,"ability2":7,"ultimate":3,"healing":719.7},"hibari":{"primary":259,"secondary":32,"ability1":20,"ability2":6,"ultimate":3,"healing":5306.000000000021},"shirabe":{"primary":72,"secondary":46,"ability1":7,"ability2":4,"ultimate":1,"healing":0}}},"healing":{"events":788,"amount":15145.3},"ultimateDistribution":[{"p1":{"heroId":"vesta","uses":2},"p2":{"heroId":"botan","uses":2},"p3":{"heroId":"ankou","uses":1},"p4":{"heroId":"tsuzuri","uses":3},"p5":{"heroId":"kazura","uses":2},"p6":{"heroId":"nuedori","uses":3},"p7":{"heroId":"shirasagi","uses":2},"p8":{"heroId":"asagi","uses":3},"p9":{"heroId":"hibari","uses":3},"p10":{"heroId":"shirabe","uses":1}}],"ultimateEconomy":{"playerMatches":10,"averageUses":2.2,"medianUses":2,"minUses":1,"maxUses":3,"zeroUseRate":0},"teamCompositions":[[[{"heroId":"vesta","role":"frontline"},{"heroId":"botan","role":"damage"},{"heroId":"ankou","role":"damage"},{"heroId":"tsuzuri","role":"support"},{"heroId":"kazura","role":"support"}],[{"heroId":"nuedori","role":"frontline"},{"heroId":"shirasagi","role":"damage"},{"heroId":"asagi","role":"damage"},{"heroId":"hibari","role":"support"},{"heroId":"shirabe","role":"support"}]]],"completedMatches":[{"seed":20268638,"matchIndex":1,"matchWinner":-1,"score":[0,1],"simulatedDurationSec":396.54,"ticks":24982,"maxTicks":170100,"finalState":"ACTIVE","terminationReason":"wall_clock_budget_exhausted","finalObjective":{"sealed":false,"owner":0,"gauge":[100,0],"pot":[295,1000],"ot":null,"suddenDeath":false,"otPenaltyStartT":-1,"respawnPenaltySec":0,"state":"contested","time":222},"liveness":{"noEffectiveObjectiveEntrySec":0,"maxNoEffectiveObjectiveEntrySec":9.253968253968223,"regroupDurationSec":1455.1269841266749,"recoveryRetries":1,"activeOnPointTicks":[8506,17509],"timeSinceLastEliminationSec":0.603174603174466},"performance":{"enabled":true,"wallBudgetSec":90,"wallElapsedMs":90018.56,"botThinkMs":78481.205,"worldTickMs":10464.662,"maxBotThinkMs":1570.192,"maxWorldTickMs":141.769,"maxLoopMs":1570.534,"slowestLoop":{"tick":24945,"simulatedDurationSec":395.952,"botThinkMs":1570.192,"worldTickMs":0.32,"loopMs":1570.534},"slowestBotThink":{"tick":24944,"simulatedDurationSec":395.937,"playerId":"p8","heroId":"asagi","team":1,"alive":true,"mode":"regroup","route":"shallows","waypoint":19,"botThinkMs":1174.092},"wallBudgetExceeded":true},"rounds":[{"round":1,"winner":1,"sides":["east","west"]}],"rotation":{"rotationIndex":1,"canonicalLineupIndex":1,"mirrored":false,"mirrorMatchIndex":4,"acceptanceSeed":20268632,"logicalLineupSlots":[["lineup:1|side:a|slot:0","lineup:1|side:a|slot:1","lineup:1|side:a|slot:2","lineup:1|side:a|slot:3","lineup:1|side:a|slot:4"],["lineup:1|side:b|slot:0","lineup:1|side:b|slot:1","lineup:1|side:b|slot:2","lineup:1|side:b|slot:3","lineup:1|side:b|slot:4"]]},"botRng":{"scheme":{"id":"kagariai.bot-rng.counter-domain.v1","defaultDomain":"bot-controller","sideDrawDomain":"match-side-draw","matchSeedDomain":"match-world-seed","physicalTeamInIdentity":false},"matchSeed":20268638,"controllers":[{"playerId":"p1","physicalTeam":0,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:a|slot:0","heroId":"vesta","identity":"lineup:1|side:a|slot:0|hero:vesta","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p2","physicalTeam":0,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:a|slot:1","heroId":"botan","identity":"lineup:1|side:a|slot:1|hero:botan","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p3","physicalTeam":0,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:a|slot:2","heroId":"ankou","identity":"lineup:1|side:a|slot:2|hero:ankou","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p4","physicalTeam":0,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:a|slot:3","heroId":"tsuzuri","identity":"lineup:1|side:a|slot:3|hero:tsuzuri","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p5","physicalTeam":0,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:a|slot:4","heroId":"kazura","identity":"lineup:1|side:a|slot:4|hero:kazura","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p6","physicalTeam":1,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:b|slot:0","heroId":"nuedori","identity":"lineup:1|side:b|slot:0|hero:nuedori","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p7","physicalTeam":1,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:b|slot:1","heroId":"shirasagi","identity":"lineup:1|side:b|slot:1|hero:shirasagi","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p8","physicalTeam":1,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:b|slot:2","heroId":"asagi","identity":"lineup:1|side:b|slot:2|hero:asagi","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p9","physicalTeam":1,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:b|slot:3","heroId":"hibari","identity":"lineup:1|side:b|slot:3|hero:hibari","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p10","physicalTeam":1,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:b|slot:4","heroId":"shirabe","identity":"lineup:1|side:b|slot:4|hero:shirabe","defaultDomain":"bot-controller","physicalTeamInIdentity":false}]}}],"rngScheme":{"id":"kagariai.bot-rng.counter-domain.v1","defaultDomain":"bot-controller","sideDrawDomain":"match-side-draw","matchSeedDomain":"match-world-seed","physicalTeamInIdentity":false},"sideBalance":{"bo3Matches":1,"completedBo3":0,"completedRounds":1,"decisiveRounds":1,"sideWins":{"east":0,"west":1},"eastWinRate":0,"westWinRate":1,"roundTwoSwap":{"expected":0,"observed":0,"rate":null},"severeBiasDetected":false,"verdict":"insufficient_decisive_rounds"},"simulation":{"profile":"acceptance","maxSimSec":2700,"roundCapSec":480,"authoredRoundCapSec":480,"overrideRoundCapSec":null,"roundsToWin":2,"maxRounds":3,"setupSec":30,"resultSec":5},"failures":5}\n', '  [FAIL] match did not terminate before 2700s: {"state":"ACTIVE","score":[0,1],"objective":{"sealed":false,"owner":0,"gauge":[100,0],"pot":[295,1000],"ot":null,"suddenDeath":false,"otPenaltyStartT":-1,"respawnPenaltySec":0,"state":"contested","time":222},"ticks":24982,"maxTicks":170100}\n  [FAIL] 試合がMATCH_ENDに到達しなかった（ACTIVE）\n  [FAIL] 勝者が確定していない\n  [FAIL] 勝利チームのラウンド取得数がroundsToWinと一致しない\n  [FAIL] obj_round_win回数がラウンド数と不一致\n\n検証失敗: 5件\n' ],
+    pid: 7676,
+    stdout: '{"seed":20260719,"matches":1,"startMatchIndex":1,"acceptance":{"baselinePairedRotation":false,"requiredMatches":6},"seeds":[20268638],"roster":{"uniqueHeroes":10,"totalHeroes":18,"heroes":["vesta","botan","ankou","tsuzuri","kazura","nuedori","shirasagi","asagi","hibari","shirabe"],"complete":false},"actions":{"primary":1396,"abilities":551,"ultimates":22,"slots":{"secondary":346,"ability1":115,"ability2":90,"ultimate":22},"byHero":{"vesta":{"primary":28,"secondary":44,"ability1":4,"ability2":14,"ultimate":2,"healing":0},"botan":{"primary":35,"secondary":15,"ability1":18,"ability2":7,"ultimate":2,"healing":0},"ankou":{"primary":26,"secondary":17,"ability1":2,"ability2":7,"ultimate":1,"healing":0},"tsuzuri":{"primary":281,"secondary":38,"ability1":10,"ability2":11,"ultimate":3,"healing":8305.499999999998},"kazura":{"primary":66,"secondary":31,"ability1":7,"ability2":5,"ultimate":2,"healing":814.1},"nuedori":{"primary":360,"secondary":14,"ability1":14,"ability2":20,"ultimate":3,"healing":0},"shirasagi":{"primary":22,"secondary":23,"ability1":14,"ability2":9,"ultimate":2,"healing":0},"asagi":{"primary":247,"secondary":86,"ability1":19,"ability2":7,"ultimate":3,"healing":719.7},"hibari":{"primary":259,"secondary":32,"ability1":20,"ability2":6,"ultimate":3,"healing":5306.000000000021},"shirabe":{"primary":72,"secondary":46,"ability1":7,"ability2":4,"ultimate":1,"healing":0}}},"healing":{"events":788,"amount":15145.3},"ultimateDistribution":[{"p1":{"heroId":"vesta","uses":2},"p2":{"heroId":"botan","uses":2},"p3":{"heroId":"ankou","uses":1},"p4":{"heroId":"tsuzuri","uses":3},"p5":{"heroId":"kazura","uses":2},"p6":{"heroId":"nuedori","uses":3},"p7":{"heroId":"shirasagi","uses":2},"p8":{"heroId":"asagi","uses":3},"p9":{"heroId":"hibari","uses":3},"p10":{"heroId":"shirabe","uses":1}}],"ultimateEconomy":{"playerMatches":10,"averageUses":2.2,"medianUses":2,"minUses":1,"maxUses":3,"zeroUseRate":0},"teamCompositions":[[[{"heroId":"vesta","role":"frontline"},{"heroId":"botan","role":"damage"},{"heroId":"ankou","role":"damage"},{"heroId":"tsuzuri","role":"support"},{"heroId":"kazura","role":"support"}],[{"heroId":"nuedori","role":"frontline"},{"heroId":"shirasagi","role":"damage"},{"heroId":"asagi","role":"damage"},{"heroId":"hibari","role":"support"},{"heroId":"shirabe","role":"support"}]]],"completedMatches":[{"seed":20268638,"matchIndex":1,"matchWinner":-1,"score":[0,1],"simulatedDurationSec":396.54,"ticks":24982,"maxTicks":170100,"finalState":"ACTIVE","terminationReason":"wall_clock_budget_exhausted","finalObjective":{"sealed":false,"owner":0,"gauge":[100,0],"pot":[295,1000],"ot":null,"suddenDeath":false,"otPenaltyStartT":-1,"respawnPenaltySec":0,"state":"contested","time":222},"liveness":{"noEffectiveObjectiveEntrySec":0,"maxNoEffectiveObjectiveEntrySec":9.253968253968223,"regroupDurationSec":1455.1269841266749,"recoveryRetries":1,"activeOnPointTicks":[8506,17509],"timeSinceLastEliminationSec":0.603174603174466},"performance":{"enabled":true,"wallBudgetSec":90,"wallElapsedMs":90018.56,"botThinkMs":78481.205,"worldTickMs":10464.662,"maxBotThinkMs":1570.192,"maxWorldTickMs":141.769,"maxLoopMs":1570.534,"slowestLoop":{"tick":24945,"simulatedDurationSec":395.952,"botThinkMs":1570.192,"worldTickMs":0.32,"loopMs":1570.534},"slowestBotThink":{"tick":24944,"simulatedDurationSec":395.937,"playerId":"p8","heroId":"asagi","team":1,"alive":true,"mode":"regroup","route":"shallows","waypoint":19,"botThinkMs":1174.092},"wallBudgetExceeded":true},"rounds":[{"round":1,"winner":1,"sides":["east","west"]}],"rotation":{"rotationIndex":1,"canonicalLineupIndex":1,"mirrored":false,"mirrorMatchIndex":4,"acceptanceSeed":20268632,"logicalLineupSlots":[["lineup:1|side:a|slot:0","lineup:1|side:a|slot:1","lineup:1|side:a|slot:2","lineup:1|side:a|slot:3","lineup:1|side:a|slot:4"],["lineup:1|side:b|slot:0","lineup:1|side:b|slot:1","lineup:1|side:b|slot:2","lineup:1|side:b|slot:3","lineup:1|side:b|slot:4"]]},"botRng":{"scheme":{"id":"kagariai.bot-rng.counter-domain.v1","defaultDomain":"bot-controller","sideDrawDomain":"match-side-draw","matchSeedDomain":"match-world-seed","physicalTeamInIdentity":false},"matchSeed":20268638,"controllers":[{"playerId":"p1","physicalTeam":0,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:a|slot:0","heroId":"vesta","identity":"lineup:1|side:a|slot:0|hero:vesta","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p2","physicalTeam":0,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:a|slot:1","heroId":"botan","identity":"lineup:1|side:a|slot:1|hero:botan","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p3","physicalTeam":0,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:a|slot:2","heroId":"ankou","identity":"lineup:1|side:a|slot:2|hero:ankou","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p4","physicalTeam":0,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:a|slot:3","heroId":"tsuzuri","identity":"lineup:1|side:a|slot:3|hero:tsuzuri","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p5","physicalTeam":0,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:a|slot:4","heroId":"kazura","identity":"lineup:1|side:a|slot:4|hero:kazura","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p6","physicalTeam":1,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:b|slot:0","heroId":"nuedori","identity":"lineup:1|side:b|slot:0|hero:nuedori","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p7","physicalTeam":1,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:b|slot:1","heroId":"shirasagi","identity":"lineup:1|side:b|slot:1|hero:shirasagi","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p8","physicalTeam":1,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:b|slot:2","heroId":"asagi","identity":"lineup:1|side:b|slot:2|hero:asagi","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p9","physicalTeam":1,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:b|slot:3","heroId":"hibari","identity":"lineup:1|side:b|slot:3|hero:hibari","defaultDomain":"bot-controller","physicalTeamInIdentity":false},{"playerId":"p10","physicalTeam":1,"schemeId":"kagariai.bot-rng.counter-domain.v1","matchSeed":20268638,"logicalLineupSlot":"lineup:1|side:b|slot:4","heroId":"shirabe","identity":"lineup:1|side:b|slot:4|hero:shirabe","defaultDomain":"bot-controller","physicalTeamInIdentity":false}]}}],"rngScheme":{"id":"kagariai.bot-rng.counter-domain.v1","defaultDomain":"bot-controller","sideDrawDomain":"match-side-draw","matchSeedDomain":"match-world-seed","physicalTeamInIdentity":false},"sideBalance":{"bo3Matches":1,"completedBo3":0,"completedRounds":1,"decisiveRounds":1,"sideWins":{"east":0,"west":1},"eastWinRate":0,"westWinRate":1,"roundTwoSwap":{"expected":0,"observed":0,"rate":null},"severeBiasDetected":false,"verdict":"insufficient_decisive_rounds"},"simulation":{"profile":"acceptance","maxSimSec":2700,"roundCapSec":480,"authoredRoundCapSec":480,"overrideRoundCapSec":null,"roundsToWin":2,"maxRounds":3,"setupSec":30,"resultSec":5},"failures":5}\n',
+    stderr: '  [FAIL] match did not terminate before 2700s: {"state":"ACTIVE","score":[0,1],"objective":{"sealed":false,"owner":0,"gauge":[100,0],"pot":[295,1000],"ot":null,"suddenDeath":false,"otPenaltyStartT":-1,"respawnPenaltySec":0,"state":"contested","time":222},"ticks":24982,"maxTicks":170100}\n  [FAIL] 試合がMATCH_ENDに到達しなかった（ACTIVE）\n  [FAIL] 勝者が確定していない\n  [FAIL] 勝利チームのラウンド取得数がroundsToWinと一致しない\n  [FAIL] obj_round_win回数がラウンド数と不一致\n\n検証失敗: 5件\n'
+  }
+✖ release verifier observes a draining server become unready and exit cleanly (9614.5395ms)
+  AssertionError [ERR_ASSERTION]: Error: never observed /readyz return 503 while shutdown was in progress
+      at waitForUnready (file:///C:/Users/rambo/projects/kagariai-props/tools/release_verify.js:169:9)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Promise.all (index 0)
+      at async file:///C:/Users/rambo/projects/kagariai-props/tools/release_verify.js:299:58
+  [match] 新しい試合を開始 seed=1083444248 (Kagariai Fivefold Tide / 潮汲み環礁ウルハ・大潮井)
+  『篝合』サーバー起動: http://127.0.0.1:58477 (WS同上 / tick 63Hz / production)
+  [join] smoke-1 → p1 (team 0, hero zairu)
+  [join] smoke-2 → p6 (team 1, hero baraga)
+  [join] smoke-3 → p2 (team 0, hero asagi)
+  [join] smoke-4 → p7 (team 1, hero shirasagi)
+  [join] smoke-5 → p3 (team 0, hero tsubakuro)
+  [join] smoke-6 → p8 (team 1, hero hokuchi)
+  [join] smoke-7 → p4 (team 0, hero tsuzuri)
+  [join] smoke-8 → p9 (team 1, hero hibari)
+  [join] smoke-9 → p5 (team 0, hero koyomi)
+  [join] smoke-10 → p10 (team 1, hero karakasa)
+  [leave] p10 をボットが引き継ぎ
+  [leave] p5 をボットが引き継ぎ
+  [leave] p9 をボットが引き継ぎ
+  [leave] p4 をボットが引き継ぎ
+  [leave] p8 をボットが引き継ぎ
+  [leave] p3 をボットが引き継ぎ
+  [leave] p7 をボットが引き継ぎ
+  [leave] p1 をボットが引き継ぎ
+  [leave] p2 をボットが引き継ぎ
+  [leave] p6 をボットが引き継ぎ
+  [shutdown] RELEASE_VERIFY_IPC — 接続を安全に終了します
+  
+  [tick] 236.3msをスキップ
+  [tick] 160.4msをスキップ
+  [tick] 30.1msをスキップ
+  [tick] 37.4msをスキップ
+  [tick] 2.6msをスキップ
+  [tick] 13.6msをスキップ
+  [tick] 181.7msをスキップ
+  [tick] 104.5msをスキップ
+  [tick] 79.8msをスキップ
+  (node:32620) TimeoutNaNWarning: NaN is not a number.
+  Timeout duration was set to 1.
+  (Use `node --trace-warnings ...` to show where the warning was created)
+  [tick] 290.2msをスキップ
+  [tick] 58.0msをスキップ
+  
+  
+  + actual - expected
+  
+    {
+  +   httpClosed: undefined,
+  +   ok: undefined,
+  +   ready: undefined,
+  +   readyStatus: undefined,
+  +   serverExit: undefined,
+  +   stubbornPeerClosed: undefined,
+  -   httpClosed: true,
+  -   ok: true,
+  -   ready: false,
+  -   readyStatus: 503,
+  -   serverExit: {
+  -     code: 0,
+  -     signal: null
+  -   },
+  -   stubbornPeerClosed: true,
+      verifierExit: {
+  +     code: 1,
+  -     code: 0,
+        signal: null
+      },
+  +   webSocketClosed: undefined,
+  +   websocketCloseCode: undefined
+  -   webSocketClosed: true,
+  -   websocketCloseCode: 1012
+    }
+  
+      at TestContext.<anonymous> (file:///C:/Users/rambo/projects/kagariai-props/tests/release_verify.test.js:31:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { verifierExit: { code: 1, signal: null }, ok: undefined, readyStatus: undefined, ready: undefined, websocketCloseCode: undefined, stubbornPeerClosed: undefined, httpClosed: undefined, webSocketClosed: undefined, serverExit: undefined },
+    expected: { verifierExit: { code: 0, signal: null }, ok: true, readyStatus: 503, ready: false, websocketCloseCode: 1012, stubbornPeerClosed: true, httpClosed: true, webSocketClosed: true, serverExit: { code: 0, signal: null } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+✖ three competitive matchups pass on both mirrored sides with paired seeds (317394.2212ms)
+  AssertionError [ERR_ASSERTION]: {
+    "pass": false,
+    "violations": [
+      "match 1: global combat kills were one-sided at 1:6",
+      "match 4: global combat kills were one-sided at 5:0"
+    ],
+    "inputViolations": [],
+    "runs": [
+      {
+        "matchIndex": 0,
+        "matchupIndex": 0,
+        "mirror": false,
+        "seed": 20260713,
+        "expectedSeed": 20260713,
+        "pass": true,
+        "violations": [],
+        "metrics": {
+          "killsByTeam": [
+            3,
+            3
+          ],
+          "killSharesByTeam": [
+            0.5,
+            0.5
+          ],
+          "hasKillsByBothTeams": true,
+          "medianFirstCasualtySec": 8.167,
+          "medianContactSpanSec": 12.238,
+          "resolvedTeamfightCount": 6,
+          "hasResolvedBilateralContact": true,
+          "unilateralContactCount": 0,
+          "twoSidedObjectiveSec": 63.889,
+          "objectiveSecByTeam": [
+            121.778,
+            118.762
+          ],
+          "healingAtFrontByTeam": [
+            2200,
+            1463.1
+          ],
+          "healingWindowsByTeam": [
+            7,
+            7
+          ]
+        }
+      },
+      {
+        "matchIndex": 1,
+        "matchupIndex": 1,
+        "mirror": false,
+        "seed": 20268632,
+        "expectedSeed": 20268632,
+        "pass": false,
+        "violations": [
+          "global combat kills were one-sided at 1:6"
+        ],
+        "metrics": {
+          "killsByTeam": [
+            1,
+            6
+          ],
+          "killSharesByTeam": [
+            0.142857,
+            0.857143
+          ],
+          "hasKillsByBothTeams": true,
+          "medianFirstCasualtySec": 6.945,
+          "medianContactSpanSec": 11.103,
+          "resolvedTeamfightCount": 6,
+          "hasResolvedBilateralContact": true,
+          "unilateralContactCount": 0,
+          "twoSidedObjectiveSec": 75.683,
+          "objectiveSecByTeam": [
+            103.905,
+            133.27
+          ],
+          "healingAtFrontByTeam": [
+            3561.7,
+            650.3
+          ],
+          "healingWindowsByTeam": [
+            6,
+            7
+          ]
+        }
+      },
+      {
+        "matchIndex": 2,
+        "matchupIndex": 2,
+        "mirror": false,
+        "seed": 20276551,
+        "expectedSeed": 20276551,
+        "pass": true,
+        "violations": [],
+        "metrics": {
+          "killsByTeam": [
+            6,
+            3
+          ],
+          "killSharesByTeam": [
+            0.666667,
+            0.333333
+          ],
+          "hasKillsByBothTeams": true,
+          "medianFirstCasualtySec": 8.714,
+          "medianContactSpanSec": 19.286,
+          "resolvedTeamfightCount": 5,
+          "hasResolvedBilateralContact": true,
+          "unilateralContactCount": 0,
+          "twoSidedObjectiveSec": 73.333,
+          "objectiveSecByTeam": [
+            129.921,
+            101.365
+          ],
+          "healingAtFrontByTeam": [
+            1762.9,
+            783.5
+          ],
+          "healingWindowsByTeam": [
+            9,
+            12
+          ]
+        }
+      },
+      {
+        "matchIndex": 3,
+        "matchupIndex": 0,
+        "mirror": true,
+        "seed": 20260713,
+        "expectedSeed": 20260713,
+        "pass": true,
+        "violations": [],
+        "metrics": {
+          "killsByTeam": [
+            6,
+            5
+          ],
+          "killSharesByTeam": [
+            0.545455,
+            0.454545
+          ],
+          "hasKillsByBothTeams": true,
+          "medianFirstCasualtySec": 12.246,
+          "medianContactSpanSec": 16.389,
+          "resolvedTeamfightCount": 4,
+          "hasResolvedBilateralContact": true,
+          "unilateralContactCount": 0,
+          "twoSidedObjectiveSec": 63.095,
+          "objectiveSecByTeam": [
+            121.476,
+            102.825
+          ],
+          "healingAtFrontByTeam": [
+            503.8,
+            1775.6
+          ],
+          "healingWindowsByTeam": [
+            9,
+            8
+          ]
+        }
+      },
+      {
+        "matchIndex": 4,
+        "matchupIndex": 1,
+        "mirror": true,
+        "seed": 20268632,
+        "expectedSeed": 20268632,
+        "pass": false,
+        "violations": [
+          "global combat kills were one-sided at 5:0"
+        ],
+        "metrics": {
+          "killsByTeam": [
+            5,
+            0
+          ],
+          "killSharesByTeam": [
+            1,
+            0
+          ],
+          "hasKillsByBothTeams": false,
+          "medianFirstCasualtySec": 12.73,
+          "medianContactSpanSec": 15.317,
+          "resolvedTeamfightCount": 5,
+          "hasResolvedBilateralContact": true,
+          "unilateralContactCount": 0,
+          "twoSidedObjectiveSec": 55.476,
+          "objectiveSecByTeam": [
+            106.873,
+            71.54
+          ],
+          "healingAtFrontByTeam": [
+            1004.1,
+            2365.6
+          ],
+          "healingWindowsByTeam": [
+            9,
+            5
+          ]
+        }
+      },
+      {
+        "matchIndex": 5,
+        "matchupIndex": 2,
+        "mirror": true,
+        "seed": 20276551,
+        "expectedSeed": 20276551,
+        "pass": true,
+        "violations": [],
+        "metrics": {
+          "killsByTeam": [
+            5,
+            5
+          ],
+          "killSharesByTeam": [
+            0.5,
+            0.5
+          ],
+          "hasKillsByBothTeams": true,
+          "medianFirstCasualtySec": 8,
+          "medianContactSpanSec": 16.063,
+          "resolvedTeamfightCount": 5,
+          "hasResolvedBilateralContact": true,
+          "unilateralContactCount": 0,
+          "twoSidedObjectiveSec": 84.095,
+          "objectiveSecByTeam": [
+            123.159,
+            115.079
+          ],
+          "healingAtFrontByTeam": [
+            1842.7,
+            1586.1
+          ],
+          "healingWindowsByTeam": [
+            8,
+            7
+          ]
+        }
+      }
+    ],
+    "pairs": [
+      {
+        "matchupIndex": 0,
+        "seed": 20260713,
+        "matchIndices": [
+          0,
+          3
+        ],
+        "pass": true,
+        "violations": [],
+        "comparisonViolations": [],
+        "directions": [
+          {
+            "matchIndex": 0,
+            "matchupIndex": 0,
+            "mirror": false,
+            "seed": 20260713,
+            "expectedSeed": 20260713,
+            "pass": true,
+            "violations": [],
+            "metrics": {
+              "killsByTeam": [
+                3,
+                3
+              ],
+              "killSharesByTeam": [
+                0.5,
+                0.5
+              ],
+              "hasKillsByBothTeams": true,
+              "medianFirstCasualtySec": 8.167,
+              "medianContactSpanSec": 12.238,
+              "resolvedTeamfightCount": 6,
+              "hasResolvedBilateralContact": true,
+              "unilateralContactCount": 0,
+              "twoSidedObjectiveSec": 63.889,
+              "objectiveSecByTeam": [
+                121.778,
+                118.762
+              ],
+              "healingAtFrontByTeam": [
+                2200,
+                1463.1
+              ],
+              "healingWindowsByTeam": [
+                7,
+                7
+              ]
+            }
+          },
+          {
+            "matchIndex": 3,
+            "matchupIndex": 0,
+            "mirror": true,
+            "seed": 20260713,
+            "expectedSeed": 20260713,
+            "pass": true,
+            "violations": [],
+            "metrics": {
+              "killsByTeam": [
+                6,
+                5
+              ],
+              "killSharesByTeam": [
+                0.545455,
+                0.454545
+              ],
+              "hasKillsByBothTeams": true,
+              "medianFirstCasualtySec": 12.246,
+              "medianContactSpanSec": 16.389,
+              "resolvedTeamfightCount": 4,
+              "hasResolvedBilateralContact": true,
+              "unilateralContactCount": 0,
+              "twoSidedObjectiveSec": 63.095,
+              "objectiveSecByTeam": [
+                121.476,
+                102.825
+              ],
+              "healingAtFrontByTeam": [
+                503.8,
+                1775.6
+              ],
+              "healingWindowsByTeam": [
+                9,
+                8
+              ]
+            }
+          }
+        ],
+        "killSharesByLineupAndDirection": [
+          [
+            0.5,
+            0.454545
+          ],
+          [
+            0.5,
+            0.545455
+          ]
+        ],
+        "killShareDifference": 0.045455,
+        "unilateralKillMatchIndices": [],
+        "firstCasualtySecByDirection": [
+          8.167,
+          12.246
+        ],
+        "firstCasualtyDifferenceSec": 4.079,
+        "contactSpanSecByDirection": [
+          12.238,
+          16.389
+        ],
+        "contactSpanDifferenceSec": 4.151,
+        "unilateralContactMatchIndices": [],
+        "missingBilateralContactMatchIndices": [],
+        "twoSidedObjectiveSecByDirection": [
+          63.889,
+          63.095
+        ],
+        "twoSidedObjectiveDifferenceSec": 0.794,
+        "objectiveSecByLineupAndDirection": [
+          [
+            121.778,
+            102.825
+          ],
+          [
+            118.762,
+            121.476
+          ]
+        ],
+        "objectiveDifferenceSec": 18.953,
+        "healingAtFrontByLineupAndDirection": [
+          [
+            2200,
+            1775.6
+          ],
+          [
+            1463.1,
+            503.8
+          ]
+        ],
+        "healingDifference": 959.3,
+        "healingWindowsByLineupAndDirection": [
+          [
+            7,
+            8
+          ],
+          [
+            7,
+            9
+          ]
+        ],
+        "healingWindowDifference": 2
+      },
+      {
+        "matchupIndex": 1,
+        "seed": 20268632,
+        "matchIndices": [
+          1,
+          4
+        ],
+        "pass": false,
+        "violations": [
+          "match 1: global combat kills were one-sided at 1:6",
+          "match 4: global combat kills were one-sided at 5:0"
+        ],
+        "comparisonViolations": [],
+        "directions": [
+          {
+            "matchIndex": 1,
+            "matchupIndex": 1,
+            "mirror": false,
+            "seed": 20268632,
+            "expectedSeed": 20268632,
+            "pass": false,
+            "violations": [
+              "global combat kills were one-sided at 1:6"
+            ],
+            "metrics": {
+              "killsByTeam": [
+                1,
+                6
+              ],
+              "killSharesByTeam": [
+                0.142857,
+                0.857143
+              ],
+              "hasKillsByBothTeams": true,
+              "medianFirstCasualtySec": 6.945,
+              "medianContactSpanSec": 11.103,
+              "resolvedTeamfightCount": 6,
+              "hasResolvedBilateralContact": true,
+              "unilateralContactCount": 0,
+              "twoSidedObjectiveSec": 75.683,
+              "objectiveSecByTeam": [
+                103.905,
+                133.27
+              ],
+              "healingAtFrontByTeam": [
+                3561.7,
+                650.3
+              ],
+              "healingWindowsByTeam": [
+                6,
+                7
+              ]
+            }
+          },
+          {
+            "matchIndex": 4,
+            "matchupIndex": 1,
+            "mirror": true,
+            "seed": 20268632,
+            "expectedSeed": 20268632,
+            "pass": false,
+            "violations": [
+              "global combat kills were one-sided at 5:0"
+            ],
+            "metrics": {
+              "killsByTeam": [
+                5,
+                0
+              ],
+              "killSharesByTeam": [
+                1,
+                0
+              ],
+              "hasKillsByBothTeams": false,
+              "medianFirstCasualtySec": 12.73,
+              "medianContactSpanSec": 15.317,
+              "resolvedTeamfightCount": 5,
+              "hasResolvedBilateralContact": true,
+              "unilateralContactCount": 0,
+              "twoSidedObjectiveSec": 55.476,
+              "objectiveSecByTeam": [
+                106.873,
+                71.54
+              ],
+              "healingAtFrontByTeam": [
+                1004.1,
+                2365.6
+              ],
+              "healingWindowsByTeam": [
+                9,
+                5
+              ]
+            }
+          }
+        ],
+        "killSharesByLineupAndDirection": [
+          [
+            0.142857,
+            0
+          ],
+          [
+            0.857143,
+            1
+          ]
+        ],
+        "killShareDifference": 0.142857,
+        "unilateralKillMatchIndices": [
+          4
+        ],
+        "firstCasualtySecByDirection": [
+          6.945,
+          12.73
+        ],
+        "firstCasualtyDifferenceSec": 5.785,
+        "contactSpanSecByDirection": [
+          11.103,
+          15.317
+        ],
+        "contactSpanDifferenceSec": 4.214,
+        "unilateralContactMatchIndices": [],
+        "missingBilateralContactMatchIndices": [],
+        "twoSidedObjectiveSecByDirection": [
+          75.683,
+          55.476
+        ],
+        "twoSidedObjectiveDifferenceSec": 20.207,
+        "objectiveSecByLineupAndDirection": [
+          [
+            103.905,
+            71.54
+          ],
+          [
+            133.27,
+            106.873
+          ]
+        ],
+        "objectiveDifferenceSec": 32.365,
+        "healingAtFrontByLineupAndDirection": [
+          [
+            3561.7,
+            2365.6
+          ],
+          [
+            650.3,
+            1004.1
+          ]
+        ],
+        "healingDifference": 1196.1,
+        "healingWindowsByLineupAndDirection": [
+          [
+            6,
+            5
+          ],
+          [
+            7,
+            9
+          ]
+        ],
+        "healingWindowDifference": 2
+      },
+      {
+        "matchupIndex": 2,
+        "seed": 20276551,
+        "matchIndices": [
+          2,
+          5
+        ],
+        "pass": true,
+        "violations": [],
+        "comparisonViolations": [],
+        "directions": [
+          {
+            "matchIndex": 2,
+            "matchupIndex": 2,
+            "mirror": false,
+            "seed": 20276551,
+            "expectedSeed": 20276551,
+            "pass": true,
+            "violations": [],
+            "metrics": {
+              "killsByTeam": [
+                6,
+                3
+              ],
+              "killSharesByTeam": [
+                0.666667,
+                0.333333
+              ],
+              "hasKillsByBothTeams": true,
+              "medianFirstCasualtySec": 8.714,
+              "medianContactSpanSec": 19.286,
+              "resolvedTeamfightCount": 5,
+              "hasResolvedBilateralContact": true,
+              "unilateralContactCount": 0,
+              "twoSidedObjectiveSec": 73.333,
+              "objectiveSecByTeam": [
+                129.921,
+                101.365
+              ],
+              "healingAtFrontByTeam": [
+                1762.9,
+                783.5
+              ],
+              "healingWindowsByTeam": [
+                9,
+                12
+              ]
+            }
+          },
+          {
+            "matchIndex": 5,
+            "matchupIndex": 2,
+            "mirror": true,
+            "seed": 20276551,
+            "expectedSeed": 20276551,
+            "pass": true,
+            "violations": [],
+            "metrics": {
+              "killsByTeam": [
+                5,
+                5
+              ],
+              "killSharesByTeam": [
+                0.5,
+                0.5
+              ],
+              "hasKillsByBothTeams": true,
+              "medianFirstCasualtySec": 8,
+              "medianContactSpanSec": 16.063,
+              "resolvedTeamfightCount": 5,
+              "hasResolvedBilateralContact": true,
+              "unilateralContactCount": 0,
+              "twoSidedObjectiveSec": 84.095,
+              "objectiveSecByTeam": [
+                123.159,
+                115.079
+              ],
+              "healingAtFrontByTeam": [
+                1842.7,
+                1586.1
+              ],
+              "healingWindowsByTeam": [
+                8,
+                7
+              ]
+            }
+          }
+        ],
+        "killSharesByLineupAndDirection": [
+          [
+            0.666667,
+            0.5
+          ],
+          [
+            0.333333,
+            0.5
+          ]
+        ],
+        "killShareDifference": 0.166667,
+        "unilateralKillMatchIndices": [],
+        "firstCasualtySecByDirection": [
+          8.714,
+          8
+        ],
+        "firstCasualtyDifferenceSec": 0.714,
+        "contactSpanSecByDirection": [
+          19.286,
+          16.063
+        ],
+        "contactSpanDifferenceSec": 3.223,
+        "unilateralContactMatchIndices": [],
+        "missingBilateralContactMatchIndices": [],
+        "twoSidedObjectiveSecByDirection": [
+          73.333,
+          84.095
+        ],
+        "twoSidedObjectiveDifferenceSec": 10.762,
+        "objectiveSecByLineupAndDirection": [
+          [
+            129.921,
+            115.079
+          ],
+          [
+            101.365,
+            123.159
+          ]
+        ],
+        "objectiveDifferenceSec": 21.794,
+        "healingAtFrontByLineupAndDirection": [
+          [
+            1762.9,
+            1586.1
+          ],
+          [
+            783.5,
+            1842.7
+          ]
+        ],
+        "healingDifference": 1059.2,
+        "healingWindowsByLineupAndDirection": [
+          [
+            9,
+            7
+          ],
+          [
+            12,
+            8
+          ]
+        ],
+        "healingWindowDifference": 4
+      }
+    ]
+  }
+  + actual - expected
+  
+  + [
+  +   'match 1: global combat kills were one-sided at 1:6',
+  +   'match 4: global combat kills were one-sided at 5:0'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///C:/Users/rambo/projects/kagariai-props/tests/teamfight_acceptance.test.js:23:10)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'match 1: global combat kills were one-sided at 1:6', 'match 4: global combat kills were one-sided at 5:0' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

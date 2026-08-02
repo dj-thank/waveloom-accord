@@ -23,7 +23,7 @@
       "instances": 19038,
       "layers": 110,
       "calls": 144,
-      "triangles": 506990,
+      "triangles": 522922,
       "errors": 0
     }
   },
@@ -188,7 +188,7 @@
           "points": 6,
           "maxPoints": 6,
           "pass": true,
-          "actual": 506990,
+          "actual": 522922,
           "target": "<= 1200000"
         }
       ]

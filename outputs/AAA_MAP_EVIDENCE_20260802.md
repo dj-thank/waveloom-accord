@@ -119,8 +119,40 @@ cultural motifs, so curvature comes from barrel vaults instead.
    their family is drawn from the barrel-vault set, giving the roofscape curvature
    in our own vocabulary. Cost: `+3,572` triangles, no new layer, no new draw call.
 
-Both changes are presentation-only. Collision, routes, and the authored collision
-digest are untouched, and the fake-cover cluster count is still `0`.
+3. **Round columns.** `core-pilaster` is 569 instances and every one of them is a
+   vertical member (engaged columns, balusters, lantern-post bodies), yet they
+   were drawn as boxes. Switched to `cylinder`. This is the first deliberate spend
+   against the triangles-per-instance gap: the central objective is the most-looked-at
+   space on the map, and square posts were the strongest greybox tell at eye level.
+   Cost: `+15,932` triangles, exactly as predicted, no new layer, no new draw call.
+
+All three changes are presentation-only. Collision, routes, and the authored
+collision digest are untouched, and the fake-cover cluster count is still `0`.
+
+### Rejected: trees inside the playable core
+
+Three rotationally-symmetric pairs of `ring-tree-core-*` collision solids were
+authored for the central arena (the core currently has no trees at all, and the
+existing `insideCore()` guard was relaxed only for individually authored,
+180°-symmetric coordinates that passed every route/spawn/overlap/boost check).
+
+They passed route safety (30/30, zero unsafe segments) and the fake-cover audit
+(0 clusters), but **they broke bot navigation performance** and were reverted.
+Measured on the acceptance match (`--seed 20260719 --match-index 1`):
+
+| | baseline | with 6 core trees |
+|---|---:|---:|
+| wall elapsed | 72.2 s | 90.0 s (budget exhausted) |
+| bot think total | 62.3 s | 79.0 s |
+| **worst single bot think** | **441 ms** | **2,488 ms** |
+| final state | `MATCH_END` | `ACTIVE`, `wall_clock_budget_exhausted` |
+
+The worst-case planner tick went up 5.6×, with the slowest think landing on a bot
+in `regroup` mode on the shallows route. The bot planner degrades sharply when
+obstacles appear near route corridors, and the baseline already spends 86% of its
+wall budget inside bot thinking. **The core cannot accept new collision until that
+planner cost is addressed** — this is a prerequisite work item, not a map-art
+decision. Raising `--max-wall-sec` would have hidden a real regression.
 
 ## Art observations from the captured views — for the human art pass
 

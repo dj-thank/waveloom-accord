@@ -55,7 +55,7 @@
           },
           "render": {
             "calls": 144,
-            "triangles": 506990,
+            "triangles": 522922,
             "points": 0,
             "lines": 3408,
             "frame": 1
@@ -78,9 +78,9 @@
       "source": "network",
       "level": "error",
       "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
-      "timestamp": 1785614934323.605,
+      "timestamp": 1785643646460.118,
       "url": "http://localhost:8899/favicon.ico",
-      "networkRequestId": "17712.43"
+      "networkRequestId": "11368.43"
     }
   ],
   "screenshot": "outputs/root-flashpoint-map-preview-20260802-final.png",
