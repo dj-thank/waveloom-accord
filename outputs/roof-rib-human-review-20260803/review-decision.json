@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "assetId": "prop-kagariai-roof-rib-01",
+  "status": "pending-human-review",
+  "decision": null,
+  "reviewer": null,
+  "reviewedAt": null,
+  "humanArt": {
+    "decision": null,
+    "criticalScores": {},
+    "blockers": [],
+    "notes": null
+  },
+  "competitiveReadability": {
+    "decision": null,
+    "criticalScores": {},
+    "blockers": [],
+    "notes": null
+  },
+  "evidence": {
+    "rendererReport": "docs/evidence/AAA_ROOF_RIB_LIVE_REVIEW_EVIDENCE_20260803.json",
+    "rendererReportSha256": "3778DEA513E220BA1357FF2D600FE1C1A3F47B9931535F3ED8F3D1877199B1A5",
+    "reviewPacket": "outputs/roof-rib-human-review-20260803/README.md"
+  },
+  "productionAdmissionAuthorized": false
+}

@@ -1,17 +1,14 @@
 {
   "ok": true,
-  "url": "http://localhost:8899/client/map-preview.html",
+  "url": "http://127.0.0.1:8899/client/map-preview.html",
   "viewport": {
-    "width": 1280,
-    "height": 800
+    "width": 1600,
+    "height": 900
   },
   "review": {
     "readyState": "interactive",
     "data": {
       "authoredMap": "loading",
-      "roofRibReview": "disabled:not-requested",
-      "roofRibReviewProductionEnabled": "false",
-      "roofRibReviewCollision": "none",
       "heroRig": "verifying",
       "mapPresentation": "ready"
     },
@@ -57,8 +54,8 @@
             "textures": 43
           },
           "render": {
-            "calls": 150,
-            "triangles": 621928,
+            "calls": 152,
+            "triangles": 622012,
             "points": 0,
             "lines": 3792,
             "frame": 35
@@ -81,11 +78,11 @@
       "source": "network",
       "level": "error",
       "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
-      "timestamp": 1785752510625.695,
-      "url": "http://localhost:8899/favicon.ico",
-      "networkRequestId": "19104.43"
+      "timestamp": 1785709574107.134,
+      "url": "http://127.0.0.1:8899/favicon.ico",
+      "networkRequestId": "42800.43"
     }
   ],
-  "screenshot": "outputs/root-flashpoint-map-preview-20260802-final.png",
-  "output": "outputs/root-flashpoint-map-preview-20260802-final.json"
+  "screenshot": "outputs/aaa-material-fpsow-20260803/preview.png",
+  "output": "outputs/aaa-material-fpsow-20260803/preview.json"
 }

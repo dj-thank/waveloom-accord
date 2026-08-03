@@ -305,6 +305,42 @@ function makeProceduralMaterialMaps(surface, hex, baseRoughness, seed) {
   };
 }
 
+// 頂点AO（接地の陰影）。
+//
+// 面が均一に明るいと、物は「置かれている」ではなく「浮いている」ように見える。
+// 実際の遮蔽は隅と接地部で光が入らないことで生まれるが、SSAO は描画コストが高く、
+// 接地影の板を敷くとインスタンス予算を食う。ここでは各プリミティブの**下端の頂点を
+// 暗くする**ことで、予算ゼロのまま接地感を出す。
+//
+// presentation のデータは rotation[0]（ピッチ）を使わず yaw のみと定められているので、
+// ローカル +Z は常にワールドの上を向く。したがって下端＝ローカル z 最小で判定できる。
+// vertexColors は instanceColor と乗算されるので、インスタンスごとの明度ゆらぎとも両立する。
+const VERTEX_AO_FLOOR = 0.72;   // 最下端の明度
+function bakeVertexOcclusion(geometry) {
+  const position = geometry?.getAttribute?.('position');
+  if (!position || geometry.getAttribute('color')) return geometry;
+  let minZ = Infinity;
+  let maxZ = -Infinity;
+  for (let index = 0; index < position.count; index++) {
+    const z = position.getZ(index);
+    if (z < minZ) minZ = z;
+    if (z > maxZ) maxZ = z;
+  }
+  const span = maxZ - minZ;
+  const colors = new Float32Array(position.count * 3);
+  for (let index = 0; index < position.count; index++) {
+    // 下から上へ滑らかに回復させる。平板（span≈0）は遮蔽を掛けない。
+    const t = span > 1e-6 ? (position.getZ(index) - minZ) / span : 1;
+    const eased = t * t * (3 - 2 * t);
+    const shade = VERTEX_AO_FLOOR + (1 - VERTEX_AO_FLOOR) * eased;
+    colors[index * 3] = shade;
+    colors[index * 3 + 1] = shade;
+    colors[index * 3 + 2] = shade;
+  }
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  return geometry;
+}
+
 // インスタンスごとの決定論的な微小ゆらぎ 0..1。位置と添字から作るので、
 // 同じマップからは必ず同じ結果が出る（ビルドの再現性を壊さない）。
 function instanceJitter(position = [0, 0, 0], index = 0) {
@@ -421,6 +457,11 @@ export class SceneRenderer {
     this._buildMapMeshes();
     this._loadAuthoredMap(this.map.visualAsset);
     this._buildWorldDressing();
+    this.roofRibMapReview = null;
+    this.roofRibMapReviewStatus = 'disabled:not-requested';
+    this.roofRibMapReviewConfig = null;
+    this._roofRibReviewTextures = [];
+    this._roofRibReviewLoad = this._loadRoofRibMapReview(this.assetCatalog?.roofRibReview);
     this._buildEnvironmentProps();
     this._buildObjective();
     this._buildPickups();
@@ -1126,6 +1167,167 @@ export class SceneRenderer {
     return dressing;
   }
 
+  _setRoofRibMapReviewStatus(status, detail = '') {
+    this.roofRibMapReviewStatus = status;
+    if (typeof document === 'undefined') return;
+    document.documentElement.dataset.roofRibReview = status;
+    document.documentElement.dataset.roofRibReviewProductionEnabled = 'false';
+    document.documentElement.dataset.roofRibReviewCollision = 'none';
+    if (detail) document.documentElement.dataset.roofRibReviewDetail = detail;
+    else delete document.documentElement.dataset.roofRibReviewDetail;
+  }
+
+  _installRoofRibMapReviewOverlay(config) {
+    if (typeof document === 'undefined' || this._roofRibReviewBadge) return;
+    document.body?.classList?.add('roof-rib-live-map-review');
+    const style = document.createElement('style');
+    style.dataset.roofRibReviewStyle = 'true';
+    style.textContent = `
+      body.roof-rib-live-map-review #hud,
+      body.roof-rib-live-map-review #joinOverlay,
+      body.roof-rib-live-map-review #touchControls { display: none !important; }
+      #roof-rib-live-review-badge {
+        position: fixed; z-index: 1000; top: 12px; left: 12px; padding: 9px 12px;
+        color: #fff4cf; background: rgba(12, 19, 25, .86);
+        border: 1px solid rgba(255, 209, 112, .75); border-radius: 6px;
+        font: 700 12px/1.45 ui-monospace, Consolas, monospace;
+        pointer-events: none; white-space: pre-line;
+      }
+    `;
+    const badge = document.createElement('div');
+    badge.id = 'roof-rib-live-review-badge';
+    badge.textContent = [
+      'CANDIDATE-ONLY / LIVE MAP REVIEW',
+      `${config.site} · ${config.distanceM}m · ${config.lighting}`,
+      'production: OFF · collision: NONE',
+    ].join('\n');
+    document.head?.append(style);
+    document.body?.append(badge);
+    this._roofRibReviewStyle = style;
+    this._roofRibReviewBadge = badge;
+  }
+
+  _applyRoofRibMapReviewLighting(config) {
+    if (!this.sun || !config || config.lighting === 'day') return;
+    const slotName = `north-roof-rib-${config.site}`;
+    const slot = this.roofRibMapReview?.getObjectByName?.(slotName);
+    if (!slot) return;
+    const target = new THREE.Vector3(slot.position.x, slot.position.z, -slot.position.y);
+    this.sun.target.position.copy(target);
+    this.scene.add(this.sun.target);
+    if (config.lighting === 'dusk') {
+      this.scene.background.setHex(0x655f68);
+      if (this.scene.fog?.color) this.scene.fog.color.setHex(0x655f68);
+      this.renderer.toneMappingExposure = 0.92;
+      this.sun.color.setHex(0xff9f67);
+      this.sun.intensity = 3.4;
+      this.sun.position.copy(target).add(new THREE.Vector3(-24, 14, 18));
+    } else if (config.lighting === 'backlit') {
+      this.scene.background.setHex(0xa3aaa5);
+      if (this.scene.fog?.color) this.scene.fog.color.setHex(0xa3aaa5);
+      this.renderer.toneMappingExposure = 1.0;
+      this.sun.color.setHex(0xffe0ae);
+      this.sun.intensity = 4.0;
+      this.sun.position.copy(target).add(new THREE.Vector3(18, 9, -14));
+    }
+  }
+
+  async _loadRoofRibMapReview(config = {}) {
+    this.roofRibMapReview = null;
+    this.roofRibMapReviewConfig = null;
+    if (config?.enabled !== true) {
+      this._setRoofRibMapReviewStatus(`disabled:${config?.reason || 'not-requested'}`);
+      return false;
+    }
+
+    this._setRoofRibMapReviewStatus('loading');
+    const loadedTextures = [];
+    let reviewGroup = null;
+    try {
+      const loader = new THREE.TextureLoader();
+      const loadSurface = async (folder, stem) => {
+        const channels = ['albedo', 'normal', 'roughness', 'ao'];
+        const maps = {};
+        await Promise.all(channels.map(async channel => {
+          const texture = await loader.loadAsync(
+            `/client/img2threejs/roof-rib/materials/${folder}/${stem}_${channel}.png`,
+          );
+          loadedTextures.push(texture);
+          maps[channel] = texture;
+        }));
+        maps.albedo.colorSpace = THREE.SRGBColorSpace;
+        const maxAnisotropy = this.renderer?.capabilities?.getMaxAnisotropy?.() || 1;
+        for (const texture of Object.values(maps)) {
+          texture.wrapS = THREE.RepeatWrapping;
+          texture.wrapT = THREE.RepeatWrapping;
+          texture.anisotropy = Math.min(8, maxAnisotropy);
+        }
+        return maps;
+      };
+      const [ceramic, copper, iron, brass] = await Promise.all([
+        loadSurface('indigo-ceramic', 'indigo-ceramic'),
+        loadSurface('oxidized-copper', 'oxidized-copper'),
+        loadSurface('iron-joints', 'iron-joints'),
+        loadSurface('aged-brass', 'aged-brass'),
+      ]);
+      const [admissionModule, adapterModule] = await Promise.all([
+        import('/client/img2threejs/roof-rib/runtimeAdmissionCandidate.js'),
+        import('/client/img2threejs/roof-rib/runtimeAdapter.js'),
+      ]);
+      const admission = admissionModule.createKagariaiRoofRibReviewAdmission();
+      reviewGroup = adapterModule.createKagariaiRoofRibMapReviewGroup({
+        THREE,
+        admission,
+        pbrTextures: { ceramic, copper, iron, brass },
+      });
+      if (this._disposed) {
+        adapterModule.disposeKagariaiRoofRibRuntimeGroup(reviewGroup);
+        for (const texture of loadedTextures) texture.dispose?.();
+        return false;
+      }
+      this.world.add(reviewGroup);
+      this.roofRibMapReview = reviewGroup;
+      this.roofRibMapReviewConfig = Object.freeze({
+        site: config.site,
+        distanceM: config.distanceM,
+        lighting: config.lighting,
+      });
+      this._roofRibReviewTextures = loadedTextures;
+      this._applyRoofRibMapReviewLighting(this.roofRibMapReviewConfig);
+      this._installRoofRibMapReviewOverlay(this.roofRibMapReviewConfig);
+      this._setRoofRibMapReviewStatus('loaded', 'candidate-only-live-map-review');
+      return true;
+    } catch (error) {
+      if (reviewGroup?.parent) reviewGroup.parent.remove(reviewGroup);
+      for (const texture of loadedTextures) texture.dispose?.();
+      this._roofRibReviewTextures = [];
+      this._setRoofRibMapReviewStatus('fallback', error?.message || 'unknown-error');
+      console.warn('[roof-rib-review] candidate review fallback:', error?.message || error);
+      return false;
+    }
+  }
+
+  _applyRoofRibMapReviewCamera() {
+    if (this.roofRibMapReviewStatus !== 'loaded' || !this.roofRibMapReviewConfig) return false;
+    const config = this.roofRibMapReviewConfig;
+    const slot = this.roofRibMapReview?.getObjectByName?.(`north-roof-rib-${config.site}`);
+    if (!slot) return false;
+    const distance = config.distanceM;
+    const target = new THREE.Vector3(slot.position.x, slot.position.z + 0.42, -slot.position.y);
+    if (this.camera.fov !== 40) {
+      this.camera.fov = 40;
+      this.camera.updateProjectionMatrix();
+    }
+    this.camera.position.set(
+      slot.position.x - distance * 0.72,
+      slot.position.z + distance * 0.42,
+      -slot.position.y + distance * 0.62,
+    );
+    this.camera.up.set(0, 1, 0);
+    this.camera.lookAt(target);
+    return true;
+  }
+
   _presentationGeometry(primitive) {
     let geometry;
     if (primitive === 'box') geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -1316,6 +1518,7 @@ export class SceneRenderer {
       geometry.rotateX(Math.PI / 2);
     }
     else throw new TypeError(`Unsupported map presentation primitive: ${primitive}`);
+    bakeVertexOcclusion(geometry);
     return geometry;
   }
 
@@ -1424,6 +1627,8 @@ export class SceneRenderer {
     const roughness = finiteNumber(definition.roughness, 0.75);
     const standard = {
       ...options,
+      // 頂点AO（下端の遮蔽）を読むために必要。instanceColor とは乗算で両立する。
+      vertexColors: true,
       roughness,
       metalness: finiteNumber(definition.metalness, 0),
       emissive: definition.emissive ?? 0x000000,
@@ -3134,6 +3339,11 @@ export class SceneRenderer {
 
     globalThis.window?.removeEventListener?.('resize', this._onResize);
     this._motionQuery?.removeEventListener?.('change', this._onMotionChange);
+    this._roofRibReviewBadge?.remove?.();
+    this._roofRibReviewStyle?.remove?.();
+    globalThis.document?.body?.classList?.remove?.('roof-rib-live-map-review');
+    this._roofRibReviewBadge = null;
+    this._roofRibReviewStyle = null;
 
     // PMREM の render target はシーン走査では拾えない（scene.environment は
     // texture 参照であって子ノードではない）ので、明示的に解放する。
@@ -3194,6 +3404,7 @@ export class SceneRenderer {
       this._particleGeometry,
       this.waterMaterial,
       ...(this._surfaceTextures || []),
+      ...(this._roofRibReviewTextures || []),
       ...(this._abilityTextureCache?.values?.() || []),
     ]) collectResourceValue(resource, registry);
     for (const teamMaterials of Object.values(this._teamMats || {})) {
@@ -3231,6 +3442,9 @@ export class SceneRenderer {
     this.canonicalMapPresentation = null;
     this.originalMapPresentation = null;
     this.worldDressing = null;
+    this.roofRibMapReview = null;
+    this.roofRibMapReviewConfig = null;
+    this._roofRibReviewTextures = [];
     this.water = null;
     this.waterMaterial = null;
     this._particleGeometry = null;
@@ -3362,6 +3576,12 @@ export class SceneRenderer {
     this.camera.position.set(camPose.pos[0], camPose.pos[2], -camPose.pos[1]);
     this.camera.rotation.set(camPose.pitch, camPose.yaw - Math.PI / 2, 0);
     this._updateNameplateVisibility(camPose);
+    this._applyRoofRibMapReviewCamera();
     this.renderer.render(this.scene, this.camera);
+    if (this.roofRibMapReviewStatus === 'loaded' && typeof document !== 'undefined') {
+      const frame = this.renderer.info?.render || {};
+      document.documentElement.dataset.roofRibReviewTriangles = String(frame.triangles || 0);
+      document.documentElement.dataset.roofRibReviewDrawCalls = String(frame.calls || 0);
+    }
   }
 }

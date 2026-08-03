@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja" data-review-ready="false">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kagariai Roof Rib — surface review</title>
+    <script type="importmap">
+      { "imports": { "three": "../../../node_modules/three/build/three.module.js", "three/addons/": "../../../node_modules/three/examples/jsm/" } }
+    </script>
+    <style>
+      :root { color-scheme: dark; font-family: Inter, "Segoe UI", sans-serif; }
+      * { box-sizing: border-box; }
+      body { margin: 0; color: #e8eee9; background: #101716; }
+      header { padding: 15px 20px; border-bottom: 1px solid #40534c; background: #17231f; }
+      h1 { margin: 0 0 5px; font-size: 18px; }
+      p { margin: 0; color: #afc0b6; font-size: 12px; line-height: 1.5; }
+      main { display: grid; grid-template-columns: minmax(300px, .8fr) minmax(560px, 1.6fr); min-height: calc(100vh - 79px); gap: 1px; background: #40534c; }
+      aside, section { min-width: 0; padding: 17px; background: #101716; }
+      h2 { margin: 0 0 10px; color: #d6e0da; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+      #reference { display: block; width: 100%; border: 1px solid #52665e; background: #d0ccc7; }
+      .note { margin-top: 12px; padding: 11px; border-left: 3px solid #b98752; background: #192822; color: #bfcec5; font-size: 12px; line-height: 1.55; }
+      .viewport { display: grid; grid-template-rows: auto minmax(520px, 1fr) auto; gap: 9px; height: 100%; }
+      .toolbar { display: flex; gap: 7px; flex-wrap: wrap; }
+      button { padding: 7px 10px; border: 1px solid #526e60; border-radius: 4px; background: #20372f; color: #e8eee9; cursor: pointer; }
+      #stage { position: relative; min-height: 520px; overflow: hidden; border: 1px solid #52665e; background: #d1d2cf; }
+      canvas { display: block; width: 100%; height: 100%; }
+      #hud { position: absolute; right: 10px; bottom: 10px; padding: 8px 10px; border: 1px solid #667a70; background: rgba(9,15,13,.84); font: 12px ui-monospace, Consolas, monospace; line-height: 1.55; }
+      #caption { color: #afc0b6; font-size: 12px; }
+      body.capture header, body.capture aside, body.capture .toolbar, body.capture #hud, body.capture #caption { display: none; }
+      body.capture main { display: block; min-height: 100vh; }
+      body.capture section, body.capture .viewport, body.capture #stage { height: 100vh; min-height: 100vh; padding: 0; border: 0; }
+      @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Kagariai Roof Rib — surface review</h1>
+      <p>Image 2 reference → procedural Three.js candidate. Candidate-only / presentation-only / collision none.</p>
+    </header>
+    <main>
+      <aside>
+        <h2>Reference sheet</h2>
+        <img id="reference" src="../../../work/img2threejs/fpsow-adoption-wave-001/references/kagariai-roof-rib-reference-v1.png" alt="Roof rib reference sheet" />
+        <div class="note">Surface gate: independent albedo / normal / roughness / AO maps, UV-local seam dirt and edge wear, verdigris flow, and a grazing-angle highlight check. Candidate-only until runtime placement and Human review.</div>
+      </aside>
+      <section class="viewport">
+        <div class="toolbar">
+          <button data-view="front">Front</button><button data-view="side">Side</button><button data-view="three-quarter">3/4</button><button data-view="top">Top</button><button data-view="grazing-closeup">Grazing close-up</button>
+        </div>
+        <div id="stage"><div id="hud">Loading surface review…</div></div>
+        <div id="caption">The grazing close-up is the surface-pass proof: highlights must break across normal detail without reading as smooth plastic.</div>
+      </section>
+    </main>
+    <script type="module" src="./preview.js?v=20260803-02"></script>
+  </body>
+</html>

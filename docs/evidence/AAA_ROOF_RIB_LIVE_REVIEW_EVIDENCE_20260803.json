@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "revision": 2,
+  "capturedAt": "2026-08-03",
+  "status": "candidate-only-live-map-review",
+  "productionEnabled": false,
+  "collision": "none",
+  "server": "http://127.0.0.1:8793",
+  "activationContract": {
+    "localHostRequired": true,
+    "explicitQueryRequired": "roofRibReview=1",
+    "normalLaunch": "disabled:not-requested",
+    "externalHost": "disabled:non-local-host"
+  },
+  "renderer": {
+    "name": "SceneRenderer",
+    "productionScene": true,
+    "reviewLensFovDegrees": 40,
+    "normalGameLensFovDegrees": 75,
+    "assetPlacements": 3,
+    "assetWorstCase": {
+      "triangles": 7716,
+      "drawCalls": 15,
+      "texturesShared": 16
+    },
+    "sceneBudgets": {
+      "triangles": 1200000,
+      "drawCalls": 250
+    }
+  },
+  "supportFit": {
+    "mode": "support-contact",
+    "factoryMinimumLocalY": 0.07,
+    "adapterVerticalOffsetM": -0.07,
+    "measuredClearanceM": 0,
+    "placementsVerified": 3
+  },
+  "normalLaunch": {
+    "roofRibReview": "disabled:not-requested",
+    "badge": false,
+    "bodyReviewClass": false,
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "screenshot": {
+      "path": "work/roof-rib-live-review/normal-disabled.jpg",
+      "sha256": "794C4C6EF6350F98E99B38576F88D8323B92313ED59A02C392B70FCFD4B75A0B"
+    }
+  },
+  "views": [
+    {
+      "site": "west",
+      "distanceM": 12,
+      "lighting": "day",
+      "triangles": 507294,
+      "drawCalls": 90,
+      "consoleErrors": 0,
+      "consoleWarnings": 0,
+      "screenshot": "work/roof-rib-live-review-v2/west-12m-day-contact.jpg",
+      "sha256": "8E2E0E66228842912CE7CD85D3B60699ABD8798B0DC28284CA30B056BD383295"
+    },
+    {
+      "site": "mid",
+      "distanceM": 28,
+      "lighting": "dusk",
+      "triangles": 517992,
+      "drawCalls": 98,
+      "consoleErrors": 0,
+      "consoleWarnings": 0,
+      "screenshot": "work/roof-rib-live-review-v2/mid-28m-dusk-contact.jpg",
+      "sha256": "2D470016F06C723EBD47BED5363F35549D29545EC416F50E401783DED470DDFE"
+    },
+    {
+      "site": "east",
+      "distanceM": 45,
+      "lighting": "backlit",
+      "triangles": 518032,
+      "drawCalls": 97,
+      "consoleErrors": 0,
+      "consoleWarnings": 0,
+      "screenshot": "work/roof-rib-live-review-v2/east-45m-backlit-contact.jpg",
+      "sha256": "0BB084100BC7E0E0DF3EE28BB91659AE47A48EC97E8A88995EA3E515B3BE3B10"
+    }
+  ],
+  "automatedVerification": {
+    "tests": { "passed": 894, "failed": 0 },
+    "collisionManifest": "PASS",
+    "collisionDigest": "66EB52BB76C0926CFCB1DB4B5E343C067F8C8B6F2294869BE393EDE4573BBC29",
+    "fakeCoverCluster": "PASS",
+    "routes": "30/30 PASS"
+  },
+  "gateDecision": {
+    "runtimeRenderer": "pass-evidence-pinned",
+    "humanArt": "pending",
+    "competitiveSafety": "pending-human-review",
+    "productionAdmission": "blocked"
+  }
+}

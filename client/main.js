@@ -38,6 +38,7 @@ import {
 import { HEROES, HERO_BY_ID, DEFAULT_HERO_ID } from '/shared/data/heroes.js';
 import { getActionAsset, getHeroAsset, getWeaponAsset } from '/shared/data/hero_assets.js';
 import { createVerifiedObjectUrl } from '/client/runtime_asset_integrity.js';
+import { resolveKagariaiRoofRibReviewRequest } from '/client/img2threejs/roof-rib/reviewGate.js';
 
 const FIXED_DT = 1 / 63;               // PROTOCOL.md: サーバーと同一の固定ステップ
 const NAME_KEY = 'kagariai_name';
@@ -116,7 +117,14 @@ const BEHAVIOR_TEXT = Object.freeze({
 const map = buildMap();
 const collider = new Collider(map.solids);
 const canvas = document.getElementById('gl');
-const heroAssetCatalog = Object.freeze({ getActionAsset, getHeroAsset, getWeaponAsset });
+const heroAssetCatalog = Object.freeze({
+  getActionAsset,
+  getHeroAsset,
+  getWeaponAsset,
+  // Candidate-only map review. The resolver requires both localhost and the
+  // explicit roofRibReview=1 query, so normal and hosted play stay inert.
+  roofRibReview: resolveKagariaiRoofRibReviewRequest(window.location),
+});
 const renderer = new SceneRenderer(canvas, map, heroAssetCatalog);
 const hud = new Hud();
 const net = new Net();

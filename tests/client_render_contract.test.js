@@ -889,3 +889,43 @@ test('missing and unknown snapshot fields degrade safely with reduced motion', (
   renderer.update(0.1);
   assert.equal(zone.pulseMaterials[0].opacity, zone.baseOpacities[0]);
 });
+
+test('live-map roof-rib review stays inert when the explicit local request is disabled', async () => {
+  const { SceneRenderer } = loadRenderModule();
+  const renderer = makeBareRenderer(SceneRenderer);
+  renderer._disposed = false;
+
+  const loaded = await renderer._loadRoofRibMapReview({
+    enabled: false,
+    reason: 'not-requested',
+    site: 'west',
+    distanceM: 12,
+    lighting: 'day',
+  });
+
+  assert.equal(loaded, false);
+  assert.equal(renderer.roofRibMapReview, null);
+  assert.equal(renderer.roofRibMapReviewStatus, 'disabled:not-requested');
+  assert.equal(renderer.world.children.length, 0);
+});
+
+test('live-map roof-rib review camera is deterministic in the production coordinate frame', () => {
+  const { SceneRenderer } = loadRenderModule();
+  const renderer = makeBareRenderer(SceneRenderer);
+  const group = new THREE.Group();
+  const west = new THREE.Group();
+  west.name = 'north-roof-rib-west';
+  west.position.set(-95.55, 103, 39.3);
+  group.add(west);
+  renderer.roofRibMapReview = group;
+  renderer.roofRibMapReviewStatus = 'loaded';
+  renderer.roofRibMapReviewConfig = Object.freeze({ site: 'west', distanceM: 12, lighting: 'day' });
+
+  assert.equal(renderer._applyRoofRibMapReviewCamera(), true);
+  assert.equal(renderer.camera.fov, 40);
+  assert.ok(renderer.camera.position.distanceTo(new THREE.Vector3(-104.19, 44.34, -95.56)) < 1e-8);
+  const target = new THREE.Vector3(-95.55, 39.72, -103);
+  const expectedDirection = target.sub(renderer.camera.position).normalize();
+  const actualDirection = renderer.camera.getWorldDirection(new THREE.Vector3());
+  assert.ok(actualDirection.distanceTo(expectedDirection) < 1e-8);
+});
